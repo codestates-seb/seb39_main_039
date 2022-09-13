@@ -1,8 +1,10 @@
+import { Header, HeaderClose } from "../../../components/Layout/Header";
+
 const Login = () => {
     return(
-        <>
-            <p>로그인</p>
-        </>
+        <div className="container">
+            <HeaderClose></HeaderClose>
+        </div>
     )
 }
 

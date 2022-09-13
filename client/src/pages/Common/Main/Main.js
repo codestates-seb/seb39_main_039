@@ -1,11 +1,11 @@
 import styled from 'styled-components';
+import CountUp from 'react-countup';
 import { Link } from 'react-router-dom';
 import { ButtonPrimary, ButtonPrimaryLine } from '../../../components/Button/buttons'
 import { ReactComponent as Logo } from '../../../assets/img/logo.svg';
 import { ReactComponent as VisualImg } from '../../../assets/img/visualImg.svg';
 import btnIcon01 from '../../../assets/img/buttonIcon01.svg';
 import btnIcon02 from '../../../assets/img/buttonIcon02.svg';
-import CountUp from 'react-countup';
 
 const Main = () => {
     return(

@@ -5,6 +5,7 @@ import { ReactComponent as Logo } from '../../../assets/img/logo.svg';
 import { ReactComponent as VisualImg } from '../../../assets/img/visualImg.svg';
 import btnIcon01 from '../../../assets/img/buttonIcon01.svg';
 import btnIcon02 from '../../../assets/img/buttonIcon02.svg';
+import CountUp from 'react-countup';
 
 const Main = () => {
     return(
@@ -13,7 +14,7 @@ const Main = () => {
                 <div>
                     <Logo />
                     <h2>믿을 수 있는<br/>펫시터를 만나는<br/>알바멍에서<br/>안심 산책하세요!</h2>
-                    <p><b>21,310</b>마리의 강아지가 만족했어요.</p>
+                    <p><b><CountUp duration={1} end={21310} separator=","/></b>마리의 강아지가 만족했어요.</p>
 
                     <VisualImg />
                     <ButtonGroup>

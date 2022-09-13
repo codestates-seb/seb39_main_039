@@ -3,4 +3,4 @@ aws:
     enabled: true
     prefix: /spring-boot-aws
     name: albamung
-    profileSeparator: -
+    profileSeparator: _

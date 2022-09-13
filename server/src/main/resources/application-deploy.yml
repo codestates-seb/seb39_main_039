@@ -1,5 +1,3 @@
-# 서버 환경에서 사용하는 정보들은 application-server.yml 파일에 설정합니다.
-# TODO MySQL DB 접속 정보를 아래에 설정하세요
 spring:
   jpa:
     hibernate:
@@ -12,7 +10,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://{AWS RDS Endpoint}/albamung?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    url: {AWS RDS Endpoint}
     username: {RDS Mysql Admin id}
     password: {RDS Mysql Admin password}
   mvc:

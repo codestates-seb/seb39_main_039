@@ -1,4 +1,4 @@
-# ?? ???? ???? ???? application-local.yml ??? ?????.
+
 spring:
   h2:
     console:
@@ -10,18 +10,14 @@ spring:
     url: jdbc:h2:mem:test
   jpa:
     hibernate:
-      ddl-auto: update  # (1) ??? ?? ??
-    show-sql: true      # (2) SQL ?? ??
+      ddl-auto: update
+    show-sql: true
     properties:
       hibernate:
-        format_sql: true  # (3) SQL pretty print
+        format_sql: true
   sql:
     init:
       data-locations: classpath*:db/h2/data.sql
-  jackson:
-    property-naming-strategy: SNAKE_CASE
-  gson:
-    field-naming-policy: lower_case_with_underscores
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

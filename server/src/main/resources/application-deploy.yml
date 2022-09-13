@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: 'aws-parameterstore:'
   jpa:
     hibernate:
       ddl-auto: update  # (1) 스키마 자동 생성
@@ -26,8 +28,13 @@ spring:
             scope:
               - email
               - profile
-  config:
-    import: aws-parameterstore
+aws:
+  paramstore:
+    enabled: true
+    prefix: /spring-boot-aws
+    profile-separator: _
+    name: albamung
+
 
 
 security:

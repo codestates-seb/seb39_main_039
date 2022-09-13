@@ -28,7 +28,16 @@ public class CustomOauth2SuccessHandler extends SavedRequestAwareAuthenticationS
 
         String access = jwtTokenProvider.createToken(principal.getId(), principal.getUsername(), principal.getAuthorities());
         String refresh = jwtTokenProvider.createRefreshToken();
-        principal.getUser().setRefreshToken(refresh);
+//        principal.getUser().setRefreshToken(refresh);
+
+        Cookie accessCookie = new Cookie("access",access);
+        // expires in 7 days
+        accessCookie.setMaxAge(7 * 24 * 60 * 60);
+        // optional properties
+        accessCookie.setSecure(true);
+        accessCookie.setHttpOnly(true);
+        accessCookie.setPath("/");
+        response.addCookie(accessCookie);
 
         Cookie refreshCookie = new Cookie("refresh",refresh);
         // expires in 7 days
@@ -40,6 +49,7 @@ public class CustomOauth2SuccessHandler extends SavedRequestAwareAuthenticationS
         response.addCookie(refreshCookie);
 
         clearAuthenticationAttributes(request);
-        getRedirectStrategy().sendRedirect(request, response, "http://localhost:3000/redirect?access=" + access);
+//        getRedirectStrategy().sendRedirect(request, response, "http://localhost:3000/redirect?access=" + access);
+        getRedirectStrategy().sendRedirect(request, response, "http://localhost:3000/" + access);
     }
 }

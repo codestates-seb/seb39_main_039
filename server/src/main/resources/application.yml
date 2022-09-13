@@ -1,0 +1,47 @@
+# ?? ???? ???? ???? application-local.yml ??? ?????.
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2
+      settings:
+        web-allow-others: true
+  datasource:
+    url: jdbc:h2:mem:test
+  jpa:
+    hibernate:
+      ddl-auto: update  # (1) ??? ?? ??
+    show-sql: true      # (2) SQL ?? ??
+    properties:
+      hibernate:
+        format_sql: true  # (3) SQL pretty print
+  sql:
+    init:
+      data-locations: classpath*:db/h2/data.sql
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  gson:
+    field-naming-policy: lower_case_with_underscores
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+logging:
+  level:
+    org:
+      springframework:
+        orm:
+          jpa: DEBUG
+server:
+  servlet:
+    encoding:
+      force-response: true
+  error:
+    include-message: always
+
+clientUri: http://pre-project-client39.s3-website.ap-northeast-2.amazonaws.com/
+
+security:
+  jwt:
+    token:
+      secret-key: testsecurity
+      expire-length: 300000

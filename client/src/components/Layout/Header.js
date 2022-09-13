@@ -4,10 +4,8 @@ import { ReactComponent as IconBack } from '../../assets/img/hdIcon-back.svg';
 import { ReactComponent as IconSearch } from '../../assets/img/hdIcon-search.svg';
 import { ReactComponent as Close } from '../../assets/img/close.svg';
 
-
 // 우측 아이콘도 사용할 경우 useRight 'on'
 // <Header pageTitle={'로그인'} useRight="on"></Header>
-
 export const Header = ({pageTitle, useRight}) => {
     return(
         <Conpanel>

@@ -14,6 +14,11 @@ export const ButtonPrimary = styled.button`
     &:hover{
         background-color:var(--primary-active);
     }
+
+    &:disabled{
+        background-color:var(--gray-200);
+        color:var(--gray-400);
+    }
 `
 
 export const ButtonPrimaryLine = styled(ButtonPrimary)`

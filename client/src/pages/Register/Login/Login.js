@@ -41,7 +41,6 @@ const Login = () => {
     )
 }
 
-
 export default Login;
 
 const LoginPanel = styled.div`

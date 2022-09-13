@@ -1,11 +1,28 @@
 import styled from "styled-components"
 
-const InputLabel = ({name, label, type, err}) => {
+const InputLabel = ({
+    name, 
+    label, 
+    type, 
+    err,
+    handlerValueState,
+    handleKeyPress
+}) => {
     return(
         <IptFormArea>
-            <input id={name} type={type} data-error={err} className={`ipt-form`} autocomplete="off" required></input>
+            <input 
+                id={name} 
+                name={name}
+                type={type} 
+                data-error={err} 
+                className={`ipt-form`} 
+                onChange={handlerValueState}
+                onKeyPress={handleKeyPress}
+                autoComplete="off" 
+                required
+            ></input>
             <label htmlFor={name}><span>{label}</span></label>
-            {err && <p class="err-msg">{err}</p>}
+            {err && <p className="err-msg">{err}</p>}
         </IptFormArea>
     )
 }

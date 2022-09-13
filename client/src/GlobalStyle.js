@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import "./assets/fonts/font.css";
+import colorVariables from "./assets/style/colorVariables";
 import reset from "styled-reset";
 
 const GlobalStyle = createGlobalStyle`
@@ -16,6 +17,19 @@ const GlobalStyle = createGlobalStyle`
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale;
    }
+
+   :root {
+      ${colorVariables}
+   }
+
+   a{
+      text-decoration: none;
+   }
+
+   button {
+      cursor: pointer;
+   }
+
  
 `
 export default GlobalStyle;

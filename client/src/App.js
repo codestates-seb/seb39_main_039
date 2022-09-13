@@ -1,24 +1,15 @@
-
-import styled from "styled-components";
+import { Routes, Route } from "react-router-dom";
+import { Login, Main, SignUp } from './pages';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          하위
-          하이하이하이
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<Main />}></Route>
+        <Route path="/signup" element={<SignUp />}></Route>
+        <Route path="/login" element={<Login />}></Route>
+      </Routes>
+    </>
   );
 }
 

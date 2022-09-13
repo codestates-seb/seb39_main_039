@@ -26,8 +26,8 @@ spring:
             scope:
               - email
               - profile
-config:
-  domain: {AWS S3 Endpoint}
+  config:
+    import: aws-parameterstore
 
 
 security:

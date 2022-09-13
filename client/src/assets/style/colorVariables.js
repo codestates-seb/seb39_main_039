@@ -14,8 +14,10 @@ const colorVariables = css`
     --gray-100: hsl(225, 18.2%, 95.7%);
     --gray-050: hsl(240, 9.1%, 97.8%);
 
-    --white-000: hsl(0, 0.0%, 0.0%);
+    --white-000: hsl(0, 0.0%, 100.0%);
 
+    --primary : hsl(215, 92.5%, 58.0%);
+    --primary-active : hsl(214, 100%, 40%);
     --err-danger : hsl(0, 81.8%, 50.4%);
     --info : hsl(222, 89.9%, 57.5%);
     --succes : hsl(144, 94.4%, 42.0%);

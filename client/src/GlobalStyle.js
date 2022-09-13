@@ -16,6 +16,8 @@ const GlobalStyle = createGlobalStyle`
       sans-serif;
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale;
+   background: var(--gray-100);
+   letter-spacing: -.050em;
    }
 
    :root {
@@ -30,6 +32,12 @@ const GlobalStyle = createGlobalStyle`
       cursor: pointer;
    }
 
+   .container{
+      max-width:465px;
+      margin:0 auto;
+      padding:0 20px;
+      background:var(--white-000);
+   }
  
 `
 export default GlobalStyle;

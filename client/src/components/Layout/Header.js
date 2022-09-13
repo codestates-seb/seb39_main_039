@@ -37,7 +37,6 @@ export const HeaderClose = ({pageTitle}) => {
 }
 
 
-
 const Conpanel = styled.div`
     display: flex;
     justify-content: space-between;
@@ -46,6 +45,7 @@ const Conpanel = styled.div`
     padding:3px 0;
     font-size:18px;
     font-weight: 500;
+
     h2{
         flex:5;
         text-align: center;
@@ -54,9 +54,14 @@ const Conpanel = styled.div`
         flex:1;
     }
 
+    .left-area{
+        margin-left:-10px;
+    }
+
     .right-area{
         text-align: right;
-        a{
+        margin-right: -10px;
+        a {
             display: none;
         }
     }

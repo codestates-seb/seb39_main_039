@@ -32,6 +32,10 @@ const GlobalStyle = createGlobalStyle`
       cursor: pointer;
    }
 
+   input{
+      font-size:1rem;
+   }
+
    .container{
       max-width:465px;
       min-height:100vh;
@@ -39,6 +43,17 @@ const GlobalStyle = createGlobalStyle`
       padding:0 20px;
       background:var(--white-000);
    }
- 
+
+   .ipt-form-area{
+      position:relative;
+   }
+
+   .ipt-form{
+      width:100%;
+      border:1px solid var(--gray-200);
+      border-radius: 15px;
+      height:50px;
+      padding:0 20px;
+   }
 `
 export default GlobalStyle;

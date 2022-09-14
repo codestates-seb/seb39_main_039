@@ -28,7 +28,7 @@ public interface UserMapper {
     @Mapping(source = "id", target = "userId")
     UserDto.Response userToResponse(User user);
     @Mapping(source = "id", target = "walkerId")
-    @Mapping(source = "fullName", target = "walkerName")
+    @Mapping(source = "nickName", target = "walkerName")
     @Mapping(source = "profileImage", target = "walkerPicture")
     UserDto.SimpleWalkerResponse userToSimpleWalkerResponse(User user);
 

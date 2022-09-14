@@ -23,6 +23,7 @@ public class UserDto {
     }
 
     @Builder
+    @Getter
     public static class SimpleWalkerResponse {
         private Long walkerId;
         private String walkerName;

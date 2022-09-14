@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -43,11 +44,31 @@ public class WalkController {
     @ApiOperation(value = "새 산책 생성", notes = "구인글 생성 시 함께 생성되면 좋음.")
     @PostMapping("/create")
     public ResponseEntity postWalk(@RequestBody @Valid WalkDto.Post request,
-                                   @AuthenticationPrincipal User owner){
+                                   @AuthenticationPrincipal @ApiIgnore User owner){
         Walk walk = walkMapper.postToWalk(request);
-        walkService.saveWalk(walk, request.getPetId(), request.getCheckListContent(), owner.getId());
+        Long response = walkService.saveWalk(walk, request.getPetId(), request.getCheckListContent(), owner.getId()).getId();
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @ApiOperation(value = "진행중인 산책에 좌표값 추가")
+    @PutMapping("/{walk_id}/coord")
+    public ResponseEntity putCoord(@AuthenticationPrincipal @ApiIgnore User walker,
+                                   @PathVariable("walk_id") @Positive Long walkId,
+                                   @RequestBody @Valid WalkDto.PutCoord request){
+        String coord = request.getCoord();
+        walkService.putCoord(walkId,coord,walker.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "매칭된 산책을 알바에게 등록")
+    @PutMapping("/{walk_id}/match")
+    public ResponseEntity matchWalker(@AuthenticationPrincipal @ApiIgnore User owner,
+                                      @PathVariable("walk_id") @Positive Long walkId,
+                                      @RequestBody @Positive Long walkerId){
+        walkService.matchWalker(walkId,walkerId,owner.getId());
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
 

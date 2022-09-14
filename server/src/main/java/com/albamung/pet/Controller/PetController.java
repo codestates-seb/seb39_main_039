@@ -20,7 +20,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/pet")
-@Api(tags = {"1.반려견 관련"})
+@Api(tags = {"2.반려견 관련"})
 @Slf4j
 @Validated
 public class PetController {

@@ -17,7 +17,7 @@ public class WalkDto {
     @Getter
     public static class DetailResponse {
         private Long walkId;
-        private List<String> cord;
+        private List<String> coord;
         private List<WalkCheckListDto.Response> checkList;
         private List<PetDto.SimpleResponse> petList;
         private List<String> pictureList;
@@ -35,5 +35,11 @@ public class WalkDto {
         private LocalDateTime endTime;
         private List<String> checkListContent;
         private List<Long> petId;
+    }
+
+    @Getter
+    @Builder
+    public static class PutCoord{
+        private String coord;
     }
 }

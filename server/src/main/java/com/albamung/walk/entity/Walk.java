@@ -28,7 +28,7 @@ public class Walk extends BaseEntityDate {
     Long id;
 
     @ColumnDefault("\"\"")
-    private String cord;
+    private String coord;
 
     private LocalDateTime startTime;
 
@@ -52,13 +52,14 @@ public class Walk extends BaseEntityDate {
     @ManyToMany(targetEntity = Pet.class)
     private List<Pet> petList = new ArrayList<>();
 
-    public List<String> getCord(){
-        if(this.cord == null) return null;
-        return Arrays.asList(this.cord.split(","));
+    public List<String> getCoord(){
+        if(this.coord == null) return null;
+        return Arrays.asList(this.coord.split(","));
     }
 
-    public void addCord(String str) {
-        this.cord = this.cord +","+ str;
+    public void addCoord(String str) {
+        if(this.coord ==null) this.coord = str;
+        else this.coord = this.coord +","+ str;
         //String Builder를 쓰는게 나을까?
     }
 
@@ -67,6 +68,7 @@ public class Walk extends BaseEntityDate {
         return Arrays.asList(this.pictureList.split(","));
     }
     public void addPictureList(String str) {
+        if(this.pictureList ==null) this.pictureList = str;
         this.pictureList = this.pictureList +","+ str;
         //String Builder를 쓰는게 나을까?
     }

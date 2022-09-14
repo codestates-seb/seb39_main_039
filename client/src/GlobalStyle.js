@@ -49,6 +49,10 @@ const GlobalStyle = createGlobalStyle`
       background:var(--gray-100);
    }
 
+   .container.pa0{
+      padding:0;
+   }
+
    .ipt-form-area{
       position:relative;
    }

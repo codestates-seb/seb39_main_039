@@ -1,5 +1,7 @@
 package com.albamung.walk.service;
 
+import com.albamung.checklist.entity.WalkCheckList;
+import com.albamung.checklist.repository.WalkCheckListRepository;
 import com.albamung.exception.CustomException;
 import com.albamung.pet.service.PetService;
 import com.albamung.user.entity.User;
@@ -11,16 +13,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
 public class WalkService {
     private final WalkRepository walkRepository;
+    private final WalkCheckListRepository checkListRepository;
     private final PetService petService;
     private final UserService userService;
 
-    public WalkService(WalkRepository walkRepository, PetService petService, UserService userService) {
+    public WalkService(WalkRepository walkRepository, WalkCheckListRepository checkListRepository, PetService petService, UserService userService) {
         this.walkRepository = walkRepository;
+        this.checkListRepository = checkListRepository;
         this.petService = petService;
         this.userService = userService;
     }
@@ -30,6 +35,9 @@ public class WalkService {
         return verifyWalk(walkId);
     }
 
+    /**
+     * 산책 생성
+     */
     public Walk saveWalk(Walk walk,List<Long> petIdList, List<String> checkListContents, Long ownerId){
         // 견주 설정
         walk.setOwner(userService.verifyUser(ownerId));
@@ -43,6 +51,19 @@ public class WalkService {
         return walkRepository.save(walk);
     }
 
+    /**
+     * 산책의 체크리스트 체크상태 변경
+     */
+    public void checkCheckList(Long walkId, Long checkListId, boolean check, Long walkerId){
+        Walk targetWalk = verifyWalk(walkId);
+        verifyWalkUser(targetWalk,walkerId);
+        //체크리스트 아이디가 해당 산책에 속하지 않을 때 에러
+        if(targetWalk.getCheckList().stream().noneMatch(checkList->checkList.getId().equals(checkListId)))
+            throw new CustomException("해당 체크리스트는 이 산책의 체크리스트가 아닙니다", HttpStatus.BAD_REQUEST);
+        WalkCheckList targetCheckList = checkListRepository.findById(checkListId).orElseThrow(()->new CustomException("존재하지 않는 체크리스트 입니다", HttpStatus.NO_CONTENT));
+        targetCheckList.setChecked(check);
+    }
+    
     /**
      * Wanted 매칭 시 산책 알바를 산책에 등록
      */

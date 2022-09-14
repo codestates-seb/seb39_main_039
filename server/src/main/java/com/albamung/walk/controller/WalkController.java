@@ -9,6 +9,7 @@ import com.albamung.walk.service.WalkService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.protocol.HTTP;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 @RestController
@@ -58,6 +60,16 @@ public class WalkController {
                                    @RequestBody @Valid WalkDto.PutCoord request){
         String coord = request.getCoord();
         walkService.putCoord(walkId,coord,walker.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "산책의 체크리스트 체크상태 변경")
+    @PutMapping("/{walk_id}/check/{checklist_id}")
+    public ResponseEntity checkCheck(@AuthenticationPrincipal @ApiIgnore User walker,
+                                     @PathVariable("walk_id") @Positive Long walkId,
+                                     @PathVariable("checklist_id") @Positive Long checkListId,
+                                     @RequestBody @NotNull boolean check){
+        walkService.checkCheckList(walkId,checkListId,check,walker.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

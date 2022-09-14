@@ -79,8 +79,15 @@ public class WalkController {
                                       @PathVariable("walk_id") @Positive Long walkId,
                                       @RequestBody @Positive Long walkerId){
         walkService.matchWalker(walkId,walkerId,owner.getId());
-
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "산책 종료")
+    @PutMapping("/{walk_id}/end")
+    public ResponseEntity endWalk(@AuthenticationPrincipal @ApiIgnore User owner,
+                                  @PathVariable("walk_id") @Positive Long walkId){
+
+        return new ResponseEntity<>(walkService.endWalk(walkId, owner.getId()),HttpStatus.OK);
     }
 }
 

@@ -24,6 +24,7 @@ public class WalkDto {
         private LocalDateTime startTime;
         private LocalDateTime endTime;
         private int distance;
+        private boolean ended;
         private UserDto.SimpleWalkerResponse walker;
     }
 

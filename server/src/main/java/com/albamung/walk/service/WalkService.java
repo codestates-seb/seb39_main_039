@@ -75,6 +75,16 @@ public class WalkService {
         return targetWalk;
     }
 
+    /**
+     * 알바 종료 시 견주에 의해 알바 종료 설정
+     */
+    public boolean endWalk(Long walkId, Long ownerId){
+        Walk targetWalk = verifyWalk(walkId);
+        verifyWalkUser(targetWalk,ownerId);
+        targetWalk.setEnded(true);
+        return true;
+    }
+
 
     /**
      * 산책의 동선 좌표 입력

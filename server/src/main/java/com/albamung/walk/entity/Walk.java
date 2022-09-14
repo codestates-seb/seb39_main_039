@@ -27,7 +27,7 @@ public class Walk extends BaseEntityDate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @ColumnDefault("\"\"")
+    @Column(columnDefinition = "LONGTEXT")
     private String coord;
 
     private LocalDateTime startTime;
@@ -36,7 +36,10 @@ public class Walk extends BaseEntityDate {
 
     @ColumnDefault("0")
     private int distance;
+    @Column(columnDefinition = "LONGTEXT")
     private String pictureList;
+
+    private boolean ended;
 
     @ManyToOne
     @JoinColumn(name = "WALKER_ID")

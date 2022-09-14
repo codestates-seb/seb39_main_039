@@ -29,7 +29,7 @@ const Login = () => {
                             // err={'이메일 계정 혹은 패스워드가 틀립니다.'}
                         />
                         <ButtonPrimary>로그인</ButtonPrimary>
-                        <small>회원이 아니신가요? <Link to="/signup">회원가입</Link></small>
+                        <small>회원이 아니신가요? <Link to="/signupTerms">회원가입</Link></small>
                     </FormArea>
                     <SnsButtonGroup>
                         <SnsButtonGoogle>구글 계정으로 시작</SnsButtonGoogle>

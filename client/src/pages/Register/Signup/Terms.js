@@ -1,11 +1,49 @@
-import styled from "styled-components";
+import React, { useEffect, useState } from "react";
+import styled, { css } from "styled-components";
 import { Header } from "../../../components/Layout/Header";
 import { ButtonPrimary } from '../../../components/Button/Buttons';
-import Checkbox from '../../../components/Inputs/Checkbox';
+import { AllCheckbox, EachCheckbox } from '../../../components/Inputs/Checkbox';
 import Arrows from '../../../assets/img/arrows.svg';
 import { Link } from "react-router-dom";
 
 const Terms = () => {
+    const data = [
+        {id: 0, title: '알바멍 이용 약관 동의 (필수)'},
+        {id: 1, title: '개인정보 수집 이용 동의 (선택)'},
+      ];
+    
+      // 체크된 아이템을 담을 배열
+      const [checkItems, setCheckItems] = useState([]);
+    
+      console.log(checkItems)
+  
+      // 체크박스 전체 선택
+      const handleAllCheck = (checked) => {
+        if(checked) {
+          // 전체 선택 클릭 시 데이터의 모든 아이템(id)를 담은 배열로 checkItems 상태 업데이트
+          const idArray = [];
+          data.forEach((el) => idArray.push(el.id));
+          setCheckItems(idArray);
+        }
+        else {
+          // 전체 선택 해제 시 checkItems 를 빈 배열로 상태 업데이트
+          setCheckItems([]);
+        }
+      }
+
+      // 체크박스 단일 선택
+      const handleSingleCheck = (checked, id) => {
+        if (checked) {
+          // 단일 선택 시 체크된 아이템을 배열에 추가
+          setCheckItems(prev => [...prev, id]);
+        } else {
+          // 단일 선택 해제 시 체크된 아이템을 제외한 배열 (필터)
+          setCheckItems(checkItems.filter((el) => el !== id));
+        }
+      };
+    
+      
+
     return(
         <div className="container">
              <ConPanel>
@@ -15,18 +53,27 @@ const Terms = () => {
                     
                     <FormArea>
                         <div className="allCheck">
-                            <Checkbox text={'전체 약관 동의'}/>
+                            <AllCheckbox 
+                                text={'전체 약관 동의'}
+                                checkItems={checkItems}
+                                dataLength={data.length}
+                                onChangeHandler={handleAllCheck}
+                            />
                         </div>
 
-                        <div className="check">
-                            <Checkbox text={'알바멍 이용 약관 동의 (필수)'}/>
+                        {data?.map((data, key) => (
+                            <div className="check" key={key}>
+                                <EachCheckbox 
+                                    text={data.title}
+                                    data={data}
+                                    checkItems={checkItems}
+                                    onChangeHandler={handleSingleCheck}
+                                />
+                                
+                                <Link to="/"></Link>
+                            </div>
                             
-                            <Link to="/"></Link>
-                        </div>
-                        <div className="check">
-                            <Checkbox text={'개인정보 수집 이용 동의 (선택)'}/>
-                            <Link to="/"></Link>
-                        </div>
+                        ))}
                     </FormArea>
                 </div>
                 <div>

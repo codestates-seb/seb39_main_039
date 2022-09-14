@@ -36,12 +36,21 @@ const GlobalStyle = createGlobalStyle`
       font-size:1rem;
    }
 
+
    .container{
       max-width:465px;
       min-height:100vh;
       margin:0 auto;
       padding:0 20px;
       background:var(--white-000);
+   }
+
+   .container.bg-gray{
+      background:var(--gray-100);
+   }
+
+   .container.pa0{
+      padding:0;
    }
 
    .ipt-form-area{
@@ -54,6 +63,17 @@ const GlobalStyle = createGlobalStyle`
       border-radius: 15px;
       height:50px;
       padding:0 20px;
+   }
+
+
+   .img-circle{
+      border-radius: 50px;
+   }
+   .img-circle.xs{
+      width:25px;
+   }
+   .img-circle.sm{
+      width:35px;
    }
 `
 export default GlobalStyle;

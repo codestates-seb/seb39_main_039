@@ -39,6 +39,12 @@ const OwnerMain = () => {
                             <NotWalk>
                                 <p>춘식이는 산책중이 아니에요.</p>
                             </NotWalk>
+                            <Walking>
+                                <div>
+                                    <p>이지은 님과 산책중..</p>
+                                    <small>09.15 오후 4:00까지</small><small>수행률 70%</small>
+                                </div>
+                            </Walking>
                             <WalkHistory>
                                 <div>
                                     <p>지난 산책 내역</p>
@@ -167,6 +173,32 @@ const WalkState = styled.div`
         font-size:17px;
         font-weight: 500;
         margin-bottom:8px;
+        background-repeat: no-repeat;
+        background-position:94% 50%;
+    }
+`
+
+const Walking = styled.div`
+    background:var(--primary);
+    color:var(--white-000);
+
+    small{
+        position:relative;
+        font-size:12px;
+        padding-right:7px;
+        margin-right:7px;
+    }
+    small+small:before{
+        content: '';
+        display: inline-block;
+        position: absolute;
+        left:-7px;
+        top:50%;
+        margin-top:-4px;
+        width:1px;
+        height:10px;
+        background:var(--white-000);
+        opacity: .4;
     }
 `
 
@@ -183,8 +215,6 @@ const NotWalk = styled.div`
 const WalkHistory = styled.div`
     border:1px solid var(--gray-300);
     background-image:url('${Arrows}');
-    background-repeat: no-repeat;
-    background-position:94% 50%;
 
     >div{
         flex:1;

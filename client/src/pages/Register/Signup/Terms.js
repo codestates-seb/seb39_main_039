@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import styled, { css } from "styled-components";
+import React, { useState } from "react";
+import styled from "styled-components";
 import { Header } from "../../../components/Layout/Header";
 import { ButtonPrimary } from '../../../components/Button/Buttons';
 import { AllCheckbox, EachCheckbox } from '../../../components/Inputs/Checkbox';

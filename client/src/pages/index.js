@@ -2,4 +2,16 @@
 import { Main, WantedList, WantedDetailPage, Map } from "./Common";
 import { Login, SignUp, Terms } from "./Register";
 
-export { Login, Main, SignUp, Terms, WantedList, WantedDetailPage, Map };
+import OwnerMain from './Owners/OwnerMain';
+
+export {
+    Login,
+    Main,
+    SignUp,
+    Terms,
+    WantedList,
+    WantedDetailPage,
+    OwnerMain,
+    Map
+};
+

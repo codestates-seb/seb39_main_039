@@ -1,0 +1,46 @@
+# 서버 환경에서 사용하는 정보들은 application-server.yml 파일에 설정합니다.
+# TODO MySQL DB 접속 정보를 아래에 설정하세요
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update  # (1) 스키마 자동 생성
+    show-sql: true      # (2) SQL 쿼리 출력
+    properties:
+      hibernate:
+        format_sql: true  # (3) SQL pretty print
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://{AWS RDS Endpoint}/albamung?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    username: {RDS Mysql Admin id}
+    password: {RDS Mysql Admin password}
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: { Google Client Id }
+            clientSecret: { Google Client Secret }
+            scope:
+              - email
+              - profile
+config:
+  domain: {AWS S3 Endpoint}
+
+
+security:
+  jwt:
+    token:
+      secret-key: { jwt Secret Key }
+      expire-length: 300000
+server:
+  error:
+    include-message: always
+  servlet:
+    encoding:
+      force-response: true
+clientUri: http://pre-project-client39.s3-website.ap-northeast-2.amazonaws.com/

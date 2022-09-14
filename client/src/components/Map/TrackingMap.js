@@ -1,20 +1,25 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getLocation, sendLocation } from "../../redux/actions/mappingAction";
 
 const { kakao } = window;
 
-const Mapping2 = () => {
-  // const [lat, setLat] = useState(37.4361727123);
-  // const [lon, setLon] = useState(127.141231424);
-  const [lat, setLat] = useState();
-  const [lon, setLon] = useState();
+const TrackingMap = () => {
   const [myMap, setMyMap] = useState(null);
   const [line, setLine] = useState([]);
+
+  const dispatch = useDispatch();
+  const { lat, lon } = useSelector((state) => state.mapping);
 
   function setGeolocation() {
     let geolocation = navigator.geolocation.watchPosition(
       function (position) {
-        setLat(position.coords.latitude);
-        setLon(position.coords.longitude);
+        dispatch(
+          getLocation(position.coords.latitude, position.coords.longitude)
+        );
+        // dispatch(
+        //   sendLocation(position.coords.latitude, position.coords.longitude)
+        // );
       },
       function (error) {
         console.log(error);
@@ -102,4 +107,4 @@ const Mapping2 = () => {
   );
 };
 
-export default Mapping2;
+export default TrackingMap;

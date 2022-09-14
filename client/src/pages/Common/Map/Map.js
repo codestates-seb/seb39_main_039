@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Mapping2 from "../../../components/Map/Mapping2";
+import TrackingMap from "../../../components/Map/TrackingMap";
 
 const Map = () => {
   const [isWalk, setIsWalk] = useState(false);
@@ -20,7 +20,7 @@ const Map = () => {
       >
         산책 중지
       </button>
-      {isWalk ? <Mapping2 /> : <></>}
+      {isWalk ? <TrackingMap /> : <></>}
     </div>
   );
 };

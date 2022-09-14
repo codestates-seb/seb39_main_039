@@ -13,7 +13,6 @@ import javax.validation.constraints.Null;
 public class UserDto {
 
 
-    @Getter
     @AllArgsConstructor
     @Builder
     public static class OwnerResponse {
@@ -23,12 +22,19 @@ public class UserDto {
         private Long reputation;
     }
 
+    @Builder
+    public static class SimpleWalkerResponse {
+        private Long walkerId;
+        private String walkerName;
+        private String walkerPicture;
+    }
+
 
     @Getter
     @Setter
     public static class Signup {
         @NotBlank(message = "Display Name은 공백이 아니어야 합니다.")
-        private String displayName;
+        private String nickName;
 
         @NotBlank(message = "Email을 입력 해 주세요.")
         @Email(message = "이메일 형식이 아닙니다.")
@@ -53,12 +59,13 @@ public class UserDto {
     public static class Response {
         private long userId;
         private String profileImage;
-        private String displayName;
+        private String nickName;
         private String aboutMe;
         private String location;
         private String fullName;
-        private Long reputation;
+        private Long grade;
     }
+
 
     @Builder
     @Setter
@@ -66,7 +73,7 @@ public class UserDto {
     public static class Put {
         @Null
         private Long id;
-        private String displayName;
+        private String nickName;
         private String aboutMe;
         private String fullName;
         private String location;

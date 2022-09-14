@@ -20,13 +20,17 @@ public interface UserMapper {
         User user = User.builder()
                 .password(passwordEncoder.encode(signupInfo.getPassword()))
                 .email(signupInfo.getEmail())
-                .displayName(signupInfo.getDisplayName())
+                .nickName(signupInfo.getNickName())
                 .build();
         return user;
     }
 
     @Mapping(source = "id", target = "userId")
     UserDto.Response userToResponse(User user);
+    @Mapping(source = "id", target = "walkerId")
+    @Mapping(source = "fullName", target = "walkerName")
+    @Mapping(source = "profileImage", target = "walkerPicture")
+    UserDto.SimpleWalkerResponse userToSimpleWalkerResponse(User user);
 
     User putToUser(UserDto.Put put);
 

@@ -1,6 +1,8 @@
 package com.albamung.user.entity;
 
 import com.albamung.helper.audit.BaseEntityDate;
+import com.albamung.pet.entity.Pet;
+import com.albamung.walk.entity.Walk;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,6 +29,7 @@ public class User extends BaseEntityDate {
     private Long id;
 
     private String provider;
+
     private String providerId;
 
     @Column(nullable = false)
@@ -36,7 +39,7 @@ public class User extends BaseEntityDate {
     private String email;
 
     @Column(nullable = false, unique = true)
-    private String displayName;
+    private String nickName;
 
     @Column(nullable = false)
     private String roles;
@@ -57,17 +60,15 @@ public class User extends BaseEntityDate {
     @ColumnDefault("0")
     private Long grade;
 
-//    @OneToMany(mappedBy = "owner", cascade = {CascadeType.REMOVE})
-//    private List<Question> questionList = new ArrayList<>();
-//    @OneToMany(mappedBy = "owner", cascade = {CascadeType.REMOVE})
-//    private List<Answer> answerList = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "owner", cascade = {CascadeType.REMOVE})
-//    private List<VoteQuestion> voteQuestionList = new ArrayList<>();
-//    @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE})
-//    private List<VoteAnswer> voteAnswerList = new ArrayList<>();
-//    @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE})
-//    private List<BookmarkQuestion> bookmarkQuestionList = new ArrayList<>();
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
+    private List<Walk> walkOwnerList;
+
+    @OneToMany(mappedBy = "walker", cascade = CascadeType.REMOVE)
+    private List<Walk> walkWalkerList;
+
+    @OneToMany(mappedBy = "owner" , cascade = CascadeType.REMOVE)
+    private List<Pet> petList;
+
 
     public List<UserRole> getRoleList() {
         List<UserRole> roleList = new ArrayList<>();

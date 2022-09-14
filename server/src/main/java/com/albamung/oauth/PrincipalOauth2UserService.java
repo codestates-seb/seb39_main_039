@@ -29,7 +29,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         Optional<User> user = userRepository.findByEmail(attributes.get("email").toString());
         return user.map(value -> new PrincipalDetails(value, attributes)).orElseGet(() -> new PrincipalDetails(userRepository.save(User.builder()
                 .email(attributes.get("email").toString())
-                .displayName(attributes.get("given_name").toString())
+                .nickName(attributes.get("given_name").toString())
                 .fullName(attributes.get("name").toString())
                 .provider(provider)
                 .providerId(attributes.get("sub").toString())

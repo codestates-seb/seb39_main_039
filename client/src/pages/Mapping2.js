@@ -3,8 +3,8 @@ import React, { useEffect, useState, useRef } from "react";
 const { kakao } = window;
 
 const Mapping2 = () => {
-  const [lat, setLat] = useState(37.4362952);
-  const [lon, setLon] = useState(127.1400258);
+  const [lat, setLat] = useState(34.5);
+  const [lon, setLon] = useState(127.1);
   const [myMap, setMyMap] = useState(null);
   const [line, setLine] = useState([]);
 

@@ -131,15 +131,15 @@ const MapBox = styled.div`
 
 const Map = styled.div`
   opacity: 0.6;
-  /* ::before {
+  ::before {
     position: absolute;
-    top: 0px;
+    bottom: 0px;
     width: 100%;
-    height: 395px;
+    height: 100px;
     background: linear-gradient(to top, white, transparent);
     z-index: 2;
     content: "";
-  } */
+  }
 `;
 
 export default TrackingMap;

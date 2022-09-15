@@ -8,7 +8,10 @@ import {
   WantedDetailPage,
   OwnerMain,
   MapForWalker,
-  WalkingLists
+  WalkingLists,
+  Setting,
+  UserEdit,
+  WalkerMain
 } from "./pages";
 
 function App() {
@@ -25,8 +28,11 @@ function App() {
           path="/walk/:id/recordedWalking"
           element={<WalkingLists />}
         ></Route>
+        <Route path="/walkerMain" element={<WalkerMain />}></Route>
         <Route path="/wantedList" element={<WantedList />}></Route>
         <Route path="/wantedDetail" element={<WantedDetailPage />}></Route>
+        <Route path="/setting" element={<Setting />}></Route>
+        <Route path="/userEdit" element={<UserEdit />}></Route>
       </Routes>
     </>
   );

@@ -4,11 +4,14 @@ import {
   WantedList,
   WantedDetailPage,
   MapForWalker,
-  WalkingLists
+  WalkingLists,
+  Setting,
+  UserEdit
 } from "./Common";
 import { Login, SignUp, Terms } from "./Register";
 
 import OwnerMain from "./Owners/OwnerMain";
+import WalkerMain from "./Walkers/WalkerMain";
 
 export {
   Login,
@@ -19,5 +22,8 @@ export {
   WantedDetailPage,
   OwnerMain,
   MapForWalker,
-  WalkingLists
+  WalkingLists,
+  Setting,
+  UserEdit,
+  WalkerMain
 };

@@ -1,16 +1,22 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getLocation, sendLocation } from "../../redux/actions/mappingAction";
+import {
+  getLocation,
+  sendLocation,
+  getWalkDetailInfo
+} from "../../redux/actions/mappingAction";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const { kakao } = window;
 
 const TrackingMap = () => {
   const [myMap, setMyMap] = useState(null);
   const [line, setLine] = useState([]);
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const { lat, lon } = useSelector((state) => state.mapping);
+  const { lat, lon, walkDetailInfo } = useSelector((state) => state.mapping);
 
   function setGeolocation() {
     let geolocation = navigator.geolocation.watchPosition(
@@ -18,9 +24,9 @@ const TrackingMap = () => {
         dispatch(
           getLocation(position.coords.latitude, position.coords.longitude)
         );
-        // dispatch(
-        //   sendLocation(position.coords.latitude, position.coords.longitude)
-        // );
+        dispatch(
+          sendLocation(position.coords.latitude, position.coords.longitude)
+        );
       },
       function (error) {
         console.log(error);
@@ -68,9 +74,9 @@ const TrackingMap = () => {
     let polyline = new kakao.maps.Polyline({
       map: myMap,
       path: line,
-      strokeWeight: 10,
+      strokeWeight: 15,
       strokeColor: "#3183f8",
-      strokeOpacity: 0.7,
+      strokeOpacity: 1,
       strokeStyle: "solid"
     });
     polyline.setMap(myMap);
@@ -87,6 +93,7 @@ const TrackingMap = () => {
 
   useEffect(() => {
     setGeolocation();
+    dispatch(getWalkDetailInfo(1));
     if (lat > 0 && lon > 0) {
       drawMap();
     }
@@ -94,7 +101,8 @@ const TrackingMap = () => {
 
   return (
     <MapBox>
-      <div id="myMap" style={{ width: "250px", height: "300px" }}></div>
+      <div>{walkDetailInfo.petList[0]?.petName}</div>
+      <Map id="myMap" style={{ width: "250px", height: "300px" }}></Map>
       <button
         onClick={() => {
           panTo();
@@ -114,16 +122,16 @@ const MapBox = styled.div`
 `;
 
 const Map = styled.div`
-  opacity: 0.8;
-  ::before {
+  opacity: 0.6;
+  /* ::before {
     position: absolute;
     top: 0px;
     width: 100%;
-    height: 390px;
+    height: 395px;
     background: linear-gradient(to top, white, transparent);
     z-index: 2;
     content: "";
-  }
+  } */
 `;
 
 export default TrackingMap;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getLocation, sendLocation } from "../../redux/actions/mappingAction";
+import styled from "styled-components";
 
 const { kakao } = window;
 
@@ -53,7 +54,7 @@ const TrackingMap = () => {
     let container = document.getElementById("myMap");
     let options = {
       center: new kakao.maps.LatLng(lat, lon), //지도의 중심좌표.
-      level: 6 //지도의 레벨(확대, 축소 정도)
+      level: 2 //지도의 레벨(확대, 축소 정도)
     };
     setMyMap(new kakao.maps.Map(container, options));
   };
@@ -92,7 +93,7 @@ const TrackingMap = () => {
   }, [lat, lon]);
 
   return (
-    <>
+    <MapBox>
       <div id="myMap" style={{ width: "250px", height: "300px" }}></div>
       <button
         onClick={() => {
@@ -103,8 +104,26 @@ const TrackingMap = () => {
       </button>
       <div>{lat}</div>
       <div>{lon}</div>
-    </>
+    </MapBox>
   );
 };
+
+const MapBox = styled.div`
+  background-color: white;
+  height: 100vh;
+`;
+
+const Map = styled.div`
+  opacity: 0.8;
+  ::before {
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    height: 390px;
+    background: linear-gradient(to top, white, transparent);
+    z-index: 2;
+    content: "";
+  }
+`;
 
 export default TrackingMap;

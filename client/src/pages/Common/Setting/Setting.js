@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components"
 import noImage from '../../../assets/img/noImage.svg';
@@ -5,8 +6,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import UserGrade from "../../../components/UserGrade";
 import Arrows from '../../../assets/img/arrows.svg';
+import SwitchMode from "../../../components/SwitchMode";
 
 const Setting = () => {
+    const [isOn, setIsOn]= useState(true);
+    const toggleHandler = () => {
+        setIsOn(!isOn)
+    }
+
     return(
         <div className="container">
             <PageSummary>전체</PageSummary>
@@ -26,7 +33,9 @@ const Setting = () => {
             <List>
                 <li>
                     <p>화면모드</p>
-                    <div></div>
+                    <div className="opt-info v2">
+                        <SwitchMode isOn={isOn} toggleHandler={toggleHandler}/>
+                    </div>
                 </li>
                 <li>
                     <p>내 정보 수정</p>
@@ -62,7 +71,7 @@ const PageSummary = styled.h3`
 const UserInfo = styled.section`
     text-align: center;
     border-bottom:1px solid var(--gray-200);
-    padding:10px 0 35px;
+    padding:10px 0 30px;
 
     .user-name{
         font-size:24px;
@@ -126,6 +135,7 @@ const List = styled.ul`
     li{
         display: flex;
         justify-content: space-between;
+        position:relative;
         padding:15px 0;
         margin:5px 0;
         background-repeat: no-repeat;
@@ -135,6 +145,14 @@ const List = styled.ul`
         .opt-info{
             padding-right:40px;
             font-size:13px;
+        }
+
+        .opt-info.v2{
+            position:absolute;
+            right:0;
+            top:50%;
+            padding-right:0;
+            transform: translate(0, -50%);
         }
     }
 `

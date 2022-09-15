@@ -5,6 +5,7 @@ import com.albamung.oauth.PrincipalDetails;
 import com.albamung.user.entity.User;
 import com.albamung.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,7 +16,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -71,17 +71,12 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
         String refresh = jwtTokenProvider.createRefreshToken();
         userDetails.getUser().setRefreshToken(refresh);
 
-        Cookie refreshCookie = new Cookie("refresh",refresh);
+        ResponseCookie refreshCookie = ResponseCookie.from("refresh", refresh).maxAge(7 * 24 * 60 * 60).httpOnly(true).secure(true).path("/").build();
+        ResponseCookie accessCookie = ResponseCookie.from("access", access).maxAge(7 * 24 * 60 * 60).path("/").build();
 
-        // expires in 7 days
-        refreshCookie.setMaxAge(7 * 24 * 60 * 60);
-
-        // optional properties
-        refreshCookie.setSecure(true);
-        refreshCookie.setHttpOnly(true);
-        refreshCookie.setPath("/");
 
         response.addHeader("Authorization", access);
-        response.addCookie(refreshCookie);
+        response.addHeader("set-cookie", refreshCookie.toString());
+        response.addHeader("set-cookie", accessCookie.toString());
     }
 }

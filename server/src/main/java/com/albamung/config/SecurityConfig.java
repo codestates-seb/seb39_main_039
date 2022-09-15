@@ -1,7 +1,7 @@
 package com.albamung.config;
 
 
-import com.albamung.filter.CustomOauth2SuccessHandler;
+import com.albamung.oauth.CustomOauth2SuccessHandler;
 import com.albamung.filter.JwtAuthenticationFilter;
 import com.albamung.filter.JwtAuthorizationFilter;
 import com.albamung.helper.jwt.JwtTokenProvider;
@@ -9,7 +9,6 @@ import com.albamung.oauth.PrincipalOauth2UserService;
 import com.albamung.user.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -54,19 +53,15 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .oauth2Login().successHandler(customOauth2SuccessHandler).userInfoEndpoint().userService(principalOauth2UserService).and()
+                .oauth2Login().loginPage("/users/login").authorizationEndpoint().and().successHandler(customOauth2SuccessHandler).userInfoEndpoint().userService(principalOauth2UserService).and()
                 .and()
-                .logout().deleteCookies("JSESSIONID").and()
                 .authorizeRequests().requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers("/users/signup", "/users/ologin", "/users/refresh").permitAll()
-                .antMatchers("/answers/submit").permitAll()
-                .antMatchers(HttpMethod.DELETE).hasAnyRole("USER", "ADMIN")
-                .antMatchers(HttpMethod.PUT).hasAnyRole("USER", "ADMIN")
-                .antMatchers(HttpMethod.POST).hasAnyRole("USER", "ADMIN")
+                .antMatchers("/users/signup", "/users/login", "/users/refresh").permitAll()
+//                .antMatchers(HttpMethod.DELETE).hasAnyRole("USER", "ADMIN")
+//                .antMatchers(HttpMethod.PUT).hasAnyRole("USER", "ADMIN")
+//                .antMatchers(HttpMethod.POST).hasAnyRole("USER", "ADMIN")
                 .anyRequest().permitAll()
                 .and()
-//                .apply(new JwtTokenFilterConfigurer(jwtTokenProvider))
-//                .and()
                 .apply(new CustomDsl())
                 .and()
                 .cors();
@@ -83,6 +78,7 @@ public class SecurityConfig {
         configuration.setMaxAge(3600L);
         configuration.addExposedHeader("access");
         configuration.addExposedHeader("refresh");
+        configuration.addExposedHeader("set-cookie");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

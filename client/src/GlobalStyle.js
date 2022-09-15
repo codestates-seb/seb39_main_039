@@ -61,6 +61,10 @@ const GlobalStyle = createGlobalStyle`
       position:relative;
    }
 
+   .ipt-group{
+      margin-bottom:23px;
+   }
+
    .ipt-form{
       width:100%;
       border:1px solid var(--gray-200);
@@ -69,6 +73,16 @@ const GlobalStyle = createGlobalStyle`
       padding:0 20px;
    }
 
+   .ipt-form:disabled{
+      background:var(--gray-100);
+      color:var(--gray-800)
+   }
+
+   .ipt-label{
+      display: inline-block;
+      font-weight:500;
+      padding-bottom:6px;
+   }
 
    .img-circle{
       border-radius: 100px;

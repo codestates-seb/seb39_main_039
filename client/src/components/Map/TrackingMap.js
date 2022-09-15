@@ -6,23 +6,14 @@ import {
   getWalkDetailInfo
 } from "../../redux/actions/mappingAction";
 import styled from "styled-components";
-<<<<<<< HEAD
 import { useInterval } from "../../hooks/useInterval";
 import { Header } from "../Layout/Header";
-=======
-import { useNavigate } from "react-router-dom";
->>>>>>> dev
 
 const { kakao } = window;
 
 const TrackingMap = () => {
   const [myMap, setMyMap] = useState(null);
   const [line, setLine] = useState([]);
-<<<<<<< HEAD
-=======
-  const navigate = useNavigate();
-
->>>>>>> dev
   const dispatch = useDispatch();
   const { lat, lon, walkDetailInfo } = useSelector((state) => state.mapping);
 

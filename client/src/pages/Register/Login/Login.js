@@ -32,7 +32,7 @@ const Login = () => {
                         <small>회원이 아니신가요? <Link to="/signupTerms">회원가입</Link></small>
                     </FormArea>
                     <SnsButtonGroup>
-                        <a href="http://ec2-52-78-178-145.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/google">
+                        <a href="https://server.albamung.tk/oauth2/authorization/google">
                             <SnsButtonGoogle>구글 계정으로 시작</SnsButtonGoogle>
                         </a>
                         <SnsButtonKakao>카카오톡으로 시작</SnsButtonKakao>

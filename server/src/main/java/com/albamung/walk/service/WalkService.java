@@ -69,6 +69,8 @@ public class WalkService {
      */
     public Walk matchWalker(Long walkId, Long walkerId, Long ownerId){
         Walk targetWalk = verifyWalk(walkId);
+        if(targetWalk.getWalker()!=null) throw new CustomException("이미 매칭된 산책입니다", HttpStatus.CONFLICT);
+
         verifyWalkUser(targetWalk, ownerId);
         User walker = userService.verifyUser(walkerId);
         targetWalk.setWalker(walker);
@@ -90,10 +92,11 @@ public class WalkService {
      * 산책의 동선 좌표 입력
      */
     public void putCoord(Long walkId,String coord, Long loginId) {
-        Walk targetWalk = verifyWalk(walkId);
-        if(targetWalk.getWalker()!=null) throw new CustomException("이미 매칭된 산책입니다", HttpStatus.CONFLICT);
-        verifyWalkUser(targetWalk, loginId);
-        targetWalk.addCoord(coord);
+//        Walk targetWalk = verifyWalk(walkId);
+
+//        verifyWalkUser(targetWalk, loginId);
+//        targetWalk.addCoord(coord);
+        walkRepository.UpdateCoord(walkId, ","+coord);
     }
 
     /**

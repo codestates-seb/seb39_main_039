@@ -9,6 +9,7 @@ const UserEdit = () => {
     const ClickHandler = () =>{
         console.log('수정 확인 함수');
     }
+
     return(
         <div className="container">
             <HeaderConfirm pageTitle={'나의 기본정보 수정'} ConfirmName={'완료'} ClickHandler={ClickHandler}/>
@@ -23,11 +24,19 @@ const UserEdit = () => {
             <Form>
                 <div className="ipt-group">
                     <label htmlFor="name" className="ipt-label">이름</label>
-                    <input type="text" name="name" className="ipt-form" placeholder="이름을 입력해주세요." />
+                    <input 
+                        type="text" 
+                        className="ipt-form"
+                        name="username"
+                        placeholder="이름을 입력해주세요."/>
                 </div>
                 <div className="ipt-group">
                     <label htmlFor="phone" className="ipt-label">휴대폰 번호</label>
-                    <input type="number" name="phone" className="ipt-form" placeholder="연락처를 입력해주세요."/>
+                    <input 
+                        type="number" 
+                        name="phone" 
+                        className="ipt-form" 
+                        placeholder="연락처를 입력해주세요."/>
                 </div>
                 <div className="ipt-group">
                     <label htmlFor="email" className="ipt-label">이메일</label>
@@ -35,7 +44,11 @@ const UserEdit = () => {
                 </div>
                 <div className="ipt-group">
                     <label htmlFor="nickname" className="ipt-label">닉네임</label>
-                    <input type="text" name="nickname" className="ipt-form" placeholder="닉네임을 입력해주세요."/>
+                    <input 
+                        type="text" 
+                        name="nickname" 
+                        className="ipt-form" 
+                        placeholder="닉네임을 입력해주세요."/>
                 </div>
             </Form>
         </div>

@@ -31,6 +31,7 @@ const ToggleContainer = styled.div`
             text-align: center;
             z-index: 10;
             color:var(--gray-400);
+            font-size:15px;
             font-weight: 600;
         }
         >span.toggle--checked{

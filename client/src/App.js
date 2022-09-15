@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { Login, Main, SignUp, Terms, WantedList, WantedDetailPage, OwnerMain, Map } from './pages';
 
+
 function App() {
   return (
     <>

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import DogNameLabel from "./DogNameLabel";
+import { DogNameLabel } from "./DogNameLabel";
 
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { faSackDollar } from "@fortawesome/free-solid-svg-icons";
@@ -10,8 +10,8 @@ const WantedCard = () => {
     return(
         <Card>
             <div className="con-dogs">
-                <DogNameLabel size={'xs'}/>
-                <DogNameLabel size={'xs'}/>
+                <DogNameLabel species={'시바'} name={'춘식'} size={'xs'}/>
+                <DogNameLabel species={'시바'} name={'춘식'} size={'xs'}/>
             </div>
             <p className="con-title">
                 <em>매칭 완료</em>

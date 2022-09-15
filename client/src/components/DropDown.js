@@ -9,7 +9,7 @@ const Dropdown = ({name, data}) => {
     return (
         <DropDownButton>
             <button className="on-button" data-set={isShow} onClick={showHandler}>
-                {name} <i class="ico-caret"></i>
+                {name} <i className="ico-caret"></i>
             </button>
             <div className="drop-menu" data-set={isShow}>
                 <ul>

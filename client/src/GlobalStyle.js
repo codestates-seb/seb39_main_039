@@ -12,14 +12,14 @@ const GlobalStyle = createGlobalStyle`
 
    *{
       box-sizing: border-box;
+      font-family: -apple-system, Pretendard, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
    }
 
    body {
-   font-family: -apple-system, Pretendard, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
-   -webkit-font-smoothing: antialiased;
-   -moz-osx-font-smoothing: grayscale;
    background: var(--gray-100);
    letter-spacing: -.050em;
    }
@@ -76,6 +76,16 @@ const GlobalStyle = createGlobalStyle`
    .ipt-form:disabled{
       background:var(--gray-100);
       color:var(--gray-800)
+   }
+
+   textarea.ipt-form{
+      height:200px;
+      padding:15px 20px;
+      font-size:16px;
+   }
+
+   select.ipt-form{
+      font-size:16px
    }
 
    .ipt-label{

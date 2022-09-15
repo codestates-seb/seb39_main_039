@@ -40,7 +40,7 @@ export const HeaderConfirm = ({pageTitle, useRight, ConfirmName, ClickHandler}) 
             <div className="left-area">
                 <Link to ="/"><IconBack /></Link>
             </div>
-            <h2 class="confirm">{pageTitle}</h2>
+            <h2 className="confirm">{pageTitle}</h2>
             <div className={`right-area on confirm`} onClick={ClickHandler}>
                 {ConfirmName}
             </div>

@@ -7,11 +7,11 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
 const UserEdit = () => {
     const ClickHandler = () =>{
-        console.log('확인');
+        console.log('수정 확인 함수');
     }
     return(
         <div className="container">
-            <HeaderConfirm pageTitle={'나의 기본정보 수정'} ConfirmName={'확인'} ClickHandler={ClickHandler}/>
+            <HeaderConfirm pageTitle={'나의 기본정보 수정'} ConfirmName={'완료'} ClickHandler={ClickHandler}/>
             <UserInfo>
                 <div className="user-con">
                     <UserPhoto>

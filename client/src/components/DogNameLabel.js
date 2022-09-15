@@ -1,20 +1,46 @@
 import styled from "styled-components"
+import anonymousDog from '../assets/img/anonymousDog.svg'
 
-const DogNameLabel = ({size}) => {
+export const DogNameLabel = ({size, name, species}) => {
     return (
         <Label className={size}>
             <span className="dog-photo">
                 <img src={'https://avatars.githubusercontent.com/u/9497404?v=4'} className={`img-circle ${size}`} alt="" />
             </span>
             <dl>
-                <dt>시바견</dt>
-                <dd>춘식</dd>
+                <dt>{species}</dt>
+                <dd>{name}</dd>
             </dl>
         </Label>
     )
 }
 
-export default DogNameLabel
+export const DogNameLabelType2 = ({name}) => {
+    return (
+        <Label className="type2">
+            <span className="dog-photo">
+                <img src={'https://avatars.githubusercontent.com/u/9497404?v=4'} className={`img-circle xs`} alt="" />
+            </span>
+            <dl>
+                <dd>{name}</dd>
+            </dl>
+        </Label>
+    )
+}
+
+export const AnonymousLabelType2 = () => {
+    return (
+        <Label className="type2 add">
+            <span className="dog-photo">
+                <img src={anonymousDog} className={`img-circle xs`} alt="" />
+            </span>
+            <dl>
+                <dd>강아지 등록</dd>
+            </dl>
+        </Label>
+    )
+}
+
 
 const Label = styled.span`
     overflow:hidden;
@@ -41,11 +67,29 @@ const Label = styled.span`
             padding-right:.4em;
             margin-right:.4em;
         }
+
+        dt:empty{
+            margin-left:-10px
+        }
     }
 
     &.xs{
         dl{
             font-size: 13px;
         }
+    }
+
+    &.type2{
+        cursor: pointer;
+        padding:4px 14px 3px 6px;
+        border:0;
+        box-shadow: 0 0 8px 0 rgba(0,0,0, .13);
+        dl{
+            margin-top:0;
+        }
+    }
+
+    &.add{
+        color:var(--gray-500);
     }
 `

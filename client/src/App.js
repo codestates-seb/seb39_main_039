@@ -10,7 +10,8 @@ import {
   Map, 
   Setting, 
   UserEdit,
-  WalkerMain
+  WalkerMain,
+  DogEdit
 } from './pages';
 
 
@@ -29,6 +30,7 @@ function App() {
         <Route path="/wantedDetail" element={<WantedDetailPage />}></Route>
         <Route path="/setting" element={<Setting />}></Route>
         <Route path="/userEdit" element={<UserEdit />}></Route>
+        <Route path="/dogEdit" element={<DogEdit />}></Route>
       </Routes>
     </>
   );

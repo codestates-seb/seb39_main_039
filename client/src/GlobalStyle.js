@@ -67,7 +67,7 @@ const GlobalStyle = createGlobalStyle`
 
 
    .img-circle{
-      border-radius: 50px;
+      border-radius: 100px;
    }
    .img-circle.xs{
       width:25px;

@@ -48,7 +48,7 @@ const IptFormArea = styled.div`
       height:60px;
       left:0;
       color:var(--gray-400);
-      border:1px solid var(--gray-200);
+      border:1px solid var(--gray-300);
       border-radius:15px;
       height:60px;
    }

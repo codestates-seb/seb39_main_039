@@ -70,7 +70,7 @@ const TrackingMap = () => {
       path: line,
       strokeWeight: 10,
       strokeColor: "#3183f8",
-      strokeOpacity: 1,
+      strokeOpacity: 0.7,
       strokeStyle: "solid"
     });
     polyline.setMap(myMap);
@@ -94,7 +94,7 @@ const TrackingMap = () => {
 
   return (
     <MapBox>
-      <Map id="myMap" style={{ width: "375px", height: "300px" }}></Map>
+      <div id="myMap" style={{ width: "250px", height: "300px" }}></div>
       <button
         onClick={() => {
           panTo();

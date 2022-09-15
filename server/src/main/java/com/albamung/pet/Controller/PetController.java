@@ -1,22 +1,23 @@
 package com.albamung.pet.Controller;
 
 import com.albamung.pet.dto.PetDto;
+import com.albamung.pet.entity.Pet;
 import com.albamung.pet.mapper.PetMapper;
 import com.albamung.pet.service.PetService;
 import com.albamung.user.entity.User;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/pet")
@@ -32,10 +33,32 @@ public class PetController {
         this.petService = petService;
     }
 
+    @ApiOperation(value = "반려견 등록")
     @PostMapping("/create")
     public ResponseEntity postPet(@AuthenticationPrincipal @ApiIgnore User owner,
-                                  @RequestBody @Valid PetDto.Post request){
-        petService.savePet(petMapper.postToPet(request),owner.getId());
+                                  @RequestBody @Valid PetDto.Post request) {
+        if(owner==null) owner = User.builder().id(1L).build();
+        petService.savePet(petMapper.postToPet(request), owner.getId());
         return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    @ApiOperation(value = "반려견 간단 내역 조회", notes = "구인 글 작성 시 불러올 반려견 정보")
+    @GetMapping("/simple_list")
+    public ResponseEntity getSimplePetList(@AuthenticationPrincipal @ApiIgnore User owner) {
+        if(owner==null) owner = User.builder().id(1L).build();
+        List<Pet> petList = petService.getPetList(owner.getId());
+        List<PetDto.SimpleResponse> response = petList.stream().map(petMapper::toSimpleResponse).collect(Collectors.toList());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "반려견 상세 조회", notes = "견주 페이지 반려견 목록(모든 반려견 정보 및 산책 내역 포함)")
+    @GetMapping("/detail_list")
+    public ResponseEntity getDetailPetList(@AuthenticationPrincipal @ApiIgnore User owner) {
+        if(owner==null) owner = User.builder().id(1L).build();
+        List<Pet> petList = petService.getPetList(owner.getId());
+        List<PetDto.DetailResponse> response = petList.stream().map(petMapper::toDetailResponse).collect(Collectors.toList());
+
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 }

@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class WalkDto {
-
     @ApiModel("산책 세부 응답")
     @Builder
     @Getter
@@ -42,5 +41,16 @@ public class WalkDto {
     @Builder
     public static class PutCoord{
         private String coord;
+    }
+
+    @Getter
+    @Builder
+    public static class SimpleResponse {
+        private Long walkId;
+        private LocalDateTime startTime;
+        private LocalDateTime endTime;
+        private int distance;
+        private boolean ended;
+        private UserDto.SimpleWalkerResponse walker;
     }
 }

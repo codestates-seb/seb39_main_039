@@ -85,7 +85,8 @@ const GlobalStyle = createGlobalStyle`
    }
 
    select.ipt-form{
-      font-size:16px
+      font-size:16px;
+      padding:15px 15px;
    }
 
    .ipt-label{

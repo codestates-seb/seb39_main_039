@@ -1,5 +1,5 @@
 // 페이지 일괄 export
-import { Main, WantedList, WantedDetailPage, Map, Setting, UserEdit, DogEdit } from "./Common";
+import { Main, WantedList, WantedDetailPage, Map, Setting, UserEdit, DogEdit, WalkerEdit } from "./Common";
 import { Login, SignUp, Terms } from "./Register";
 
 
@@ -18,6 +18,7 @@ export {
     Setting,
     UserEdit,
     WalkerMain,
-    DogEdit
+    DogEdit,
+    WalkerEdit
 };
 

@@ -12,16 +12,18 @@ const DogEdit = () => {
         console.log('수정 확인 함수');
     }
     const menuArr = [
+        // 흠.. 탭 컨텐츠 객체인뎀.. 받아오는 데이터로 대체할 수 있을지..
         { name: 'Tab1', content: 'Tab menu ONE' },
         { name: 'Tab2', content: 'Tab menu TWO' },
         { name: 'Tab3', content: 'Tab menu THREE' },
-      ];
-      const [currentTab, setCurrentTab] = useState(0);
-    
-      const selectMenuHandler = (index) => {
+    ];
+
+    const [currentTab, setCurrentTab] = useState(0);
+
+    const selectMenuHandler = (index) => {
         setCurrentTab(index)
-      };
- 
+    };
+
     return(
         <div className="container">
             <HeaderConfirm pageTitle={'강아지 정보 수정'} ConfirmName={'완료'} ClickHandler={ClickHandler}/>

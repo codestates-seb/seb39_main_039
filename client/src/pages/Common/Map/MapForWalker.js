@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import TrackingMap from "../../../components/Map/TrackingMap";
 import { walkState } from "../../../redux/actions/mappingAction";
 
-const Map = () => {
+const MapForWalker = () => {
   const dispatch = useDispatch();
   const { loading, isWalk } = useSelector((state) => state.mapping);
 
@@ -52,4 +52,4 @@ const Map = () => {
   }
 };
 
-export default Map;
+export default MapForWalker;

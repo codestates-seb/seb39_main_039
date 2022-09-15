@@ -84,7 +84,7 @@ const DogEdit = () => {
 
 export default DogEdit
 const Form = styled.div`
-
+    padding-bottom:60px;
 `
 
 const UserInfo = styled.section`

@@ -48,5 +48,5 @@ export default  WalkerEdit
 
 
 const Form = styled.div`
-    padding-top:15px;
+    padding:15px 0 60px;
 `

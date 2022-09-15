@@ -11,8 +11,11 @@ import {
   WalkingLists,
   Setting,
   UserEdit,
-  WalkerMain
-} from "./pages";
+  WalkerMain,
+  DogEdit,
+  WalkerEdit
+} from './pages';
+
 
 function App() {
   return (
@@ -33,6 +36,8 @@ function App() {
         <Route path="/wantedDetail" element={<WantedDetailPage />}></Route>
         <Route path="/setting" element={<Setting />}></Route>
         <Route path="/userEdit" element={<UserEdit />}></Route>
+        <Route path="/dogEdit" element={<DogEdit />}></Route>
+        <Route path="/walkerEdit" element={<WalkerEdit />}></Route>
       </Routes>
     </>
   );

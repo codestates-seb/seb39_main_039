@@ -34,6 +34,20 @@ export const HeaderClose = ({pageTitle}) => {
     )
 }
 
+export const HeaderConfirm = ({pageTitle, useRight, ConfirmName, ClickHandler}) => {
+    return(
+        <Conpanel>
+            <div className="left-area">
+                <Link to ="/"><IconBack /></Link>
+            </div>
+            <h2 className="confirm">{pageTitle}</h2>
+            <div className={`right-area on confirm`} onClick={ClickHandler}>
+                {ConfirmName}
+            </div>
+        </Conpanel>
+    )
+}
+
 
 const Conpanel = styled.div`
     display: flex;
@@ -47,6 +61,9 @@ const Conpanel = styled.div`
     h2{
         flex:5;
         text-align: center;
+    }
+    h2.confirm{
+        padding-left:10px;
     }
     .left-area, .right-area{
         flex:1;
@@ -68,5 +85,13 @@ const Conpanel = styled.div`
         a {
             display: block;
         }
+    }
+
+    .right-area.confirm{
+        cursor: pointer;
+        margin-right:0;
+        padding:10px 0;
+        color:var(--primary);
+        font-weight: 600;
     }
 `

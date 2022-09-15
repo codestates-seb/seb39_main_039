@@ -85,13 +85,9 @@ const TrackingMap = () => {
 
   return (
     <MapBox>
-<<<<<<< HEAD
-      <Map id="myMap" style={{ width: "250px", height: "300px" }}></Map>
-=======
       <Header />
       <div>{walkDetailInfo.walkId}번 산책알뱌</div>
       <Map id="myMap" style={{ width: "375px", height: "300px" }}></Map>
->>>>>>> dev
       <button
         onClick={() => {
           panTo();

@@ -76,6 +76,7 @@ export default OwnerMain
 const Header = styled.div`
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding:15px;
 `
 const LogoArea = styled.div`
@@ -83,7 +84,7 @@ const LogoArea = styled.div`
 `
 
 const Alert = styled.div`
-    font-size:18px;
+    font-size:19px;
     color:var(--gray-600);
 `
 

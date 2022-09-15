@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getLocation, sendLocation } from "../../redux/actions/mappingAction";
+import styled from "styled-components";
 
 const { kakao } = window;
 
@@ -53,7 +54,7 @@ const TrackingMap = () => {
     let container = document.getElementById("myMap");
     let options = {
       center: new kakao.maps.LatLng(lat, lon), //지도의 중심좌표.
-      level: 6 //지도의 레벨(확대, 축소 정도)
+      level: 2 //지도의 레벨(확대, 축소 정도)
     };
     setMyMap(new kakao.maps.Map(container, options));
   };
@@ -69,7 +70,7 @@ const TrackingMap = () => {
       path: line,
       strokeWeight: 10,
       strokeColor: "#3183f8",
-      strokeOpacity: 0.7,
+      strokeOpacity: 1,
       strokeStyle: "solid"
     });
     polyline.setMap(myMap);
@@ -92,8 +93,8 @@ const TrackingMap = () => {
   }, [lat, lon]);
 
   return (
-    <>
-      <div id="myMap" style={{ width: "250px", height: "300px" }}></div>
+    <MapBox>
+      <Map id="myMap" style={{ width: "375px", height: "300px" }}></Map>
       <button
         onClick={() => {
           panTo();
@@ -103,8 +104,26 @@ const TrackingMap = () => {
       </button>
       <div>{lat}</div>
       <div>{lon}</div>
-    </>
+    </MapBox>
   );
 };
+
+const MapBox = styled.div`
+  background-color: white;
+  height: 100vh;
+`;
+
+const Map = styled.div`
+  opacity: 0.8;
+  ::before {
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    height: 390px;
+    background: linear-gradient(to top, white, transparent);
+    z-index: 2;
+    content: "";
+  }
+`;
 
 export default TrackingMap;

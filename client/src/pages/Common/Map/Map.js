@@ -1,28 +1,57 @@
-import React, { useState } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import TrackingMap from "../../../components/Map/TrackingMap";
+import { walkState } from "../../../redux/actions/mappingAction";
 
 const Map = () => {
-  const [isWalk, setIsWalk] = useState(false);
-  return (
-    <div>
-      <button
-        onClick={() => {
-          setIsWalk(true);
-        }}
-      >
-        산책 시쟉
-      </button>
+  const dispatch = useDispatch();
+  const { loading, isWalk } = useSelector((state) => state.mapping);
 
-      <button
-        onClick={() => {
-          setIsWalk(false);
-        }}
-      >
-        산책 중지
-      </button>
-      {isWalk ? <TrackingMap /> : <></>}
-    </div>
-  );
+  console.log(isWalk, loading);
+
+  if (isWalk) {
+    return (
+      <div>
+        <button
+          onClick={() => {
+            dispatch(walkState(true));
+          }}
+        >
+          산책 시쟉
+        </button>
+
+        <button
+          onClick={() => {
+            dispatch(walkState(false));
+          }}
+        >
+          산책 중지
+        </button>
+        <TrackingMap />
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <button
+          onClick={() => {
+            dispatch(walkState(true));
+          }}
+        >
+          산책 시쟉
+        </button>
+
+        <button
+          onClick={() => {
+            dispatch(walkState(false));
+          }}
+        >
+          산책 중지
+        </button>
+        <div>메롱</div>
+      </div>
+    );
+  }
 };
 
 export default Map;

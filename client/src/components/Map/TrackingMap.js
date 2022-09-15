@@ -93,6 +93,7 @@ const TrackingMap = () => {
 
   useEffect(() => {
     setGeolocation();
+    dispatch(getWalkDetailInfo(1));
     if (lat > 0 && lon > 0) {
       drawMap();
     }
@@ -100,6 +101,7 @@ const TrackingMap = () => {
 
   return (
     <MapBox>
+      <div>{walkDetailInfo.petList[0]?.petName}</div>
       <Map id="myMap" style={{ width: "250px", height: "300px" }}></Map>
       <button
         onClick={() => {
@@ -110,14 +112,6 @@ const TrackingMap = () => {
       </button>
       <div>{lat}</div>
       <div>{lon}</div>
-      <button
-        onClick={() => {
-          dispatch(getWalkDetailInfo(1));
-        }}
-      >
-        산책하는 강아지
-      </button>
-      {/* <div>{walkDetailInfo.petList[0]?.petName}</div> */}
     </MapBox>
   );
 };

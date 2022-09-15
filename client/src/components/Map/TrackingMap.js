@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getLocation,
@@ -6,15 +6,23 @@ import {
   getWalkDetailInfo
 } from "../../redux/actions/mappingAction";
 import styled from "styled-components";
+<<<<<<< HEAD
+import { useInterval } from "../../hooks/useInterval";
+import { Header } from "../Layout/Header";
+=======
 import { useNavigate } from "react-router-dom";
+>>>>>>> dev
 
 const { kakao } = window;
 
 const TrackingMap = () => {
   const [myMap, setMyMap] = useState(null);
   const [line, setLine] = useState([]);
+<<<<<<< HEAD
+=======
   const navigate = useNavigate();
 
+>>>>>>> dev
   const dispatch = useDispatch();
   const { lat, lon, walkDetailInfo } = useSelector((state) => state.mapping);
 
@@ -39,22 +47,7 @@ const TrackingMap = () => {
     );
   }
 
-  function useInterval(callback, delay) {
-    const savedCallback = useRef();
-    useEffect(() => {
-      savedCallback.current = callback;
-    }, [callback]);
-
-    useEffect(() => {
-      function tick() {
-        savedCallback.current();
-      }
-      if (delay !== null) {
-        let id = setInterval(tick, delay);
-        return () => clearInterval(id);
-      }
-    }, [delay]);
-  }
+  const walkPause = () => {};
 
   const drawMap = async () => {
     let container = document.getElementById("myMap");
@@ -88,7 +81,6 @@ const TrackingMap = () => {
       setLine([...line, new kakao.maps.LatLng(lat, lon)]);
       drawLine();
     }
-    console.log(lat, lon);
   }, 3000);
 
   useEffect(() => {
@@ -101,17 +93,17 @@ const TrackingMap = () => {
 
   return (
     <MapBox>
-      <div>{walkDetailInfo.petList[0]?.petName}</div>
-      <Map id="myMap" style={{ width: "250px", height: "300px" }}></Map>
+      <Header />
+      <div>{walkDetailInfo.walkId}번 산책알뱌</div>
+      <Map id="myMap" style={{ width: "375px", height: "300px" }}></Map>
       <button
         onClick={() => {
           panTo();
         }}
       >
-        현재위치이
+        현재위치로
       </button>
-      <div>{lat}</div>
-      <div>{lon}</div>
+      <button onClick={walkPause}>산책 일시정지</button>
     </MapBox>
   );
 };

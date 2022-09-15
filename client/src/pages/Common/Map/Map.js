@@ -7,8 +7,6 @@ const Map = () => {
   const dispatch = useDispatch();
   const { loading, isWalk } = useSelector((state) => state.mapping);
 
-  console.log(isWalk, loading);
-
   if (isWalk) {
     return (
       <div>

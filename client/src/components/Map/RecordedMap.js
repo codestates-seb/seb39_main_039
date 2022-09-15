@@ -2,19 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getLocation,
-  sendLocation,
   getWalkDetailInfo
 } from "../../redux/actions/mappingAction";
 import styled from "styled-components";
-import { useInterval } from "../../hooks/useInterval";
 import { Header } from "../Layout/Header";
 
 const { kakao } = window;
 
 const TrackingMap = () => {
   const [myMap, setMyMap] = useState(null);
-  const [line, setLine] = useState([]);
-  const [isPauseWalk, setIsPauseWalk] = useState(false);
+  const [recordedLine, setRecordedLine] = useState([]);
 
   const dispatch = useDispatch();
   const { lat, lon, walkDetailInfo } = useSelector((state) => state.mapping);
@@ -25,11 +22,6 @@ const TrackingMap = () => {
         dispatch(
           getLocation(position.coords.latitude, position.coords.longitude)
         );
-        if (!isPauseWalk) {
-          dispatch(
-            sendLocation(position.coords.latitude, position.coords.longitude)
-          );
-        }
       },
       function (error) {
         console.log(error);
@@ -56,10 +48,10 @@ const TrackingMap = () => {
     myMap.panTo(moveLatLon);
   };
 
-  const drawLine = () => {
+  const drawLine = async () => {
     let polyline = new kakao.maps.Polyline({
       map: myMap,
-      path: line,
+      path: recordedLine,
       strokeWeight: 10,
       strokeColor: "#3183f8",
       strokeOpacity: 1,
@@ -68,26 +60,28 @@ const TrackingMap = () => {
     polyline.setMap(myMap);
   };
 
-  useInterval(() => {
-    setGeolocation();
-    if (lat && lon) {
-      if (!isPauseWalk) {
-        setLine([...line, new kakao.maps.LatLng(lat, lon)]);
-        drawLine();
-      }
-    }
-  }, 3000);
+  const makeRecordObj = () => {
+    const recordObj = walkDetailInfo.coord?.map((el) => {
+      return new kakao.maps.LatLng(...el?.split(" "));
+    });
+    setRecordedLine(recordObj);
+  };
 
-  console.log(isPauseWalk);
+  setTimeout(() => {}, 3000);
+
+  useEffect(() => {
+    if (lat > 0 && lon > 0) {
+      drawLine();
+    }
+  }, [recordedLine]);
 
   useEffect(() => {
     setGeolocation();
     dispatch(getWalkDetailInfo(1));
+    makeRecordObj();
 
     if (lat > 0 && lon > 0) {
-      if (!isPauseWalk) {
-        drawMap();
-      }
+      drawMap();
     }
   }, [lat, lon]);
 
@@ -103,23 +97,6 @@ const TrackingMap = () => {
       >
         현재위치로
       </button>
-      {isPauseWalk ? (
-        <button
-          onClick={() => {
-            setIsPauseWalk(!isPauseWalk);
-          }}
-        >
-          산책 재개
-        </button>
-      ) : (
-        <button
-          onClick={() => {
-            setIsPauseWalk(!isPauseWalk);
-          }}
-        >
-          산책 일시정지
-        </button>
-      )}
     </MapBox>
   );
 };

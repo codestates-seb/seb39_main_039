@@ -1,18 +1,18 @@
 import { Routes, Route } from "react-router-dom";
-import { 
-  Login, 
-  Main, 
-  SignUp, 
-  Terms, 
-  WantedList, 
-  WantedDetailPage, 
-  OwnerMain, 
-  Map, 
-  Setting, 
+import {
+  Login,
+  Main,
+  SignUp,
+  Terms,
+  WantedList,
+  WantedDetailPage,
+  OwnerMain,
+  MapForWalker,
+  WalkingLists,
+  Setting,
   UserEdit,
   WalkerMain
-} from './pages';
-
+} from "./pages";
 
 function App() {
   return (
@@ -23,8 +23,12 @@ function App() {
         <Route path="/signupTerms" element={<Terms />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/ownerMain" element={<OwnerMain />}></Route>
+        <Route path="/walk/:id/walking" element={<MapForWalker />}></Route>
+        <Route
+          path="/walk/:id/recordedWalking"
+          element={<WalkingLists />}
+        ></Route>
         <Route path="/walkerMain" element={<WalkerMain />}></Route>
-        <Route path="/map" element={<Map />}></Route>
         <Route path="/wantedList" element={<WantedList />}></Route>
         <Route path="/wantedDetail" element={<WantedDetailPage />}></Route>
         <Route path="/setting" element={<Setting />}></Route>

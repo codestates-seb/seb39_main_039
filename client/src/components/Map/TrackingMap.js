@@ -101,7 +101,6 @@ const TrackingMap = () => {
 
   return (
     <MapBox>
-      <div>{walkDetailInfo.petList[0]?.petName}</div>
       <Map id="myMap" style={{ width: "250px", height: "300px" }}></Map>
       <button
         onClick={() => {

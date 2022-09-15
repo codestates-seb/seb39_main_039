@@ -1,8 +1,7 @@
 import axios from "axios";
 
 const axiosAPI = axios.create({
-  baseURL:
-    "http://ec2-52-78-178-145.ap-northeast-2.compute.amazonaws.com:8080/",
+  baseURL: "https://server.albamung.tk/",
   headers: { "Content-type": "application/json" }
 });
 

@@ -13,21 +13,21 @@ import javax.validation.constraints.Null;
 public class UserDto {
 
 
-    @AllArgsConstructor
-    @Builder
-    public static class OwnerResponse {
-        private Long userId;
-        private String profileImage;
-        private String displayName;
-        private Long reputation;
-    }
-
     @Builder
     @Getter
     public static class SimpleWalkerResponse {
         private Long walkerId;
         private String walkerName;
         private String walkerPicture;
+    }
+
+    @Getter
+    @Builder
+    public static class SimpleOwnerResponse {
+        private Long ownerId;
+        private String fullName;
+        private String nickName;
+        private String profileImage;
     }
 
 
@@ -43,15 +43,6 @@ public class UserDto {
 
         @NotBlank(message = "Password를 입력 해 주세요")
         // @Pattern() //암호 규칙
-        private String password;
-    }
-
-    @Getter
-    @Setter
-    public static class Login {
-        @Email(message = "이메일 형식이 아닙니다.")
-        private String email;
-        @NotBlank(message = "Password를 입력 해 주세요")
         private String password;
     }
 
@@ -80,4 +71,6 @@ public class UserDto {
         private String location;
         private String profileImage;
     }
+
+
 }

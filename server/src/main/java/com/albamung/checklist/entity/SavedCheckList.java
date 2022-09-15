@@ -1,11 +1,9 @@
 package com.albamung.checklist.entity;
 
 import com.albamung.user.entity.User;
-import com.albamung.walk.entity.Walk;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Getter
@@ -13,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class CheckList {
+public class SavedCheckList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

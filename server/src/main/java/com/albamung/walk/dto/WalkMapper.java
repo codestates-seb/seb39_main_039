@@ -12,6 +12,8 @@ import org.mapstruct.ReportingPolicy;
 public interface WalkMapper {
     @Mapping(source = "id", target = "walkId")
     WalkDto.DetailResponse walkToDetailResponse(Walk walk);
+    @Mapping(source = "id", target = "walkId")
+    WalkDto.SimpleResponse walkToSimpleResponse(Walk walk);
 
     Walk postToWalk(WalkDto.Post post);
 }

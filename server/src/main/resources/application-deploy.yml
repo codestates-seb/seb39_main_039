@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-circular-references: true
   config:
     import: 'aws-parameterstore:'
   jpa:
@@ -34,8 +36,6 @@ aws:
     prefix: /spring-boot-aws
     profile-separator: _
     name: albamung
-
-
 
 security:
   jwt:

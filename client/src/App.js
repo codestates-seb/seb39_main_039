@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { Login, Main, SignUp, Terms, WantedList, WantedDetailPage, OwnerMain, Map } from './pages';
+import { Login, Main, SignUp, Terms, WantedList, WantedDetailPage, OwnerMain, Map, Setting } from './pages';
 
 
 function App() {
@@ -14,6 +14,7 @@ function App() {
         <Route path="/map" element={<Map />}></Route>
         <Route path="/wantedList" element={<WantedList />}></Route>
         <Route path="/wantedDetail" element={<WantedDetailPage />}></Route>
+        <Route path="/setting" element={<Setting />}></Route>
       </Routes>
     </>
   );

@@ -14,6 +14,7 @@ const { kakao } = window;
 const TrackingMap = () => {
   const [myMap, setMyMap] = useState(null);
   const [line, setLine] = useState([]);
+
   const dispatch = useDispatch();
   const { lat, lon, walkDetailInfo } = useSelector((state) => state.mapping);
 

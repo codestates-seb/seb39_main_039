@@ -1,5 +1,6 @@
 package com.albamung.user.entity;
 
+import com.albamung.checklist.entity.SavedCheckList;
 import com.albamung.helper.audit.BaseEntityDate;
 import com.albamung.pet.entity.Pet;
 import com.albamung.walk.entity.Walk;
@@ -59,6 +60,10 @@ public class User extends BaseEntityDate {
     private String refreshToken;
     @ColumnDefault("0")
     private Long grade;
+
+    private String phone;
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
+    private List<SavedCheckList> savedCheckList;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
     private List<Walk> walkOwnerList;

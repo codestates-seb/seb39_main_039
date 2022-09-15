@@ -29,18 +29,9 @@ public class WalkDto {
 
     @Getter
     @Builder
-    @ApiModel("새 산책 생성")
-    public static class Post{
-        private LocalDateTime startTime;
-        private LocalDateTime endTime;
-        private List<String> checkListContent;
-        private List<Long> petId;
-    }
-
-    @Getter
-    @Builder
     public static class PutCoord{
         private String coord;
+        private int distance;
     }
 
     @Getter

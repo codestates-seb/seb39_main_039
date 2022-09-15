@@ -21,6 +21,23 @@ export const ButtonPrimary = styled.button`
   }
 `;
 
+export const ButtonPrimaryXS = styled(ButtonPrimary)`
+  width: auto;
+  padding: 8px 9px 7px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size:15px;
+
+  &:hover {
+    background-color: var(--primary-active);
+  }
+
+  &:disabled {
+    background-color: var(--gray-200);
+    color: var(--gray-400);
+  }
+`;
+
 export const ButtonPrimaryLine = styled(ButtonPrimary)`
   background-color: var(--white-000);
   border-color: var(--primary);

@@ -58,6 +58,7 @@ public class UserController {
 
     @PutMapping("/editDefault")
     public ResponseEntity putUserDefault(@RequestBody UserDto.PutDefault requestBody, @AuthenticationPrincipal @ApiIgnore User user) {
+        if(user==null) user = User.builder().id(1L).build();
 
         User putUser = mapper.putToUser(requestBody);
         User editedUser = userService.putUserDefault(putUser, user.getId());

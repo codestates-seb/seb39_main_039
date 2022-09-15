@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -28,6 +29,16 @@ public class PetService {
         User owner = userService.verifyUser(ownerId);
         pet.setOwner(owner);
         return petRepository.save(pet);
+    }
+
+    public Pet editPet(Pet pet, Long petId, Long ownerId){
+        Pet targetPet = verifyPet(petId);
+        Optional.ofNullable(pet.getBirthday()).ifPresent(targetPet::setBirthday);
+        Optional.ofNullable(pet.getSex()).ifPresent(targetPet::setSex);
+        Optional.ofNullable(pet.getSpecies()).ifPresent(targetPet::setSpecies);
+        Optional.ofNullable(pet.getName()).ifPresent(targetPet::setName);
+
+        return targetPet;
     }
     public Pet verifyPet(Long petId){
         return petRepository.findById(petId).orElseThrow(()->new CustomException("반려견 ID가 잘못 되었거나 존재하지 않는 반려견 정보입니다",HttpStatus.NO_CONTENT));

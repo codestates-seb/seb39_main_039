@@ -37,15 +37,25 @@ public class PetController {
     @PostMapping("/create")
     public ResponseEntity postPet(@AuthenticationPrincipal @ApiIgnore User owner,
                                   @RequestBody @Valid PetDto.Post request) {
-        if(owner==null) owner = User.builder().id(1L).build();
+        if (owner == null) owner = User.builder().id(1L).build();
         petService.savePet(petMapper.postToPet(request), owner.getId());
         return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    @ApiOperation(value = "반려견 정보 수정")
+    @PutMapping("/{pet_Id}/edit")
+    public ResponseEntity putPet(@AuthenticationPrincipal @ApiIgnore User owner,
+                                 @RequestBody @Valid PetDto.Put request,
+                                 @PathVariable("pet_Id") Long petId) {
+        if (owner == null) owner = User.builder().id(1L).build();
+        Pet editedPet = petService.editPet(petMapper.putToPet(request), petId, owner.getId());
+        return new ResponseEntity<>(editedPet.getId(), HttpStatus.OK);
     }
 
     @ApiOperation(value = "반려견 간단 내역 조회", notes = "구인 글 작성 시 불러올 반려견 정보")
     @GetMapping("/simple_list")
     public ResponseEntity getSimplePetList(@AuthenticationPrincipal @ApiIgnore User owner) {
-        if(owner==null) owner = User.builder().id(1L).build();
+        if (owner == null) owner = User.builder().id(1L).build();
         List<Pet> petList = petService.getPetList(owner.getId());
         List<PetDto.SimpleResponse> response = petList.stream().map(petMapper::toSimpleResponse).collect(Collectors.toList());
 
@@ -55,10 +65,10 @@ public class PetController {
     @ApiOperation(value = "반려견 상세 조회", notes = "견주 페이지 반려견 목록(모든 반려견 정보 및 산책 내역 포함)")
     @GetMapping("/detail_list")
     public ResponseEntity getDetailPetList(@AuthenticationPrincipal @ApiIgnore User owner) {
-        if(owner==null) owner = User.builder().id(1L).build();
+        if (owner == null) owner = User.builder().id(1L).build();
         List<Pet> petList = petService.getPetList(owner.getId());
         List<PetDto.DetailResponse> response = petList.stream().map(petMapper::toDetailResponse).collect(Collectors.toList());
 
-        return new ResponseEntity<>(response,HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

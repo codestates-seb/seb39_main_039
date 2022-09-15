@@ -47,6 +47,7 @@ public class WalkController {
     @PostMapping("/create")
     public ResponseEntity postWalk(@RequestBody @Valid WalkDto.Post request,
                                    @AuthenticationPrincipal @ApiIgnore User owner){
+        if(owner==null) owner = User.builder().id(1L).build();
         Walk walk = walkMapper.postToWalk(request);
         Long response = walkService.saveWalk(walk, request.getPetId(), request.getCheckListContent(), owner.getId()).getId();
 
@@ -58,6 +59,7 @@ public class WalkController {
     public ResponseEntity putCoord(@AuthenticationPrincipal @ApiIgnore User walker,
                                    @PathVariable("walk_id") @Positive Long walkId,
                                    @RequestBody @Valid WalkDto.PutCoord request){
+        if(walker==null) walker = User.builder().id(1L).build();
         String coord = request.getCoord();
         walkService.putCoord(walkId,coord,walker.getId());
         return new ResponseEntity<>(HttpStatus.OK);
@@ -69,6 +71,7 @@ public class WalkController {
                                      @PathVariable("walk_id") @Positive Long walkId,
                                      @PathVariable("checklist_id") @Positive Long checkListId,
                                      @RequestBody @NotNull boolean check){
+        if(walker==null) walker = User.builder().id(1L).build();
         walkService.checkCheckList(walkId,checkListId,check,walker.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -78,6 +81,7 @@ public class WalkController {
     public ResponseEntity matchWalker(@AuthenticationPrincipal @ApiIgnore User owner,
                                       @PathVariable("walk_id") @Positive Long walkId,
                                       @RequestBody @Positive Long walkerId){
+        if(owner==null) owner = User.builder().id(1L).build();
         walkService.matchWalker(walkId,walkerId,owner.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -86,6 +90,7 @@ public class WalkController {
     @PutMapping("/{walk_id}/end")
     public ResponseEntity endWalk(@AuthenticationPrincipal @ApiIgnore User owner,
                                   @PathVariable("walk_id") @Positive Long walkId){
+        if(owner==null) owner = User.builder().id(1L).build();
 
         return new ResponseEntity<>(walkService.endWalk(walkId, owner.getId()),HttpStatus.OK);
     }

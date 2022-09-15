@@ -4,11 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { faCakeCandles } from '@fortawesome/free-solid-svg-icons';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import Slider from "react-slick";
 import ListThumbnail from "../../components/PlaceList";
 import sexIconMale from '../../assets/img/sexIcon-male.svg';
 import sexIconFemale from '../../assets/img/sexIcon-female.svg';
 import Arrows from '../../assets/img/arrows.svg';
-
 
 const OwnerMain = () => {
     return(
@@ -23,39 +23,75 @@ const OwnerMain = () => {
             </Header>
             <Section>
                 <DogSlide>
-                    <div>
-                        <DogProfile>
-                            <span className="photo-ring">
-                                <img src={'https://avatars.githubusercontent.com/u/9497404?v=4'} className={`img-circle`} alt="" />
-                            </span>
-                            <div className="dog-info">
-                                <span>시바견</span>
-                                {/* strong에 성별 값 className으로 주기 male, female */}
-                                <strong className="male">춘식</strong> 
-                                <em><FontAwesomeIcon icon={faCakeCandles}/> 2022.07.01<i>1세</i></em>
-                            </div>
-                        </DogProfile>
-                        <WalkState>
-                            <NotWalk>
-                                <p>춘식이는 산책중이 아니에요.</p>
-                            </NotWalk>
-                            <Walking>
-                                <div>
-                                    <p>이지은 님과 산책중..</p>
-                                    <small>09.15 오후 4:00까지</small><small>수행률 70%</small>
+                    <Slider {...settings}>
+                        <div>
+                            <DogProfile>
+                                <span className="photo-ring">
+                                    <img src={'https://avatars.githubusercontent.com/u/9497404?v=4'} className={`img-circle`} alt="" />
+                                </span>
+                                <div className="dog-info">
+                                    <span>시바견</span>
+                                    {/* strong에 성별 값 className으로 주기 male, female */}
+                                    <strong className="male">춘식</strong> 
+                                    <em><FontAwesomeIcon icon={faCakeCandles}/> 2022.07.01<i>1세</i></em>
                                 </div>
-                            </Walking>
-                            <WalkHistory>
-                                <div>
-                                    <p>지난 산책 내역</p>
-                                    <small>총 13km</small>
+                            </DogProfile>
+                            <WalkState>
+                                <NotWalk>
+                                    <p>춘식이는 산책중이 아니에요.</p>
+                                </NotWalk>
+                                <Walking>
+                                    <div>
+                                        <p>이지은 님과 산책중..</p>
+                                        <small>09.15 오후 4:00까지</small><small>수행률 70%</small>
+                                    </div>
+                                </Walking>
+                                <WalkHistory>
+                                    <div>
+                                        <p>지난 산책 내역</p>
+                                        <small>총 13km</small>
+                                    </div>
+                                    <div>
+                                        <b>3</b>건
+                                    </div>
+                                </WalkHistory>
+                            </WalkState>
+                        </div>
+
+                        <div>
+                            <DogProfile>
+                                <span className="photo-ring">
+                                    <img src={'https://avatars.githubusercontent.com/u/9497404?v=4'} className={`img-circle`} alt="" />
+                                </span>
+                                <div className="dog-info">
+                                    <span>시바견</span>
+                                    {/* strong에 성별 값 className으로 주기 male, female */}
+                                    <strong className="male">춘식</strong> 
+                                    <em><FontAwesomeIcon icon={faCakeCandles}/> 2022.07.01<i>1세</i></em>
                                 </div>
-                                <div>
-                                    <b>3</b>건
-                                </div>
-                            </WalkHistory>
-                        </WalkState>
-                    </div>
+                            </DogProfile>
+                            <WalkState>
+                                <NotWalk>
+                                    <p>춘식이는 산책중이 아니에요.</p>
+                                </NotWalk>
+                                <Walking>
+                                    <div>
+                                        <p>이지은 님과 산책중..</p>
+                                        <small>09.15 오후 4:00까지</small><small>수행률 70%</small>
+                                    </div>
+                                </Walking>
+                                <WalkHistory>
+                                    <div>
+                                        <p>지난 산책 내역</p>
+                                        <small>총 13km</small>
+                                    </div>
+                                    <div>
+                                        <b>3</b>건
+                                    </div>
+                                </WalkHistory>
+                            </WalkState>
+                        </div>
+                    </Slider>
                 </DogSlide>
             </Section>
             <Section>
@@ -72,6 +108,16 @@ const OwnerMain = () => {
 }
 
 export default OwnerMain
+
+const settings = {
+    dots: true,  // 점은 안 보이게
+    infinite: false, // 무한으로 즐기게
+    speed: 2000,
+    autoplay:false,
+    slidesToShow: 1, //4장씩 보이게 해주세요
+    slidesToScroll: 1, //1장씩 넘어가세요
+};
+
 
 const Header = styled.div`
     display: flex;

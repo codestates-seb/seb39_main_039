@@ -1,7 +1,11 @@
 import { createGlobalStyle } from "styled-components";
-import "./assets/fonts/font.css";
 import colorVariables from "./assets/style/colorVariables";
+import "./assets/fonts/font.css";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
 import reset from "styled-reset";
+
 
 const GlobalStyle = createGlobalStyle`
    ${reset}

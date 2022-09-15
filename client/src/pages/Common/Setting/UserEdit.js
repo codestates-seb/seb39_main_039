@@ -1,14 +1,17 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { Header } from "../../../components/Layout/Header";
+import { HeaderConfirm } from "../../../components/Layout/Header";
 import noImage from '../../../assets/img/noImage.svg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
 const UserEdit = () => {
+    const ClickHandler = () =>{
+        console.log('확인');
+    }
     return(
         <div className="container">
-            <Header pageTitle={'나의 기본정보 수정'} />
+            <HeaderConfirm pageTitle={'나의 기본정보 수정'} ConfirmName={'확인'} ClickHandler={ClickHandler}/>
             <UserInfo>
                 <div className="user-con">
                     <UserPhoto>
@@ -47,7 +50,7 @@ const Form = styled.div`
 
 const UserInfo = styled.section`
     text-align: center;
-    padding:10px 0 30px;
+    padding:10px 0 3px;
 `
 
 const UserPhoto = styled.div`

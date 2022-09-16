@@ -5,8 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { NextArrow, PrevArrow } from "../../components/Button/SliderArrowButton";
-import PlaceList from "../../components/PlaceList";
 import { DogCard, AnonymousDogCard } from "../../components/DogCard";
+import PlaceList from "../../components/PlaceList";
+import Nav from "../../components/Layout/Nav";
 
 const OwnerMain = () => {
     const settings = {
@@ -51,6 +52,8 @@ const OwnerMain = () => {
                 <h3>주변 강아지 동반 카페 <small><FontAwesomeIcon icon={faLocationDot}/> 강남구</small></h3>
                 <PlaceList />
             </InfoSection>
+
+            <Nav />
         </div>
     )
 }

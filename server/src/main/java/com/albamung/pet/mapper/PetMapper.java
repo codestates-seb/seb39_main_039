@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {WalkMapper.class})
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface PetMapper {
     @Mapping(source = "id", target = "petId")
     @Mapping(source = "name", target = "petName")
@@ -15,6 +15,7 @@ public interface PetMapper {
     PetDto.SimpleResponse toSimpleResponse(Pet pet);
 
     Pet postToPet(PetDto.Post post);
+    Pet putToPet(PetDto.Put put);
     @Mapping(source = "id", target = "petId")
     @Mapping(source = "name", target = "petName")
     @Mapping(source = "picture", target = "petPicture")

@@ -86,20 +86,4 @@ public class WantedService {
 }
 
 
-//    /**
-//     * 산책 생성
-//     */
-//    public Walk saveWalk(Walk walk, Long ownerId){
-//        // 견주 설정
-//        walk.setOwner(userService.verifyUser(ownerId));
-//        //SQL QUERY CONCAT을 쓰기 위해 초기값 하나 설정, 응답 시 첫 값 빼고 보내줌
-//        walk.setCoord("0");
-//        // 체크리스트 입력
-//        walk.setCheckListByContents(checkListContents);
-//        // 산책시킬 강아지 입력
-//        if(petIdList.size()==0) throw new CustomException("산책 시킬 강아지를 하나 이상 선택해야 합니다.", HttpStatus.BAD_REQUEST);
-//        petIdList.forEach(petId ->{
-//            walk.addPetList(petService.verifyPet(petId));
-//        });
-//        return walkRepository.save(walk);
-//    }
+

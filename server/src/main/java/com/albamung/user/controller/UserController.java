@@ -6,6 +6,7 @@ import com.albamung.user.entity.User;
 import com.albamung.user.mapper.UserMapper;
 import com.albamung.user.service.UserService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ import javax.validation.constraints.Positive;
 
 @Api(tags = {"3.User"})
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 @Validated
 @Slf4j
 public class UserController {
@@ -31,11 +32,20 @@ public class UserController {
         this.mapper = mapper;
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/signUp")
     public ResponseEntity signup(@RequestBody @Valid UserDto.Signup signUpInfo) {
         User user = mapper.signupToUser(signUpInfo);
         String displayName = userService.signup(user);
         return new ResponseEntity<>(displayName, HttpStatus.CREATED);
+    }
+
+    @ApiOperation(value = "사용자 기본 정보 조회", notes = "사용자 기본 정보 수정 때 얹어놓을 정보나, 햄버거 등에서 쓸만한 간단한 정보(이름, 폰, 이멜, 사진, 닉넴)")
+    @GetMapping("/myInfo")
+    public ResponseEntity getMyInfo(@AuthenticationPrincipal @ApiIgnore User loginUser) {
+        if(loginUser==null) loginUser = User.builder().id(1L).build();
+        if (loginUser == null) throw new CustomException("Please Login First", HttpStatus.FORBIDDEN);
+        UserDto.DefaultResponse response = mapper.toDefaultResponse(userService.getUserInfo(loginUser.getId()));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 //    @PostMapping("/refresh")
@@ -50,21 +60,15 @@ public class UserController {
 //        return new ResponseEntity<>(new PagingResponseDto<>(mapper.usersToResponses(users.getContent()), users), HttpStatus.OK);
 //    }
 
-    @GetMapping("/{user_id}")
-    public ResponseEntity getUserInfo(@PathVariable("user_id") @Positive Long userId) {
-        User user = userService.getUserInfo(userId);
-        return new ResponseEntity<>(mapper.userToResponse(user), HttpStatus.OK);
-    }
+    @ApiOperation(value = "사용자 기본 정보 수정")
+    @PutMapping("/editDefault")
+    public ResponseEntity putUserDefault(@RequestBody UserDto.PutDefault requestBody, @AuthenticationPrincipal @ApiIgnore User user) {
+        if(user==null) user = User.builder().id(1L).build();
 
-    @PutMapping("/edit")
-    public ResponseEntity putUserInfo(@RequestBody UserDto.Put requestBody, @AuthenticationPrincipal @ApiIgnore User user) {
-        Long loginUserId = user.getId();
-
-        requestBody.setId(loginUserId);
         User putUser = mapper.putToUser(requestBody);
-        String link = userService.putUserInfo(putUser, loginUserId);
+        User editedUser = userService.putUserDefault(putUser, user.getId());
 
-        return new ResponseEntity<>(link, HttpStatus.OK);
+        return new ResponseEntity<>(editedUser.getId(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{user_id}/delete")
@@ -72,28 +76,4 @@ public class UserController {
         userService.deleteUser(userId, user.getId());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-    @GetMapping("/myinfo")
-    public ResponseEntity getMyInfo(@AuthenticationPrincipal @ApiIgnore User loginUser) {
-        if (loginUser == null) throw new CustomException("Please Login First", HttpStatus.FORBIDDEN);
-        UserDto.Response response = mapper.userToResponse(userService.getUserInfo(loginUser.getId()));
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-//    @GetMapping("/myinfo/bookmarks")
-//    public ResponseEntity getMyBookmarks(@AuthenticationPrincipal @ApiIgnore User loginUser) {
-//        if (loginUser == null) throw new CustomException("Please Login First", HttpStatus.FORBIDDEN);
-//        User user = userService.verifyUser(loginUser.getId());
-//
-//        List<QuestionDto.Response> bookmarkedQuestionList = questionMapper.questionsToReponses(user.getBookmarkQuestionList().stream().map(BookmarkQuestion::getQuestion).collect(Collectors.toList()));
-//
-//        return new ResponseEntity<>(new PagingResponseDto<>(bookmarkedQuestionList, new PageImpl(bookmarkedQuestionList)), HttpStatus.OK);
-//    }
-
-
-//    @GetMapping("/{user_id}")
-//    public ResponseEntity getUserQuestions(@PathVariable("user_id") @Positive Long userId) {
-//        List<Question> questionList = userService.getUserQuestions(userId);
-//        return new ResponseEntity<>(questionMapper.questionsToReponses(questionList), HttpStatus.OK);
-//    }
 }

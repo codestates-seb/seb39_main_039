@@ -11,7 +11,9 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -31,9 +33,11 @@ public class Pet {
     @ColumnDefault("\"https://image.shutterstock.com/image-photo/adorable-cute-puppy-welsh-corgi-600w-1814695991.jpg\"")
     private String picture;
     @ColumnDefault("CURRENT_TIMESTAMP")
-    private LocalDateTime birthday;
-    private char sex;
+    private Date birthday;
+    private String sex;
     private String species;
+    @Column(columnDefinition = "TEXT")
+    private String aboutPet;
 
     @ManyToMany(targetEntity = Walk.class, mappedBy = "petList")
     private List<Walk> walkList;
@@ -44,5 +48,14 @@ public class Pet {
 
     public void addWalkList(Walk walk){
         this.walkList.add(walk);
+    }
+
+    public int getWalkCount(){
+        if(this.walkList == null) return 0;
+        return this.walkList.size();
+    }
+    public int getWalkDistance(){
+        if(this.walkList == null) return 0;
+        return this.walkList.stream().mapToInt(Walk::getDistance).sum();
     }
 }

@@ -5,10 +5,10 @@ import {
   WantedDetail,
   WalkingLists,
   Setting,
-  UserEdit, 
-  DogEdit, 
+  UserEdit,
+  DogEdit,
   DogAdd,
-  WalkerEdit,
+  WalkerEdit
 } from "./Common";
 import { Login, SignUp, Terms } from "./Register";
 import OwnerMain from "./Owners/OwnerMain";

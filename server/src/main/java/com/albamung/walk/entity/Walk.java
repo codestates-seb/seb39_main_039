@@ -65,7 +65,7 @@ public class Walk extends BaseEntityDate {
     public List<String> getCoord(){
         if(this.coord == null) return null;
         List<String> coordList = Arrays.asList(this.coord.split(","));
-        coordList.remove(0);
+        coordList.get(0);
         return coordList;
     }
 

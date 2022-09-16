@@ -14,6 +14,8 @@ import pauseWalking from "../../assets/img/pauseWalking.svg";
 import stopWalking from "../../assets/img/stopWalking.svg";
 import restartWalking from "../../assets/img/restartWalking.svg";
 import takeAPicture from "../../assets/img/takeAPicture.svg";
+import Time from "../Time";
+import InfoPanel from "../InfoPanel";
 
 const { kakao } = window;
 
@@ -21,6 +23,8 @@ const TrackingMap = () => {
   const [myMap, setMyMap] = useState(null);
   const [line, setLine] = useState([]);
   const [isPauseWalk, setIsPauseWalk] = useState(false);
+  const [lineForDistance, setLineForDistance] = useState([]);
+  const [dis, setDis] = useState(0);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,22 +32,13 @@ const TrackingMap = () => {
     (state) => state.mapping
   );
   const distance = 20;
-  function setGeolocation() {
+
+  function getGeolocation() {
     let geolocation = navigator.geolocation.watchPosition(
       function (position) {
         dispatch(
           getLocation(position.coords.latitude, position.coords.longitude)
         );
-
-        if (!isPauseWalk && isWalk) {
-          dispatch(
-            sendLocation(
-              position.coords.latitude,
-              position.coords.longitude,
-              distance
-            )
-          );
-        }
       },
       function (error) {
         console.log(error);
@@ -56,9 +51,7 @@ const TrackingMap = () => {
     );
   }
 
-  console.log(isWalk, lat, lon);
-
-  let container, options, moveLatLon;
+  let container, options, moveLatLon, dist;
 
   const drawMap = async () => {
     options = {
@@ -66,7 +59,6 @@ const TrackingMap = () => {
       level: 3 //지도의 레벨(확대, 축소 정도)
     };
     container = document.getElementById("myMap");
-
     setMyMap(new kakao.maps.Map(container, options));
   };
 
@@ -88,26 +80,67 @@ const TrackingMap = () => {
   };
 
   useInterval(() => {
-    setGeolocation();
+    getGeolocation();
     if (lat && lon) {
       if (!isPauseWalk && isWalk) {
         setLine([...line, new kakao.maps.LatLng(lat, lon)]);
         drawLine();
       }
     }
-  }, 1000);
+  }, 5000);
+
+  function getDistance(lat1, lon1, lat2, lon2) {
+    if (lat1 === lat2 && lon1 === lon2) return 0;
+
+    let radLat1 = (Math.PI * lat1) / 180;
+    let radLat2 = (Math.PI * lat2) / 180;
+    let theta = lon1 - lon2;
+    let radTheta = (Math.PI * theta) / 180;
+    dist =
+      Math.sin(radLat1) * Math.sin(radLat2) +
+      Math.cos(radLat1) * Math.cos(radLat2) * Math.cos(radTheta);
+    if (dist > 1) dist = 1;
+
+    dist = Math.acos(dist);
+    dist = (dist * 180) / Math.PI;
+    dist = dist * 60 * 1.1515 * 1.609344 * 1000;
+    if (dist < 100) dist = Math.round(dist / 10) * 10;
+    else dist = Math.round(dist / 100) * 100;
+  }
 
   useEffect(() => {
+    setLineForDistance([...lineForDistance, [lat, lon]]);
+
+    if (lineForDistance.length > 1) {
+      setLineForDistance([lineForDistance[1], [lat, lon]]);
+      getDistance(
+        lineForDistance[0][0],
+        lineForDistance[0][1],
+        lineForDistance[1][0],
+        lineForDistance[1][1]
+      );
+    }
+    if (!isPauseWalk && isWalk && dis > 10) {
+      dispatch(sendLocation(lat, lon, distance));
+    }
+    setDis(dist);
+  }, [lat, lon]);
+
+  useEffect(() => {
+    // getGeolocation();
     drawMap();
   }, []);
 
   useEffect(() => {
-    if (lat > 0 && lon > 0) panTo();
+    if (lat > 0 && lon > 0) {
+      panTo();
+    }
   }, [lat, lon]);
 
   return (
     <MapBox>
       <Map id="myMap" style={{ width: "385px", height: "300px" }}></Map>
+
       <FunctionBtn>
         {!isWalk ? (
           <StartWalkingPet
@@ -139,6 +172,11 @@ const TrackingMap = () => {
           </>
         )}
       </FunctionBtn>
+
+      <div>
+        <Time />
+        <InfoPanel number={`${10} m`} string={"산책 거리"} />
+      </div>
     </MapBox>
   );
 };
@@ -146,7 +184,23 @@ const TrackingMap = () => {
 const MapBox = styled.div`
   background-color: white;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   transition: 500ms;
+  > div:nth-child(3) {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    > div:first-child {
+    }
+    > div:nth-child(2) {
+      > div > span {
+        letter-spacing: 10px;
+      }
+    }
+  }
 `;
 
 const Map = styled.div`
@@ -167,10 +221,12 @@ const FunctionBtn = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
+  transition: 500ms;
   > div {
     margin: 15px;
   }
+  position: absolute;
+  top: 280px;
 `;
 
 const StartWalkingPet = styled.div`
@@ -178,6 +234,11 @@ const StartWalkingPet = styled.div`
   height: 83px;
   background-image: url("${startWalking}");
   cursor: pointer;
+  transition: 500ms 20ms;
+
+  :hover {
+    transform: scale(1.04);
+  }
 `;
 
 const StopWalkingPet = styled.div`
@@ -185,6 +246,10 @@ const StopWalkingPet = styled.div`
   height: 83px;
   background-image: url("${stopWalking}");
   cursor: pointer;
+  transition: 500ms 20ms;
+  :hover {
+    transform: scale(1.04);
+  }
 `;
 
 const RestartWalkingPet = styled.div`
@@ -192,6 +257,10 @@ const RestartWalkingPet = styled.div`
   height: 60px;
   background-image: url("${restartWalking}");
   cursor: pointer;
+  transition: 500ms 20ms;
+  :hover {
+    transform: scale(1.04);
+  }
 `;
 
 const PauseWalkingPet = styled.div`
@@ -199,6 +268,10 @@ const PauseWalkingPet = styled.div`
   height: 60px;
   background-image: url("${pauseWalking}");
   cursor: pointer;
+  transition: 500ms 20ms;
+  :hover {
+    transform: scale(1.04);
+  }
 `;
 
 const TakePicturePet = styled.div`
@@ -206,6 +279,10 @@ const TakePicturePet = styled.div`
   height: 60px;
   background-image: url("${takeAPicture}");
   cursor: pointer;
+  transition: 500ms 20ms;
+  :hover {
+    transform: scale(1.04);
+  }
 `;
 
 export default TrackingMap;

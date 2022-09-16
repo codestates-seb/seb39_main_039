@@ -5,6 +5,9 @@ import com.albamung.checklist.repository.WalkCheckListRepository;
 import com.albamung.exception.CustomException;
 import com.albamung.walk.entity.Walk;
 import com.albamung.walk.repository.WalkRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,12 +70,13 @@ public class WalkService {
     /**
      * 산책의 동선 좌표 입력
      */
-    public void putCoord(Long walkId, String coord, Long loginId) {
+    public void putCoord(Long walkId, String coord, int distance, Long loginId) {
 //        Walk targetWalk = verifyWalk(walkId);
 
 //        verifyWalkUser(targetWalk, loginId);
 //        targetWalk.addCoord(coord);
         walkRepository.UpdateCoord(walkId, "," + coord);
+        walkRepository.UpdateDistance(walkId, distance);
     }
 
     /**
@@ -92,4 +96,14 @@ public class WalkService {
             throw new CustomException("알바나 견주만이 수정 가능합니다", HttpStatus.FORBIDDEN);
     }
 
+    /**
+     * 반려견에 대한 산책페이지 조회
+     */
+    public Page<Walk> getWalkListByPetId(Long petId, int page, Long ownerId) {
+        int size = 5;
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("creationDate").descending());
+        Page<Walk> walkList = walkRepository.findAllByPetListId(petId, pageRequest);
+        if(walkList == null) throw new CustomException("산책이 존재하지 않거나, 존재하지 않는 반려견 ID입니다", HttpStatus.NO_CONTENT);
+        return walkList;
+    }
 }

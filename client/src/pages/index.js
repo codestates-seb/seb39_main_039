@@ -3,7 +3,6 @@ import {
   Main,
   WantedList,
   WantedDetailPage,
-  MapForWalker,
   WalkingLists,
   Setting,
   UserEdit,
@@ -27,7 +26,6 @@ export {
   WalkerMain,
   DogEdit,
   WalkerEdit,
-  MapForWalker,
   WalkingLists,
   StartWalking
 };

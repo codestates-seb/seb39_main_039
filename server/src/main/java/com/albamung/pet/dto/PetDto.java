@@ -28,7 +28,8 @@ public class PetDto {
         private Date birthday;
         private String species;
         private String sex;
-        private List<WalkDto.SimpleResponse> walkList;
+        private int walkCount;
+        private int walkDistance;
     }
 
     @Builder

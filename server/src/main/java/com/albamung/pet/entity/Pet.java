@@ -49,4 +49,13 @@ public class Pet {
     public void addWalkList(Walk walk){
         this.walkList.add(walk);
     }
+
+    public int getWalkCount(){
+        if(this.walkList == null) return 0;
+        return this.walkList.size();
+    }
+    public int getWalkDistance(){
+        if(this.walkList == null) return 0;
+        return this.walkList.stream().mapToInt(Walk::getDistance).sum();
+    }
 }

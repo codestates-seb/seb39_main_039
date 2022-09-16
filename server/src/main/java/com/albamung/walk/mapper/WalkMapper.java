@@ -1,8 +1,8 @@
-package com.albamung.walk.dto;
+package com.albamung.walk.mapper;
 
-import com.albamung.checklist.mapper.CheckListMapper;
 import com.albamung.pet.mapper.PetMapper;
 import com.albamung.user.mapper.UserMapper;
+import com.albamung.walk.dto.WalkDto;
 import com.albamung.walk.entity.Walk;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

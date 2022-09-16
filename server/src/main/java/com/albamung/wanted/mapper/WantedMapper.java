@@ -1,7 +1,7 @@
 package com.albamung.wanted.mapper;
 
 import com.albamung.user.mapper.UserMapper;
-import com.albamung.walk.dto.WalkMapper;
+import com.albamung.walk.mapper.WalkMapper;
 import com.albamung.wanted.dto.WantedDto;
 import com.albamung.wanted.entity.Wanted;
 import org.mapstruct.Mapper;

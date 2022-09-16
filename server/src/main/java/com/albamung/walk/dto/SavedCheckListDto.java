@@ -1,14 +1,11 @@
-package com.albamung.checklist.dto;
+package com.albamung.walk.dto;
 
 import lombok.Builder;
-import lombok.Getter;
 
-public class WalkCheckListDto {
+public class SavedCheckListDto {
     @Builder
-    @Getter
     public static class Response{
         private Long checkListId;
         private String content;
-        private boolean checked;
     }
 }

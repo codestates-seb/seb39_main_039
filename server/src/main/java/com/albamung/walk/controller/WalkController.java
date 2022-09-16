@@ -4,7 +4,7 @@ package com.albamung.walk.controller;
 import com.albamung.dto.PagingResponseDto;
 import com.albamung.user.entity.User;
 import com.albamung.walk.dto.WalkDto;
-import com.albamung.walk.dto.WalkMapper;
+import com.albamung.walk.mapper.WalkMapper;
 import com.albamung.walk.entity.Walk;
 import com.albamung.walk.service.WalkService;
 import io.swagger.annotations.Api;

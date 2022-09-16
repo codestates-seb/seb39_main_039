@@ -1,7 +1,7 @@
 package com.albamung.walk.service;
 
-import com.albamung.checklist.entity.WalkCheckList;
-import com.albamung.checklist.repository.WalkCheckListRepository;
+import com.albamung.walk.entity.WalkCheckList;
+import com.albamung.walk.repository.WalkCheckListRepository;
 import com.albamung.exception.CustomException;
 import com.albamung.walk.entity.Walk;
 import com.albamung.walk.repository.WalkRepository;

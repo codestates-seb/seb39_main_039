@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { Link } from "react-router-dom";
 import sexIconMale from '../assets/img/sexIcon-male.svg';
 import sexIconFemale from '../assets/img/sexIcon-female.svg';
 import anonymousDog from '../assets/img/anonymousDog.svg';
@@ -59,7 +60,7 @@ export const AnonymousDogCard = () => {
                 <div className="dog-info">
                     <div>
                         <strong className="anonymous">강아지를 등록해보세요.</strong> 
-                        <em><ButtonPrimaryXS>내 강아지 등록하기</ButtonPrimaryXS></em>
+                        <em><Link to="/dogAdd"><ButtonPrimaryXS>내 강아지 등록하기</ButtonPrimaryXS></Link></em>
                     </div>
                 </div>
             </DogProfile>

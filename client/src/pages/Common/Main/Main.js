@@ -18,8 +18,8 @@ const Main = () => {
 
                     <VisualImg />
                     <ButtonGroup>
-                        <ButtonPrimary className="icon-type">산책 맡길래요</ButtonPrimary>
-                        <ButtonPrimaryLine className="icon-type v2">산책 시킬래요</ButtonPrimaryLine>
+                        <Link to="/login"><ButtonPrimary className="icon-type">산책 맡길래요</ButtonPrimary></Link>
+                        <Link to="/login"><ButtonPrimaryLine className="icon-type v2">산책 시킬래요</ButtonPrimaryLine></Link>
                     </ButtonGroup>
                     <OptLink>
                         <li><Link to="/">서비스 요금</Link></li>
@@ -91,7 +91,10 @@ const OptLink = styled.ul`
 
 const ButtonGroup = styled.div`
     margin-top:-5px;
-    button+button{
+    a{
+        display: block;
+    }
+    a+a{
         margin-top:5px;
     }
     button{

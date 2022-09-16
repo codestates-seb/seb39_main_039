@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { Header } from "../../components/Layout/Header";
 import { DogNameLabelType2 } from "../../components/DogNameLabel";
 import { ButtonPrimary } from "../../components/Button/Buttons";
@@ -11,6 +12,7 @@ import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 import { ko } from "date-fns/esm/locale";
 import { useInputAutoHeight } from "../../hooks/useInput";
+
 
 const WantedCreate = (  ) => {
     const [checkItemContent, lineHeight, checkItemChangeHandler, checkItemEnterHandler] = useInputAutoHeight('');
@@ -124,7 +126,7 @@ const WantedCreate = (  ) => {
                     <textarea className="ipt-form" placeholder="기타 주의사항을 입력해주세요."></textarea>
                 </Section>
 
-                <ButtonPrimary>등록하기</ButtonPrimary>
+                <Link to="/wantedDetail"><ButtonPrimary>등록하기</ButtonPrimary></Link>
             </Form>
         </div>
     )

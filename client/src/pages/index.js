@@ -14,6 +14,7 @@ import {
 import { Login, SignUp, Terms } from "./Register";
 import OwnerMain from "./Owners/OwnerMain";
 import WantedCreate from "./Owners/WantedCreate";
+import WalkerHistory from "./Owners/WalkerHistory";
 import WalkerMain from "./Walkers/WalkerMain";
 
 export {
@@ -27,6 +28,7 @@ export {
     OwnerMain,
     Setting,
     UserEdit,
+    WalkerHistory,
     WalkerMain,
     DogEdit,
     DogAdd,

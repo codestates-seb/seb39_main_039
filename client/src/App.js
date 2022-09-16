@@ -10,6 +10,7 @@ import {
   OwnerMain,
   MapForWalker,
   WalkingLists,
+  WalkerHistory,
   Setting,
   UserEdit,
   WalkerMain,
@@ -34,6 +35,7 @@ function App() {
           element={<WalkingLists />}
         ></Route>
         <Route path="/walkerMain" element={<WalkerMain />}></Route>
+        <Route path="/wantedHistory" element={<WalkerHistory />}></Route>
         <Route path="/wantedCreate" element={<WantedCreate />}></Route>
         <Route path="/wantedList" element={<WantedList />}></Route>
         <Route path="/wantedDetail" element={<WantedDetail />}></Route>

@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import sampleMap from '../assets/img/sample-map.png';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPersonWalking } from '@fortawesome/free-solid-svg-icons';
+import { faPaw } from '@fortawesome/free-solid-svg-icons';
 
-const HistoryCard = () => {
+const HistoryCard = ({fellow}) => {
     return(
         <Card>
             <span className="history-img">
@@ -12,7 +12,7 @@ const HistoryCard = () => {
             <div className="history-info">
                 <div className="i1">
                     <p>9월 10일 토요일</p>
-                    <i><FontAwesomeIcon icon={faPersonWalking} />이지은</i>
+                    <i><FontAwesomeIcon icon={faPaw} />{fellow}</i>
                 </div>
                 <div className="i2">
                     <em className="label">산책</em>

@@ -8,10 +8,10 @@ const WalkerHistory = () =>{
         <div className="container bg-gray">
             <Header pageTitle={'춘식이 지난 산책 내역'} />
             <List>
-                <li> <HistoryCard /> </li>
-                <li> <HistoryCard /> </li>
-                <li> <HistoryCard /> </li>
-                <li> <HistoryCard /> </li>
+                <li> <HistoryCard fellow={'이지은'}/> </li>
+                <li> <HistoryCard fellow={'이지은'}/> </li>
+                <li> <HistoryCard fellow={'이지은'}/> </li>
+                <li> <HistoryCard fellow={'이지은'}/> </li>
             </List>
         </div>
     )

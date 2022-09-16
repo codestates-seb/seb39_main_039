@@ -43,10 +43,11 @@ const GlobalStyle = createGlobalStyle`
    .img-circle{border-radius: 100px;}
    .img-circle.xs{width:25px;}
    .img-circle.sm{ width:35px;}
-   .pb20{padding-bottom:20px;}
-   .pt0{padding-top:0}
-   .pb0{padding-bottom:0}
-   .bb0{border-bottom:0}
+   .pb20{padding-bottom:20px !important}
+   .pt0{padding-top:0 !important}
+   .pt10{padding-top:10px !important}
+   .pb0{padding-bottom:0 !important}
+   .bb0{border-bottom:0 !important}
 
 
 
@@ -75,7 +76,7 @@ const GlobalStyle = createGlobalStyle`
    }
 
    .ipt-group{
-      margin-bottom:23px;
+      margin-bottom:25px;
    }
 
    .ipt-form, .react-datepicker__input-container input{
@@ -108,6 +109,13 @@ const GlobalStyle = createGlobalStyle`
       padding-bottom:6px;
    }
 
+   .ipt-label-sm{
+      display: block;
+      font-size:13px;
+      color:var(--gray-600);
+      padding:12px 0 3px;
+   }
+
    .ipt-unit{
       position:relative;
       input{
@@ -131,6 +139,26 @@ const GlobalStyle = createGlobalStyle`
          background:url('${calendar}');
          background-repeat: no-repeat;
          background-position:20px 50%;
+   }
+
+   .react-datepicker__month-container{
+      float:none;
+   }
+   
+   .react-datepicker__time-container{
+      float:none;
+      width:100%;
+      padding:0 15px 20px;
+      border-left:0;
+      margin-top: -5px;
+   }
+
+   .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box{
+      width:100%
+   }
+
+   .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list{
+      height:150px !important
    }
 
    .react-datepicker{
@@ -177,9 +205,28 @@ const GlobalStyle = createGlobalStyle`
       left: 30px;
    }
 
-   .react-datepicker__navigation--next{
+   .react-datepicker__navigation--next, .react-datepicker__navigation--next--with-time:not(.react-datepicker__navigation--next--with-today-button){
       top: 15px;
       right: 30px;
    }
+
+   .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected{
+      background-color: var(--primary);
+      border-radius: 7px;
+   }
+
+   .react-datepicker__header--time:not(.react-datepicker__header--time--only){
+      display: none;
+   }
+   .react-datepicker__time-container .react-datepicker__time{
+      padding:10px 20px;
+      background-color:var(--gray-100);
+      border-radius: 10px;
+   }
+   .react-datepicker__time-list-item {
+      margin: 5px 0;
+      font-size:16px
+   }
+
 `
 export default GlobalStyle;

@@ -1,10 +1,23 @@
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Header } from "../../components/Layout/Header";
 import { DogNameLabelType2 } from "../../components/DogNameLabel";
 import { ButtonPrimary } from "../../components/Button/Buttons";
 import checkedIcon from '../../assets/img/checkedIcon.svg';
+import DatePicker from 'react-datepicker';
+import setHours from "date-fns/setHours";
+import setMinutes from "date-fns/setMinutes";
+import { ko } from "date-fns/esm/locale";
 
 const WantedCreate = () => {
+    const [startDate, setStartDate] = useState(
+        setHours(setMinutes(new Date(), 30), 17)
+    );
+
+    const [endDate, setEndDate] = useState(
+        setHours(setMinutes(new Date(), 30), 17)
+    );
+
     return(
         <div className="container">
             <Header pageTitle={'구인 글 작성'} />
@@ -31,7 +44,27 @@ const WantedCreate = () => {
 
                     <div className="ipt-group">
                         <label htmlFor="" className="ipt-label">산책 희망 시간</label>
-                        
+                        <small className="ipt-label-sm pt10">시작 시간</small>
+                        <DatePicker
+                            locale={ko}
+                            selected={startDate}
+                            onChange={(date) => setStartDate(date)}
+                            showTimeSelect
+                            minTime={setHours(setMinutes(new Date(), 0), 17)}
+                            maxTime={setHours(setMinutes(new Date(), 30), 40)}
+                            dateFormat=" yyyy년 MMMM d일,  aa h:mm"
+                        />
+
+                        <small className="ipt-label-sm">종료 시간</small>
+                        <DatePicker
+                            locale={ko}
+                            selected={endDate}
+                            onChange={(date) => setEndDate(date)}
+                            showTimeSelect
+                            minTime={setHours(setMinutes(new Date(), 0), 17)}
+                            maxTime={setHours(setMinutes(new Date(), 30), 40)}
+                            dateFormat=" yyyy년 MMMM d일,  aa h:mm"
+                        />
                     </div>
 
                     <div className="ipt-group">

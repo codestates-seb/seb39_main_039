@@ -51,5 +51,6 @@ public class PetDto {
         private Date birthday;
         private String sex;
         private String species;
+        private String aboutPet;
     }
 }

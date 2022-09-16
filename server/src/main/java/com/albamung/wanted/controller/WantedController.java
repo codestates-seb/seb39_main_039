@@ -1,5 +1,6 @@
 package com.albamung.wanted.controller;
 
+import com.albamung.dto.PagingResponseDto;
 import com.albamung.user.entity.User;
 import com.albamung.wanted.dto.WantedDto;
 import com.albamung.wanted.entity.Wanted;
@@ -18,6 +19,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 @RestController
 @RequestMapping("/wanted")
@@ -61,8 +63,8 @@ public class WantedController {
         if (page == null) page = 1L;
         if (filter == null) filter = "none";
 
-        Page<Wanted> wantedList = wantedService.getWantedList((int)(page - 1), sort, filter);
-
-        return new ResponseEntity<>(wantedList.getContent(),HttpStatus.OK);
+        Page<Wanted> wantedList = wantedService.getWantedList((int) (page - 1), sort, filter);
+        List<WantedDto.DetailResponse> response = wantedMapper.toDetailResponseList(wantedList.getContent());
+        return new ResponseEntity<>(new PagingResponseDto<>(response, wantedList), HttpStatus.OK);
     }
 }

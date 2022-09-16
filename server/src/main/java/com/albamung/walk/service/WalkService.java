@@ -95,9 +95,14 @@ public class WalkService {
             throw new CustomException("알바나 견주만이 수정 가능합니다", HttpStatus.FORBIDDEN);
     }
 
+    /**
+     * 반려견에 대한 산책페이지 조회
+     */
     public Page<Walk> getWalkListByPetId(Long petId, int page, Long ownerId) {
         int size = 5;
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("creationDate").descending());
-        return walkRepository.findAllByPetListId(petId, pageRequest);
+        Page<Walk> walkList = walkRepository.findAllByPetListId(petId, pageRequest);
+        if(walkList == null) throw new CustomException("산책이 존재하지 않거나, 존재하지 않는 반려견 ID입니다", HttpStatus.NO_CONTENT);
+        return walkList;
     }
 }

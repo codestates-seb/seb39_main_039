@@ -19,7 +19,7 @@ import javax.validation.constraints.Positive;
 
 @Api(tags = {"3.User"})
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 @Validated
 @Slf4j
 public class UserController {
@@ -31,7 +31,7 @@ public class UserController {
         this.mapper = mapper;
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/signUp")
     public ResponseEntity signup(@RequestBody @Valid UserDto.Signup signUpInfo) {
         User user = mapper.signupToUser(signUpInfo);
         String displayName = userService.signup(user);
@@ -56,15 +56,13 @@ public class UserController {
         return new ResponseEntity<>(mapper.userToResponse(user), HttpStatus.OK);
     }
 
-    @PutMapping("/edit")
-    public ResponseEntity putUserInfo(@RequestBody UserDto.Put requestBody, @AuthenticationPrincipal @ApiIgnore User user) {
-        Long loginUserId = user.getId();
+    @PutMapping("/editDefault")
+    public ResponseEntity putUserDefault(@RequestBody UserDto.PutDefault requestBody, @AuthenticationPrincipal @ApiIgnore User user) {
 
-        requestBody.setId(loginUserId);
         User putUser = mapper.putToUser(requestBody);
-        String link = userService.putUserInfo(putUser, loginUserId);
+        User editedUser = userService.putUserDefault(putUser, user.getId());
 
-        return new ResponseEntity<>(link, HttpStatus.OK);
+        return new ResponseEntity<>(editedUser.getId(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{user_id}/delete")
@@ -73,27 +71,10 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/myinfo")
+    @GetMapping("/myInfo")
     public ResponseEntity getMyInfo(@AuthenticationPrincipal @ApiIgnore User loginUser) {
         if (loginUser == null) throw new CustomException("Please Login First", HttpStatus.FORBIDDEN);
         UserDto.Response response = mapper.userToResponse(userService.getUserInfo(loginUser.getId()));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
-//    @GetMapping("/myinfo/bookmarks")
-//    public ResponseEntity getMyBookmarks(@AuthenticationPrincipal @ApiIgnore User loginUser) {
-//        if (loginUser == null) throw new CustomException("Please Login First", HttpStatus.FORBIDDEN);
-//        User user = userService.verifyUser(loginUser.getId());
-//
-//        List<QuestionDto.Response> bookmarkedQuestionList = questionMapper.questionsToReponses(user.getBookmarkQuestionList().stream().map(BookmarkQuestion::getQuestion).collect(Collectors.toList()));
-//
-//        return new ResponseEntity<>(new PagingResponseDto<>(bookmarkedQuestionList, new PageImpl(bookmarkedQuestionList)), HttpStatus.OK);
-//    }
-
-
-//    @GetMapping("/{user_id}")
-//    public ResponseEntity getUserQuestions(@PathVariable("user_id") @Positive Long userId) {
-//        List<Question> questionList = userService.getUserQuestions(userId);
-//        return new ResponseEntity<>(questionMapper.questionsToReponses(questionList), HttpStatus.OK);
-//    }
 }

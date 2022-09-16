@@ -27,7 +27,7 @@ public interface UserMapper {
     @Mapping(source = "profileImage", target = "walkerPicture")
     UserDto.SimpleWalkerResponse toSimpleWalkerResponse(User user);
 
-    User putToUser(UserDto.Put put);
+    User putToUser(UserDto.PutDefault put);
 
     @Mapping(source = "id", target = "ownerId")
     UserDto.SimpleOwnerResponse toSimpleOwnerResponse(User user);

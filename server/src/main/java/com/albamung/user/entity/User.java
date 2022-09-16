@@ -54,14 +54,13 @@ public class User extends BaseEntityDate {
     @Column(nullable = true)
     private String location;
 
-    @Column(nullable = true)
-    private String aboutMe;
-
     private String refreshToken;
+
     @ColumnDefault("0")
     private Long grade;
 
     private String phone;
+
     @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
     private List<SavedCheckList> savedCheckList;
 
@@ -75,11 +74,11 @@ public class User extends BaseEntityDate {
     private List<Pet> petList;
 
 
-    public List<UserRole> getRoleList() {
-        List<UserRole> roleList = new ArrayList<>();
+    public List<RoleType> getRoleList() {
+        List<RoleType> roleList = new ArrayList<>();
         if (this.roles.length() == 0) return new ArrayList<>();
         for (String s : this.roles.split(",")) {
-            roleList.add(UserRole.valueOf(s));
+            roleList.add(RoleType.valueOf(s));
         }
         return roleList;
     }

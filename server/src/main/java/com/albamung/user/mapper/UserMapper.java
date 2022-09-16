@@ -20,8 +20,8 @@ public interface UserMapper {
         return user;
     }
 
-    @Mapping(source = "id", target = "userId")
-    UserDto.Response userToResponse(User user);
+    UserDto.DefaultResponse toDefaultResponse(User user);
+
     @Mapping(source = "id", target = "walkerId")
     @Mapping(source = "nickName", target = "walkerName")
     @Mapping(source = "profileImage", target = "walkerPicture")

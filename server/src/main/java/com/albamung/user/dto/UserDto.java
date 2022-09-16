@@ -1,5 +1,6 @@
 package com.albamung.user.dto;
 
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,10 +31,21 @@ public class UserDto {
         private String nickName;
         private String profileImage;
     }
+    
+    @Getter
+    @Builder
+    public static class DefaultResponse {
+        private String fullName;
+        private String phone;
+        private String nickName;
+        private String email;
+        private String profileImage;
+    }
 
 
     @Getter
     @Setter
+    @ApiModel("회원 가입")
     public static class Signup {
         @NotBlank(message = "Display Name은 공백이 아니어야 합니다.")
         private String nickName;
@@ -50,6 +62,7 @@ public class UserDto {
 
     @Builder
     @Getter
+    @ApiModel("유저 기본 정보 수정")
     public static class PutDefault {
         private String nickName;
         @Pattern(regexp = "^010-\\d{3,4}-\\d{4}$",

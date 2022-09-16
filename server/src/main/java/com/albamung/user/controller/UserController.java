@@ -6,6 +6,7 @@ import com.albamung.user.entity.User;
 import com.albamung.user.mapper.UserMapper;
 import com.albamung.user.service.UserService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,15 @@ public class UserController {
         return new ResponseEntity<>(displayName, HttpStatus.CREATED);
     }
 
+    @ApiOperation(value = "사용자 기본 정보 조회", notes = "사용자 기본 정보 수정 때 얹어놓을 정보나, 햄버거 등에서 쓸만한 간단한 정보(이름, 폰, 이멜, 사진, 닉넴)")
+    @GetMapping("/myInfo")
+    public ResponseEntity getMyInfo(@AuthenticationPrincipal @ApiIgnore User loginUser) {
+        if(loginUser==null) loginUser = User.builder().id(1L).build();
+        if (loginUser == null) throw new CustomException("Please Login First", HttpStatus.FORBIDDEN);
+        UserDto.DefaultResponse response = mapper.toDefaultResponse(userService.getUserInfo(loginUser.getId()));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 //    @PostMapping("/refresh")
 //    public ResponseEntity refreshToken(@RequestHeader("Authorization") String accessToken, @RequestBody String refreshToken) {
 //        return new ResponseEntity<>(userService.refreshToken(accessToken, refreshToken), HttpStatus.CREATED);
@@ -50,12 +60,7 @@ public class UserController {
 //        return new ResponseEntity<>(new PagingResponseDto<>(mapper.usersToResponses(users.getContent()), users), HttpStatus.OK);
 //    }
 
-    @GetMapping("/{user_id}")
-    public ResponseEntity getUserInfo(@PathVariable("user_id") @Positive Long userId) {
-        User user = userService.getUserInfo(userId);
-        return new ResponseEntity<>(mapper.userToResponse(user), HttpStatus.OK);
-    }
-
+    @ApiOperation(value = "사용자 기본 정보 수정")
     @PutMapping("/editDefault")
     public ResponseEntity putUserDefault(@RequestBody UserDto.PutDefault requestBody, @AuthenticationPrincipal @ApiIgnore User user) {
         if(user==null) user = User.builder().id(1L).build();
@@ -70,12 +75,5 @@ public class UserController {
     public ResponseEntity deleteUser(@PathVariable("user_id") @Positive Long userId, @AuthenticationPrincipal @ApiIgnore User user) {
         userService.deleteUser(userId, user.getId());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @GetMapping("/myInfo")
-    public ResponseEntity getMyInfo(@AuthenticationPrincipal @ApiIgnore User loginUser) {
-        if (loginUser == null) throw new CustomException("Please Login First", HttpStatus.FORBIDDEN);
-        UserDto.Response response = mapper.userToResponse(userService.getUserInfo(loginUser.getId()));
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

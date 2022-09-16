@@ -5,9 +5,14 @@ import { HeaderConfirm } from "../../../components/Layout/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import { DogNameLabelType2, AnonymousLabelType2 } from "../../../components/DogNameLabel";
+import DatePicker from 'react-datepicker';
+import { DATE_FORMAT_CALENDAR } from "../../../assets/style/dateFormat";
+import { ko } from "date-fns/esm/locale";
 
 
 const DogEdit = () => {
+    const [startDate, setStartDate] = useState(new Date());
+
     const ClickHandler = () =>{
         console.log('수정 확인 함수');
     }
@@ -62,12 +67,18 @@ const DogEdit = () => {
                     </div>
                     <div className="ipt-group">
                         <label htmlFor="" className="ipt-label">강아지 생년월일</label>
-                        <input type="email" name="" className="ipt-form" />
+                        <DatePicker
+                            locale={ko}
+                            dateFormat="yyyy년 MM월 dd일 생"
+                            selected={startDate}
+                            onChange={(date) => setStartDate(date)}
+                            dateFormatCalendar={DATE_FORMAT_CALENDAR}
+                        />
                     </div>
                     <div className="ipt-group">
                         <label htmlFor="" className="ipt-label">강아지 성별</label>
                         <select className="ipt-form">
-                            <option selected>수컷</option>
+                            <option>수컷</option>
                             <option>암컷</option>
                         </select>
                     </div>

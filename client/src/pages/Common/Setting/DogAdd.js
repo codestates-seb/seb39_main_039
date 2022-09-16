@@ -7,11 +7,12 @@ import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import anonymousDog from '../../../assets/img/anonymousDog.svg';
 import { ButtonPrimary } from "../../../components/Button/Buttons";
 import DatePicker from 'react-datepicker';
+import { DATE_FORMAT_CALENDAR } from "../../../assets/style/dateFormat";
 import { ko } from "date-fns/esm/locale";
 
 const DogAdd = () => {
     const [startDate, setStartDate] = useState(new Date());
-    const DATE_FORMAT_CALENDAR = 'yyyy년 MM월';
+
     return(
         <div className="container">
             <Header pageTitle={'강아지 등록'}/>
@@ -38,7 +39,6 @@ const DogAdd = () => {
                 </div>
                 <div className="ipt-group">
                     <label htmlFor="" className="ipt-label">강아지 생년월일</label>
-                    
                     <DatePicker
                         locale={ko}
                         dateFormat="yyyy년 MM월 dd일 생"

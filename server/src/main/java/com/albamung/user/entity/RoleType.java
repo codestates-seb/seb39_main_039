@@ -2,10 +2,12 @@ package com.albamung.user.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 
-public enum UserRole implements GrantedAuthority {
-    ROLE_ADMIN("ROLE_ADMIN"), ROLE_USER("ROLE_USER");
+public enum RoleType implements GrantedAuthority {
+    ADMIN("ROLE_ADMIN"),
+    USER("ROLE_USER"),
+    GUEST("GUEST");
 
-    UserRole(String name) {
+    RoleType(String name) {
     }
 
     public String getAuthority() {

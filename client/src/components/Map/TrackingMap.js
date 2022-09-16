@@ -140,7 +140,6 @@ const TrackingMap = () => {
   return (
     <MapBox>
       <Map id="myMap" style={{ width: "385px", height: "300px" }}></Map>
-
       <FunctionBtn>
         {!isWalk ? (
           <StartWalkingPet

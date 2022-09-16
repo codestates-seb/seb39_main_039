@@ -1,8 +1,9 @@
 export { default as Main } from "./Main/Main";
 export { default as WalkingLists } from "./Map/WalkingLists";
 export { default as WantedList } from "./Wanted/WantedList";
-export { default as WantedDetailPage } from "./Wanted/WantedDetailPage";
+export { default as WantedDetail } from "./Wanted/WantedDetail";
 export { default as Setting } from "./Setting/Setting";
 export { default as UserEdit } from "./Setting/UserEdit";
 export { default as DogEdit } from "./Setting/DogEdit";
+export { default as DogAdd } from "./Setting/DogAdd";
 export { default as WalkerEdit } from "./Setting/WalkerEdit";

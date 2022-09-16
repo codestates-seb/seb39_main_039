@@ -15,9 +15,9 @@ export const DogNameLabel = ({size, name, species}) => {
     )
 }
 
-export const DogNameLabelType2 = ({name}) => {
+export const DogNameLabelType2 = ({name, size}) => {
     return (
-        <Label className="type2">
+        <Label className={`type2 ${size}`}>
             <span className="dog-photo">
                 <img src={'https://avatars.githubusercontent.com/u/9497404?v=4'} className={`img-circle xs`} alt="" />
             </span>
@@ -86,6 +86,16 @@ const Label = styled.span`
         box-shadow: 0 0 8px 0 rgba(0,0,0, .13);
         dl{
             margin-top:0;
+        }
+    }
+
+    &.type2.lg{
+        padding:4px 18px 1px 4px;
+        .dog-photo{
+            img{
+                width:34px;
+                height:34px;
+            }
         }
     }
 

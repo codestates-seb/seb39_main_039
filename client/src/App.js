@@ -5,14 +5,17 @@ import {
   SignUp,
   Terms,
   WantedList,
-  WantedDetailPage,
+  WantedDetail,
+  WantedCreate,
   OwnerMain,
   WalkingLists,
+  WalkerHistory,
   Setting,
   UserEdit,
   WalkerMain,
   StartWalking,
   DogEdit,
+  DogAdd,
   WalkerEdit
 } from "./pages";
 
@@ -31,11 +34,14 @@ function App() {
           element={<WalkingLists />}
         ></Route>
         <Route path="/walkerMain" element={<WalkerMain />}></Route>
+        <Route path="/wantedHistory" element={<WalkerHistory />}></Route>
+        <Route path="/wantedCreate" element={<WantedCreate />}></Route>
         <Route path="/wantedList" element={<WantedList />}></Route>
-        <Route path="/wantedDetail" element={<WantedDetailPage />}></Route>
+        <Route path="/wantedDetail" element={<WantedDetail />}></Route>
         <Route path="/setting" element={<Setting />}></Route>
         <Route path="/userEdit" element={<UserEdit />}></Route>
         <Route path="/dogEdit" element={<DogEdit />}></Route>
+        <Route path="/dogAdd" element={<DogAdd />}></Route>
         <Route path="/walkerEdit" element={<WalkerEdit />}></Route>
       </Routes>
     </>

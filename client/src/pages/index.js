@@ -3,7 +3,6 @@ import {
   Main,
   WantedList,
   WantedDetail,
-  MapForWalker,
   WalkingLists,
   Setting,
   UserEdit, 
@@ -15,24 +14,24 @@ import { Login, SignUp, Terms } from "./Register";
 import OwnerMain from "./Owners/OwnerMain";
 import WantedCreate from "./Owners/WantedCreate";
 import WalkerHistory from "./Owners/WalkerHistory";
-import WalkerMain from "./Walkers/WalkerMain";
+import { WalkerMain, StartWalking } from "./Walkers";
 
 export {
-    Login,
-    Main,
-    SignUp,
-    Terms,
-    WantedList,
-    WantedDetail,
-    WantedCreate,
-    OwnerMain,
-    Setting,
-    UserEdit,
-    WalkerHistory,
-    WalkerMain,
-    DogEdit,
-    DogAdd,
-    WalkerEdit,
-    MapForWalker,
-    WalkingLists,
+  Login,
+  Main,
+  SignUp,
+  Terms,
+  WantedList,
+  WantedDetail,
+  WantedCreate,
+  OwnerMain,
+  Setting,
+  UserEdit,
+  WalkerHistory,
+  WalkerMain,
+  DogEdit,
+  DogAdd,
+  WalkerEdit,
+  WalkingLists,
+  StartWalking
 };

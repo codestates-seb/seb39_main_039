@@ -38,10 +38,13 @@ export const getWalkDetailInfo = (walkerId) => {
   };
 };
 
-export const sendLocation = (lat, lon) => {
+export const sendLocation = (lat, lon, distance) => {
   return async () => {
     try {
-      const sendLocationAPI = axiosAPI.put(`/walk/1/coord`, `${lat} ${lon}`);
+      const sendLocationAPI = axiosAPI.put(`/walk/1/coord`, {
+        coord: `${lat} ${lon}`,
+        distance: `${distance}`
+      });
       let send_Location = await sendLocationAPI;
     } catch (error) {
       //에러 핸들링 하는 곳

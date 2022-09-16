@@ -5,7 +5,8 @@ import {
   SignUp,
   Terms,
   WantedList,
-  WantedDetailPage,
+  WantedDetail,
+  WantedCreate,
   OwnerMain,
   MapForWalker,
   WalkingLists,
@@ -33,8 +34,9 @@ function App() {
           element={<WalkingLists />}
         ></Route>
         <Route path="/walkerMain" element={<WalkerMain />}></Route>
+        <Route path="/wantedCreate" element={<WantedCreate />}></Route>
         <Route path="/wantedList" element={<WantedList />}></Route>
-        <Route path="/wantedDetail" element={<WantedDetailPage />}></Route>
+        <Route path="/wantedDetail" element={<WantedDetail />}></Route>
         <Route path="/setting" element={<Setting />}></Route>
         <Route path="/userEdit" element={<UserEdit />}></Route>
         <Route path="/dogEdit" element={<DogEdit />}></Route>

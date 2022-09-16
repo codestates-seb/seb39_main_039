@@ -49,7 +49,7 @@ const WantedList = () => {
                 <WantedCard />
                 <WantedCard />
                 <WantedCard />
-                <FloatingBtnAdd mid={'wandtedCreate'} />
+                <FloatingBtnAdd mid={'wantedCreate'} />
             </WantedCardList>
         </div>
     )

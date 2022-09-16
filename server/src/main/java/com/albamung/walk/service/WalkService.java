@@ -5,6 +5,9 @@ import com.albamung.checklist.repository.WalkCheckListRepository;
 import com.albamung.exception.CustomException;
 import com.albamung.walk.entity.Walk;
 import com.albamung.walk.repository.WalkRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -92,4 +95,9 @@ public class WalkService {
             throw new CustomException("알바나 견주만이 수정 가능합니다", HttpStatus.FORBIDDEN);
     }
 
+    public Page<Walk> getWalkListByPetId(Long petId, int page, Long ownerId) {
+        int size = 5;
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("creationDate").descending());
+        return walkRepository.findAllByPetListId(petId, pageRequest);
+    }
 }

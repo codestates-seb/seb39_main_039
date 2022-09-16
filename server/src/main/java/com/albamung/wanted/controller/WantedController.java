@@ -64,7 +64,7 @@ public class WantedController {
         if (filter == null) filter = "none";
 
         Page<Wanted> wantedList = wantedService.getWantedList((int) (page - 1), sort, filter);
-        List<WantedDto.DetailResponse> response = wantedMapper.toDetailResponseList(wantedList.getContent());
-        return new ResponseEntity<>(new PagingResponseDto<>(response, wantedList), HttpStatus.OK);
+        List<WantedDto.DetailResponse> items = wantedMapper.toDetailResponseList(wantedList.getContent());
+        return new ResponseEntity<>(new PagingResponseDto<>(items, wantedList), HttpStatus.OK);
     }
 }

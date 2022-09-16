@@ -1,6 +1,7 @@
 package com.albamung.walk.controller;
 
 
+import com.albamung.dto.PagingResponseDto;
 import com.albamung.user.entity.User;
 import com.albamung.walk.dto.WalkDto;
 import com.albamung.walk.dto.WalkMapper;
@@ -9,6 +10,7 @@ import com.albamung.walk.service.WalkService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,6 +21,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 @RestController
 @RequestMapping("/walk")
@@ -34,13 +37,24 @@ public class WalkController {
         this.walkMapper = walkMapper;
     }
 
-    
+
     @ApiOperation(value = "산책 세부내역 불러오기", notes = "진행중 산책, 지난 산책 세부내역 등")
     @GetMapping("/{walk_id}")
-    public ResponseEntity getDetailWalk(@PathVariable("walk_id") @Positive Long walkId){
+    public ResponseEntity getDetailWalk(@PathVariable("walk_id") @Positive Long walkId) {
         Walk walk = walkService.getWalk(walkId);
-        WalkDto.DetailResponse response = walkMapper.walkToDetailResponse(walk);
+        WalkDto.DetailResponse response = walkMapper.toDetailResponse(walk);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "각 반려견의 산책 리스트 조회")
+    @GetMapping("/walkList")
+    public ResponseEntity getPetWalkList(@AuthenticationPrincipal @ApiIgnore User owner,
+                                         @RequestParam Long petId,
+                                         @RequestParam int page) {
+        if (owner == null) owner = User.builder().id(1L).build();
+        Page<Walk> walkList = walkService.getWalkListByPetId(petId, page-1, owner.getId());
+        List<WalkDto.SimpleResponse> items = walkMapper.listToSimpleResponseList(walkList.getContent());
+        return new ResponseEntity<>(new PagingResponseDto<>(items, walkList), HttpStatus.OK);
     }
 
     /**
@@ -56,15 +70,14 @@ public class WalkController {
 //
 //        return new ResponseEntity<>(response, HttpStatus.CREATED);
 //    }
-
     @ApiOperation(value = "진행중인 산책에 좌표값 추가")
     @PutMapping("/{walk_id}/coord")
     public ResponseEntity putCoord(@AuthenticationPrincipal @ApiIgnore User walker,
                                    @PathVariable("walk_id") @Positive Long walkId,
-                                   @RequestBody @Valid WalkDto.PutCoord request){
-        if(walker==null) walker = User.builder().id(1L).build();
+                                   @RequestBody @Valid WalkDto.PutCoord request) {
+        if (walker == null) walker = User.builder().id(1L).build();
         String coord = request.getCoord();
-        walkService.putCoord(walkId,coord,walker.getId());
+        walkService.putCoord(walkId, coord, walker.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -73,9 +86,9 @@ public class WalkController {
     public ResponseEntity checkCheck(@AuthenticationPrincipal @ApiIgnore User walker,
                                      @PathVariable("walk_id") @Positive Long walkId,
                                      @PathVariable("checklist_id") @Positive Long checkListId,
-                                     @RequestBody @NotNull boolean check){
-        if(walker==null) walker = User.builder().id(1L).build();
-        walkService.checkCheckList(walkId,checkListId,check,walker.getId());
+                                     @RequestBody @NotNull boolean check) {
+        if (walker == null) walker = User.builder().id(1L).build();
+        walkService.checkCheckList(walkId, checkListId, check, walker.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -91,13 +104,12 @@ public class WalkController {
 //        walkService.matchWalker(walkId,walkerId,owner.getId());
 //        return new ResponseEntity<>(HttpStatus.OK);
 //    }
-
     @ApiOperation(value = "산책 종료")
     @PutMapping("/{walk_id}/end")
     public ResponseEntity endWalk(@AuthenticationPrincipal @ApiIgnore User owner,
-                                  @PathVariable("walk_id") @Positive Long walkId){
-        if(owner==null) owner = User.builder().id(1L).build();
+                                  @PathVariable("walk_id") @Positive Long walkId) {
+        if (owner == null) owner = User.builder().id(1L).build();
 
-        return new ResponseEntity<>(walkService.endWalk(walkId, owner.getId()),HttpStatus.OK);
+        return new ResponseEntity<>(walkService.endWalk(walkId, owner.getId()), HttpStatus.OK);
     }
 }

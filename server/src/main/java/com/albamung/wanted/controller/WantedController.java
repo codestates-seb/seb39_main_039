@@ -47,8 +47,8 @@ public class WantedController {
     }
 
     @ApiOperation(value = "구인글 상세 조회")
-    @GetMapping("/{wanted_id}")
-    public ResponseEntity getDetailWanted(@PathVariable("wanted_id") @Positive Long wantedId) {
+    @GetMapping("/{wantedId}")
+    public ResponseEntity getDetailWanted(@PathVariable @Positive Long wantedId) {
         Wanted wanted = wantedService.getWanted(wantedId);
         return new ResponseEntity<>(wantedMapper.toDetailResponse(wanted), HttpStatus.OK);
     }

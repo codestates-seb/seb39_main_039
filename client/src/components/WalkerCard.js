@@ -35,7 +35,11 @@ const WalkerCard = () => {
             <small>09.15 오후 4:00 부터 시작</small>
           </div>
         </Walking>
-        <WalkHistory>
+        <WalkHistory
+          onClick={() => {
+            navigate("/walk/:id/recordedWalking");
+          }}
+        >
           <div>
             <p>지난 산책 내역</p>
             <small>총 13km</small>

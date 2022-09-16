@@ -6,17 +6,20 @@ import {
 } from "../../redux/actions/mappingAction";
 import styled from "styled-components";
 import { Header } from "../Layout/Header";
+import { useNavigate } from "react-router-dom";
+import { faLocationArrow, faRotate } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const { kakao } = window;
 
 const TrackingMap = () => {
   const [myMap, setMyMap] = useState(null);
   const [recordedLine, setRecordedLine] = useState([]);
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { lat, lon, walkDetailInfo } = useSelector((state) => state.mapping);
 
-  function setGeolocation() {
+  function getGeolocation() {
     let geolocation = navigator.geolocation.watchPosition(
       function (position) {
         dispatch(
@@ -67,8 +70,6 @@ const TrackingMap = () => {
     setRecordedLine(recordObj);
   };
 
-  setTimeout(() => {}, 3000);
-
   useEffect(() => {
     if (lat > 0 && lon > 0) {
       drawLine();
@@ -76,10 +77,9 @@ const TrackingMap = () => {
   }, [recordedLine]);
 
   useEffect(() => {
-    setGeolocation();
+    getGeolocation();
     dispatch(getWalkDetailInfo(1));
     makeRecordObj();
-
     if (lat > 0 && lon > 0) {
       drawMap();
     }
@@ -88,15 +88,29 @@ const TrackingMap = () => {
   return (
     <MapBox>
       <Header />
-      <div>{walkDetailInfo.walkId}번 산책알뱌</div>
       <Map id="myMap" style={{ width: "375px", height: "300px" }}></Map>
-      <button
-        onClick={() => {
-          panTo();
-        }}
-      >
-        현재위치로
-      </button>
+      {recordedLine ? (
+        <Handler>
+          <MapGPSBtn
+            onClick={() => {
+              panTo();
+            }}
+          >
+            <FontAwesomeIcon color="#ffff" icon={faLocationArrow} size="2x" />
+          </MapGPSBtn>
+          <MapRefreshBtn
+            onClick={() => {
+              // navigate("/walk/1/recordedWalking");
+
+              dispatch(getWalkDetailInfo(1));
+            }}
+          >
+            <FontAwesomeIcon color="#ffff" icon={faRotate} size="2x" />
+          </MapRefreshBtn>
+        </Handler>
+      ) : (
+        <></>
+      )}
     </MapBox>
   );
 };
@@ -108,6 +122,7 @@ const MapBox = styled.div`
 
 const Map = styled.div`
   opacity: 0.6;
+  position: relative;
   ::before {
     position: absolute;
     bottom: 0px;
@@ -117,6 +132,33 @@ const Map = styled.div`
     z-index: 2;
     content: "";
   }
+`;
+
+const Handler = styled.div`
+  display: flex;
+  position: absolute;
+  top: 370px;
+  right: 30%;
+  text-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  span {
+    margin: 10px;
+
+    > svg {
+      stroke-width: 5px;
+      color: #ffff;
+      stroke: white;
+      filter: drop-shadow(1px 1px 1px silver);
+    }
+  }
+`;
+
+const MapRefreshBtn = styled.span`
+  cursor: pointer;
+`;
+
+const MapGPSBtn = styled.span`
+  cursor: pointer;
 `;
 
 export default TrackingMap;

@@ -9,8 +9,12 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface WalkRepository extends JpaRepository<Walk, Long> {
     @Modifying
-    @Query(value = "UPDATE walk SET coord = CONCAT(coord, ?2) WHERE id=?1 ", nativeQuery = true)
-    void UpdateCoord(Long id,String coord);
+    @Query(value = "UPDATE walk SET coord = CONCAT(coord, ?2) WHERE id = ?1 ", nativeQuery = true)
+    void UpdateCoord(Long walkId, String coord);
+
+    @Modifying
+    @Query(value = "UPDATE walk SET distance = distance + ?2 WHERE id = ?1 ", nativeQuery = true)
+    void UpdateDistance(Long walkId, int distance);
 
     Page<Walk> findAllByPetListId(Long petId, PageRequest pageRequest);
 }

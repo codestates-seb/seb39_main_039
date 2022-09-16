@@ -70,12 +70,13 @@ public class WalkService {
     /**
      * 산책의 동선 좌표 입력
      */
-    public void putCoord(Long walkId, String coord, Long loginId) {
+    public void putCoord(Long walkId, String coord, int distance, Long loginId) {
 //        Walk targetWalk = verifyWalk(walkId);
 
 //        verifyWalkUser(targetWalk, loginId);
 //        targetWalk.addCoord(coord);
         walkRepository.UpdateCoord(walkId, "," + coord);
+        walkRepository.UpdateDistance(walkId, distance);
     }
 
     /**

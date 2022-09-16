@@ -52,7 +52,7 @@ public class WalkController {
                                          @RequestParam Long petId,
                                          @RequestParam int page) {
         if (owner == null) owner = User.builder().id(1L).build();
-        Page<Walk> walkList = walkService.getWalkListByPetId(petId, page-1, owner.getId());
+        Page<Walk> walkList = walkService.getWalkListByPetId(petId, page - 1, owner.getId());
         List<WalkDto.SimpleResponse> items = walkMapper.listToSimpleResponseList(walkList.getContent());
         return new ResponseEntity<>(new PagingResponseDto<>(items, walkList), HttpStatus.OK);
     }
@@ -76,8 +76,7 @@ public class WalkController {
                                    @PathVariable("walk_id") @Positive Long walkId,
                                    @RequestBody @Valid WalkDto.PutCoord request) {
         if (walker == null) walker = User.builder().id(1L).build();
-        String coord = request.getCoord();
-        walkService.putCoord(walkId, coord, walker.getId());
+        walkService.putCoord(walkId, request.getCoord(), request.getDistance(), walker.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

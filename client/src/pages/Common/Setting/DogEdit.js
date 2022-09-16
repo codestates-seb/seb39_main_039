@@ -38,7 +38,7 @@ const DogEdit = () => {
                 className={`${index === currentTab ? 'submenu focused' : 'submenu'}`} 
                 onClick={()=>selectMenuHandler(index)}><DogNameLabelType2 name={'춘식'} /></li>
                 })}
-                <li><AnonymousLabelType2 /></li>
+                <li><Link to="/dogAdd"><AnonymousLabelType2 /></Link></li>
             </TabMenu>
             
 

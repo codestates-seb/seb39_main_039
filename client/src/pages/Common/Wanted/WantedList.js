@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Header } from "../../../components/Layout/Header";
 import WantedCard from "../../../components/WantedCard";
 import { SwitchButton } from "../../../components/Switch";
+import { FloatingBtnAdd } from "../../../components/Button/FloatingBtn";
 import DropDown from "../../../components/DropDown";
 
 const WantedList = () => {
@@ -48,6 +49,7 @@ const WantedList = () => {
                 <WantedCard />
                 <WantedCard />
                 <WantedCard />
+                <FloatingBtnAdd mid={'wandtedCreate'} />
             </WantedCardList>
         </div>
     )

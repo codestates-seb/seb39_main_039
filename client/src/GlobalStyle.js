@@ -45,6 +45,7 @@ const GlobalStyle = createGlobalStyle`
    .img-circle.sm{ width:35px;}
    .pb20{padding-bottom:20px !important}
    .pt0{padding-top:0 !important}
+   .pt5{padding-top:5px !important}
    .pt10{padding-top:10px !important}
    .pb0{padding-bottom:0 !important}
    .bb0{border-bottom:0 !important}
@@ -96,6 +97,11 @@ const GlobalStyle = createGlobalStyle`
       height:200px;
       padding:15px 20px;
       font-size:16px;
+   }
+
+   textarea.ipt-form.auto-height{
+      height: auto;
+      min-height:54px;
    }
 
    select.ipt-form{

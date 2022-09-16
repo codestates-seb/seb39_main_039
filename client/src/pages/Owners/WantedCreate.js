@@ -3,13 +3,18 @@ import styled from "styled-components";
 import { Header } from "../../components/Layout/Header";
 import { DogNameLabelType2 } from "../../components/DogNameLabel";
 import { ButtonPrimary } from "../../components/Button/Buttons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import checkedIcon from '../../assets/img/checkedIcon.svg';
 import DatePicker from 'react-datepicker';
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 import { ko } from "date-fns/esm/locale";
+import { useInputAutoHeight } from "../../hooks/useInput";
 
-const WantedCreate = () => {
+const WantedCreate = (  ) => {
+    const [checkItemContent, lineHeight, checkItemChangeHandler, checkItemEnterHandler] = useInputAutoHeight('');
+
     const [startDate, setStartDate] = useState(
         setHours(setMinutes(new Date(), 30), 17)
     );
@@ -18,6 +23,11 @@ const WantedCreate = () => {
         setHours(setMinutes(new Date(), 30), 17)
     );
 
+    const checklistData = [
+        {title:'간식 먹이기 전에 훈련을 해주세요.'},
+        {title:'올림픽공원 산책을 해주세요.'},
+        {title:'가방에 있는 영양제 1포를 먹여주세요.'},
+    ]
     return(
         <div className="container">
             <Header pageTitle={'구인 글 작성'} />
@@ -91,11 +101,23 @@ const WantedCreate = () => {
                 <Section>
                     <label className="ipt-label">체크리스트</label>
                     <ConCheckList>
-                        <li>간식을 먹이기 전에 '기다려' 훈련을 해주세요.</li>
-                        <li>올림픽공원 산책을 해주세요.</li>
-                        <li>가방에 있는 영양제 1포를 먹여주세요.</li>
+                        {checklistData.map((el, idx) =>{
+                            return(
+                                <li key={idx}>{el.title}</li>
+                            )
+                        })}
                     </ConCheckList>
-                    <input type="text" placeholder="체크리스트를 추가 할 수 있습니다." className="ipt-form"/>
+                    <ChackEntryInput>
+                        <textarea 
+                            className="ipt-form auto-height" 
+                            placeholder="체크리스트를 추가 할 수 있습니다"
+                            value={checkItemContent}
+                            onChange={checkItemChangeHandler}
+                            onKeyDown={checkItemEnterHandler}
+                            style={{height: ((lineHeight * 27) + 27) + 'px'}}
+                        ></textarea>
+                        <small><FontAwesomeIcon icon={faCirclePlus}/> 추가</small>
+                    </ChackEntryInput>
                 </Section>
                 <Section className="bb0 pb0">
                     <label className="ipt-label">기타 주의사항</label>
@@ -156,5 +178,28 @@ const ConCheckList = styled.ul`
         height:24px;
         background-image:url('${checkedIcon}');
         background-size:100% auto;
+    }
+`
+
+const ChackEntryInput = styled.div`
+    position:relative;
+    textarea{
+        padding-right:66px !important;
+    }
+    small{
+        cursor: pointer;
+        position:absolute;
+        display: inline-block;
+        border-radius: 8px;
+        padding:13px 10px;
+        bottom:10px;
+        right:10px;
+        color:var(--primary);
+        font-weight: 800;
+        font-size:14px;
+    }
+
+    small:hover{
+        background-color:var(--gray-100)
     }
 `

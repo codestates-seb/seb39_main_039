@@ -7,10 +7,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import calendar from './assets/img/calendar.svg'
 import reset from "styled-reset";
 
-
 const GlobalStyle = createGlobalStyle`
    ${reset}
-
    *{
       box-sizing: border-box;
       font-family: -apple-system, Pretendard, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -26,7 +24,7 @@ const GlobalStyle = createGlobalStyle`
    }
 
    :root {
-      ${colorVariables}
+      ${colorVariables};
    }
 
    a{
@@ -41,7 +39,18 @@ const GlobalStyle = createGlobalStyle`
       font-size:1rem;
    }
 
+   // util
+   .img-circle{border-radius: 100px;}
+   .img-circle.xs{width:25px;}
+   .img-circle.sm{ width:35px;}
+   .pb20{padding-bottom:20px;}
+   .pt0{padding-top:0}
+   .pb0{padding-bottom:0}
+   .bb0{border-bottom:0}
 
+
+
+   // layout
    .container{
       max-width:100%;
       min-height:100vh;
@@ -58,6 +67,9 @@ const GlobalStyle = createGlobalStyle`
       padding:0;
    }
 
+
+   
+   // form
    .ipt-form-area{
       position:relative;
    }
@@ -96,18 +108,23 @@ const GlobalStyle = createGlobalStyle`
       padding-bottom:6px;
    }
 
-   .img-circle{
-      border-radius: 100px;
-   }
-   .img-circle.xs{
-      width:25px;
-   }
-   .img-circle.sm{
-      width:35px;
+   .ipt-unit{
+      position:relative;
+      input{
+         text-align: right;
+         padding-right:45px;
+      }
+      span{
+         position:absolute;
+         top:50%;
+         right:25px;
+         font-weight: 600;
+         transform: translate(0, -50%);
+      }
    }
 
 
-
+   
    //datepicker style
    .react-datepicker__input-container input{
          text-align: center;
@@ -137,7 +154,7 @@ const GlobalStyle = createGlobalStyle`
    .react-datepicker__day-names{
       padding-top:18px
    }
-   
+
    .react-datepicker__day-name{
       color:var(--gray-500);
       line-height: 1em !important;
@@ -154,15 +171,15 @@ const GlobalStyle = createGlobalStyle`
       border:0;
       border-radius: 50px;
    }
-   
+
    .react-datepicker__navigation--previous{
       top: 15px;
       left: 30px;
    }
+
    .react-datepicker__navigation--next{
       top: 15px;
       right: 30px;
    }
-
 `
 export default GlobalStyle;

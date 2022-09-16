@@ -42,7 +42,7 @@ const GlobalStyle = createGlobalStyle`
 
 
    .container{
-      max-width:465px;
+      max-width:100%;
       min-height:100vh;
       margin:0 auto;
       padding:0 20px;

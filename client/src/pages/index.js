@@ -8,7 +8,8 @@ import {
   Setting,
   UserEdit, 
   DogEdit, 
-  WalkerEdit
+  DogAdd,
+  WalkerEdit,
 } from "./Common";
 import { Login, SignUp, Terms } from "./Register";
 import OwnerMain from "./Owners/OwnerMain";
@@ -26,6 +27,7 @@ export {
     UserEdit,
     WalkerMain,
     DogEdit,
+    DogAdd,
     WalkerEdit,
     MapForWalker,
     WalkingLists,

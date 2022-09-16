@@ -38,21 +38,21 @@ const Setting = () => {
                     </div>
                 </li>
                 <li>
-                    <p>내 정보 수정</p>
+                    <p><Link to='/UserEdit'>내 정보 수정</Link></p>
                     <div></div>
                 </li>
                 <li>
-                    <p>강아지 정보 수정</p>
+                    <p><Link to='/DogEdit'>강아지 정보 수정</Link></p>
                     <div className="opt-info">3마리</div>
                 </li>
                 <li>
-                    <p>알바 정보 수정</p>
+                    <p><Link to='/WalkerEdit'>알바 정보 수정</Link></p>
                 </li>
                 <li>
                     <p>내 체크리스트 템플릿</p>
                 </li>
                 <li>
-                    <p>구인글 리스트</p>
+                    <p><Link to='/WantedList'>구인글 리스트</Link></p>
                 </li>
             </List>
         </div>
@@ -142,6 +142,9 @@ const List = styled.ul`
         background-position:98% 50%;
         background-image:url('${Arrows}');
 
+        p a{
+            color:var(--black-900)
+        }
         .opt-info{
             padding-right:40px;
             font-size:13px;

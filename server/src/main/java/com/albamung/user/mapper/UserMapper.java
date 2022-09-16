@@ -7,14 +7,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.List;
-
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-    @Mapping(source = "id", target = "userId")
-    UserDto.OwnerResponse userToOwnerResponse(User user);
 
     default User signupToUser(UserDto.Signup signupInfo) {
         User user = User.builder()
@@ -30,9 +25,10 @@ public interface UserMapper {
     @Mapping(source = "id", target = "walkerId")
     @Mapping(source = "nickName", target = "walkerName")
     @Mapping(source = "profileImage", target = "walkerPicture")
-    UserDto.SimpleWalkerResponse userToSimpleWalkerResponse(User user);
+    UserDto.SimpleWalkerResponse toSimpleWalkerResponse(User user);
 
     User putToUser(UserDto.Put put);
 
-    List<UserDto.Response> usersToResponses(List<User> userList);
+    @Mapping(source = "id", target = "ownerId")
+    UserDto.SimpleOwnerResponse toSimpleOwnerResponse(User user);
 }

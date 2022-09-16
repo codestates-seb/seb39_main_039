@@ -3,22 +3,15 @@ import styled from "styled-components";
 import { Header } from "../../../components/Layout/Header";
 import { ButtonPrimary } from '../../../components/Button/Buttons';
 import InputLabel from "../../../components/Inputs/InputLabel";
+import { useInput } from "../../../hooks/useInput";
 
 const SignUp = () => {
-    const [inputValue, setInputValue] = useState({
+    const [state, setState] = useInput({
         email: '',
         password: '',
         passwordConfirm: '',
-      });
-    // const { email, passwordConfirm, passwordReConfirm } = inputValue;
-
-    const handleInput = e => {
-        const { name, value } = e.target;
-        setInputValue({
-            ...inputValue, 
-            [name]: value,
-        });
-    };
+    });
+    console.log(state);
 
     // 모든 검사 true일 때 함수 작동
     const getIsActive = true;
@@ -33,7 +26,8 @@ const SignUp = () => {
                             type={'text'} 
                             name={'email'}
                             label={'이메일 계정'}
-                            handlerValueState={handleInput}
+                            value={state.email}
+                            handlerValueState={setState}
                             // handleKeyPress={handleKeyPress}
                             // err={'에러메시지'}
                         />
@@ -42,7 +36,8 @@ const SignUp = () => {
                             type={'password'} 
                             name={'password'}
                             label={'비밀번호 확인'}
-                            handlerValueState={handleInput}
+                            value={state.password}
+                            handlerValueState={setState}
                             // handleKeyPress={handleKeyPress}
                             // err={'에러메시지'}
                         />
@@ -51,7 +46,8 @@ const SignUp = () => {
                             type={'password'} 
                             name={'passwordConfirm'}
                             label={'비밀번호 재입력'}
-                            handlerValueState={handleInput}
+                            value={state.passwordConfirm}
+                            handlerValueState={setState}
                             // handleKeyPress={handleKeyPress}
                             err={'비밀번호가 일치하지 않습니다.'}
                         />

@@ -1,11 +1,5 @@
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../../assets/img/logo.svg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell } from "@fortawesome/free-solid-svg-icons";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
-import PlaceList from "../../components/PlaceList";
-import WalkerCard from "../../components/WalkerCard";
-import { MapForWalker } from "../Common";
 import TrackingMap from "../../components/Map/TrackingMap";
 
 const StartWalking = () => {

@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class WalkDto {
-
     @ApiModel("산책 세부 응답")
     @Builder
     @Getter
@@ -30,17 +29,19 @@ public class WalkDto {
 
     @Getter
     @Builder
-    @ApiModel("새 산책 생성")
-    public static class Post{
-        private LocalDateTime startTime;
-        private LocalDateTime endTime;
-        private List<String> checkListContent;
-        private List<Long> petId;
+    public static class PutCoord{
+        private String coord;
+        private int distance;
     }
 
     @Getter
     @Builder
-    public static class PutCoord{
-        private String coord;
+    public static class SimpleResponse {
+        private Long walkId;
+        private LocalDateTime startTime;
+        private LocalDateTime endTime;
+        private int distance;
+        private boolean ended;
+        private UserDto.SimpleWalkerResponse walker;
     }
 }

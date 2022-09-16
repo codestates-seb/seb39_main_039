@@ -5,8 +5,16 @@ import { ReactComponent as Logo } from '../../../assets/img/logo.svg';
 import { ButtonPrimary } from '../../../components/Button/Buttons';
 import { SnsButtonGoogle, SnsButtonKakao } from '../../../components/Button/SnsButtons';
 import InputLabel from "../../../components/Inputs/InputLabel";
+import { useInput } from "../../../hooks/useInput";
 
 const Login = () => {
+    const [state, setState] = useInput({
+        email:'',
+        password:'',
+    });
+    
+    console.log(state);
+
     return(
         <div className="container">
             <LoginPanel>
@@ -18,14 +26,18 @@ const Login = () => {
                     <FormArea>
                         <InputLabel 
                             type={'text'} 
-                            name={'userName'}
+                            name={'email'}
                             label={'이메일 계정'}
+                            value={state.email}
+                            handlerValueState={setState}
                             // err={'이메일 계정 혹은 패스워드가 틀립니다.'}
                         />
                         <InputLabel 
                             type={'password'} 
-                            name={'userpassword'}
+                            name={'password'}
                             label={'패스워드'}
+                            value={state.password}
+                            handlerValueState={setState}
                             // err={'이메일 계정 혹은 패스워드가 틀립니다.'}
                         />
                         <ButtonPrimary>로그인</ButtonPrimary>

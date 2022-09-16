@@ -7,11 +7,14 @@ import {
   WantedList,
   WantedDetailPage,
   OwnerMain,
+  MapForWalker,
   WalkingLists,
   Setting,
   UserEdit,
   WalkerMain,
-  StartWalking
+  StartWalking,
+  DogEdit,
+  WalkerEdit
 } from "./pages";
 
 function App() {
@@ -24,6 +27,7 @@ function App() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/ownerMain" element={<OwnerMain />}></Route>
         <Route path="/walk/:id/walking" element={<StartWalking />}></Route>
+        <Route path="/walk/:id/walking" element={<MapForWalker />}></Route>
         <Route
           path="/walk/:id/recordedWalking"
           element={<WalkingLists />}
@@ -33,6 +37,8 @@ function App() {
         <Route path="/wantedDetail" element={<WantedDetailPage />}></Route>
         <Route path="/setting" element={<Setting />}></Route>
         <Route path="/userEdit" element={<UserEdit />}></Route>
+        <Route path="/dogEdit" element={<DogEdit />}></Route>
+        <Route path="/walkerEdit" element={<WalkerEdit />}></Route>
       </Routes>
     </>
   );

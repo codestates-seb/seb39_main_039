@@ -4,6 +4,7 @@ const InputLabel = ({
     name, 
     label, 
     type, 
+    value,
     err,
     handlerValueState,
     handleKeyPress
@@ -16,6 +17,7 @@ const InputLabel = ({
                 type={type} 
                 data-error={err} 
                 className={`ipt-form`} 
+                value={value}
                 onChange={handlerValueState}
                 onKeyPress={handleKeyPress}
                 autoComplete="off" 

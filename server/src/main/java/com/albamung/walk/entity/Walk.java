@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -21,6 +23,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@DynamicUpdate
+@DynamicInsert
 public class Walk extends BaseEntityDate {
 
     @Id
@@ -49,6 +53,9 @@ public class Walk extends BaseEntityDate {
     @JoinColumn(name = "OWNER_ID")
     private User owner;
 
+    @Column(columnDefinition = "TEXT")
+    private String caution;
+
     @OneToMany(mappedBy = "walk", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<WalkCheckList> checkList = new ArrayList<>();
 
@@ -57,14 +64,16 @@ public class Walk extends BaseEntityDate {
 
     public List<String> getCoord(){
         if(this.coord == null) return null;
-        return Arrays.asList(this.coord.split(","));
+        List<String> coordList = Arrays.asList(this.coord.split(","));
+        coordList.remove(0);
+        return coordList;
     }
 
-    public void addCoord(String str) {
-        if(this.coord ==null) this.coord = str;
-        else this.coord = this.coord +","+ str;
-        //String Builder를 쓰는게 나을까?
-    }
+//    public void addCoord(String str) {
+//        if(this.coord ==null) this.coord = str;
+//        else this.coord = this.coord +","+ str;
+//        //String Builder를 쓰는게 나을까?
+//    }
 
     public List<String> getPictureList(){
         if(this.pictureList ==null) return null;

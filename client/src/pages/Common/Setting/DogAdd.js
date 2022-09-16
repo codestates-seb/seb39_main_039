@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import styled from "styled-components"
 import { Link } from "react-router-dom";
 import { Header } from "../../../components/Layout/Header";
@@ -5,9 +6,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import anonymousDog from '../../../assets/img/anonymousDog.svg';
 import { ButtonPrimary } from "../../../components/Button/Buttons";
+import DatePicker from 'react-datepicker';
+import { ko } from "date-fns/esm/locale";
 
 const DogAdd = () => {
-
+    const [startDate, setStartDate] = useState(new Date());
+    const DATE_FORMAT_CALENDAR = 'yyyy년 MM월';
     return(
         <div className="container">
             <Header pageTitle={'강아지 등록'}/>
@@ -34,12 +38,19 @@ const DogAdd = () => {
                 </div>
                 <div className="ipt-group">
                     <label htmlFor="" className="ipt-label">강아지 생년월일</label>
-                    <input type="email" name="" className="ipt-form" />
+                    
+                    <DatePicker
+                        locale={ko}
+                        dateFormat="yyyy년 MM월 dd일 생"
+                        selected={startDate}
+                        onChange={(date) => setStartDate(date)}
+                        dateFormatCalendar={DATE_FORMAT_CALENDAR}
+                    />
                 </div>
                 <div className="ipt-group">
                     <label htmlFor="" className="ipt-label">강아지 성별</label>
                     <select className="ipt-form">
-                        <option selected>수컷</option>
+                        <option>수컷</option>
                         <option>암컷</option>
                     </select>
                 </div>

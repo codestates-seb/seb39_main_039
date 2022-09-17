@@ -1,6 +1,5 @@
 package com.albamung.walk.dto;
 
-import com.albamung.checklist.dto.WalkCheckListDto;
 import com.albamung.pet.dto.PetDto;
 import com.albamung.user.dto.UserDto;
 import io.swagger.annotations.ApiModel;

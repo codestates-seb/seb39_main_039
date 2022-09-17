@@ -1,9 +1,9 @@
-package com.albamung.checklist.mapper;
+package com.albamung.walk.mapper;
 
-import com.albamung.checklist.dto.SavedCheckListDto;
-import com.albamung.checklist.dto.WalkCheckListDto;
-import com.albamung.checklist.entity.SavedCheckList;
-import com.albamung.checklist.entity.WalkCheckList;
+import com.albamung.walk.dto.SavedCheckListDto;
+import com.albamung.walk.dto.WalkCheckListDto;
+import com.albamung.walk.entity.SavedCheckList;
+import com.albamung.walk.entity.WalkCheckList;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;

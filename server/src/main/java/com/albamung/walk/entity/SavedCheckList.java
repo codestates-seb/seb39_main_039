@@ -1,4 +1,4 @@
-package com.albamung.checklist.entity;
+package com.albamung.walk.entity;
 
 import com.albamung.user.entity.User;
 import lombok.*;

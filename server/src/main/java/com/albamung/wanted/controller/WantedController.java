@@ -47,8 +47,8 @@ public class WantedController {
     }
 
     @ApiOperation(value = "구인글 상세 조회")
-    @GetMapping("/{wanted_id}")
-    public ResponseEntity getDetailWanted(@PathVariable("wanted_id") @Positive Long wantedId) {
+    @GetMapping("/{wantedId}")
+    public ResponseEntity getDetailWanted(@PathVariable @Positive Long wantedId) {
         Wanted wanted = wantedService.getWanted(wantedId);
         return new ResponseEntity<>(wantedMapper.toDetailResponse(wanted), HttpStatus.OK);
     }
@@ -64,7 +64,7 @@ public class WantedController {
         if (filter == null) filter = "none";
 
         Page<Wanted> wantedList = wantedService.getWantedList((int) (page - 1), sort, filter);
-        List<WantedDto.DetailResponse> items = wantedMapper.toDetailResponseList(wantedList.getContent());
+        List<WantedDto.SimpleResponse> items = wantedMapper.toSimpleResponseList(wantedList.getContent());
         return new ResponseEntity<>(new PagingResponseDto<>(items, wantedList), HttpStatus.OK);
     }
 }

@@ -11,6 +11,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Builder
@@ -36,4 +37,7 @@ public class Wanted extends BaseEntityDate {
 
     private int pay;
     private boolean matched;
+
+    @OneToMany(mappedBy = "wanted")
+    private List<Comment> commentList;
 }

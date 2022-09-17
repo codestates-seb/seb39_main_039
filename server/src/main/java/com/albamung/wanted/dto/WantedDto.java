@@ -22,6 +22,21 @@ public class WantedDto {
         private LocalDateTime creationDate;
         private LocalDateTime lastActivityDate;
         private boolean matched;
+        private List<CommentDto.Response> commentList;
+    }
+
+    @Builder
+    @Getter
+    @ApiModel("구인글 리스트를 위한 간단 응답")
+    public static class SimpleResponse {
+        private Long wantedId;
+        private UserDto.SimpleOwnerResponse owner;
+        private WalkDto.SimpleResponse walk;
+        private String location;
+        private int pay;
+        private LocalDateTime creationDate;
+        private LocalDateTime lastActivityDate;
+        private boolean matched;
     }
 
     @Builder

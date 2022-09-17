@@ -1,6 +1,7 @@
 package com.albamung.wanted.entity;
 
 import com.albamung.helper.audit.BaseEntityDate;
+import com.albamung.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,10 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Builder
@@ -27,7 +25,13 @@ public class Comment extends BaseEntityDate {
     private Long commentId;
 
     private String content;
+    private boolean matched;
 
+    @ManyToOne
+    @JoinColumn(name = "WALKER_ID")
+    private User walker;
 
-
+    @ManyToOne
+    @JoinColumn(name = "WANTED_ID")
+    private Wanted wanted;
 }

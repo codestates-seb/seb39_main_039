@@ -14,26 +14,27 @@ const initialstate = {
 };
 
 const mappingReducer = (state = initialstate, action) => {
-  switch (action.type) {
+  let { type, payload } = action;
+  switch (type) {
     case GET_LOCATION_REQUEST:
       return { ...state, loading: true };
 
     case GET_LOCATION_SUCCESS:
       return {
         ...state,
-        lat: action.payload.lat,
-        lon: action.payload.lon,
+        lat: payload.lat,
+        lon: payload.lon,
         loading: false
       };
     case GET_WALK_STATE_SUCCESS:
       return {
         ...state,
-        isWalk: action.payload.isWalk
+        isWalk: payload.isWalk
       };
     case GET_WALK_DETAIL_INFO_SUCCESS:
       return {
         ...state,
-        walkDetailInfo: action.payload.walkDetailInfo
+        walkDetailInfo: payload.walkDetailInfo
       };
     default:
       return { ...state };

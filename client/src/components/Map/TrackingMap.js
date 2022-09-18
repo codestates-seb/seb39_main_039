@@ -127,6 +127,24 @@ const TrackingMap = () => {
   }, [lat, lon]);
 
   useEffect(() => {
+    setLineForDistance([...lineForDistance, [lat, lon]]);
+
+    if (lineForDistance.length > 1) {
+      setLineForDistance([lineForDistance[1], [lat, lon]]);
+      getDistance(
+        lineForDistance[0][0],
+        lineForDistance[0][1],
+        lineForDistance[1][0],
+        lineForDistance[1][1]
+      );
+    }
+    if (!isPauseWalk && isWalk && dis > 10) {
+      dispatch(sendLocation(lat, lon, distance));
+    }
+    setDis(dist);
+  }, [lat, lon]);
+
+  useEffect(() => {
     // getGeolocation();
     drawMap();
   }, []);

@@ -4,8 +4,8 @@ import styled from "styled-components";
 const InfoPanel = ({ number, string }) => {
   return (
     <Panel>
-      <div>{string}</div>
       <div>{number}</div>
+      <div>{string}</div>
     </Panel>
   );
 };
@@ -15,11 +15,14 @@ const Panel = styled.div`
   align-items: center;
 
   > div:first-child {
-    font-size: 12px;
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom:3px;
   }
 
   > div:nth-child(2) {
-    font-size: 18px;
+    font-size: 12px;
+    color:var(--gray-500);
   }
 `;
 export default InfoPanel;

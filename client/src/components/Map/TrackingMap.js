@@ -127,7 +127,6 @@ const TrackingMap = () => {
   }, [lat, lon]);
 
   useEffect(() => {
-    // getGeolocation();
     drawMap();
   }, []);
 

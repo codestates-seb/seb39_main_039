@@ -39,6 +39,11 @@ const GlobalStyle = createGlobalStyle`
       font-size:1rem;
    }
 
+   textarea{
+      resize: none;
+   }
+
+
    // util
    .img-circle{border-radius: 100px;}
    .img-circle.xs{width:25px;}

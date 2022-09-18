@@ -2,6 +2,7 @@ package com.albamung.oauth;
 
 import com.albamung.user.entity.User;
 import com.albamung.user.repository.UserRepository;
+import org.springframework.data.annotation.Persistent;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -9,6 +10,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.PersistenceUnit;
 import java.util.Map;
 import java.util.Optional;
 

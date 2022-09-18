@@ -4,7 +4,7 @@ package com.albamung.walk.controller;
 import com.albamung.dto.PagingResponseDto;
 import com.albamung.user.entity.User;
 import com.albamung.walk.dto.WalkDto;
-import com.albamung.walk.dto.WalkMapper;
+import com.albamung.walk.mapper.WalkMapper;
 import com.albamung.walk.entity.Walk;
 import com.albamung.walk.service.WalkService;
 import io.swagger.annotations.Api;
@@ -39,8 +39,8 @@ public class WalkController {
 
 
     @ApiOperation(value = "산책 세부내역 불러오기", notes = "진행중 산책, 지난 산책 세부내역 등")
-    @GetMapping("/{walk_id}")
-    public ResponseEntity getDetailWalk(@PathVariable("walk_id") @Positive Long walkId) {
+    @GetMapping("/{walkId}")
+    public ResponseEntity getDetailWalk(@PathVariable @Positive Long walkId) {
         Walk walk = walkService.getWalk(walkId);
         WalkDto.DetailResponse response = walkMapper.toDetailResponse(walk);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -71,9 +71,9 @@ public class WalkController {
 //        return new ResponseEntity<>(response, HttpStatus.CREATED);
 //    }
     @ApiOperation(value = "진행중인 산책에 좌표값 추가")
-    @PutMapping("/{walk_id}/coord")
+    @PutMapping("/{walkId}/coord")
     public ResponseEntity putCoord(@AuthenticationPrincipal @ApiIgnore User walker,
-                                   @PathVariable("walk_id") @Positive Long walkId,
+                                   @PathVariable @Positive Long walkId,
                                    @RequestBody @Valid WalkDto.PutCoord request) {
         if (walker == null) walker = User.builder().id(1L).build();
         walkService.putCoord(walkId, request.getCoord(), request.getDistance(), walker.getId());
@@ -81,9 +81,9 @@ public class WalkController {
     }
 
     @ApiOperation(value = "산책의 체크리스트 체크상태 변경")
-    @PutMapping("/{walk_id}/check/{checklist_id}")
+    @PutMapping("/{walkId}/check/{checklist_id}")
     public ResponseEntity checkCheck(@AuthenticationPrincipal @ApiIgnore User walker,
-                                     @PathVariable("walk_id") @Positive Long walkId,
+                                     @PathVariable @Positive Long walkId,
                                      @PathVariable("checklist_id") @Positive Long checkListId,
                                      @RequestBody @NotNull boolean check) {
         if (walker == null) walker = User.builder().id(1L).build();
@@ -104,9 +104,9 @@ public class WalkController {
 //        return new ResponseEntity<>(HttpStatus.OK);
 //    }
     @ApiOperation(value = "산책 종료")
-    @PutMapping("/{walk_id}/end")
+    @PutMapping("/{walkId}/end")
     public ResponseEntity endWalk(@AuthenticationPrincipal @ApiIgnore User owner,
-                                  @PathVariable("walk_id") @Positive Long walkId) {
+                                  @PathVariable @Positive Long walkId) {
         if (owner == null) owner = User.builder().id(1L).build();
 
         return new ResponseEntity<>(walkService.endWalk(walkId, owner.getId()), HttpStatus.OK);

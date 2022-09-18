@@ -2,7 +2,6 @@ package com.albamung.pet.mapper;
 
 import com.albamung.pet.dto.PetDto;
 import com.albamung.pet.entity.Pet;
-import com.albamung.walk.dto.WalkMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;

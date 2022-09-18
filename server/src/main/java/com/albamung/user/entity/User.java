@@ -1,6 +1,6 @@
 package com.albamung.user.entity;
 
-import com.albamung.checklist.entity.SavedCheckList;
+import com.albamung.walk.entity.SavedCheckList;
 import com.albamung.helper.audit.BaseEntityDate;
 import com.albamung.pet.entity.Pet;
 import com.albamung.walk.entity.Walk;

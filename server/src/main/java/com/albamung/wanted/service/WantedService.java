@@ -70,7 +70,7 @@ public class WantedService {
     @Transactional(readOnly = true)
     public Page<Wanted> getWantedList(int page, String sort, String filter) {
         int size = 5;
-        PageRequest pageRequest = PageRequest.of(page, size,Sort.by(sort).descending());
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(sort).descending());
         Page<Wanted> wantedList = wantedRepository.findAll(pageRequest);
 
         return wantedList;
@@ -83,6 +83,12 @@ public class WantedService {
     @Transactional(readOnly = true)
     public Wanted verifyWanted(Long wantedId) {
         return wantedRepository.findById(wantedId).orElseThrow(() -> new CustomException("존재하지 않는 구인글입니다", HttpStatus.NO_CONTENT));
+    }
+
+    @Transactional(readOnly = true)
+    public void verifyWantedUser(Wanted wanted, Long ownerId) {
+        if (!wanted.getOwner().getId().equals(ownerId))
+            throw new CustomException("해당 글의 작성자가 아닙니다", HttpStatus.FORBIDDEN);
     }
 }
 

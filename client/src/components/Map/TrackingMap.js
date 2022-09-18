@@ -157,7 +157,7 @@ const TrackingMap = () => {
 
   return (
     <MapBox>
-      <Map id="myMap" style={{ width: "385px", height: "300px" }}></Map>
+      <Map id="myMap" style={{ width: "100%", height: "300px" }}></Map>
       <FunctionBtn>
         {!isWalk ? (
           <StartWalkingPet
@@ -200,7 +200,8 @@ const TrackingMap = () => {
 
 const MapBox = styled.div`
   background-color: white;
-  height: 100vh;
+  /* height: 100vh; */
+  height:auto;
   display: flex;
   flex-direction: column;
   align-items: center;

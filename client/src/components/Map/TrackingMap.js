@@ -192,7 +192,11 @@ const TrackingMap = () => {
 
       <div>
         <Time />
-        <InfoPanel number={`${10} m`} string={"산책 거리"} />
+        <ResultInfo>
+          <InfoPanel number={`${10}m`} string={"산책 거리"} />
+          <InfoPanel number={`${10}`} string={"산책 시간"} />
+          <InfoPanel number={`${10}`} string={"속도(분/km)"} />
+        </ResultInfo>
       </div>
     </MapBox>
   );
@@ -207,6 +211,7 @@ const MapBox = styled.div`
   align-items: center;
   transition: 500ms;
   > div:nth-child(3) {
+    width:100%;
     margin-top: 20px;
     display: flex;
     flex-direction: column;
@@ -302,5 +307,18 @@ const TakePicturePet = styled.div`
     transform: scale(1.04);
   }
 `;
+
+const ResultInfo = styled.div`
+  display: flex;
+  justify-content:space-between;
+  align-items: center;
+  width:100%;
+  margin:20px 0 0;
+
+  >div{
+    flex:1;
+    text-align: center;
+  }
+`
 
 export default TrackingMap;

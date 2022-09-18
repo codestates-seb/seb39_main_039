@@ -3,7 +3,9 @@ import { ReactComponent as Logo } from "../../assets/img/logo.svg";
 import { HeaderConfirm } from "../../components/Layout/Header";
 import TrackingMap from "../../components/Map/TrackingMap";
 import { DogNameLabel } from '../../components/DogNameLabel';
+import { CheckListView } from "../../components/CheckListView";
 import StateCard from "../../components/StateCard";
+import sampleImg from '../../assets/img/sample-img.png';
 
 const StartWalking = () => {
   const ClickHandler = () =>{
@@ -13,7 +15,7 @@ const StartWalking = () => {
   return (
     <div className="container pa0">
       <Section>
-        <HeaderConfirm pageTitle={'진행중인 산책'} ConfirmName={'산책 종료'} ClickHandler={ClickHandler}/>
+        <HeaderConfirm pageTitle={'진행중인 산책'} ConfirmName={'종료'} ClickHandler={ClickHandler}/>
         <div className="walk-team">
           <dl className="walk-con">
             <dt>산책견</dt>
@@ -34,8 +36,7 @@ const StartWalking = () => {
       </Section>
       <Sect>
           <TrackingMap />
-          
-          <StateBoxArea>
+          <StateBoxArea className="pt25">
             <li><StateCard type={'i1'} name={'산책'} count={'0'}/></li>
             <li><StateCard type={'i2'} name={'배변'} count={'0'}/></li>
           </StateBoxArea>
@@ -43,9 +44,30 @@ const StartWalking = () => {
             <li><StateCard type={'i3'} name={'식사'} count={'0'}/></li>
             <li><StateCard type={'i4'} name={'간식'} count={'0'}/></li>
           </StateBoxArea>
-            
       </Sect>
-      <Section></Section>
+      <Sect>
+        <div className="d-flex">
+          <label htmlFor="" className="ipt-label">체크리스트</label>
+          <em>수행률 33%</em>
+        </div>
+        <CheckListView>
+          <li className="checked">간식 먹이기 전에 훈련을 해주세요.</li>
+          <li className="checked">간식 먹이기 전에 훈련을 해주세요. 간식 먹이기 전에 훈련을 간식 먹이기 전에 훈련을 해주세요.해주세요. </li>
+          <li>올림픽공원 산책을 해주세요.</li>
+          <li>가방에 있는 영양제 1포를 먹여주세요.</li>
+          <li>가방에 있는 영양제 1포를 먹여주세요. 가방에 있는 영양제 1포를 먹여주세요. 가방에 있는 영양제 1포를 먹여주세요.</li>
+        </CheckListView>
+      </Sect>
+      <Sect>
+        <label htmlFor="" className="ipt-label">사진 보관함</label>
+        <ul className="list-horizonscroll">
+          <li><img src={sampleImg} alt=""/></li>
+          <li><img src={sampleImg} alt=""/></li>
+          <li><img src={sampleImg} alt=""/></li>
+          <li><img src={sampleImg} alt=""/></li>
+          <li><img src={sampleImg} alt=""/></li>
+        </ul>
+      </Sect>
     </div>
   );
 };
@@ -104,7 +126,7 @@ const Sect = styled.section`
 const StateBoxArea = styled.div`
   display: flex;
   flex-wrap: nowrap;
-  margin:8px 0;
+  margin:0 0 8px;
   gap:8px;
 
   >li{

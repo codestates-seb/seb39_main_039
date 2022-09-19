@@ -15,9 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @Transactional
 @Service
@@ -89,16 +87,21 @@ public class UserService {
     /**
      * 엑세스 토큰 만료시 리프레시 토큰 검증 및 엑세스 토큰 재발급
      */
-//    public TokenDto refreshToken(String accessToken, String refreshToken) {
-//        if (!jwtTokenProvider.validateTokenExceptExpiration(accessToken)) throw new AccessDeniedException("");
-//
-//        User user = userRepository.findByEmail(jwtTokenProvider.getEmail(accessToken)).orElseThrow();
-//
-//        if (!jwtTokenProvider.validateToken(user.getRefreshToken()) || !refreshToken.equals(user.getRefreshToken()))
-//            throw new AccessDeniedException("");
-//        user.setRefreshToken(jwtTokenProvider.createRefreshToken());
-//        return new TokenDto(jwtTokenProvider.createToken(user.getId(), user.getEmail(), user.getRoleList()), user.getRefreshToken());
-//    }
+    public Map<String, String> refreshToken(String accessToken, String refreshToken) {
+        if (!jwtTokenProvider.validateTokenExceptExpiration(accessToken)) throw new AccessDeniedException("");
+
+        accessToken = accessToken.substring(7);
+        refreshToken = refreshToken.substring(7);
+        User user = userRepository.findByEmail(jwtTokenProvider.getUsername(accessToken)).orElseThrow();
+
+        if (!jwtTokenProvider.validateToken(user.getRefreshToken()) || !refreshToken.equals(user.getRefreshToken()))
+            throw new AccessDeniedException("");
+        String refresh = jwtTokenProvider.createRefreshToken(user.getId());
+        Map<String, String> tokens = new HashMap<>();
+        tokens.put("access",jwtTokenProvider.createToken(user.getId(), user.getEmail(), user.getRoleList()));
+        tokens.put("refresh", refresh);
+        return tokens;
+    }
 
 
     public void deleteUser(Long userId, Long loginUserId) {

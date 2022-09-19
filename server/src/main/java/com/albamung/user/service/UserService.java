@@ -48,12 +48,12 @@ public class UserService {
                 "https://www.gravatar.com/avatar/e514b017977ebf742a418cac697d8996?s=256&d=identicon&r=PG",
                 "https://www.gravatar.com/avatar/ad240ed5cc406759f0fd72591dc8ca47?s=256&d=identicon&r=PG");
         user.setProfileImage(profileImage.get(num%5));
-
+        user.setNickName(user.getNickName() + " #" + (userRepository.countAllByNickNameStartsWith(user.getNickName())+1));
         try {
             userRepository.save(user);
             return user.getNickName();
         } catch (Exception e) {
-            throw new CustomException("Email or Nick Name is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new CustomException("Email is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
 

@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 public class PetDto {
@@ -36,12 +37,16 @@ public class PetDto {
     @Getter
     @ApiModel("반려견정보 등록")
     public static class Post {
+        @Size(max = 20, message = "Name must be under 20 letters")
+        @NotBlank
         private String name;
         private String picture;
         @PastOrPresent(message = "생일은 과거나 오늘만 가능합니다.")
         private LocalDate birthday;
-        private char sex;
         @NotBlank
+        private String sex;
+        @NotBlank
+        @Size(max = 20, message = "Species must be under 20 letters")
         private String species;
         private String aboutPet;
     }
@@ -50,10 +55,12 @@ public class PetDto {
     @Getter
     @ApiModel("반려견정보 수정")
     public static class Put {
+        @Size(max = 20, message = "Name must be under 20 letters")
         private String name;
         @PastOrPresent(message = "생일은 과거나 오늘만 가능합니다.")
         private LocalDate birthday;
         private String sex;
+        @Size(max = 20, message = "Species must be under 20 letters")
         private String species;
         private String aboutPet;
     }

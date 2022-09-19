@@ -1,20 +1,29 @@
+import React, { useState } from "react";
 import styled from "styled-components";
 import { HeaderConfirm } from "../../components/Layout/Header";
 import TrackingMap from "../../components/Map/TrackingMap";
 import { DogNameLabel } from '../../components/DogNameLabel';
 import { CheckListView } from "../../components/CheckListView";
 import { StateCard } from "../../components/StateCard";
+import ModalEndWalk from "../../components/Modal/ModalEndWalk";
 import sampleImg from '../../assets/img/sample-img.png';
 
 const Walking = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const ClickHandler = () =>{
-    console.log('산책 종료')
+    setIsOpen(!isOpen)
   }
+
+  const confirmHandler = () => {
+    console.log('종료 함수')
+  }
+  
   
   return (
     <div className="container pa0">
+      <ModalEndWalk isOpen={isOpen} setIsOpen={setIsOpen} confirmHandler={confirmHandler}/>
       <Section>
-        <HeaderConfirm pageTitle={'진행중인 산책'} ConfirmName={'종료'} ClickHandler={ClickHandler}/>
+        <HeaderConfirm pageTitle={'진행중인 산책'} ConfirmName={'종료'} ClickHandler={ClickHandler} />
         <div className="walk-team">
           <dl className="walk-con">
             <dt>산책견</dt>

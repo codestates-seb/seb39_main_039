@@ -25,6 +25,7 @@ export const loginSuccess = (email, password) => {
             });
         })
         // .then((res) => window.location.replace('/'));
+        .then((res) => window.location.replace('/'));
         let post_user = await postUser;
         } catch (error) {
             if (error.response.status === 401) {

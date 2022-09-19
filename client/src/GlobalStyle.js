@@ -54,6 +54,7 @@ const GlobalStyle = createGlobalStyle`
    .img-circle{border-radius: 100px;}
    .img-circle.xs{width:25px;}
    .img-circle.sm{ width:35px;}
+   .pa0{padding:0 !important}
    .pb20{padding-bottom:20px !important}
    .pt0{padding-top:0 !important}
    .pt5{padding-top:5px !important}
@@ -78,11 +79,6 @@ const GlobalStyle = createGlobalStyle`
    .container.bg-gray{
       background:var(--gray-100);
    }
-
-   .container.pa0{
-      padding:0;
-   }
-
 
    
    // form

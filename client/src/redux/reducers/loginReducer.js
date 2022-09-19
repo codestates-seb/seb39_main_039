@@ -21,9 +21,7 @@ const loginReducers = (state = initialstate, action) => {
                 isLogin: false
             }
         default:
-            return { 
-                ...state 
-            };
+            return state
     }
 }
 

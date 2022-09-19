@@ -8,7 +8,6 @@ import { Provider } from "react-redux";
 import ScrollTop from "./constants/scrollTop";
 
 
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>

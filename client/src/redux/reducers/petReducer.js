@@ -14,7 +14,7 @@ const petReducer = (state = initialstate, action) => {
       };
 
     default:
-      return { ...state };
+      return state ;
   }
 };
 

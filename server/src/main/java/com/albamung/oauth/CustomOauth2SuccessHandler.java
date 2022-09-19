@@ -60,6 +60,6 @@ public class CustomOauth2SuccessHandler extends SavedRequestAwareAuthenticationS
         response.addCookie(refreshDeploy);
 
         clearAuthenticationAttributes(request);
-        getRedirectStrategy().sendRedirect(request, response, "https://albamung.tk/auth/redirect?access=" + access);
+        getRedirectStrategy().sendRedirect(request, response, "https://albamung.tk/");
     }
 }

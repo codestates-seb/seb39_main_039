@@ -6,8 +6,10 @@ import { ReactComponent as Logo } from '../../../assets/img/logo.svg';
 import { ReactComponent as VisualImg } from '../../../assets/img/visualImg.svg';
 import btnIcon01 from '../../../assets/img/buttonIcon01.svg';
 import btnIcon02 from '../../../assets/img/buttonIcon02.svg';
+import { useSelector } from "react-redux";
 
 const Main = () => {
+    const  isLogin  = useSelector((state) => state.login.isLogin);
     return(
         <div className="container">
             <MainIntro>
@@ -18,8 +20,8 @@ const Main = () => {
 
                     <VisualImg />
                     <ButtonGroup>
-                        <Link to="/login"><ButtonPrimary className="icon-type">산책 맡길래요</ButtonPrimary></Link>
-                        <Link to="/login"><ButtonPrimaryLine className="icon-type v2">산책 시킬래요</ButtonPrimaryLine></Link>
+                        <Link to={isLogin? '/' : '/login'}><ButtonPrimary className="icon-type">산책 맡길래요</ButtonPrimary></Link>
+                        <Link to={isLogin? '/' : '/login'}><ButtonPrimaryLine className="icon-type v2">산책 시킬래요</ButtonPrimaryLine></Link>
                     </ButtonGroup>
                     <OptLink>
                         <li><Link to="/">서비스 요금</Link></li>

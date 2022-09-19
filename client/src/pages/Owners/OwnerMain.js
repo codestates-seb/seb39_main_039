@@ -110,12 +110,10 @@ const DogSlide = styled.div`
   .slick-slide {
     padding: 0 20px;
   }
-
   .slick-dots {
     li {
       width: auto;
       margin: 0 4px;
-
       button {
         width: 5px;
         height: 5px;
@@ -127,7 +125,6 @@ const DogSlide = styled.div`
         content: "";
       }
     }
-
     .slick-active {
       button {
         width: 22px;

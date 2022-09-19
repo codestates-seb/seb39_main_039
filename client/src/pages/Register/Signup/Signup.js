@@ -4,14 +4,30 @@ import { Header } from "../../../components/Layout/Header";
 import { ButtonPrimary } from '../../../components/Button/Buttons';
 import InputLabel from "../../../components/Inputs/InputLabel";
 import { useInput } from "../../../hooks/useInput";
+import { useDispatch } from "react-redux";
+// import { JoinSuccess } from "../../../redux/actions/loginActions";
+
 
 const SignUp = () => {
     const [state, setState] = useInput({
         email: '',
+        nickName: '',
         password: '',
-        passwordConfirm: '',
     });
     console.log(state);
+    const { email, nickName, password } = state 
+
+    // const dispatch = useDispatch();
+    // const postInfo = () => {
+    //     dispatch(
+    //         JoinSuccess(
+    //         email,
+    //         nickName,
+    //         password
+    //       )
+    //     );
+    //   };
+      
 
     // 모든 검사 true일 때 함수 작동
     const getIsActive = true;
@@ -54,7 +70,10 @@ const SignUp = () => {
                     </FormArea>
                 </div>
                 <div>
-                    <ButtonPrimary disabled ={ getIsActive && 'disabled' }>회원가입</ButtonPrimary>
+                    <ButtonPrimary 
+                        disabled ={ getIsActive && 'disabled' }
+                        // onClick={()=>postInfo()}
+                    >회원가입</ButtonPrimary>
                 </div>
             </SignupPanel>
         </div>

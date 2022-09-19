@@ -5,7 +5,7 @@ export const GET_USER_INFO_SUCCESS = "GET_USER_INFO_SUCCESS";
 export const getUserInfo = () => {
   return async (dispatch) => {
     try {
-      const getUserInfoAPI = axiosAPI.get(`/pet/detailList`);
+      const getUserInfoAPI = axiosAPI.get(`/user/myInfo`);
       let get_userInfo = await getUserInfoAPI;
       dispatch({
         type: "GET_USER_INFO_SUCCESS",

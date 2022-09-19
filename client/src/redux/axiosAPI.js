@@ -1,8 +1,12 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const axiosAPI = axios.create({
   baseURL: "https://server.albamung.tk/",
-  headers: { "Content-type": "application/json" }
+  headers: { 
+    "Content-type": "application/json", 
+    "Authorization": `Bearer ${Cookies.get("access")}`, 
+  }
 });
 
 axiosAPI.interceptors.request.use(

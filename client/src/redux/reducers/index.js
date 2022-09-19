@@ -4,13 +4,15 @@ import loginReducers from "./loginReducer";
 import signupReducers from "./signupReducer";
 import mappingReducer from "./mappingReducer";
 import petReducer from "./petReducer";
+import userReducer from "./userReducer";
 
 
 const rootReducer = combineReducers({
   login: loginReducers,
   signup: signupReducers,
   mapping: mappingReducer,
-  pet: petReducer
+  pet: petReducer,
+  user: userReducer
 });
 
 export default rootReducer;

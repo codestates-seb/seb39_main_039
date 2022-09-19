@@ -94,7 +94,9 @@ const Login = () => {
                         <a href="https://server.albamung.tk/oauth2/authorization/google">
                             <SnsButtonGoogle>구글 계정으로 시작</SnsButtonGoogle>
                         </a>
-                        <SnsButtonKakao>카카오톡으로 시작</SnsButtonKakao>
+                        <a href="https://server.albamung.tk/oauth2/authorization/kakao">
+                            <SnsButtonKakao>카카오톡으로 시작</SnsButtonKakao>
+                        </a>
                     </SnsButtonGroup>
                 </div>
             </LoginPanel>

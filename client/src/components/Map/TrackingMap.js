@@ -157,7 +157,7 @@ const TrackingMap = () => {
 
   return (
     <MapBox>
-      <Map id="myMap" style={{ width: "385px", height: "300px" }}></Map>
+      <Map id="myMap" style={{ width: "100%", height: "300px" }}></Map>
       <FunctionBtn>
         {!isWalk ? (
           <StartWalkingPet
@@ -192,21 +192,27 @@ const TrackingMap = () => {
 
       <div>
         <Time />
-        <InfoPanel number={`${10} m`} string={"산책 거리"} />
+        <ResultInfo>
+          <InfoPanel number={`${10}m`} string={"산책 거리"} />
+          <InfoPanel number={`${10}`} string={"산책 시간"} />
+          <InfoPanel number={`${10}`} string={"속도(분/km)"} />
+        </ResultInfo>
       </div>
     </MapBox>
   );
 };
 
 const MapBox = styled.div`
+  position:relative;
   background-color: white;
-  height: 100vh;
+  /* height: 100vh; */
+  height:auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   transition: 500ms;
   > div:nth-child(3) {
-    margin-top: 20px;
+    width:100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -222,7 +228,6 @@ const MapBox = styled.div`
 
 const Map = styled.div`
   opacity: 0.6;
-  border-radius: 10px;
   ::before {
     position: absolute;
     bottom: 0px;
@@ -235,6 +240,7 @@ const Map = styled.div`
 `;
 
 const FunctionBtn = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -242,8 +248,7 @@ const FunctionBtn = styled.div`
   > div {
     margin: 15px;
   }
-  position: absolute;
-  top: 280px;
+  margin-top:-30px;
 `;
 
 const StartWalkingPet = styled.div`
@@ -301,5 +306,18 @@ const TakePicturePet = styled.div`
     transform: scale(1.04);
   }
 `;
+
+const ResultInfo = styled.div`
+  display: flex;
+  justify-content:space-between;
+  align-items: center;
+  width:100%;
+  margin:20px 0 0;
+
+  >div{
+    flex:1;
+    text-align: center;
+  }
+`
 
 export default TrackingMap;

@@ -27,6 +27,12 @@ const GlobalStyle = createGlobalStyle`
       ${colorVariables};
    }
 
+   li{
+      list-style: none;
+      padding:0;
+      margin:0;
+   }
+
    a{
       text-decoration: none;
    }
@@ -48,13 +54,17 @@ const GlobalStyle = createGlobalStyle`
    .img-circle{border-radius: 100px;}
    .img-circle.xs{width:25px;}
    .img-circle.sm{ width:35px;}
+   .pa0{padding:0 !important}
    .pb20{padding-bottom:20px !important}
    .pt0{padding-top:0 !important}
    .pt5{padding-top:5px !important}
    .pt10{padding-top:10px !important}
+   .pt25{padding-top:25px !important}
    .pb0{padding-bottom:0 !important}
    .bb0{border-bottom:0 !important}
-
+   .d-flex{display:flex;justify-content:space-between}
+   .list-horizonscroll{overflow: auto;white-space: nowrap;}
+   .list-horizonscroll>li{display: inline-block;margin-right:6px}
 
 
    // layout
@@ -69,11 +79,6 @@ const GlobalStyle = createGlobalStyle`
    .container.bg-gray{
       background:var(--gray-100);
    }
-
-   .container.pa0{
-      padding:0;
-   }
-
 
    
    // form

@@ -15,6 +15,7 @@ const Time = () => {
 
 const CountTime = styled.div`
   font-size: 60px;
+  font-weight: 800;
 `;
 
 export default Time;

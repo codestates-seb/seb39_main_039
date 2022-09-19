@@ -2,24 +2,19 @@ import styled from "styled-components";
 import { HeaderConfirm } from "../../components/Layout/Header";
 import TrackingMap from "../../components/Map/TrackingMap";
 import { DogNameLabel } from '../../components/DogNameLabel';
-import { CheckingList } from "../../components/CheckListView";
-import { StateCheckCard } from "../../components/StateCard";
+import { CheckListView } from "../../components/CheckListView";
+import { StateCard } from "../../components/StateCard";
 import sampleImg from '../../assets/img/sample-img.png';
-import { Checkbox } from "../../components/Inputs/Checkbox";
 
-const StartWalking = () => {
-  const CountHandlerPlus = () => {
-    console.log('카운트업')
+const Walking = () => {
+  const ClickHandler = () =>{
+    console.log('산책 종료')
   }
-
-  const CountHandlerMinus = () => {
-    console.log('카운트다운')
-  }
-
+  
   return (
     <div className="container pa0">
       <Section>
-        <HeaderConfirm pageTitle={'진행중인 산책'} />
+        <HeaderConfirm pageTitle={'진행중인 산책'} ConfirmName={'종료'} ClickHandler={ClickHandler}/>
         <div className="walk-team">
           <dl className="walk-con">
             <dt>산책견</dt>
@@ -28,36 +23,39 @@ const StartWalking = () => {
               <DogNameLabel size={'xs'} species={'시바견'} name={'춘식'}/>
             </dd>
           </dl>
+          <dl className="walk-con v2">
+            <dt>산책자</dt>
+            <dd><DogNameLabel size={'xs'} name={'이지은'}/></dd>
+          </dl>
           <dl className="walk-con">
             <dt>산책 예정시간</dt>
             <dd>~ 09-11 오후 20:00까지</dd>
           </dl>
         </div>
       </Section>
-      <Sect className="map-area">
+      <Sect>
           <TrackingMap />
-          <div className="stata-area">
-            <StateBoxArea className="pt25">
-              <li><StateCheckCard type={'i1'} name={'산책'} count={'0'} CountHandlerPlus={CountHandlerPlus} CountHandlerMinus={CountHandlerMinus}/></li>
-              <li><StateCheckCard type={'i2'} name={'배변'} count={'0'} CountHandlerPlus={CountHandlerPlus} CountHandlerMinus={CountHandlerMinus}/></li>
-            </StateBoxArea>
-            <StateBoxArea>
-              <li><StateCheckCard type={'i3'} name={'식사'} count={'0'} CountHandlerPlus={CountHandlerPlus} CountHandlerMinus={CountHandlerMinus}/></li>
-              <li><StateCheckCard type={'i4'} name={'간식'} count={'0'} CountHandlerPlus={CountHandlerPlus} CountHandlerMinus={CountHandlerMinus}/></li>
-            </StateBoxArea>
-          </div>
+          <StateBoxArea className="pt25">
+            <li><StateCard type={'i1'} name={'산책'} count={'0'}/></li>
+            <li><StateCard type={'i2'} name={'배변'} count={'0'}/></li>
+          </StateBoxArea>
+          <StateBoxArea>
+            <li><StateCard type={'i3'} name={'식사'} count={'0'}/></li>
+            <li><StateCard type={'i4'} name={'간식'} count={'0'}/></li>
+          </StateBoxArea>
       </Sect>
       <Sect>
         <div className="d-flex">
           <label htmlFor="" className="ipt-label">체크리스트</label>
           <em>수행률 33%</em>
         </div>
-        <CheckingList>
-          <li><Checkbox text={'간식 먹이기 전에 훈련을 해주세요.'}/></li>
-          <li><Checkbox text={'간간식 먹이기 전에 훈련을 해주세요. 간식 먹이기 전에 훈련을 간식 먹이기 전에 훈련을 해주세요.해주세요. '} /></li>
-          <li><Checkbox text={'가방에 있는 영양제 1포를 먹여주세요.'}/></li>
-          <li><Checkbox text={'가방에 있는 영양제 1포를 먹여주세요.'}/></li>
-        </CheckingList>
+        <CheckListView>
+          <li className="checked">간식 먹이기 전에 훈련을 해주세요.</li>
+          <li className="checked">간식 먹이기 전에 훈련을 해주세요. 간식 먹이기 전에 훈련을 간식 먹이기 전에 훈련을 해주세요.해주세요. </li>
+          <li>올림픽공원 산책을 해주세요.</li>
+          <li>가방에 있는 영양제 1포를 먹여주세요.</li>
+          <li>가방에 있는 영양제 1포를 먹여주세요. 가방에 있는 영양제 1포를 먹여주세요. 가방에 있는 영양제 1포를 먹여주세요.</li>
+        </CheckListView>
       </Sect>
       <Sect>
         <label htmlFor="" className="ipt-label">사진 보관함</label>
@@ -73,7 +71,7 @@ const StartWalking = () => {
   );
 };
 
-export default StartWalking;
+export default Walking;
 
 const Section = styled.section`
     border-bottom:9px solid var(--gray-100);
@@ -122,18 +120,6 @@ const Sect = styled.section`
   margin:0 20px;
   padding:30px 0;
   border-bottom:1px solid var(--gray-200);
-
-  &.map-area{
-    padding:0;
-    margin:0;
-    border-bottom:0;
-
-    .stata-area{
-      padding-bottom:30px;
-      margin:0 20px 10px;
-      border-bottom:1px solid var(--gray-200);
-    }
-  }
 `
 
 const StateBoxArea = styled.div`

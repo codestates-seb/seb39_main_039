@@ -1,14 +1,11 @@
 package com.albamung.pet.dto;
 
-import com.albamung.walk.dto.WalkDto;
 import lombok.Builder;
 import lombok.Getter;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Past;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
+import java.time.LocalDate;
 
 public class PetDto {
     @Builder
@@ -25,9 +22,10 @@ public class PetDto {
         private Long petId;
         private String petPicture;
         private String petName;
-        private Date birthday;
+        private LocalDate birthday;
         private String species;
         private String sex;
+        private String aboutPet;
         private int walkCount;
         private int walkDistance;
     }
@@ -37,9 +35,10 @@ public class PetDto {
     public static class Post {
         private String name;
         private String picture;
-        @Past(message = "생일은 과거만 가능합니다.")
-        private Date birthday;
+        @PastOrPresent(message = "생일은 과거나 오늘만 가능합니다.")
+        private LocalDate birthday;
         private char sex;
+        @NotBlank
         private String species;
         private String aboutPet;
     }
@@ -48,8 +47,8 @@ public class PetDto {
     @Getter
     public static class Put {
         private String name;
-        @Past(message = "생일은 과거만 가능합니다.")
-        private Date birthday;
+        @PastOrPresent(message = "생일은 과거나 오늘만 가능합니다.")
+        private LocalDate birthday;
         private String sex;
         private String species;
         private String aboutPet;

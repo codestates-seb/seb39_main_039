@@ -28,13 +28,13 @@ public class CustomOauth2SuccessHandler extends SavedRequestAwareAuthenticationS
         PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
         String access = jwtTokenProvider.createToken(principal.getId(), principal.getUsername(), principal.getAuthorities());
         String refresh = jwtTokenProvider.createRefreshToken();
-        System.out.println(request.getAttribute("client-redirect-uri"));
+        System.out.println("success login");
 
 
-        ResponseCookie accessLocal = ResponseCookie.from("access", access).sameSite("none").maxAge(7 * 24 * 60 * 60).domain("localhost").secure(true).build();
-        ResponseCookie refreshLocal = ResponseCookie.from("refresh", access).sameSite("none").maxAge(7 * 24 * 60 * 60).domain("localhost").secure(true).build();
-        response.addHeader("set-cookie", accessLocal.toString());
-        response.addHeader("set-cookie", refreshLocal.toString());
+//        ResponseCookie accessLocal = ResponseCookie.from("access", access).sameSite("None").maxAge(7 * 24 * 60 * 60).domain("localhost").path("/").secure(true).build();
+//        ResponseCookie refreshLocal = ResponseCookie.from("refresh", access).sameSite("None").maxAge(7 * 24 * 60 * 60).domain("localhost").path("/").secure(true).build();
+//        response.addHeader("set-cookie", accessLocal.toString());
+//        response.addHeader("set-cookie", refreshLocal.toString());
 
 //
 //        Cookie refreshLocal = new Cookie("refresh", refresh);
@@ -60,6 +60,6 @@ public class CustomOauth2SuccessHandler extends SavedRequestAwareAuthenticationS
         response.addCookie(refreshDeploy);
 
         clearAuthenticationAttributes(request);
-        getRedirectStrategy().sendRedirect(request, response, "https://albamung.tk/auth/redirect?access=" + access);
+        getRedirectStrategy().sendRedirect(request, response, "https://albamung.tk/");
     }
 }

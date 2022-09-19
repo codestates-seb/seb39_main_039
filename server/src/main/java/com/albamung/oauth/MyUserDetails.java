@@ -29,13 +29,5 @@ public class MyUserDetails implements UserDetailsService {
         Collection<GrantedAuthority> authorities = new ArrayList<>(user.getRoleList());
 
         return new PrincipalDetails(user);
-//                .withUsername(email)//
-//                .password(user.getPassword())//
-//                .authorities(authorities)//
-//                .accountExpired(false)//
-//                .accountLocked(false)//
-//                .credentialsExpired(false)//
-//                .disabled(false)//
-//                .build();
     }
 }

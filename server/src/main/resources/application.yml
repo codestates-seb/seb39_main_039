@@ -6,6 +6,8 @@ spring:
       path: /h2
       settings:
         web-allow-others: true
+  main:
+    allow-circular-references: true
   datasource:
     url: jdbc:h2:mem:test
   jpa:
@@ -28,12 +30,13 @@ logging:
       springframework:
         orm:
           jpa: DEBUG
+    web: DEBUG
 server:
+  error:
+    include-message: always
   servlet:
     encoding:
       force-response: true
-  error:
-    include-message: always
 
 clientUri: http://pre-project-client39.s3-website.ap-northeast-2.amazonaws.com/
 

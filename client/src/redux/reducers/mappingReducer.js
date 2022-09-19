@@ -37,7 +37,7 @@ const mappingReducer = (state = initialstate, action) => {
         walkDetailInfo: payload.walkDetailInfo
       };
     default:
-      return { ...state };
+      return state;
   }
 };
 

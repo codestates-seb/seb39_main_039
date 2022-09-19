@@ -105,7 +105,7 @@ const DogEdit = () => {
           <div className="user-con">
             <UserPhoto>
               <img
-                src={"https://avatars.githubusercontent.com/u/9497404?v=4"}
+                src={menuArr[currentTab]?.petPicture}
                 className="user-photo"
                 alt=""
               />
@@ -170,7 +170,7 @@ const DogEdit = () => {
               id=""
               className="ipt-form"
               onChange={(e) => setMyPetAbout(e.target.value)}
-              value={myPetInfo[currentTab]?.petName}
+              defaultValue={myPetInfo[currentTab]?.petName}
             ></textarea>
           </div>
 

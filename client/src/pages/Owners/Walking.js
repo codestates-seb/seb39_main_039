@@ -18,7 +18,6 @@ const Walking = () => {
     console.log('종료 함수')
   }
   
-  
   return (
     <div className="container pa0">
       <ModalEndWalk isOpen={isOpen} setIsOpen={setIsOpen} confirmHandler={confirmHandler}/>

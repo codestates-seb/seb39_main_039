@@ -15,6 +15,7 @@ public class PetDto {
         private Long petId;
         private String petPicture;
         private String petName;
+        private String species;
     }
 
     @Builder

@@ -4,33 +4,59 @@ import { Header } from "../../../components/Layout/Header";
 import { ButtonPrimary } from '../../../components/Button/Buttons';
 import InputLabel from "../../../components/Inputs/InputLabel";
 import { useInput } from "../../../hooks/useInput";
-import { useDispatch } from "react-redux";
-// import { JoinSuccess } from "../../../redux/actions/loginActions";
+import { useSelector, useDispatch } from "react-redux";
+import { JoinSuccess } from "../../../redux/actions/signupActions";
 
 
 const SignUp = () => {
+    const dispatch = useDispatch();
+    const err = useSelector((state) => state.signup.err);
+    const [usernameError, setUsernameError] = useState();
+    const [emailError, setEmailError] = useState();
+    const [passwordError, setPasswordError] = useState();
     const [state, setState] = useInput({
         email: '',
         nickName: '',
         password: '',
     });
-    console.log(state);
-    const { email, nickName, password } = state 
+    const { email, nickName, password } = state;
 
-    // const dispatch = useDispatch();
-    // const postInfo = () => {
-    //     dispatch(
-    //         JoinSuccess(
-    //         email,
-    //         nickName,
-    //         password
-    //       )
-    //     );
-    //   };
-      
+    const isValidInput = nickName.length >= 3;
+    const isValidEmail = email.includes('@') && email.includes('.');
+    const commonLetter = password.search(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{1,}$/);
+    const isValidPassword = commonLetter === 0;
+    const getIsActive = isValidEmail && isValidPassword && isValidEmail === true;
 
-    // 모든 검사 true일 때 함수 작동
-    const getIsActive = true;
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            postJoin();
+        }
+    };
+
+    console.log(err);
+    const handleButtomValid = () => {
+        !isValidInput ? (setUsernameError('3자 이상 입력해주세요.')) : (setUsernameError())
+        !isValidEmail ? (setEmailError('이메일 형식을 확인해주세요.')) : (setEmailError())
+        !isValidPassword ? (setPasswordError('영문, 숫자, 특수문자를 2자리 이상 포함해주세요.')) : (setPasswordError())
+        if(err.includes('사용중')){
+            setUsernameError(err);
+            setEmailError(err);
+        }
+    };
+
+    const postJoin = () => {
+        (async () => await handleButtomValid())();
+        if(getIsActive){
+            dispatch(
+                JoinSuccess(
+                email,
+                nickName,
+                password
+              )
+            )
+        } 
+     }
+    
 
     return(
         <div className="container">
@@ -44,8 +70,20 @@ const SignUp = () => {
                             label={'이메일 계정'}
                             value={state.email}
                             handlerValueState={setState}
-                            // handleKeyPress={handleKeyPress}
-                            // err={'에러메시지'}
+                            handleKeyPress={handleKeyPress}
+                            handlerOnblur={handleButtomValid}
+                            err={emailError} 
+                        />
+
+                        <InputLabel 
+                            type={'text'} 
+                            name={'nickName'}
+                            label={'닉네임'}
+                            value={state.nickName}
+                            handlerValueState={setState}
+                            handleKeyPress={handleKeyPress}
+                            handlerOnblur={handleButtomValid}
+                            err={usernameError} 
                         />
 
                         <InputLabel 
@@ -54,25 +92,15 @@ const SignUp = () => {
                             label={'비밀번호 확인'}
                             value={state.password}
                             handlerValueState={setState}
-                            // handleKeyPress={handleKeyPress}
-                            // err={'에러메시지'}
-                        />
-
-                        <InputLabel 
-                            type={'password'} 
-                            name={'passwordConfirm'}
-                            label={'비밀번호 재입력'}
-                            value={state.passwordConfirm}
-                            handlerValueState={setState}
-                            // handleKeyPress={handleKeyPress}
-                            err={'비밀번호가 일치하지 않습니다.'}
+                            handleKeyPress={handleButtomValid}
+                            handlerOnblur={handleButtomValid}
+                            err={passwordError} 
                         />
                     </FormArea>
                 </div>
                 <div>
-                    <ButtonPrimary 
-                        disabled ={ getIsActive && 'disabled' }
-                        // onClick={()=>postInfo()}
+                    <ButtonPrimary className={getIsActive ? '' : 'disabled'}
+                        onClick={()=>postJoin()}
                     >회원가입</ButtonPrimary>
                 </div>
             </SignupPanel>

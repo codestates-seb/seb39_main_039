@@ -82,9 +82,4 @@ public class UserDto {
         private String fullName;
         private Long grade;
     }
-
-
-
-
-
 }

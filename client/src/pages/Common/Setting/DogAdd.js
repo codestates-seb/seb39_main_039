@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Header } from "../../../components/Layout/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
@@ -22,7 +22,6 @@ const DogAdd = () => {
   const spec = useRef();
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   // 날짜 형식 수정 yyyy-mm-dd
   let year = startDate.getFullYear();

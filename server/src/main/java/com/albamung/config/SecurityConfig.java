@@ -53,10 +53,10 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .oauth2Login().loginPage("/users/login").authorizationEndpoint().and().successHandler(customOauth2SuccessHandler).userInfoEndpoint().userService(principalOauth2UserService).and()
+                .oauth2Login().loginPage("https://www.albamung.tk/login").authorizationEndpoint().and().successHandler(customOauth2SuccessHandler).userInfoEndpoint().userService(principalOauth2UserService).and()
                 .and()
                 .authorizeRequests().requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers("/users/signup", "/users/login", "/users/refresh").permitAll()
+                .antMatchers("/user/signup", "/user/login", "/user/refresh").permitAll()
 //                .antMatchers(HttpMethod.DELETE).hasAnyRole("USER", "ADMIN")
 //                .antMatchers(HttpMethod.PUT).hasAnyRole("USER", "ADMIN")
 //                .antMatchers(HttpMethod.POST).hasAnyRole("USER", "ADMIN")
@@ -71,10 +71,11 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOriginPattern("*");
+        configuration.addAllowedOriginPattern("http://localhost:3000");
+        configuration.addAllowedOriginPattern("https://*.albamung.tk");
+        configuration.setAllowCredentials(true);
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
-        configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L);
         configuration.addExposedHeader("access");
         configuration.addExposedHeader("refresh");

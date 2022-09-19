@@ -55,6 +55,15 @@ public class Walk extends BaseEntityDate {
     @Column(columnDefinition = "TEXT")
     private String caution;
 
+    @ColumnDefault("0")
+    private int pooCount;
+    @ColumnDefault("0")
+    private int snackCount;
+    @ColumnDefault("0")
+    private int mealCount;
+    @ColumnDefault("0")
+    private int walkCount;
+
     @OneToMany(mappedBy = "walk", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<WalkCheckList> checkList = new ArrayList<>();
 
@@ -100,5 +109,18 @@ public class Walk extends BaseEntityDate {
         }
         else this.petList.add(pet);
         pet.addWalkList(this);
+    }
+
+    public void increasePoo(int count){
+        this.pooCount += count;
+    }
+    public void increaseSnack(int count){
+        this.snackCount += count;
+    }
+    public void increaseMeal(int count){
+        this.mealCount += count;
+    }
+    public void increaseWalk(int count){
+        this.walkCount += count;
     }
 }

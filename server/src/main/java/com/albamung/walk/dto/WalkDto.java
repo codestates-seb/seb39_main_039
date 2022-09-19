@@ -23,6 +23,11 @@ public class WalkDto {
         private LocalDateTime endTime;
         private int distance;
         private boolean ended;
+        private int pooCount;
+        private int snackCount;
+        private int mealCount;
+        private int walkCount;
+        private String caution;
         private UserDto.SimpleWalkerResponse walker;
     }
 

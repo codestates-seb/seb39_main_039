@@ -46,6 +46,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     }
 
     public User createUser(ProviderType providerType, Map<String, Object> attributes) {
-        return userRepository.save(User.of(providerType, attributes));
+        User user = User.of(providerType, attributes);
+        user.setNickName(user.getNickName() + " #" + (userRepository.countAllByNickNameStartsWith(user.getNickName())+1));
+        return userRepository.save(user);
     }
 }

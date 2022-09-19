@@ -89,6 +89,10 @@ const DogSlide = styled.div`
         padding:0 20px;
     }
 
+    .slick-prev{
+        z-index: 99;
+    }
+
     .slick-dots{
        li{ 
         width: auto;

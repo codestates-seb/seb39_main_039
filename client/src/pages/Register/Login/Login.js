@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { HeaderClose } from "../../../components/Layout/Header";
@@ -6,14 +7,65 @@ import { ButtonPrimary } from '../../../components/Button/Buttons';
 import { SnsButtonGoogle, SnsButtonKakao } from '../../../components/Button/SnsButtons';
 import InputLabel from "../../../components/Inputs/InputLabel";
 import { useInput } from "../../../hooks/useInput";
+import { useSelector, useDispatch } from "react-redux";
+import { loginSuccess } from "../../../redux/actions/loginActions";
+
 
 const Login = () => {
-    const [state, setState] = useInput({
+    const dispatch = useDispatch();
+    const [ state, setState ] = useInput({
         email:'',
         password:'',
     });
+    const { email, password } = state;
+    const [ errMessage, setErrMessage ] = useState();
+
+    const postLogin = () => {
+        (async () => {
+            await loginRequestHandler()
+        })();
+        if (isValidInput) {
+            dispatch(
+                loginSuccess(
+                email,
+                password
+              )
+            );
+        }
+    };
+
+    //이즈 로오오그이인
+    const  isLogin  = useSelector((state) => state.login.isLogin);
+    console.log('isLogin', isLogin);
+
+    const isValidInput = email.length > 0 && password.length > 0;
+    const loginRequestHandler = () => {
+        !isValidInput
+          ? setErrMessage("이메일 계정과 패스워드를 모두 입력해주세요.")
+          : setErrMessage();
+      };
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            postLogin();
+        }
+    };
     
-    console.log(state);
+    // const postUserLogin = (email, password) => {
+    //     (async () => {
+    //       await loginRequestHandler()
+    //     })();
+        
+    //     // (async () => {
+    //     //   if (isValidInput) {
+    //     //     errContent = await postUser(email, password);
+            
+    //     //     if (errContent !== undefined) {
+    //     //       await setErrMessage(errContent);
+    //     //     } 
+    //     //   } 
+    //     // })();
+    //   };
 
     return(
         <div className="container">
@@ -30,7 +82,8 @@ const Login = () => {
                             label={'이메일 계정'}
                             value={state.email}
                             handlerValueState={setState}
-                            // err={'이메일 계정 혹은 패스워드가 틀립니다.'}
+                            handleKeyPress={handleKeyPress}
+                            err={errMessage}
                         />
                         <InputLabel 
                             type={'password'} 
@@ -38,9 +91,14 @@ const Login = () => {
                             label={'패스워드'}
                             value={state.password}
                             handlerValueState={setState}
-                            // err={'이메일 계정 혹은 패스워드가 틀립니다.'}
+                            handleKeyPress={handleKeyPress}
+                            err={errMessage}
                         />
-                        <ButtonPrimary>로그인</ButtonPrimary>
+                        <ButtonPrimary 
+                            onClick={() => {
+                                postLogin();
+                            // navigate("/questions");
+                        }}>로그인</ButtonPrimary>
                         <small>회원이 아니신가요? <Link to="/signupTerms">회원가입</Link></small>
                     </FormArea>
                     <SnsButtonGroup>

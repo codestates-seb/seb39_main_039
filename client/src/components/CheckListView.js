@@ -30,3 +30,35 @@ export const CheckListView = styled.ul`
         background-image:url('${ckeckIcon}');
     }
 `
+
+
+export const CheckingList = styled(CheckListView)`
+    li{
+        border:1px solid var(--gray-200);
+        background-color:var(--white-000);
+
+        label{
+            width:25px;
+            height:25px;
+        }
+
+        label::after{
+            top:5px;
+            left: 5px;
+            width:11px;
+        }
+
+        >div{
+            width:100%;
+        }
+        >div>div{
+            display: flex;
+            width:100%;
+        }
+
+        >div>em{
+            display: inline;
+            padding-left:11px;
+        }
+    }
+`

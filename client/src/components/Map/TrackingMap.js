@@ -203,6 +203,7 @@ const TrackingMap = () => {
 };
 
 const MapBox = styled.div`
+  position:relative;
   background-color: white;
   /* height: 100vh; */
   height:auto;
@@ -212,7 +213,6 @@ const MapBox = styled.div`
   transition: 500ms;
   > div:nth-child(3) {
     width:100%;
-    margin-top: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -228,7 +228,6 @@ const MapBox = styled.div`
 
 const Map = styled.div`
   opacity: 0.6;
-  border-radius: 10px;
   ::before {
     position: absolute;
     bottom: 0px;
@@ -241,6 +240,7 @@ const Map = styled.div`
 `;
 
 const FunctionBtn = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -248,8 +248,7 @@ const FunctionBtn = styled.div`
   > div {
     margin: 15px;
   }
-  position: absolute;
-  top: 280px;
+  margin-top:-30px;
 `;
 
 const StartWalkingPet = styled.div`

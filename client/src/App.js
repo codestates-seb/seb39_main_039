@@ -14,6 +14,7 @@ import {
   UserEdit,
   WalkerMain,
   StartWalking,
+  Walking,
   DogEdit,
   DogAdd,
   WalkerEdit,
@@ -40,6 +41,7 @@ function App() {
         <Route path="/wantedList" element={<WantedList />}></Route>
         <Route path="/wantedDetail" element={<WantedDetail />}></Route>
         <Route path="/workHistory" element={<WorkHistory />}></Route>
+        <Route path="/walking" element={<Walking />}></Route>
         <Route path="/setting" element={<Setting />}></Route>
         <Route path="/userEdit" element={<UserEdit />}></Route>
         <Route path="/dogEdit" element={<DogEdit />}></Route>

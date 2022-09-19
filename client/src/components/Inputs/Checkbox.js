@@ -78,7 +78,7 @@ const CheckboxWrap = styled.div`
         em{
             display: inline-block;
             padding-left:15px;
-            line-height:1.9em
+            line-height:1.6em
         }
     }
 `;

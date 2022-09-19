@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { HeaderConfirm } from "../../../components/Layout/Header";
+import { Header } from "../../../components/Layout/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -18,7 +18,7 @@ import {
   deleteMyPetInfo
 } from "../../../redux/actions/petActions";
 import { petSpecList } from "../../../constants/petSpecies";
-import { ButtonPrimary } from "../../../components/Button/Buttons";
+import { ButtonPrimary, ButtonCancel } from "../../../components/Button/Buttons";
 
 const DogEdit = () => {
   const dispatch = useDispatch();
@@ -73,10 +73,8 @@ const DogEdit = () => {
 
   return (
     <div className="container">
-      <HeaderConfirm
+      <Header
         pageTitle={"강아지 정보 수정"}
-        ConfirmName={"완료"}
-        ClickHandler={ClickHandler}
       />
       <TabMenu>
         {menuArr.map((el, index) => {
@@ -173,8 +171,11 @@ const DogEdit = () => {
               defaultValue={myPetInfo[currentTab]?.petName}
             ></textarea>
           </div>
-
-          <ButtonPrimary onClick={deletePet}>등록 삭제하기</ButtonPrimary>
+          
+          <div className="btn-area">
+            <ButtonPrimary onClick={ClickHandler}>수정 완료</ButtonPrimary>
+            <ButtonCancel onClick={deletePet}>삭제</ButtonCancel>
+          </div>
         </Form>
       </Desc>
     </div>
@@ -184,6 +185,12 @@ const DogEdit = () => {
 export default DogEdit;
 const Form = styled.div`
   padding-bottom: 60px;
+
+  .btn-area{
+    button+button{
+      margin-top:10px
+    }
+  }
 `;
 
 const UserInfo = styled.section`

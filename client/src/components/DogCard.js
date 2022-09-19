@@ -28,8 +28,7 @@ export const DogCard = (props) => {
         <div className="dog-info">
           <div>
             <span>{props.props.species}</span>
-            {/* strong에 성별 값 className으로 주기 male, female */}
-            <strong className="male">{props.props.petName}</strong>
+            <strong className={props.props.sex}>{props.props.petName}</strong>
             <em>
               <FontAwesomeIcon icon={faCakeCandles} /> {props.props.birthday}
               <i>{age}세</i>
@@ -134,11 +133,11 @@ const DogProfile = styled.div`
       background-size: 26px auto;
     }
 
-    strong.male {
+    strong.M {
       background-image: url("${sexIconMale}");
     }
 
-    strong.female {
+    strong.F {
       background-image: url("${sexIconFemale}");
     }
 

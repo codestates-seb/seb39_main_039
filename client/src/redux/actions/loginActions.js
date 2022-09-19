@@ -10,9 +10,6 @@ export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const loginSuccess = (email, password) => {
     return async (dispatch) => {
     try {
-        dispatch({
-            type: "LOGIN_SUCCESS",
-        })
         const postUser = axiosAPI.post(`/user/login`, {
            email: email,
            password: password
@@ -23,6 +20,11 @@ export const loginSuccess = (email, password) => {
             Cookies.set("refresh", response.headers.refresh, {
               expires: 7
             });
+        })
+        .then(() => {
+            dispatch({
+                type: "LOGIN_SUCCESS",
+            })
         })
         // .then((res) => window.location.replace('/'));
         .then((res) => window.location.replace('/'));

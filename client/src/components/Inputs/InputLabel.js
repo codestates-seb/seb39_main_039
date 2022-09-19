@@ -6,9 +6,17 @@ const InputLabel = ({
     type, 
     value,
     err,
+    info,
     handlerValueState,
+    handlerOnblur,
     handleKeyPress
 }) => {
+    const isError = () => {
+        if (err !== undefined) {
+          handlerOnblur();
+        }
+      };
+
     return(
         <IptFormArea>
             <input 
@@ -20,11 +28,13 @@ const InputLabel = ({
                 value={value}
                 onChange={handlerValueState}
                 onKeyPress={handleKeyPress}
+                onBlur={isError}
                 autoComplete="off" 
                 required
             ></input>
             <label htmlFor={name}><span>{label}</span></label>
             {err && <p className="err-msg">{err}</p>}
+            {info && <p className='msg'>{info}</p>}
         </IptFormArea>
     )
 }

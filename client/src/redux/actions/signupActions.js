@@ -1,22 +1,32 @@
 import axiosAPI from "../axiosAPI";
 
 
-// 로그인이 성공했을 때 행동 (액션타입)
 export const JOIN_SUCCESS = "JOIN_SUCCESS";
+export const JOIN_ERROR = "JOIN_ERROR";
 
 export const JoinSuccess = (email, nickName, password) => {
-    // type:LOGOUT_SUCCESS
-    return async () => {
+    return async (dispatch) => {
     try {
-        const postInfo = axiosAPI.post(`/user/signup`, {
+        const postInfo = axiosAPI.post(`/user/signUp`, {
            email: email,
            nickName: nickName,
            password: password
         })
+        .then(() => {
+            dispatch({
+                type: "JOIN_SUCCESS",
+            })
+        })
+        .then((res) => window.location.replace('/login'));
         let post_info = await postInfo;
         } catch (error) {
-        //에러 핸들링 하는 곳
-        console.log("에러", error);
+            if (error.response.status === 422) {
+            dispatch({
+                type: "JOIN_ERROR",
+                payload : '이메일 혹은 닉네임이 이미 사용중입니다.'
+            })
+            return error.response.data
+          }
         }
     };
 }

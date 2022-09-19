@@ -15,7 +15,7 @@ export const ButtonPrimary = styled.button`
     background-color: var(--primary-active);
   }
 
-  &:disabled {
+  &.disabled {
     background-color: var(--gray-200);
     color: var(--gray-400);
   }

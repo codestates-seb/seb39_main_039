@@ -30,6 +30,8 @@
     "react-timecode": "^1.2.0",
     "react-timer-wrapper": "^0.4.1",
     "redux": "^4.2.0",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.1",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.5",

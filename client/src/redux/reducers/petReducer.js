@@ -12,9 +12,8 @@ const petReducer = (state = initialstate, action) => {
         ...state,
         myPetInfo: payload.myPetInfo
       };
-
     default:
-      return { ...state };
+      return state;
   }
 };
 

@@ -3,17 +3,19 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import GlobalStyle from "./GlobalStyle";
-import store from "./redux/store";
+import store, { persistor } from "./redux/store";
 import { Provider } from "react-redux";
-import ScrollTop from "./constants/scrollTop";
+import { PersistGate } from "redux-persist/integration/react";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <ScrollTop />
-      <GlobalStyle />
-      <App />
-    </BrowserRouter>
+    <PersistGate loading={null} persistor={persistor}>
+      <BrowserRouter>
+        <GlobalStyle />
+        <App />
+      </BrowserRouter>
+    </PersistGate>
   </Provider>
 );

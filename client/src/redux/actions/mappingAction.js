@@ -52,3 +52,16 @@ export const sendLocation = (lat, lon, distance) => {
     }
   };
 };
+
+export const changeCheckListState = (walkId, checkListId, done) => {
+  return async (dispatch) => {
+    try {
+      const changeCheckListAPI = await axiosAPI
+        .put(`/walk/${walkId}/check/${checkListId}`, `${done}`)
+        .then((res) => dispatch(getWalkDetailInfo(1)));
+    } catch (error) {
+      //에러 핸들링 하는 곳
+      console.log(error);
+    }
+  };
+};

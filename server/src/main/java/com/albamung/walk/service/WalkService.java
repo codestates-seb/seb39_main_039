@@ -79,6 +79,22 @@ public class WalkService {
         walkRepository.UpdateDistance(walkId, distance);
     }
 
+    public int putBasic(Long walkId, String basic, int count, Long loginId){
+        Walk targetWalk = verifyWalk(walkId);
+        verifyWalkUser(targetWalk, loginId);
+        switch (basic){
+            case "poo" : targetWalk.increasePoo(count);
+            return targetWalk.getPooCount();
+            case "meal" : targetWalk.increaseMeal(count);
+            return targetWalk.getMealCount();
+            case "snack" : targetWalk.increaseSnack(count);
+            return targetWalk.getSnackCount();
+            case "walk" : targetWalk.increaseWalk(count);
+            return targetWalk.getWalkCount();
+            default: throw new CustomException("잘못된 변수입니다. 변경할 poo, meal, snack, walk를 입력해주세요", HttpStatus.BAD_REQUEST);
+        }
+    }
+
     /**
      * 산책 ID 유효성 검사
      */

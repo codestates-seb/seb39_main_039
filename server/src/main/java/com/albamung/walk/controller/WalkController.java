@@ -91,6 +91,18 @@ public class WalkController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @ApiOperation(value = "산책 기본 요소 증감", notes = "{basic}에 증감할 poo, snack, walk, meal 을 입력하세요. \n Body에는 1 혹은 -1을 보내주시면 됩니다. \n 응답으로 변경이 적용된 숫자가 반환됩니다. ")
+    @PutMapping("/{walkId}/{basic}")
+    public ResponseEntity putPoo(@AuthenticationPrincipal @ApiIgnore User walker,
+                                 @PathVariable @Positive Long walkId,
+                                 @PathVariable String basic,
+                                 @RequestBody @NotNull int count){
+        if (walker == null) walker = User.builder().id(1L).build();
+        int response = walkService.putBasic(walkId, basic, count, walker.getId());
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+    
+
     /**
      * 산책 매칭 -> 구인글 매칭으로 이관
      */

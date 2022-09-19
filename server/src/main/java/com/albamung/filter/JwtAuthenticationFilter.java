@@ -32,7 +32,7 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
     private String passwordParameter = SPRING_SECURITY_FORM_PASSWORD_KEY;
 
 
-    private static final AntPathRequestMatcher DEFAULT_ANT_PATH_REQUEST_MATCHER = new AntPathRequestMatcher("/users/login",
+    private static final AntPathRequestMatcher DEFAULT_ANT_PATH_REQUEST_MATCHER = new AntPathRequestMatcher("/user/login",
             "POST");
 
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserRepository userRepository) {
@@ -70,13 +70,18 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
         String access = jwtTokenProvider.createToken(userDetails.getId(), userDetails.getUsername(), userDetails.getAuthorities());
         String refresh = jwtTokenProvider.createRefreshToken();
         userDetails.getUser().setRefreshToken(refresh);
+//
+//        ResponseCookie refreshCookie = ResponseCookie.from("refresh", refresh).maxAge(7 * 24 * 60 * 60).httpOnly(true).secure(true).path("/").domain("albamung.tk").build();
+//        ResponseCookie accessCookie = ResponseCookie.from("access", access).maxAge(7 * 24 * 60 * 60).path("/").domain("albamung.tk").build();
+//        ResponseCookie refreshCookieLocal = ResponseCookie.from("refresh", refresh).maxAge(7 * 24 * 60 * 60).httpOnly(true).secure(true).path("/").domain("localhost").sameSite("None").build();
+//        ResponseCookie accessCookieLocal = ResponseCookie.from("access", access).maxAge(7 * 24 * 60 * 60).path("/").domain("localhost").sameSite("None").secure(true).build();
 
-        ResponseCookie refreshCookie = ResponseCookie.from("refresh", refresh).maxAge(7 * 24 * 60 * 60).httpOnly(true).secure(true).path("/").build();
-        ResponseCookie accessCookie = ResponseCookie.from("access", access).maxAge(7 * 24 * 60 * 60).path("/").build();
 
-
-        response.addHeader("Authorization", access);
-        response.addHeader("set-cookie", refreshCookie.toString());
-        response.addHeader("set-cookie", accessCookie.toString());
+        response.addHeader("access", access);
+        response.addHeader("refresh", refresh);
+//        response.addHeader("set-cookie", refreshCookie.toString());
+//        response.addHeader("set-cookie", accessCookie.toString());
+//        response.addHeader("set-cookie", accessCookieLocal.toString());
+//        response.addHeader("set-cookie", refreshCookieLocal.toString());
     }
 }

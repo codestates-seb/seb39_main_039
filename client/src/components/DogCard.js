@@ -28,7 +28,6 @@ export const DogCard = (props) => {
         <div className="dog-info">
           <div>
             <span>{props.props.species}</span>
-            {/* strong에 성별 값 className으로 주기 male, female */}
             <strong className={props.props.sex}>{props.props.petName}</strong>
             <em>
               <FontAwesomeIcon icon={faCakeCandles} /> {props.props.birthday}

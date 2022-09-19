@@ -1,22 +1,30 @@
+import React, { useState } from "react";
 import styled from "styled-components";
 import { HeaderConfirm } from "../../components/Layout/Header";
 import TrackingMap from "../../components/Map/TrackingMap";
 import { DogNameLabel } from "../../components/DogNameLabel";
 import { CheckListView } from "../../components/CheckListView";
 import { StateCard } from "../../components/StateCard";
+import ModalEndWalk from "../../components/Modal/ModalEndWalk";
 import sampleImg from "../../assets/img/sample-img.png";
-import { useDispatch, useSelector } from "react-redux";
 
 const Walking = () => {
-  const dispatch = useDispatch();
-  const { walkDetailInfo } = useSelector((state) => state.mapping);
-
+  const [isOpen, setIsOpen] = useState(false);
   const ClickHandler = () => {
-    console.log("산책 종료");
+    setIsOpen(!isOpen);
+  };
+
+  const confirmHandler = () => {
+    console.log("종료 함수");
   };
 
   return (
     <div className="container pa0">
+      <ModalEndWalk
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        confirmHandler={confirmHandler}
+      />
       <Section>
         <HeaderConfirm
           pageTitle={"진행중인 산책"}

@@ -3,9 +3,9 @@ package com.albamung.user.entity;
 import org.springframework.security.core.GrantedAuthority;
 
 public enum RoleType implements GrantedAuthority {
-    ADMIN("ROLE_ADMIN"),
-    USER("ROLE_USER"),
-    GUEST("GUEST");
+    ROLE_ADMIN("ROLE_ADMIN"),
+    ROLE_USER("ROLE_USER"),
+    ROLE_GUEST("GUEST");
 
     RoleType(String name) {
     }

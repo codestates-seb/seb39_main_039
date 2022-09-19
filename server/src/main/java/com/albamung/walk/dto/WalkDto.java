@@ -23,11 +23,17 @@ public class WalkDto {
         private LocalDateTime endTime;
         private int distance;
         private boolean ended;
+        private int pooCount;
+        private int snackCount;
+        private int mealCount;
+        private int walkCount;
+        private String caution;
         private UserDto.SimpleWalkerResponse walker;
     }
 
     @Getter
     @Builder
+    @ApiModel("산책 동선 좌표 입력")
     public static class PutCoord{
         private String coord;
         private int distance;

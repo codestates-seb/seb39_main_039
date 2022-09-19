@@ -10,13 +10,10 @@ export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const loginSuccess = (email, password) => {
   return async (dispatch) => {
     try {
-      dispatch({
-        type: "LOGIN_SUCCESS"
-      });
       const postUser = axiosAPI
         .post(`/user/login`, {
-          email: `${email}`,
-          password: `${password}`
+          email: email,
+          password: password
         })
         .then((response) => {
           Cookies.set("access", response.headers.access, {
@@ -26,10 +23,13 @@ export const loginSuccess = (email, password) => {
             expires: 7
           });
         })
+        .then(() => {
+          dispatch({
+            type: "LOGIN_SUCCESS"
+          });
+        })
         .then((res) => window.location.replace("/"));
       let post_user = await postUser;
-
-      // .then((res) => window.location.replace('/'));
     } catch (error) {
       if (error.response.status === 401) {
         dispatch({

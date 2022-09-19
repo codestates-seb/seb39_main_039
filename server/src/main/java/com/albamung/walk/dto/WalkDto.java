@@ -33,6 +33,7 @@ public class WalkDto {
 
     @Getter
     @Builder
+    @ApiModel("산책 동선 좌표 입력")
     public static class PutCoord{
         private String coord;
         private int distance;

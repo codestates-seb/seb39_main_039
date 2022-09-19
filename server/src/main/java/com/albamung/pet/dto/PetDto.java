@@ -1,5 +1,6 @@
 package com.albamung.pet.dto;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -32,6 +33,7 @@ public class PetDto {
 
     @Builder
     @Getter
+    @ApiModel("반려견정보 등록")
     public static class Post {
         private String name;
         private String picture;
@@ -45,6 +47,7 @@ public class PetDto {
 
     @Builder
     @Getter
+    @ApiModel("반려견정보 수정")
     public static class Put {
         private String name;
         @PastOrPresent(message = "생일은 과거나 오늘만 가능합니다.")

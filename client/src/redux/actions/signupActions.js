@@ -17,7 +17,7 @@ export const JoinSuccess = (email, nickName, password) => {
                 type: "JOIN_SUCCESS",
             })
         })
-        // .then((res) => window.location.replace('/'));
+        .then((res) => window.location.replace('/login'));
         let post_info = await postInfo;
         } catch (error) {
             if (error.response.status === 422) {

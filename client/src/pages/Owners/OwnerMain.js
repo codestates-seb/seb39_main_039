@@ -106,36 +106,33 @@ const Section = styled.section`
 `;
 
 const DogSlide = styled.div`
-  padding-bottom: 20px;
-  .slick-slide {
-    padding: 0 20px;
-  }
-
-  .slick-dots {
-    li {
-      width: auto;
-      margin: 0 4px;
-
-      button {
-        width: 5px;
-        height: 5px;
-        background-color: var(--gray-300);
-        border-radius: 50px;
-        transition: all 0.5s;
-      }
-      button:before {
-        content: "";
-      }
+    padding-bottom:20px;
+    .slick-slide{
+        padding:0 20px;
     }
-
-    .slick-active {
-      button {
-        width: 22px;
-        background-color: var(--primary);
-      }
+    .slick-dots{
+       li{ 
+        width: auto;
+        margin:0 4px;
+        button{
+            width:5px;
+            height:5px;
+            background-color:var(--gray-300);
+            border-radius: 50px;
+            transition: all .5s;
+        }
+        button:before{
+            content: '';
+        }
+       }
+       .slick-active{
+            button{
+                width:22px;
+                background-color: var(--primary);
+            }
+       }
     }
-  }
-`;
+`
 
 const Weather = styled.div`
   display: flex;

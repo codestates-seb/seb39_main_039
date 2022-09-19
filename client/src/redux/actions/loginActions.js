@@ -24,6 +24,7 @@ export const loginSuccess = (email, password) => {
               expires: 7
             });
         })
+        // .then((res) => window.location.replace('/'));
         .then((res) => window.location.replace('/'));
         let post_user = await postUser;
         } catch (error) {

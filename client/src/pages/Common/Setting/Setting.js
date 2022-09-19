@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components"
 import noImage from '../../../assets/img/noImage.svg';
@@ -7,8 +7,18 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 import UserGrade from "../../../components/UserGrade";
 import Arrows from '../../../assets/img/arrows.svg';
 import SwitchMode from "../../../components/SwitchMode";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserInfo } from "../../../redux/actions/userActions";
 
 const Setting = () => {
+    const dispatch = useDispatch();
+    const { userInfo } = useSelector((state) => state.user);
+    useEffect(() => {
+        dispatch(getUserInfo());
+    }, []);
+
+    console.log(userInfo);
+
     const [isOn, setIsOn]= useState(true);
     const toggleHandler = () => {
         setIsOn(!isOn)
@@ -20,12 +30,12 @@ const Setting = () => {
             <UserInfo>
                 <div className="user-con">
                     <UserPhoto>
-                        <img src={noImage} className="user-photo" alt=""/>
-                        <Link to="/" className="user-edit"><FontAwesomeIcon icon={faPen}/></Link>
+                        <img src={userInfo.profileImage} className="user-photo" alt=""/>
+                        <Link to="/userEdit" className="user-edit"><FontAwesomeIcon icon={faPen}/></Link>
                     </UserPhoto>
-                    <p className="user-name">사용자이름</p>
-                    <em className="user-phone">010-1234-1234</em>
-                    <p className="user-email">user@email.com</p>
+                    <p className="user-name">{userInfo.nickName}</p>
+                    <em className="user-phone">{userInfo.phone}</em>
+                    <p className="user-email">{userInfo.email}</p>
                 </div>
                 <UserGrade className="user-grade" />
             </UserInfo>

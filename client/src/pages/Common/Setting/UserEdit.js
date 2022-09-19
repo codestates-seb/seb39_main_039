@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Header } from "../../../components/Layout/Header";
@@ -5,7 +6,6 @@ import noImage from '../../../assets/img/noImage.svg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import { ButtonPrimary } from "../../../components/Button/Buttons";
-
 
 const UserEdit = () => {
     const ClickHandler = () =>{

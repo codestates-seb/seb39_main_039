@@ -13,6 +13,9 @@ import { loginSuccess } from "../../../redux/actions/loginActions";
 
 const Login = () => {
     const dispatch = useDispatch();
+    const  isLogin  = useSelector((state) => state.login.isLogin);
+    const  err  = useSelector((state) => state.login.err);
+
     const [ state, setState ] = useInput({
         email:'',
         password:'',
@@ -31,12 +34,12 @@ const Login = () => {
                 password
               )
             );
+            if(!isLogin){
+                setErrMessage(err)
+            }
         }
     };
 
-    //이즈 로오오그이인
-    const  isLogin  = useSelector((state) => state.login.isLogin);
-    console.log('isLogin', isLogin);
 
     const isValidInput = email.length > 0 && password.length > 0;
     const loginRequestHandler = () => {
@@ -51,22 +54,6 @@ const Login = () => {
         }
     };
     
-    // const postUserLogin = (email, password) => {
-    //     (async () => {
-    //       await loginRequestHandler()
-    //     })();
-        
-    //     // (async () => {
-    //     //   if (isValidInput) {
-    //     //     errContent = await postUser(email, password);
-            
-    //     //     if (errContent !== undefined) {
-    //     //       await setErrMessage(errContent);
-    //     //     } 
-    //     //   } 
-    //     // })();
-    //   };
-
     return(
         <div className="container">
             <LoginPanel>

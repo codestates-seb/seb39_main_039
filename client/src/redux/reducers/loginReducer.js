@@ -1,7 +1,8 @@
-import { LOGIN_SUCCESS, LOGOUT_SUCCESS } from "../actions/loginActions" 
+import { LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT_SUCCESS } from "../actions/loginActions" 
 //초기값
 const initialstate = {
-    isLogin : false
+    isLogin : false,
+    err : '',
 }
 
 const loginReducers = (state = initialstate, action) => {
@@ -10,6 +11,10 @@ const loginReducers = (state = initialstate, action) => {
         case LOGIN_SUCCESS:
             return{//객체로 내보내기
                 isLogin: true
+            }
+        case LOGIN_ERROR:
+            return{
+                err: action.payload,
             }
         case LOGOUT_SUCCESS:
             return{

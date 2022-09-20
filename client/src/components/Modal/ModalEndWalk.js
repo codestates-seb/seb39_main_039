@@ -87,9 +87,9 @@ const StyledModalCon= styled.div`
             margin-bottom:4px;
         }
         p{
-            font-size:15px;
+            font-size:14px;
             color:var(--gray-600);
-            line-height: 1.3em;
+            line-height: 1.4em;
         }
         
     }

@@ -192,6 +192,7 @@ const List = styled.ul`
         background-repeat: no-repeat;
         background-position:98% 50%;
         background-image:url('${Arrows}');
+        cursor: pointer;
 
         p a{
             color:var(--black-900)

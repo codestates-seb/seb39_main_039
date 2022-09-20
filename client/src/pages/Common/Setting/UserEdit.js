@@ -28,7 +28,6 @@ const UserEdit = () => {
         dispatch(editUserInfo(fullName, phone, nickName));
     }
 
-
     return(
         <div className="container">
             <Header pageTitle={'나의 기본정보 수정'}/>

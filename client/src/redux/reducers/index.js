@@ -4,7 +4,14 @@ import loginReducers from "./loginReducer";
 import signupReducers from "./signupReducer";
 import mappingReducer from "./mappingReducer";
 import petReducer from "./petReducer";
+import { persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
+const persistConfig = {
+  key: "root",
+  storage,
+  blackList: ["pet"]
+};
 
 const rootReducer = combineReducers({
   login: loginReducers,
@@ -13,4 +20,6 @@ const rootReducer = combineReducers({
   pet: petReducer
 });
 
-export default rootReducer;
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export default persistedReducer;

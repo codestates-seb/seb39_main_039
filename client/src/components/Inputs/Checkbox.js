@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { useEffect } from "react";
 import styled, { css } from "styled-components";
 
 // 약관 전체동의
@@ -49,12 +50,12 @@ export const EachCheckbox = ({ data, text, onChangeHandler, checkItems }) => {
   );
 };
 
-export const Checkbox = ({ text, func }) => {
+export const Checkbox = ({ text, func, id, changeCheckList }) => {
   const [isChecked, setIsChecked] = useState(false);
-
+  console.log("addddad", changeCheckList);
   const onClickCheck = () => {
     setIsChecked(!isChecked);
-    func(!isChecked);
+    func(!isChecked, id);
   };
 
   return (

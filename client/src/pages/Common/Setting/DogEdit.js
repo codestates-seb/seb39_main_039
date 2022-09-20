@@ -27,7 +27,7 @@ const DogEdit = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const [birth, setBirth] = useState();
   const [myPetName, setMyPetName] = useState(myPetInfo[currentTab]?.petName);
-  const [myPetAbout, setMyPetAbout] = useState(myPetInfo[currentTab]?.petName);
+  const [myPetAbout, setMyPetAbout] = useState(myPetInfo[currentTab]?.aboutPet);
 
   const sex = useRef();
   const spec = useRef();
@@ -170,7 +170,7 @@ const DogEdit = () => {
               id=""
               className="ipt-form"
               onChange={(e) => setMyPetAbout(e.target.value)}
-              defaultValue={myPetInfo[currentTab]?.petName}
+              defaultValue={myPetInfo[currentTab]?.aboutPet}
             ></textarea>
           </div>
 

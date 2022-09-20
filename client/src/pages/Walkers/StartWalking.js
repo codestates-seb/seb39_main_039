@@ -10,29 +10,42 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import {
   getWalkDetailInfo,
-  changeCheckListState
+  changeCheckListState,
+  countPoo
 } from "../../redux/actions/mappingAction";
+import { faCropSimple } from "@fortawesome/free-solid-svg-icons";
 
 const StartWalking = () => {
   const dispatch = useDispatch();
   const { walkDetailInfo } = useSelector((state) => state.mapping);
-
-  const CountHandlerPlus = () => {
-    console.log("카운트업");
+  const [isDone, setIsDone] = useState();
+  const [checkCount, setCheckCount] = useState(0);
+  const [changeCheckList, setChangeCheckList] = useState();
+  const CountHandlerPlus = (walkId, toDo, count) => {
+    dispatch(countPoo(walkId, toDo, count)).then((res) =>
+      setCheckCount(res.data)
+    );
   };
 
-  const CountHandlerMinus = () => {
-    console.log("카운트다운");
+  const CountHandlerMinus = (walkId, toDo, count) => {
+    dispatch(countPoo(walkId, toDo, count)).then((res) =>
+      setCheckCount(res.data)
+    );
   };
-
-  const change = (curState) => {
-    // setIsChecked(!isChecked);
-    dispatch(changeCheckListState(1, 1, curState));
+  const change = (curState, checkList_id) => {
+    dispatch(changeCheckListState(1, checkList_id, curState)).then((res) =>
+      setChangeCheckList(res.config.data)
+    );
+    setIsDone(
+      walkDetailInfo.checkList?.filter((el) => {
+        return el.checked === true;
+      })
+    );
   };
 
   useEffect(() => {
     dispatch(getWalkDetailInfo(1));
-  }, []);
+  }, [checkCount, changeCheckList]);
 
   return (
     <div className="container pa0">
@@ -45,9 +58,10 @@ const StartWalking = () => {
               {walkDetailInfo.petList?.map((el, idx) => (
                 <DogNameLabel
                   size={"xs"}
-                  species={"시바견"}
+                  species={el.species}
                   name={el.petName}
                   key={idx}
+                  picture={el.petPicture}
                 />
               ))}
             </dd>
@@ -66,18 +80,26 @@ const StartWalking = () => {
               <StateCheckCard
                 type={"i1"}
                 name={"산책"}
-                count={"0"}
-                CountHandlerPlus={CountHandlerPlus}
-                CountHandlerMinus={CountHandlerMinus}
+                count={walkDetailInfo.walkCount}
+                CountHandlerPlus={() => {
+                  CountHandlerPlus(walkDetailInfo.walkId, "walk", 1);
+                }}
+                CountHandlerMinus={() => {
+                  CountHandlerMinus(walkDetailInfo.walkId, "walk", -1);
+                }}
               />
             </li>
             <li>
               <StateCheckCard
                 type={"i2"}
                 name={"배변"}
-                count={"0"}
-                CountHandlerPlus={CountHandlerPlus}
-                CountHandlerMinus={CountHandlerMinus}
+                count={walkDetailInfo.pooCount}
+                CountHandlerPlus={() => {
+                  CountHandlerPlus(walkDetailInfo.walkId, "poo", 1);
+                }}
+                CountHandlerMinus={() => {
+                  CountHandlerMinus(walkDetailInfo.walkId, "poo", -1);
+                }}
               />
             </li>
           </StateBoxArea>
@@ -86,18 +108,26 @@ const StartWalking = () => {
               <StateCheckCard
                 type={"i3"}
                 name={"식사"}
-                count={"0"}
-                CountHandlerPlus={CountHandlerPlus}
-                CountHandlerMinus={CountHandlerMinus}
+                count={walkDetailInfo.mealCount}
+                CountHandlerPlus={() => {
+                  CountHandlerPlus(walkDetailInfo.walkId, "meal", 1);
+                }}
+                CountHandlerMinus={() => {
+                  CountHandlerMinus(walkDetailInfo.walkId, "meal", -1);
+                }}
               />
             </li>
             <li>
               <StateCheckCard
                 type={"i4"}
                 name={"간식"}
-                count={"0"}
-                CountHandlerPlus={CountHandlerPlus}
-                CountHandlerMinus={CountHandlerMinus}
+                count={walkDetailInfo.snackCount}
+                CountHandlerPlus={() => {
+                  CountHandlerPlus(walkDetailInfo.walkId, "snack", 1);
+                }}
+                CountHandlerMinus={() => {
+                  CountHandlerMinus(walkDetailInfo.walkId, "snack", -1);
+                }}
               />
             </li>
           </StateBoxArea>
@@ -108,12 +138,19 @@ const StartWalking = () => {
           <label htmlFor="" className="ipt-label">
             체크리스트
           </label>
-          <em>수행률 33%</em>
+          <em>
+            수행률 {(isDone?.length / walkDetailInfo.checkList?.length) * 100}%
+          </em>
         </div>
         <CheckingList>
-          {walkDetailInfo.checkList?.map((el, idx) => (
+          {walkDetailInfo.checkList?.map((el) => (
             <li>
-              <Checkbox text={el.content} func={change} key={idx} />
+              <Checkbox
+                text={el.content}
+                func={change}
+                id={el.checkListId}
+                changeCheckList={changeCheckList}
+              />
             </li>
           ))}
         </CheckingList>

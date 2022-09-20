@@ -23,7 +23,11 @@ export const walkState = (walk) => ({
 export const getWalkDetailInfo = (walkerId) => {
   return async (dispatch) => {
     try {
-      const getWalkDetailInfoApi = axiosAPI.get(`/walk/${walkerId}`);
+      const getWalkDetailInfoApi = axiosAPI
+        .get(`/walk/${walkerId}`)
+        .then((res) => {
+          return res;
+        });
       let get_WalkDetailInfoApi = await getWalkDetailInfoApi;
       dispatch({
         type: "GET_WALK_DETAIL_INFO_SUCCESS",
@@ -56,9 +60,22 @@ export const sendLocation = (lat, lon, distance) => {
 export const changeCheckListState = (walkId, checkListId, done) => {
   return async (dispatch) => {
     try {
-      const changeCheckListAPI = await axiosAPI
-        .put(`/walk/${walkId}/check/${checkListId}`, `${done}`)
-        .then((res) => dispatch(getWalkDetailInfo(1)));
+      return await axiosAPI.put(
+        `/walk/${walkId}/check/${checkListId}`,
+        `${done}`
+      );
+      // .then((res) => dispatch(getWalkDetailInfo(walkId)));
+    } catch (error) {
+      //에러 핸들링 하는 곳
+      console.log(error);
+    }
+  };
+};
+
+export const countPoo = (walkId, basic, count) => {
+  return async () => {
+    try {
+      return await axiosAPI.put(`/walk/${walkId}/${basic}`, count);
     } catch (error) {
       //에러 핸들링 하는 곳
       console.log(error);

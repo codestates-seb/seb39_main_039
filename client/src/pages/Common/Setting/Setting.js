@@ -70,6 +70,9 @@ const Setting = () => {
                 <li onClick={() => { navigate("/WantedList");}}>
                     <p>구인글 리스트</p>
                 </li>
+                <li>
+                    <p>회원 탈퇴</p>
+                </li>
             </List>
         </div>
     )
@@ -163,6 +166,7 @@ const UserPhoto = styled.div`
 
 const List = styled.ul`
     margin:10px 0;
+    padding-bottom:10px;
     font-weight: 500;
 
     li{
@@ -190,6 +194,13 @@ const List = styled.ul`
             top:50%;
             padding-right:0;
             transform: translate(0, -50%);
+        }
+    }
+
+    li:last-child{
+        margin-top:30px;
+        p{
+            color:var(--gray-400)
         }
     }
 `

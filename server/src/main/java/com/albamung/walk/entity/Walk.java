@@ -56,6 +56,9 @@ public class Walk extends BaseEntityDate {
     private String caution;
 
     @ColumnDefault("0")
+    private int progress;
+
+    @ColumnDefault("0")
     private int pooCount;
     @ColumnDefault("0")
     private int snackCount;

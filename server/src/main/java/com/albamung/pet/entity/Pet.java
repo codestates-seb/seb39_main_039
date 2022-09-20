@@ -66,6 +66,7 @@ public class Pet {
     }
 
     public Walk getCurrentWalk() {
-        return this.walkList.stream().filter(s -> s.getEndTime().isBefore(LocalDateTime.now())).findFirst().orElse(null);
+        LocalDateTime now = LocalDateTime.now();
+        return this.walkList.stream().filter(s -> (s.getEndTime().isAfter(now) && s.getStartTime().isBefore(now))).findFirst().orElse(null);
     }
 }

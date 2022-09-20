@@ -2,12 +2,16 @@ package com.albamung.walk.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 @Entity
 @Data
 @NoArgsConstructor
+@DynamicUpdate
+@DynamicInsert
 public class WalkCheckList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

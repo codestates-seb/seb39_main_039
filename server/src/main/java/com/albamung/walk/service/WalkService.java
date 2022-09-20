@@ -1,9 +1,10 @@
 package com.albamung.walk.service;
 
-import com.albamung.walk.entity.WalkCheckList;
-import com.albamung.walk.repository.WalkCheckListRepository;
 import com.albamung.exception.CustomException;
+import com.albamung.pet.entity.Pet;
+import com.albamung.pet.service.PetService;
 import com.albamung.walk.entity.Walk;
+import com.albamung.walk.entity.WalkCheckList;
 import com.albamung.walk.repository.WalkRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,15 +13,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 @Transactional
 public class WalkService {
     private final WalkRepository walkRepository;
-    private final WalkCheckListRepository checkListRepository;
+    private final PetService petService;
 
-    public WalkService(WalkRepository walkRepository, WalkCheckListRepository checkListRepository) {
+
+    public WalkService(WalkRepository walkRepository, PetService petService) {
         this.walkRepository = walkRepository;
-        this.checkListRepository = checkListRepository;
+        this.petService = petService;
+        ;
     }
 
     @Transactional(readOnly = true)
@@ -32,14 +37,21 @@ public class WalkService {
     /**
      * 산책의 체크리스트 체크상태 변경
      */
-    public void checkCheckList(Long walkId, Long checkListId, boolean check, Long walkerId) {
+    public Walk checkCheckList(Long walkId, Long checkListId, boolean check, Long walkerId) {
         Walk targetWalk = verifyWalk(walkId);
         verifyWalkUser(targetWalk, walkerId);
+//        WalkCheckList targetCheckList = checkListRepository.findById(checkListId).orElseThrow(() -> new CustomException("존재하지 않는 체크리스트 입니다", HttpStatus.NO_CONTENT));
         //체크리스트 아이디가 해당 산책에 속하지 않을 때 에러
-        if (targetWalk.getCheckList().stream().noneMatch(checkList -> checkList.getId().equals(checkListId)))
-            throw new CustomException("해당 체크리스트는 이 산책의 체크리스트가 아닙니다", HttpStatus.BAD_REQUEST);
-        WalkCheckList targetCheckList = checkListRepository.findById(checkListId).orElseThrow(() -> new CustomException("존재하지 않는 체크리스트 입니다", HttpStatus.NO_CONTENT));
-        targetCheckList.setChecked(check);
+        targetWalk.getCheckList()
+                .stream().filter(s -> s.getId().equals(checkListId))
+                .findFirst()
+                .orElseThrow(() -> new CustomException("해당 체크리스트는 이 산책의 체크리스트가 아닙니다", HttpStatus.BAD_REQUEST))
+                .setChecked(check);
+        int countTrue = (int) targetWalk.getCheckList().stream().filter(WalkCheckList::isChecked).count();
+        float progress = (float) countTrue / targetWalk.getCheckList().size();
+        targetWalk.setProgress((int) (progress * 100));
+
+        return targetWalk;
     }
 
     /**
@@ -79,19 +91,24 @@ public class WalkService {
         walkRepository.UpdateDistance(walkId, distance);
     }
 
-    public int putBasic(Long walkId, String basic, int count, Long loginId){
+    public int putBasic(Long walkId, String basic, int count, Long loginId) {
         Walk targetWalk = verifyWalk(walkId);
         verifyWalkUser(targetWalk, loginId);
-        switch (basic){
-            case "poo" : targetWalk.increasePoo(count);
-            return targetWalk.getPooCount();
-            case "meal" : targetWalk.increaseMeal(count);
-            return targetWalk.getMealCount();
-            case "snack" : targetWalk.increaseSnack(count);
-            return targetWalk.getSnackCount();
-            case "walk" : targetWalk.increaseWalk(count);
-            return targetWalk.getWalkCount();
-            default: throw new CustomException("잘못된 변수입니다. 변경할 poo, meal, snack, walk를 입력해주세요", HttpStatus.BAD_REQUEST);
+        switch (basic) {
+            case "poo":
+                targetWalk.increasePoo(count);
+                return targetWalk.getPooCount();
+            case "meal":
+                targetWalk.increaseMeal(count);
+                return targetWalk.getMealCount();
+            case "snack":
+                targetWalk.increaseSnack(count);
+                return targetWalk.getSnackCount();
+            case "walk":
+                targetWalk.increaseWalk(count);
+                return targetWalk.getWalkCount();
+            default:
+                throw new CustomException("잘못된 변수입니다. 변경할 poo, meal, snack, walk를 입력해주세요", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -108,18 +125,23 @@ public class WalkService {
      */
     @Transactional(readOnly = true)
     public void verifyWalkUser(Walk walk, Long userId) {
-        if (!walk.getOwner().getId().equals(userId) && !walk.getWalker().getId().equals(userId))
-            throw new CustomException("알바나 견주만이 수정 가능합니다", HttpStatus.FORBIDDEN);
+        if (walk.getOwner().getId().equals(userId)) return;
+        if (walk.getWalker()!=null && walk.getWalker().getId().equals(userId)) return;
+        throw new CustomException("알바나 견주만이 수정 가능합니다", HttpStatus.FORBIDDEN);
     }
 
     /**
      * 반려견에 대한 산책페이지 조회
      */
     public Page<Walk> getWalkListByPetId(Long petId, int page, Long ownerId) {
+        Pet targetPet = petService.verifyPet(petId);
+        petService.verifyPetOwner(targetPet, ownerId);
+
         int size = 5;
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("creationDate").descending());
-        Page<Walk> walkList = walkRepository.findAllByPetListId(petId, pageRequest);
-        if(walkList == null) throw new CustomException("산책이 존재하지 않거나, 존재하지 않는 반려견 ID입니다", HttpStatus.NO_CONTENT);
+
+        Page<Walk> walkList = walkRepository.findAllByPetListIdAndEndTimeIsBefore(petId, LocalDateTime.now(), pageRequest);
+        if (walkList == null) throw new CustomException("산책이 존재하지 않거나, 존재하지 않는 반려견 ID입니다", HttpStatus.NO_CONTENT);
         return walkList;
     }
 }

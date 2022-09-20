@@ -27,6 +27,7 @@ public class WalkDto {
         private int snackCount;
         private int mealCount;
         private int walkCount;
+        private int progress;
         private String caution;
         private UserDto.SimpleWalkerResponse walker;
     }
@@ -47,6 +48,7 @@ public class WalkDto {
         private LocalDateTime endTime;
         private int distance;
         private boolean ended;
+        private int progress;
         private UserDto.SimpleWalkerResponse walker;
     }
 }

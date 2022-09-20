@@ -4,8 +4,8 @@ package com.albamung.walk.controller;
 import com.albamung.dto.PagingResponseDto;
 import com.albamung.user.entity.User;
 import com.albamung.walk.dto.WalkDto;
-import com.albamung.walk.mapper.WalkMapper;
 import com.albamung.walk.entity.Walk;
+import com.albamung.walk.mapper.WalkMapper;
 import com.albamung.walk.service.WalkService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,7 +21,9 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/walk")
@@ -80,15 +82,18 @@ public class WalkController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @ApiOperation(value = "산책의 체크리스트 체크상태 변경")
+    @ApiOperation(value = "산책의 체크리스트 체크상태 변경", notes = "변경된 상태(true/false)와 변경된 진행상황(progress)를 응답합니다")
     @PutMapping("/{walkId}/check/{checklist_id}")
     public ResponseEntity checkCheck(@AuthenticationPrincipal @ApiIgnore User walker,
                                      @PathVariable @Positive Long walkId,
                                      @PathVariable("checklist_id") @Positive Long checkListId,
                                      @RequestBody @NotNull boolean check) {
         if (walker == null) walker = User.builder().id(1L).build();
-        walkService.checkCheckList(walkId, checkListId, check, walker.getId());
-        return new ResponseEntity<>(HttpStatus.OK);
+        Walk responseWalk = walkService.checkCheckList(walkId, checkListId, check, walker.getId());
+        Map<String, Object> response = new HashMap<>();
+        response.put("checked", check);
+        response.put("progress", responseWalk.getProgress());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @ApiOperation(value = "산책 기본 요소 증감", notes = "{basic}에 증감할 poo, snack, walk, meal 을 입력하세요. \n Body에는 1 혹은 -1을 보내주시면 됩니다. \n 응답으로 변경이 적용된 숫자가 반환됩니다. ")
@@ -96,12 +101,12 @@ public class WalkController {
     public ResponseEntity putPoo(@AuthenticationPrincipal @ApiIgnore User walker,
                                  @PathVariable @Positive Long walkId,
                                  @PathVariable String basic,
-                                 @RequestBody @NotNull int count){
+                                 @RequestBody @NotNull int count) {
         if (walker == null) walker = User.builder().id(1L).build();
         int response = walkService.putBasic(walkId, basic, count, walker.getId());
-        return new ResponseEntity<>(response,HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    
+
 
     /**
      * 산책 매칭 -> 구인글 매칭으로 이관

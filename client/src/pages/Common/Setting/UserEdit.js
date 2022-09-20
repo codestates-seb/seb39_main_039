@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import { ButtonPrimary } from "../../../components/Button/Buttons";
 import { useDispatch, useSelector } from "react-redux";
+import { useInput } from "../../../hooks/useInput";
 import { getUserInfo } from "../../../redux/actions/userActions";
 
 const UserEdit = () => {
@@ -15,12 +16,19 @@ const UserEdit = () => {
     useEffect(() => {
         dispatch(getUserInfo());
     }, []);
-
-    console.log(userInfo);
+    const [state, setState] = useInput({
+        fullName: `${userInfo.fullName}`,
+        phone: `${userInfo.phone}`,
+        nickName:`${userInfo.nickName}`,
+        email:`${userInfo.email}`,
+      });
+    const { fullName, phone, nickName } = state;
     
     const ClickHandler = () =>{
         console.log('수정 확인 함수');
     }
+    
+    console.log('state', state);
 
     return(
         <div className="container">
@@ -28,38 +36,44 @@ const UserEdit = () => {
             <UserInfo>
                 <div className="user-con">
                     <UserPhoto>
-                        <img src={noImage} className="user-photo" alt=""/>
+                        <img src={userInfo.profileImage} className="user-photo" alt=""/>
                         <Link to="/" className="user-edit"><FontAwesomeIcon icon={faCamera}/></Link>
                     </UserPhoto>
                 </div>
             </UserInfo>
             <Form>
                 <div className="ipt-group">
-                    <label htmlFor="name" className="ipt-label">이름</label>
+                    <label htmlFor="fullName" className="ipt-label">이름</label>
                     <input 
                         type="text" 
                         className="ipt-form"
-                        name="username"
+                        name="fullName"
+                        value={fullName}
+                        onChange={setState}
                         placeholder="이름을 입력해주세요."/>
                 </div>
                 <div className="ipt-group">
                     <label htmlFor="phone" className="ipt-label">휴대폰 번호</label>
                     <input 
-                        type="number" 
+                        type="text" 
                         name="phone" 
                         className="ipt-form" 
+                        value={phone}
+                        onChange={setState}
                         placeholder="연락처를 입력해주세요."/>
                 </div>
                 <div className="ipt-group">
                     <label htmlFor="email" className="ipt-label">이메일</label>
-                    <input type="email" name="email" className="ipt-form" value={'alba@gmail.com'} disabled/>
+                    <input type="email" name="email" className="ipt-form" value={userInfo.email} disabled/>
                 </div>
                 <div className="ipt-group">
-                    <label htmlFor="nickname" className="ipt-label">닉네임</label>
+                    <label htmlFor="nickName" className="ipt-label">닉네임</label>
                     <input 
                         type="text" 
-                        name="nickname" 
+                        name="nickName" 
                         className="ipt-form" 
+                        value={nickName}
+                        onChange={setState}
                         placeholder="닉네임을 입력해주세요."/>
                 </div>
 

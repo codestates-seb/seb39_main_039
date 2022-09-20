@@ -4,6 +4,7 @@ import loginReducers from "./loginReducer";
 import signupReducers from "./signupReducer";
 import mappingReducer from "./mappingReducer";
 import petReducer from "./petReducer";
+import petwalkReducer from "./petwalkReducer";
 import userReducer from "./userReducer";
 
 
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   signup: signupReducers,
   mapping: mappingReducer,
   pet: petReducer,
+  petwalk : petwalkReducer,
   user: userReducer
 });
 

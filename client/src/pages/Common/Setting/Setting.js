@@ -9,6 +9,7 @@ import Arrows from '../../../assets/img/arrows.svg';
 import SwitchMode from "../../../components/SwitchMode";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutSuccess } from "../../../redux/actions/loginActions";
+import { getUserInfo } from "../../../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
 
 const Setting = () => {
@@ -24,6 +25,10 @@ const Setting = () => {
     const logout = () => {
         dispatch(logoutSuccess())
     };
+
+    useEffect(()=>{
+        dispatch(getUserInfo())
+    },[])
 
     return(
         <div className="container">

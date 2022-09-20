@@ -17,8 +17,6 @@ const Setting = () => {
         dispatch(getUserInfo());
     }, []);
 
-    console.log(userInfo);
-
     const [isOn, setIsOn]= useState(true);
     const toggleHandler = () => {
         setIsOn(!isOn)
@@ -26,7 +24,7 @@ const Setting = () => {
 
     return(
         <div className="container">
-            <PageSummary>전체</PageSummary>
+            <PageSummary><h2>전체</h2> <small>로그아웃</small></PageSummary>
             <UserInfo>
                 <div className="user-con">
                     <UserPhoto>
@@ -72,10 +70,22 @@ const Setting = () => {
 export default Setting
 
 const PageSummary = styled.h3`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding-top:20px;
     font-size:20px;
     font-weight: 500;
     line-height: 1.4em;
+    
+    small {
+        display: inline-block;
+        font-size:12px;
+        color:var(--gray-500);
+        background-color:var(--gray-050);
+        padding:0 8px;
+        border-radius: 5px;
+    }
 `
 
 const UserInfo = styled.section`

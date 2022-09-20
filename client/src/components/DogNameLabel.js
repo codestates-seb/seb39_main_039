@@ -5,7 +5,7 @@ export const DogNameLabel = ({ size, name, species, picture }) => {
   return (
     <Label className={size}>
       <span className="dog-photo">
-        <img src={picture} className={`img-circle ${size}`} alt="" />
+        <img style={{backgroundImage:`url(${picture})`}} className={`img-circle ${size}`} alt="" />
       </span>
       <dl>
         <dt>{species}</dt>
@@ -19,7 +19,7 @@ export const DogNameLabelType2 = ({ name, size, picture }) => {
   return (
     <Label className={`type2 ${size}`}>
       <span className="dog-photo">
-        <img src={picture} className={`img-circle xs`} alt="" />
+        <img style={{backgroundImage:`url(${picture})`}} className={`img-circle xs`} alt="" />
       </span>
       <dl>
         <dd>{name}</dd>
@@ -52,7 +52,15 @@ const Label = styled.span`
   .dog-photo {
     display: inline-block;
     margin-right: 0.3em;
+    img{
+      height:25px;
+      vertical-align: bottom;
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+      background-size:25px 25px;
+    }
   }
+
 
   dl {
     display: flex;
@@ -80,7 +88,7 @@ const Label = styled.span`
 
   &.type2 {
     cursor: pointer;
-    padding: 4px 14px 3px 6px;
+    padding: 4px 14px 4px 5px;
     border: 0;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.13);
     dl {

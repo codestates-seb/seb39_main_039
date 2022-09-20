@@ -10,12 +10,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCakeCandles } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
-import { getWalkDetailInfo } from "../redux/actions/mappingAction";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 export const DogCard = (props) => {
   const navigate = useNavigate();
+  const walklInfo = useSelector((state) => state.mapping.walkDetailInfo);
+  const endDate = new Date(walklInfo.endTime).toLocaleString().slice(0, -3);
   let ago = moment(props.props.birthday).fromNow();
   let age;
   if (!ago.includes("years")) {
@@ -24,19 +24,12 @@ export const DogCard = (props) => {
     age = Number(ago.split(" ")[0]) + 1;
   }
 
-  // =================== 테스트중 코드👩‍🔬
-  // useEffect (()=>{
-  //   getWalkDetailInfo(1);
-  // },[])
-  const walklInfo = useSelector((state) => state.mapping.walkDetailInfo);
   console.log(walklInfo);
-  // =================== 테스트중 코드👩‍🔬
-
   return (
     <div>
       <DogProfile>
-        <span className="photo-ring">
-          <img src={props.props.petPicture} className={`img-circle`} alt="" />
+        <span className="photo-ring pic">
+          <img style={{backgroundImage:`url(${props.props.petPicture})`}} className={`img-circle`} alt="" />
         </span>
         <div className="dog-info">
           <div>
@@ -56,21 +49,31 @@ export const DogCard = (props) => {
         <Walking>
           <div>
             <p>{walklInfo.walker} 님과 산책중..</p>
-            <small>{walklInfo.endTime}까지</small>
+            <small>{endDate}까지</small>
             <small>수행률 70%</small>
           </div>
         </Walking>
-        <WalkHistory onClick={() => {
+        <WalkBanner onClick={() => {
+            navigate("/walk/1/wantedHistory");
+          }}>
+          <div>
+            <p>대기중인 산책</p>
+          </div>
+          <div>
+            <b>{props.props.walkCount}</b>건
+          </div>
+        </WalkBanner>
+        <WalkBanner onClick={() => {
             navigate("/walk/1/wantedHistory");
           }}>
           <div>
             <p>지난 산책 내역</p>
-            <small>총 13km</small>
+            <small>총 {props.props.walkDistance}km</small>
           </div>
           <div>
-            <b>3</b>건
+            <b>{props.props.walkCount}</b>건
           </div>
-        </WalkHistory>
+        </WalkBanner>
       </WalkState>
     </div>
   );
@@ -98,7 +101,7 @@ export const AnonymousDogCard = () => {
         <NotWalk>
           <p>산책중이 아니에요.</p>
         </NotWalk>
-        <WalkHistory>
+        <WalkBanner>
           <div>
             <p>지난 산책 내역</p>
             <small>총 0km</small>
@@ -106,7 +109,7 @@ export const AnonymousDogCard = () => {
           <div>
             <b>0</b>건
           </div>
-        </WalkHistory>
+        </WalkBanner>
       </WalkState>
     </div>
   );
@@ -124,6 +127,15 @@ const DogProfile = styled.div`
       width: 142px;
       border: 7px solid var(--white-000);
       vertical-align: bottom;
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+      background-size:auto 142px;
+    }
+  }
+
+  .photo-ring.pic{
+    img{
+      height:142px;
     }
   }
 
@@ -241,7 +253,7 @@ const NotWalk = styled.div`
   }
 `;
 
-const WalkHistory = styled.div`
+const WalkBanner = styled.div`
   border: 1px solid var(--gray-300);
   background-image: url("${Arrows}");
 

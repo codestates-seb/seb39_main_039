@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutSuccess } from "../../../redux/actions/loginActions";
 import { getUserInfo } from "../../../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
+import Modal from "../../../components/Modal/Modal";
 
 const Setting = () => {
     const dispatch = useDispatch();
@@ -19,17 +20,19 @@ const Setting = () => {
     const { userInfo } = useSelector((state) => state.user);
 
     const [isOn, setIsOn]= useState(true);
+    const [isOpen, setIsOpen] = useState(false);
+    
     const toggleHandler = () => {
         setIsOn(!isOn)
     }
 
-    const logout = () => {
-        dispatch(logoutSuccess())
-    };
-
     useEffect(()=>{
         dispatch(getUserInfo())
     },[])
+
+    const logout = () => {
+        dispatch(logoutSuccess())
+    };
 
     const deleteUser = () => {
         dispatch(delUser());
@@ -37,6 +40,12 @@ const Setting = () => {
 
     return(
         <div className="container">
+            <Modal
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                confirmHandler={deleteUser}
+                text={'탈퇴하시겠습니까?'}
+            />
             <PageSummary><b>전체</b> <small onClick={logout}>로그아웃</small></PageSummary>
             <UserInfo>
                 <div className="user-con">
@@ -75,7 +84,7 @@ const Setting = () => {
                 <li onClick={() => { navigate("/WantedList");}}>
                     <p>구인글 리스트</p>
                 </li>
-                <li onClick={deleteUser}>
+                <li onClick={()=>setIsOpen(true)}>
                     <p>회원 탈퇴</p>
                 </li>
             </List>

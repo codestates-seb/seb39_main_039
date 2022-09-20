@@ -7,6 +7,7 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 import UserGrade from "../../../components/UserGrade";
 import Arrows from '../../../assets/img/arrows.svg';
 import SwitchMode from "../../../components/SwitchMode";
+import { delUser } from "../../../redux/actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutSuccess } from "../../../redux/actions/loginActions";
 import { getUserInfo } from "../../../redux/actions/userActions";
@@ -29,6 +30,10 @@ const Setting = () => {
     useEffect(()=>{
         dispatch(getUserInfo())
     },[])
+
+    const deleteUser = () => {
+        dispatch(delUser());
+    }
 
     return(
         <div className="container">
@@ -70,7 +75,7 @@ const Setting = () => {
                 <li onClick={() => { navigate("/WantedList");}}>
                     <p>구인글 리스트</p>
                 </li>
-                <li>
+                <li onClick={deleteUser}>
                     <p>회원 탈퇴</p>
                 </li>
             </List>

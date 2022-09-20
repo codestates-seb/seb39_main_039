@@ -1,11 +1,11 @@
-import axiosAPI from "../axiosAPI";
+import customAxios from "../axiosAPI";
 
 export const GET_PET_INFO_SUCCESS = "GET_PET_INFO_SUCCESS";
 
 export const getMyPetInfo = () => {
   return async (dispatch) => {
     try {
-      const getMyPetInfoAPI = axiosAPI.get(`/pet/detailList`);
+      const getMyPetInfoAPI = customAxios.get(`/pet/detailList`);
       let get_myPetInfo = await getMyPetInfoAPI;
       dispatch({
         type: "GET_PET_INFO_SUCCESS",
@@ -23,7 +23,7 @@ export const getMyPetInfo = () => {
 export const addMyPet = (name, species, birth, sex, about) => {
   return async () => {
     try {
-      const addMyPetAPI = axiosAPI
+      const addMyPetAPI = customAxios
         .post(`/pet/create`, {
           aboutPet: `${about}`,
           birthday: `${birth}`,
@@ -46,7 +46,7 @@ export const addMyPet = (name, species, birth, sex, about) => {
 export const editMyPetInfo = (petId, name, species, birth, sex, about) => {
   return async () => {
     try {
-      const editMyPetInfoAPI = await axiosAPI
+      const editMyPetInfoAPI = await customAxios
         .put(`/pet/${petId}/edit`, {
           aboutPet: `${about}`,
           birthday: `${birth}`,
@@ -65,7 +65,7 @@ export const editMyPetInfo = (petId, name, species, birth, sex, about) => {
 export const deleteMyPetInfo = (petId) => {
   return async () => {
     try {
-      const deleteMyPetInfoAPI = await axiosAPI
+      const deleteMyPetInfoAPI = await customAxios
         .delete(`/pet/${petId}/delete`)
         .then((res) => window.location.reload());
       // let delete_mypet = await deleteMyPetInfoAPI;

@@ -1,4 +1,4 @@
-import axiosAPI from "../axiosAPI";
+import customAxios from "../axiosAPI";
 
 // 로그인이 성공했을 때 행동 (액션타입)
 export const GET_LOCATION_SUCCESS = "GET_LOCATION_SUCCESS";
@@ -23,7 +23,7 @@ export const walkState = (walk) => ({
 export const getWalkDetailInfo = (walkerId) => {
   return async (dispatch) => {
     try {
-      const getWalkDetailInfoApi = axiosAPI.get(`/walk/${walkerId}`);
+      const getWalkDetailInfoApi = customAxios.get(`/walk/${walkerId}`);
       let get_WalkDetailInfoApi = await getWalkDetailInfoApi;
       dispatch({
         type: "GET_WALK_DETAIL_INFO_SUCCESS",
@@ -41,7 +41,7 @@ export const getWalkDetailInfo = (walkerId) => {
 export const sendLocation = (lat, lon, distance) => {
   return async () => {
     try {
-      const sendLocationAPI = axiosAPI.put(`/walk/1/coord`, {
+      const sendLocationAPI = customAxios.put(`/walk/1/coord`, {
         coord: `${lat} ${lon}`,
         distance: `${distance}`
       });
@@ -56,7 +56,7 @@ export const sendLocation = (lat, lon, distance) => {
 export const changeCheckListState = (walkId, checkListId, done) => {
   return async (dispatch) => {
     try {
-      const changeCheckListAPI = await axiosAPI
+      const changeCheckListAPI = await customAxios
         .put(`/walk/${walkId}/check/${checkListId}`, `${done}`)
         .then((res) => dispatch(getWalkDetailInfo(1)));
     } catch (error) {

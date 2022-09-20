@@ -19,8 +19,9 @@ const StartWalking = () => {
   const dispatch = useDispatch();
   const { walkDetailInfo } = useSelector((state) => state.mapping);
   const [isDone, setIsDone] = useState();
-  const [checkCount, setCheckCount] = useState(0);
+  const [checkCount, setCheckCount] = useState();
   const [changeCheckList, setChangeCheckList] = useState();
+
   const CountHandlerPlus = (walkId, toDo, count) => {
     dispatch(countPoo(walkId, toDo, count)).then((res) =>
       setCheckCount(res.data)
@@ -32,19 +33,24 @@ const StartWalking = () => {
       setCheckCount(res.data)
     );
   };
+
   const change = (curState, checkList_id) => {
-    dispatch(changeCheckListState(1, checkList_id, curState)).then((res) =>
-      setChangeCheckList(res.config.data)
-    );
+    dispatch(changeCheckListState(1, checkList_id, curState)).then((res) => {
+      setChangeCheckList(res.config.data);
+    });
+  };
+
+  useEffect(() => {
+    console.log(isDone?.length);
+  }, []);
+
+  useEffect(() => {
+    dispatch(getWalkDetailInfo(1));
     setIsDone(
       walkDetailInfo.checkList?.filter((el) => {
         return el.checked === true;
       })
     );
-  };
-
-  useEffect(() => {
-    dispatch(getWalkDetailInfo(1));
   }, [checkCount, changeCheckList]);
 
   return (
@@ -139,18 +145,13 @@ const StartWalking = () => {
             체크리스트
           </label>
           <em>
-            수행률 {(isDone?.length / walkDetailInfo.checkList?.length) * 100}%
+            {/* 수행률 {(isDone?.length / walkDetailInfo.checkList?.length) * 100}% */}
           </em>
         </div>
         <CheckingList>
           {walkDetailInfo.checkList?.map((el) => (
             <li>
-              <Checkbox
-                text={el.content}
-                func={change}
-                id={el.checkListId}
-                changeCheckList={changeCheckList}
-              />
+              <Checkbox text={el.content} func={change} id={el.checkListId} />
             </li>
           ))}
         </CheckingList>

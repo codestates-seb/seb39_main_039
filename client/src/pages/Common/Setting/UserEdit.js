@@ -1,18 +1,30 @@
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { HeaderConfirm } from "../../../components/Layout/Header";
+import { Header } from "../../../components/Layout/Header";
 import noImage from '../../../assets/img/noImage.svg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
+import { ButtonPrimary } from "../../../components/Button/Buttons";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserInfo } from "../../../redux/actions/userActions";
 
 const UserEdit = () => {
+    const dispatch = useDispatch();
+    const { userInfo } = useSelector((state) => state.user);
+    useEffect(() => {
+        dispatch(getUserInfo());
+    }, []);
+
+    console.log(userInfo);
+    
     const ClickHandler = () =>{
         console.log('수정 확인 함수');
     }
 
     return(
         <div className="container">
-            <HeaderConfirm pageTitle={'나의 기본정보 수정'} ConfirmName={'완료'} ClickHandler={ClickHandler}/>
+            <Header pageTitle={'나의 기본정보 수정'}/>
             <UserInfo>
                 <div className="user-con">
                     <UserPhoto>
@@ -49,6 +61,10 @@ const UserEdit = () => {
                         name="nickname" 
                         className="ipt-form" 
                         placeholder="닉네임을 입력해주세요."/>
+                </div>
+
+                <div className="btn-area">
+                    <ButtonPrimary onClick={ClickHandler}>수정 완료</ButtonPrimary>
                 </div>
             </Form>
         </div>

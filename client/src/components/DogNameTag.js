@@ -4,8 +4,8 @@ import sexIconFemale from '../assets/img/sexIcon-female.svg';
 
 const DogNameTag = ({size}) => {
     return (
-        // 성별 내용 Tag class에 넣기  [male, female]
-        <Tag className="male"> 
+        // 성별 내용 Tag class에 넣기  [M, F]
+        <Tag className="M"> 
             <span className="dog-photo">
                 <img src={'https://avatars.githubusercontent.com/u/9497404?v=4'} className="img-circle" alt="" />
             </span>
@@ -32,11 +32,11 @@ const Tag = styled.div`
     background-size:19px auto;
     
 
-    &.male{
+    &.M{
         background-image:url('${sexIconMale}')
     }
 
-    &.female{
+    &.F{
         background-image:url('${sexIconFemale}')
     }
 

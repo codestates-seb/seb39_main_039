@@ -6,6 +6,7 @@ import mappingReducer from "./mappingReducer";
 import petReducer from "./petReducer";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import userReducer from "./userReducer";
 
 const persistConfig = {
   key: "root",
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   login: loginReducers,
   signup: signupReducers,
   mapping: mappingReducer,
-  pet: petReducer
+  pet: petReducer,
+  user: userReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

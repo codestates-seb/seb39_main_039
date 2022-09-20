@@ -60,6 +60,11 @@ const TrackingMap = () => {
     setMyMap(new kakao.maps.Map(container, options));
   };
 
+  // const panTo = () => {
+  //   moveLatLon = new kakao.maps.LatLng(lat, lon);
+  //   myMap.panTo(moveLatLon);
+  // };
+
   const drawLine = () => {
     let polyline = new kakao.maps.Polyline({
       map: myMap,
@@ -130,7 +135,9 @@ const TrackingMap = () => {
   }, []);
 
   useEffect(() => {
-    if (lat > 0 && lon > 0) panTo();
+    if (lat > 0 && lon > 0) {
+      // panTo();
+    }
   }, [lat, lon]);
 
   return (

@@ -12,7 +12,7 @@ import btnIcon02 from "../../../assets/img/buttonIcon02.svg";
 import { useSelector } from "react-redux";
 
 const Main = () => {
-  const { isLogin } = useSelector((state) => state.login.isLogin);
+  const isLogin = useSelector((state) => state.login.isLogin);
 
   return (
     <div className="container">
@@ -37,10 +37,10 @@ const Main = () => {
 
           <VisualImg />
           <ButtonGroup>
-            <Link to={isLogin ? "/" : "/login"}>
+            <Link to={isLogin ? "/OwnerMain" : "/login"}>
               <ButtonPrimary className="icon-type">산책 맡길래요</ButtonPrimary>
             </Link>
-            <Link to={isLogin ? "/" : "/login"}>
+            <Link to={isLogin ? "/WalkerMain" : "/login"}>
               <ButtonPrimaryLine className="icon-type v2">
                 산책 시킬래요
               </ButtonPrimaryLine>

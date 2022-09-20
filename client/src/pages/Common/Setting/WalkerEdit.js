@@ -1,5 +1,7 @@
 import styled from "styled-components";
-import { HeaderConfirm } from "../../../components/Layout/Header";
+import { Header } from "../../../components/Layout/Header";
+import { ButtonPrimary } from "../../../components/Button/Buttons";
+
 
 const WalkerEdit = () => {
     const ClickHandler = () =>{
@@ -8,7 +10,7 @@ const WalkerEdit = () => {
 
     return(
         <div className="container">
-            <HeaderConfirm pageTitle={'알바 정보 수정'} ConfirmName={'완료'} ClickHandler={ClickHandler}/>
+            <Header pageTitle={'알바 정보 수정'} />
             <Form>
                 <div className="ipt-group">
                     <label htmlFor="name" className="ipt-label">이름</label>
@@ -38,6 +40,10 @@ const WalkerEdit = () => {
                 <div className="ipt-group">
                     <label htmlFor="" className="ipt-label">소개글</label>
                     <textarea name="" id="" className="ipt-form" placeholder="상세 소개글을 작성해주세요."></textarea>
+                </div>
+
+                <div className="btn-area">
+                    <ButtonPrimary onClick={ClickHandler}>수정 완료</ButtonPrimary>
                 </div>
             </Form>
         </div>

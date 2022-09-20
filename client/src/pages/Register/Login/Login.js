@@ -17,8 +17,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.login.isLogin);
   const err = useSelector((state) => state.login.err);
-
-  console.log(isLogin);
+  console.log("isLogin", isLogin);
   const [state, setState] = useInput({
     email: "",
     password: ""

@@ -37,7 +37,7 @@ const WalkerCard = () => {
         </Walking>
         <WalkHistory
           onClick={() => {
-            navigate("/walk/:id/recordedWalking");
+            navigate("/walk/1/wantedHistory");
           }}
         >
           <div>
@@ -158,9 +158,10 @@ const Walking = styled.div`
 
 const NotWalk = styled.div`
   background-color: var(--gray-200);
-
+  div{
+    width:100%
+  }
   p {
-    width: 100%;
     text-align: center;
     color: var(--gray-400);
   }

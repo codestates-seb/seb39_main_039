@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components"
 import noImage from '../../../assets/img/noImage.svg';
@@ -7,25 +7,36 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 import UserGrade from "../../../components/UserGrade";
 import Arrows from '../../../assets/img/arrows.svg';
 import SwitchMode from "../../../components/SwitchMode";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutSuccess } from "../../../redux/actions/loginActions";
+import { useNavigate } from "react-router-dom";
 
 const Setting = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { userInfo } = useSelector((state) => state.user);
+
     const [isOn, setIsOn]= useState(true);
     const toggleHandler = () => {
         setIsOn(!isOn)
     }
 
+    const logout = () => {
+        dispatch(logoutSuccess())
+    };
+
     return(
         <div className="container">
-            <PageSummary>전체</PageSummary>
+            <PageSummary><b>전체</b> <small onClick={logout}>로그아웃</small></PageSummary>
             <UserInfo>
                 <div className="user-con">
                     <UserPhoto>
-                        <img src={noImage} className="user-photo" alt=""/>
-                        <Link to="/" className="user-edit"><FontAwesomeIcon icon={faPen}/></Link>
+                        <img src={userInfo.profileImage} className="user-photo" alt=""/>
+                        <Link to="/userEdit" className="user-edit"><FontAwesomeIcon icon={faPen}/></Link>
                     </UserPhoto>
-                    <p className="user-name">사용자이름</p>
-                    <em className="user-phone">010-1234-1234</em>
-                    <p className="user-email">user@email.com</p>
+                    <p className="user-name">{userInfo.nickName}</p>
+                    <em className="user-phone">{userInfo.phone}</em>
+                    <p className="user-email">{userInfo.email}</p>
                 </div>
                 <UserGrade className="user-grade" />
             </UserInfo>
@@ -37,22 +48,22 @@ const Setting = () => {
                         <SwitchMode isOn={isOn} toggleHandler={toggleHandler}/>
                     </div>
                 </li>
-                <li>
-                    <p><Link to='/UserEdit'>내 정보 수정</Link></p>
+                <li onClick={() => { navigate("/UserEdit");}}>
+                    <p>내 정보 수정</p>
                     <div></div>
                 </li>
-                <li>
-                    <p><Link to='/DogEdit'>강아지 정보 수정</Link></p>
+                <li onClick={() => { navigate("/DogEdit");}}>
+                    <p>강아지 정보 수정</p>
                     <div className="opt-info">3마리</div>
                 </li>
-                <li>
-                    <p><Link to='/WalkerEdit'>알바 정보 수정</Link></p>
+                <li onClick={() => { navigate("/WalkerEdit");}}>
+                    <p>알바 정보 수정</p>
                 </li>
                 <li>
                     <p>내 체크리스트 템플릿</p>
                 </li>
-                <li>
-                    <p><Link to='/WantedList'>구인글 리스트</Link></p>
+                <li onClick={() => { navigate("/WantedList");}}>
+                    <p>구인글 리스트</p>
                 </li>
             </List>
         </div>
@@ -62,10 +73,23 @@ const Setting = () => {
 export default Setting
 
 const PageSummary = styled.h3`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding-top:20px;
     font-size:20px;
     font-weight: 500;
     line-height: 1.4em;
+    
+    small {
+        display: inline-block;
+        font-size:12px;
+        color:var(--gray-500);
+        background-color:var(--gray-050);
+        padding:0 8px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 `
 
 const UserInfo = styled.section`
@@ -148,6 +172,7 @@ const List = styled.ul`
         .opt-info{
             padding-right:40px;
             font-size:13px;
+            line-height:16px;
         }
 
         .opt-info.v2{

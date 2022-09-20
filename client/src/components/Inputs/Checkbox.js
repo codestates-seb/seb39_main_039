@@ -50,9 +50,8 @@ export const EachCheckbox = ({ data, text, onChangeHandler, checkItems }) => {
   );
 };
 
-export const Checkbox = ({ text, func, id, changeCheckList }) => {
+export const Checkbox = ({ text, func, id }) => {
   const [isChecked, setIsChecked] = useState(false);
-  console.log("addddad", changeCheckList);
   const onClickCheck = () => {
     setIsChecked(!isChecked);
     func(!isChecked, id);

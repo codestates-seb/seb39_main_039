@@ -10,13 +10,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCakeCandles } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
-import { getWalkDetailInfo } from "../redux/actions/mappingAction";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 export const DogCard = (props) => {
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
   const walklInfo = useSelector((state) => state.mapping.walkDetailInfo);
   const endDate = new Date(walklInfo.endTime).toLocaleString().slice(0, -3);
   let ago = moment(props.props.birthday).fromNow();
@@ -27,8 +24,6 @@ export const DogCard = (props) => {
     age = Number(ago.split(" ")[0]) + 1;
   }
 
-  console.log(walklInfo)
-  
   return (
     <div>
       <DogProfile>
@@ -57,7 +52,17 @@ export const DogCard = (props) => {
             <small>수행률 70%</small>
           </div>
         </Walking>
-        <WalkHistory onClick={() => {
+        <WalkBanner onClick={() => {
+            navigate("/walk/1/wantedHistory");
+          }}>
+          <div>
+            <p>대기중인 산책</p>
+          </div>
+          <div>
+            <b>{props.props.walkCount}</b>건
+          </div>
+        </WalkBanner>
+        <WalkBanner onClick={() => {
             navigate("/walk/1/wantedHistory");
           }}>
           <div>
@@ -67,7 +72,7 @@ export const DogCard = (props) => {
           <div>
             <b>{props.props.walkCount}</b>건
           </div>
-        </WalkHistory>
+        </WalkBanner>
       </WalkState>
     </div>
   );
@@ -95,7 +100,7 @@ export const AnonymousDogCard = () => {
         <NotWalk>
           <p>산책중이 아니에요.</p>
         </NotWalk>
-        <WalkHistory>
+        <WalkBanner>
           <div>
             <p>지난 산책 내역</p>
             <small>총 0km</small>
@@ -103,7 +108,7 @@ export const AnonymousDogCard = () => {
           <div>
             <b>0</b>건
           </div>
-        </WalkHistory>
+        </WalkBanner>
       </WalkState>
     </div>
   );
@@ -247,7 +252,7 @@ const NotWalk = styled.div`
   }
 `;
 
-const WalkHistory = styled.div`
+const WalkBanner = styled.div`
   border: 1px solid var(--gray-300);
   background-image: url("${Arrows}");
 

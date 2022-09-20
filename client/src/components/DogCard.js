@@ -24,6 +24,7 @@ export const DogCard = (props) => {
     age = Number(ago.split(" ")[0]) + 1;
   }
 
+  console.log(walklInfo);
   return (
     <div>
       <DogProfile>

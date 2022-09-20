@@ -12,6 +12,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -62,5 +63,9 @@ public class Pet {
     public int getWalkDistance() {
         if (this.walkList == null) return 0;
         return this.walkList.stream().mapToInt(Walk::getDistance).sum();
+    }
+
+    public Walk getCurrentWalk() {
+        return this.walkList.stream().filter(s -> s.getEndTime().isBefore(LocalDateTime.now())).findFirst().orElse(null);
     }
 }

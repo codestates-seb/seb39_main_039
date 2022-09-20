@@ -2,6 +2,7 @@ package com.albamung.helper.jwt;
 
 import com.albamung.exception.CustomException;
 import com.albamung.user.entity.User;
+import com.albamung.user.repository.UserRepository;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +34,12 @@ public class JwtTokenProvider {
     @Value("${security.jwt.token.expire-length:3600000}")
     private long refreshValidityInMilliseconds = 3600000 * 24; // 1h
 
+    private final UserRepository userRepository;
+
+    public JwtTokenProvider(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @PostConstruct
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
@@ -53,13 +61,17 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public String createRefreshToken() {
+    @Transactional
+    public String createRefreshToken(Long id) {
         Date now = new Date();
-        return Jwts.builder()
+        String refreshToken = Jwts.builder()
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + refreshValidityInMilliseconds))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
+        userRepository.updateRefreshToken(id, refreshToken);
+
+        return refreshToken;
     }
 
     public Authentication getAuthentication(String token) {
@@ -72,7 +84,11 @@ public class JwtTokenProvider {
                 .email(email)
                 .build();
         Set<GrantedAuthority> roleSet = new HashSet<>();
-        roleSet.add(new SimpleGrantedAuthority("ROLE_USER"));
+        String[] roleList = roles.split(",");
+        for (String s : roleList) {
+            roleSet.add(new SimpleGrantedAuthority(s));
+        }
+
 
         return new UsernamePasswordAuthenticationToken(user, "", roleSet);
 //        UserDetails userDetails = myUserDetails.loadUserByUsername(getUsername(token));

@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModel;
 import lombok.Builder;
 import lombok.Getter;
 
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -43,12 +45,15 @@ public class WantedDto {
     @Getter
     @ApiModel("구인글 등록")
     public static class Post {
+        @FutureOrPresent(message = "시작 시간으 과거 일 수 없습니다")
         private LocalDateTime startTime;
+        @FutureOrPresent(message = "종료 시간은 과거 일 수 없습니다")
         private LocalDateTime endTime;
         private List<String> checkListContent;
         private List<Long> petId;
         private String location;
         private String caution;
+        @NotNull(message = "보수를 입력해주세요")
         private int pay;
     }
 }

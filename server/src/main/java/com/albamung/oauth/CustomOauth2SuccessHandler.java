@@ -27,7 +27,7 @@ public class CustomOauth2SuccessHandler extends SavedRequestAwareAuthenticationS
 
         PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
         String access = jwtTokenProvider.createToken(principal.getId(), principal.getUsername(), principal.getAuthorities());
-        String refresh = jwtTokenProvider.createRefreshToken();
+        String refresh = jwtTokenProvider.createRefreshToken(principal.getId());
         System.out.println("success login");
 
 

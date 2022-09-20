@@ -5,7 +5,6 @@ import com.albamung.oauth.PrincipalDetails;
 import com.albamung.user.entity.User;
 import com.albamung.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -68,8 +67,7 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
         PrincipalDetails userDetails = (PrincipalDetails) authResult.getPrincipal();
 
         String access = jwtTokenProvider.createToken(userDetails.getId(), userDetails.getUsername(), userDetails.getAuthorities());
-        String refresh = jwtTokenProvider.createRefreshToken();
-        userDetails.getUser().setRefreshToken(refresh);
+        String refresh = jwtTokenProvider.createRefreshToken(userDetails.getId());
 //
 //        ResponseCookie refreshCookie = ResponseCookie.from("refresh", refresh).maxAge(7 * 24 * 60 * 60).httpOnly(true).secure(true).path("/").domain("albamung.tk").build();
 //        ResponseCookie accessCookie = ResponseCookie.from("access", access).maxAge(7 * 24 * 60 * 60).path("/").domain("albamung.tk").build();

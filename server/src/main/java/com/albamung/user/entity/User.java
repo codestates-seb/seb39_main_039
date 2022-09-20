@@ -49,13 +49,13 @@ public class User extends BaseEntityDate {
     @Column(nullable = false)
     private String roles;
 
-    @Column
+    @Column(length = 512)
     private String profileImage;
 
-    @Column(nullable = true)
+    @Column(nullable = true, length = 10)
     private String fullName;
 
-    @Column(nullable = true)
+    @Column(nullable = true, length = 30)
     private String location;
 
     private String refreshToken;

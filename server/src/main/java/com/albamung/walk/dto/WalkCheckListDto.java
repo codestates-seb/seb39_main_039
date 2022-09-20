@@ -6,7 +6,7 @@ import lombok.Getter;
 public class WalkCheckListDto {
     @Builder
     @Getter
-    public static class Response{
+    public static class Response {
         private Long checkListId;
         private String content;
         private boolean checked;

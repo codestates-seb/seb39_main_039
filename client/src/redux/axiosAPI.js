@@ -4,10 +4,18 @@ import Cookies from "js-cookie";
 const axiosAPI = axios.create({
   baseURL: "https://server.albamung.tk/",
   headers: { 
-    "Content-type": "application/json", 
-    "Authorization": `Bearer ${Cookies.get("access")}`, 
+    "Content-type": "application/json",
   }
 });
+
+// customAxios.interceptors.request.use(function (config) {
+//   if (!Cookies.get("access")) {
+//     config.headers["Authorization"] = null;
+//     return config;
+//   }
+//   config.headers["Authorization"] = `Bearer ${Cookies.get("access")}`;
+//   return config;
+// });
 
 axiosAPI.interceptors.request.use(
   function (config) {

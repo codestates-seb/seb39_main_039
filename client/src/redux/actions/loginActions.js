@@ -40,3 +40,19 @@ export const loginSuccess = (email, password) => {
     }
   };
 };
+
+export const logoutSuccess = () => {
+  return async (dispatch) => {
+    try {
+        Cookies.remove("access");
+        Cookies.remove("refresh");
+        dispatch({
+          type: "LOGOUT_SUCCESS",
+        })
+        window.location.replace("/")
+    } catch (error) {
+      console.log("에러", error);
+    }
+  }
+}
+  

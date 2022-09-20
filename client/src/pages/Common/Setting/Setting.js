@@ -8,23 +8,24 @@ import UserGrade from "../../../components/UserGrade";
 import Arrows from '../../../assets/img/arrows.svg';
 import SwitchMode from "../../../components/SwitchMode";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserInfo } from "../../../redux/actions/userActions";
+import { logoutSuccess } from "../../../redux/actions/loginActions";
 
 const Setting = () => {
     const dispatch = useDispatch();
     const { userInfo } = useSelector((state) => state.user);
-    useEffect(() => {
-        dispatch(getUserInfo());
-    }, []);
 
     const [isOn, setIsOn]= useState(true);
     const toggleHandler = () => {
         setIsOn(!isOn)
     }
 
+    const logout = () => {
+        dispatch(logoutSuccess())
+    };
+
     return(
         <div className="container">
-            <PageSummary><h2>전체</h2> <small>로그아웃</small></PageSummary>
+            <PageSummary><b>전체</b> <small onClick={logout}>로그아웃</small></PageSummary>
             <UserInfo>
                 <div className="user-con">
                     <UserPhoto>

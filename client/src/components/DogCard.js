@@ -11,11 +11,16 @@ import { faCakeCandles } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { getWalkDetailInfo } from "../redux/actions/mappingAction";
+// import { getPetWalkInfo } from "../redux/actions/petwalkActions";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 
 export const DogCard = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const walklInfo = useSelector((state) => state.mapping.walkDetailInfo);
+  const petWalkInfo = useSelector((state) => state.petwalk.petWalkInfo);
+
   let ago = moment(props.props.birthday).fromNow();
   let age;
   if (!ago.includes("years")) {
@@ -28,10 +33,26 @@ export const DogCard = (props) => {
   // useEffect (()=>{
   //   getWalkDetailInfo(1);
   // },[])
-  const walklInfo = useSelector((state) => state.mapping.walkDetailInfo);
-  console.log(walklInfo);
+  // console.log(walklInfo);
+
+
+
+  // useEffect(()=>{
+  //   dispatch(getPetWalkInfo(props.props.petId));
+  // },[])
+  
+
+  // console.log(petWalkInfo)
+
   // =================== 테스트중 코드👩‍🔬
 
+  // const test = petWalkInfo.map((el)=>{
+  //   el.distance.reduce((a,c)=>{
+  //     return a+c
+  //   })
+  // })
+  // console.log('test',test)
+  
   return (
     <div>
       <DogProfile>
@@ -68,7 +89,7 @@ export const DogCard = (props) => {
             <small>총 13km</small>
           </div>
           <div>
-            <b>3</b>건
+            <b>0</b>건
           </div>
         </WalkHistory>
       </WalkState>

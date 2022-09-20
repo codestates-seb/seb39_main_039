@@ -1,6 +1,7 @@
-import { GET_USER_INFO_SUCCESS } from "../actions/userActions";
+import { GET_USER_INFO_SUCCESS, DELETE_USER_SUCCESS } from "../actions/userActions";
 
 const initialstate = {
+  isLogin:false,
   userInfo: []
 };
 
@@ -12,6 +13,12 @@ const userReducer = (state = initialstate, action) => {
         ...state,
         userInfo: payload.userInfo
       };
+
+    case DELETE_USER_SUCCESS:
+      return{
+        ...state,
+        isLogin:false
+      }
     default:
       return state;
   }

@@ -7,9 +7,12 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 import UserGrade from "../../../components/UserGrade";
 import Arrows from '../../../assets/img/arrows.svg';
 import SwitchMode from "../../../components/SwitchMode";
+import { delUser } from "../../../redux/actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutSuccess } from "../../../redux/actions/loginActions";
+import { getUserInfo } from "../../../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
+import Modal from "../../../components/Modal/Modal";
 
 const Setting = () => {
     const dispatch = useDispatch();
@@ -17,16 +20,32 @@ const Setting = () => {
     const { userInfo } = useSelector((state) => state.user);
 
     const [isOn, setIsOn]= useState(true);
+    const [isOpen, setIsOpen] = useState(false);
+    
     const toggleHandler = () => {
         setIsOn(!isOn)
     }
+
+    useEffect(()=>{
+        dispatch(getUserInfo())
+    },[])
 
     const logout = () => {
         dispatch(logoutSuccess())
     };
 
+    const deleteUser = () => {
+        dispatch(delUser());
+    }
+
     return(
         <div className="container">
+            <Modal
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                confirmHandler={deleteUser}
+                text={'탈퇴하시겠습니까?'}
+            />
             <PageSummary><b>전체</b> <small onClick={logout}>로그아웃</small></PageSummary>
             <UserInfo>
                 <div className="user-con">
@@ -64,6 +83,9 @@ const Setting = () => {
                 </li>
                 <li onClick={() => { navigate("/WantedList");}}>
                     <p>구인글 리스트</p>
+                </li>
+                <li onClick={()=>setIsOpen(true)}>
+                    <p>회원 탈퇴</p>
                 </li>
             </List>
         </div>
@@ -109,8 +131,12 @@ const UserInfo = styled.section`
         background:var(--gray-100);
         border:1px solid var(--gray-200);
         border-radius: 6px;
-        padding:5px 7px;
+        padding:5px 7px 3px;
         margin:10px 0 6px;
+    }
+    .user-phone:empty{
+        padding:0;
+        margin:0;
     }
     .user-email{
         font-size:16px;
@@ -154,6 +180,7 @@ const UserPhoto = styled.div`
 
 const List = styled.ul`
     margin:10px 0;
+    padding-bottom:10px;
     font-weight: 500;
 
     li{
@@ -181,6 +208,13 @@ const List = styled.ul`
             top:50%;
             padding-right:0;
             transform: translate(0, -50%);
+        }
+    }
+
+    li:last-child{
+        margin-top:30px;
+        p{
+            color:var(--gray-400)
         }
     }
 `

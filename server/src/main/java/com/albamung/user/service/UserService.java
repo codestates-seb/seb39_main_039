@@ -104,10 +104,8 @@ public class UserService {
     }
 
 
-    public void deleteUser(Long userId, Long loginUserId) {
-        User user = verifyUser(userId);
-        if (!user.getId().equals(loginUserId))
-            throw new CustomException("You are not the owner of this user", HttpStatus.FORBIDDEN);
+    public void deleteUser(Long loginUserId) {
+        User user = verifyUser(loginUserId);
         userRepository.delete(user);
     }
 }

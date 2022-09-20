@@ -76,9 +76,9 @@ public class UserController {
         return new ResponseEntity<>(editedUser.getId(), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{userId}/delete")
-    public ResponseEntity deleteUser(@PathVariable @Positive Long userId, @AuthenticationPrincipal @ApiIgnore User user) {
-        userService.deleteUser(userId, user.getId());
+    @DeleteMapping("/delete")
+    public ResponseEntity deleteUser(@AuthenticationPrincipal @ApiIgnore User user) {
+        userService.deleteUser(user.getId());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

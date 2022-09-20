@@ -8,7 +8,7 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import { ButtonPrimary } from "../../../components/Button/Buttons";
 import { useDispatch, useSelector } from "react-redux";
 import { useInput } from "../../../hooks/useInput";
-import { getUserInfo } from "../../../redux/actions/userActions";
+import { getUserInfo, editUserInfo } from "../../../redux/actions/userActions";
 
 const UserEdit = () => {
     const dispatch = useDispatch();
@@ -25,10 +25,9 @@ const UserEdit = () => {
     const { fullName, phone, nickName } = state;
     
     const ClickHandler = () =>{
-        console.log('수정 확인 함수');
+        dispatch(editUserInfo(fullName, phone, nickName));
     }
-    
-    console.log('state', state);
+
 
     return(
         <div className="container">

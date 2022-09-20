@@ -56,8 +56,8 @@ export const DogCard = (props) => {
   return (
     <div>
       <DogProfile>
-        <span className="photo-ring">
-          <img src={props.props.petPicture} className={`img-circle`} alt="" />
+        <span className="photo-ring pic">
+          <img style={{backgroundImage:`url(${props.props.petPicture})`}} className={`img-circle`} alt="" />
         </span>
         <div className="dog-info">
           <div>
@@ -145,6 +145,15 @@ const DogProfile = styled.div`
       width: 142px;
       border: 7px solid var(--white-000);
       vertical-align: bottom;
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+      background-size:auto 142px;
+    }
+  }
+
+  .photo-ring.pic{
+    img{
+      height:142px;
     }
   }
 

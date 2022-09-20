@@ -114,8 +114,12 @@ const UserInfo = styled.section`
         background:var(--gray-100);
         border:1px solid var(--gray-200);
         border-radius: 6px;
-        padding:5px 7px;
+        padding:5px 7px 3px;
         margin:10px 0 6px;
+    }
+    .user-phone:empty{
+        padding:0;
+        margin:0;
     }
     .user-email{
         font-size:16px;

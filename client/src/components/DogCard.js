@@ -9,8 +9,13 @@ import { ButtonPrimaryXS } from "./Button/Buttons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCakeCandles } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
+import { getWalkDetailInfo } from "../redux/actions/mappingAction";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 export const DogCard = (props) => {
+  const navigate = useNavigate();
   let ago = moment(props.props.birthday).fromNow();
   let age;
   if (!ago.includes("years")) {
@@ -18,6 +23,14 @@ export const DogCard = (props) => {
   } else {
     age = Number(ago.split(" ")[0]) + 1;
   }
+
+  // =================== 테스트중 코드👩‍🔬
+  // useEffect (()=>{
+  //   getWalkDetailInfo(1);
+  // },[])
+  const walklInfo = useSelector((state) => state.mapping.walkDetailInfo);
+  console.log(walklInfo);
+  // =================== 테스트중 코드👩‍🔬
 
   return (
     <div>
@@ -38,16 +51,18 @@ export const DogCard = (props) => {
       </DogProfile>
       <WalkState>
         <NotWalk>
-          <p>춘식이는 산책중이 아니에요.</p>
+          <p>{props.props.petName}이는 산책중이 아니에요.</p>
         </NotWalk>
         <Walking>
           <div>
-            <p>이지은 님과 산책중..</p>
-            <small>09.15 오후 4:00까지</small>
+            <p>{walklInfo.walker} 님과 산책중..</p>
+            <small>{walklInfo.endTime}까지</small>
             <small>수행률 70%</small>
           </div>
         </Walking>
-        <WalkHistory>
+        <WalkHistory onClick={() => {
+            navigate("/walk/1/wantedHistory");
+          }}>
           <div>
             <p>지난 산책 내역</p>
             <small>총 13km</small>

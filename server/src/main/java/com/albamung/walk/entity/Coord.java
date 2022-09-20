@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.Point;
 
 import javax.persistence.*;
 
@@ -25,4 +26,6 @@ public class Coord extends BaseEntityDate {
 
     @Column(columnDefinition = "LINESTRING")
     private LineString coord;
+
+    private Point point;
 }

@@ -8,7 +8,6 @@ import {
 import styled from "styled-components";
 import { useInterval } from "../../hooks/useInterval";
 import { walkState } from "../../redux/actions/mappingAction";
-import { useNavigate } from "react-router-dom";
 import startWalking from "../../assets/img/startWalking.svg";
 import pauseWalking from "../../assets/img/pauseWalking.svg";
 import stopWalking from "../../assets/img/stopWalking.svg";
@@ -25,13 +24,12 @@ const TrackingMap = () => {
   const [isPauseWalk, setIsPauseWalk] = useState(false);
   const [lineForDistance, setLineForDistance] = useState([]);
   const [dis, setDis] = useState(0);
-
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { lat, lon, walkDetailInfo, isWalk } = useSelector(
     (state) => state.mapping
   );
-  const distance = 20;
+
+  const distance = 10;
 
   function getGeolocation() {
     let geolocation = navigator.geolocation.watchPosition(
@@ -126,27 +124,14 @@ const TrackingMap = () => {
     setDis(dist);
   }, [lat, lon]);
 
-  useEffect(() => {
-    setLineForDistance([...lineForDistance, [lat, lon]]);
-
-    if (lineForDistance.length > 1) {
-      setLineForDistance([lineForDistance[1], [lat, lon]]);
-      getDistance(
-        lineForDistance[0][0],
-        lineForDistance[0][1],
-        lineForDistance[1][0],
-        lineForDistance[1][1]
-      );
-    }
-    if (!isPauseWalk && isWalk && dis > 10) {
-      dispatch(sendLocation(lat, lon, distance));
-    }
-    setDis(dist);
-  }, [lat, lon]);
+  const panTo = async () => {
+    moveLatLon = new kakao.maps.LatLng(lat, lon);
+    myMap.panTo(moveLatLon);
+  };
 
   useEffect(() => {
-    // getGeolocation();
     drawMap();
+    // panTo();
   }, []);
 
   useEffect(() => {
@@ -193,7 +178,10 @@ const TrackingMap = () => {
       <div>
         <Time />
         <ResultInfo>
-          <InfoPanel number={`${10}m`} string={"산책 거리"} />
+          <InfoPanel
+            number={`${walkDetailInfo.distance}m`}
+            string={"산책 거리"}
+          />
           <InfoPanel number={`${10}`} string={"산책 시간"} />
           <InfoPanel number={`${10}`} string={"속도(분/km)"} />
         </ResultInfo>
@@ -203,16 +191,16 @@ const TrackingMap = () => {
 };
 
 const MapBox = styled.div`
-  position:relative;
+  position: relative;
   background-color: white;
   /* height: 100vh; */
-  height:auto;
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   transition: 500ms;
   > div:nth-child(3) {
-    width:100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -248,7 +236,7 @@ const FunctionBtn = styled.div`
   > div {
     margin: 15px;
   }
-  margin-top:-30px;
+  margin-top: -30px;
 `;
 
 const StartWalkingPet = styled.div`
@@ -309,15 +297,15 @@ const TakePicturePet = styled.div`
 
 const ResultInfo = styled.div`
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
   align-items: center;
-  width:100%;
-  margin:20px 0 0;
+  width: 100%;
+  margin: 20px 0 0;
 
-  >div{
-    flex:1;
+  > div {
+    flex: 1;
     text-align: center;
   }
-`
+`;
 
 export default TrackingMap;

@@ -38,7 +38,7 @@ const OwnerMain = () => {
     dispatch(getMyPetInfo());
   }, []);
 
-
+  
   return (
     <div className="container bg-gray">
       <Header>

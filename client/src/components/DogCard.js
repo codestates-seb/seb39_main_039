@@ -11,16 +11,14 @@ import { faCakeCandles } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { getWalkDetailInfo } from "../redux/actions/mappingAction";
-// import { getPetWalkInfo } from "../redux/actions/petwalkActions";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 
 export const DogCard = (props) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const walklInfo = useSelector((state) => state.mapping.walkDetailInfo);
-  const petWalkInfo = useSelector((state) => state.petwalk.petWalkInfo);
-
+  const endDate = new Date(walklInfo.endTime).toLocaleString().slice(0, -3);
   let ago = moment(props.props.birthday).fromNow();
   let age;
   if (!ago.includes("years")) {
@@ -29,29 +27,7 @@ export const DogCard = (props) => {
     age = Number(ago.split(" ")[0]) + 1;
   }
 
-  // =================== 테스트중 코드👩‍🔬
-  // useEffect (()=>{
-  //   getWalkDetailInfo(1);
-  // },[])
-  // console.log(walklInfo);
-
-
-
-  // useEffect(()=>{
-  //   dispatch(getPetWalkInfo(props.props.petId));
-  // },[])
-  
-
-  // console.log(petWalkInfo)
-
-  // =================== 테스트중 코드👩‍🔬
-
-  // const test = petWalkInfo.map((el)=>{
-  //   el.distance.reduce((a,c)=>{
-  //     return a+c
-  //   })
-  // })
-  // console.log('test',test)
+  console.log(walklInfo)
   
   return (
     <div>
@@ -77,7 +53,7 @@ export const DogCard = (props) => {
         <Walking>
           <div>
             <p>{walklInfo.walker} 님과 산책중..</p>
-            <small>{walklInfo.endTime}까지</small>
+            <small>{endDate}까지</small>
             <small>수행률 70%</small>
           </div>
         </Walking>
@@ -86,10 +62,10 @@ export const DogCard = (props) => {
           }}>
           <div>
             <p>지난 산책 내역</p>
-            <small>총 13km</small>
+            <small>총 {props.props.walkDistance}km</small>
           </div>
           <div>
-            <b>0</b>건
+            <b>{props.props.walkCount}</b>건
           </div>
         </WalkHistory>
       </WalkState>

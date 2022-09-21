@@ -181,7 +181,7 @@ const TrackingMap = () => {
         // ref={mapImage}
       ></Map>
 
-      <div>
+      <div className="control-area">
         <TimeCount setIsPauseWalk={setIsPauseWalk} isPauseWalk={isPauseWalk} />
         <ResultInfo>
           <InfoPanel number={walkDetailInfo.distance} string={"산책 거리"} />
@@ -214,6 +214,10 @@ const MapBox = styled.div`
         letter-spacing: 10px;
       }
     }
+  }
+
+  .control-area{
+    width: 100%;
   }
 `;
 

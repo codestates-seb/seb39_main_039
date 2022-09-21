@@ -3,6 +3,7 @@ import { ReactComponent as Logo } from '../../assets/img/logo.svg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import Nav from '../../components/Layout/Nav'
 import PlaceList from "../../components/PlaceList";
 import WalkerCard from "../../components/WalkerCard";
 
@@ -31,6 +32,7 @@ const WalkerMain = () => {
                 <h3>주변 강아지 동반 카페 <small><FontAwesomeIcon icon={faLocationDot}/> 강남구</small></h3>
                 <PlaceList />
             </InfoSection>
+            <Nav />
         </div>
     )
 }

@@ -24,7 +24,7 @@ export const DogCard = (props) => {
     age = Number(ago.split(" ")[0]) + 1;
   }
 
-  console.log(walklInfo);
+  console.log(props);
   return (
     <div>
       <DogProfile>
@@ -64,7 +64,7 @@ export const DogCard = (props) => {
           </div>
         </WalkBanner>
         <WalkBanner onClick={() => {
-            navigate("/walk/1/wantedHistory");
+            navigate("/1/walkerHistory");
           }}>
           <div>
             <p>지난 산책 내역</p>

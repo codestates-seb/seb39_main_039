@@ -50,8 +50,9 @@ export const EachCheckbox = ({ data, text, onChangeHandler, checkItems }) => {
   );
 };
 
-export const Checkbox = ({ text, func, id }) => {
-  const [isChecked, setIsChecked] = useState(false);
+export const Checkbox = ({ text, func, id, checking }) => {
+  const checkBox = useRef();
+  const [isChecked, setIsChecked] = useState(checking);
   const onClickCheck = () => {
     setIsChecked(!isChecked);
     func(!isChecked, id);
@@ -60,7 +61,7 @@ export const Checkbox = ({ text, func, id }) => {
   return (
     <CheckboxWrap>
       <div onClick={onClickCheck}>
-        <Checkedbox type="checkbox" isChecked={isChecked} />
+        <Checkedbox type="checkbox" isChecked={isChecked} ref={checkBox} />
         <CheckedLabel isChecked={isChecked}></CheckedLabel>
         <em>{text}</em>
       </div>

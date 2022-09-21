@@ -20,7 +20,7 @@ const rootReducer = combineReducers({
   signup: signupReducers,
   mapping: mappingReducer,
   pet: petReducer,
-  petwalk : petwalkReducer,
+  petwalk: petwalkReducer,
   user: userReducer
 });
 

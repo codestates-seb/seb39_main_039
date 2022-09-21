@@ -18,7 +18,8 @@ import {
   DogEdit,
   DogAdd,
   WalkerEdit,
-  WorkHistory
+  WorkHistory,
+  PendingWalk
 } from "./pages";
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
         ></Route>
         <Route path="/walkerMain" element={<WalkerMain />}></Route>
         <Route path="/walkerHistory/:id" element={<WalkerHistory />}></Route>
+        <Route path="/pendingWalk" element={<PendingWalk />}></Route>
         <Route path="/wantedCreate" element={<WantedCreate />}></Route>
         <Route path="/wantedList" element={<WantedList />}></Route>
         <Route path="/wantedDetail" element={<WantedDetail />}></Route>

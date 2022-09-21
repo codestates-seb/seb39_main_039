@@ -57,7 +57,7 @@ export const DogCard = (props) => {
           </Walking>
         }
         <WalkBanner onClick={() => {
-            navigate("/");
+            navigate("/pendingWalk");
           }}>
           <div>
             <p>대기중인 산책</p>

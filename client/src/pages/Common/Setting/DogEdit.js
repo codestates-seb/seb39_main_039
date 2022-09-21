@@ -90,14 +90,16 @@ const DogEdit = () => {
   }
 
   const birthPick = (data) => {
-    let year = String(new Date(data).getFullYear());
+    let year = new Date(data).getFullYear();
     let month = String(new Date(data).getMonth() + 1);
-    let day = String(new Date(data).getDate());
+    let day = new Date(data).getDate();
 
-    if (month < 10 && day < 10) {
-      month = `0${month}`;
-      day = `0${day}`;
+    if (month < 10 || day < 10) {
+      month = `0` + String(month);
+      day = `0` + String(day);
     }
+
+    console.log(month, day);
 
     setMyPetBirth(`${year}-${month}-${day}`);
   };

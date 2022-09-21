@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class WalkDto {
         private int mealCount;
         private int walkCount;
         private int progress;
+        private Time actualWalkTime;
         private String caution;
         private UserDto.SimpleWalkerResponse walker;
     }

@@ -10,12 +10,15 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.locationtech.jts.geom.LineString;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -58,6 +61,8 @@ public class Walk extends BaseEntityDate {
     @ColumnDefault("0")
     private int progress;
 
+    private Time actualWalkTime;
+
     @ColumnDefault("0")
     private int pooCount;
     @ColumnDefault("0")
@@ -66,6 +71,7 @@ public class Walk extends BaseEntityDate {
     private int mealCount;
     @ColumnDefault("0")
     private int walkCount;
+    private int routeTime;
 
     @OneToMany(mappedBy = "walk", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<WalkCheckList> checkList = new ArrayList<>();
@@ -73,10 +79,16 @@ public class Walk extends BaseEntityDate {
     @ManyToMany(targetEntity = Pet.class)
     private List<Pet> petList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "walk", cascade = {CascadeType.REMOVE})
+    private List<Coord> coordList = new ArrayList<>();
+    private LineString route;
+
     public List<String> getCoord() {
-        if (this.coord == null) return null;
-        List<String> coordList = Arrays.asList(this.coord.split(","));
-        return coordList.subList(1, coordList.size());
+//        if (this.coord == null) return null;
+//        List<String> coordList = Arrays.asList(this.coord.split(","));
+//        return coordList.subList(1, coordList.size());
+        if(this.coordList == null) return null;
+        return this.coordList.stream().map(s->String.format("%s %s",s.getPoint().getX(),s.getPoint().getY())).collect(Collectors.toList());
     }
 
 //    public void addCoord(String str) {

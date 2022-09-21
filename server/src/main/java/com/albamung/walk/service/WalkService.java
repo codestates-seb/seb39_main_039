@@ -3,9 +3,14 @@ package com.albamung.walk.service;
 import com.albamung.exception.CustomException;
 import com.albamung.pet.entity.Pet;
 import com.albamung.pet.service.PetService;
+import com.albamung.walk.entity.Coord;
 import com.albamung.walk.entity.Walk;
 import com.albamung.walk.entity.WalkCheckList;
+import com.albamung.walk.repository.CoordRepository;
 import com.albamung.walk.repository.WalkRepository;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.io.ParseException;
+import org.locationtech.jts.io.WKTReader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -13,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
 
 @Service
@@ -20,11 +26,13 @@ import java.time.LocalDateTime;
 public class WalkService {
     private final WalkRepository walkRepository;
     private final PetService petService;
+    private final CoordRepository coordRepository;
 
 
-    public WalkService(WalkRepository walkRepository, PetService petService) {
+    public WalkService(WalkRepository walkRepository, PetService petService, CoordRepository coordRepository) {
         this.walkRepository = walkRepository;
         this.petService = petService;
+        this.coordRepository = coordRepository;
         ;
     }
 
@@ -52,6 +60,13 @@ public class WalkService {
         targetWalk.setProgress((int) (progress * 100));
 
         return targetWalk;
+    }
+
+    public Time putActualWalkTime(Long walkId, Time actualWalkTime, Long walkerId){
+        Walk targetWalk = verifyWalk(walkId);
+        verifyWalkUser(targetWalk, walkerId);
+        targetWalk.setActualWalkTime(actualWalkTime);
+        return actualWalkTime;
     }
 
     /**
@@ -82,13 +97,16 @@ public class WalkService {
     /**
      * 산책의 동선 좌표 입력
      */
-    public void putCoord(Long walkId, String coord, int distance, Long loginId) {
-//        Walk targetWalk = verifyWalk(walkId);
+    public void putCoord(Long walkId, String coord, int distance, Long loginId) throws ParseException {
+        Walk targetWalk = verifyWalk(walkId);
+        verifyWalkUser(targetWalk, loginId);
 
-//        verifyWalkUser(targetWalk, loginId);
-//        targetWalk.addCoord(coord);
-        walkRepository.UpdateCoord(walkId, "," + coord);
-        walkRepository.UpdateDistance(walkId, distance);
+        walkRepository.increaseDistance(walkId, distance);
+        String pointWKT = String.format("POINT(%s)", coord);
+        Point point = (Point) new WKTReader().read(pointWKT);
+        coordRepository.save(Coord.builder().point(point).walk(targetWalk).build());
+
+//        walkRepository.UpdateCoord(walkId, "," + coord);
     }
 
     public int putBasic(Long walkId, String basic, int count, Long loginId) {

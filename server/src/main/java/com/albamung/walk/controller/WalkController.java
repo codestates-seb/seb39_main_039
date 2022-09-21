@@ -10,6 +10,7 @@ import com.albamung.walk.service.WalkService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.locationtech.jts.io.ParseException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.sql.Time;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,10 +78,20 @@ public class WalkController {
     @PutMapping("/{walkId}/coord")
     public ResponseEntity putCoord(@AuthenticationPrincipal @ApiIgnore User walker,
                                    @PathVariable @Positive Long walkId,
-                                   @RequestBody @Valid WalkDto.PutCoord request) {
+                                   @RequestBody @Valid WalkDto.PutCoord request) throws ParseException {
         if (walker == null) walker = User.builder().id(1L).build();
         walkService.putCoord(walkId, request.getCoord(), request.getDistance(), walker.getId());
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "산책 종료(알바) 시 실질 산책 시간 업데이트", notes ="요청시 body는 \"1:30:00\" 형식, 응답은 반영된 시간이 반환됩니다.")
+    @PutMapping("/{walkId}/actualWalkTime")
+    public ResponseEntity putActualWalkTime(@AuthenticationPrincipal @ApiIgnore User walker,
+                                            @PathVariable @Positive Long walkId,
+                                            @RequestBody Time actualWalkTime){
+        if (walker == null) walker = User.builder().id(1L).build();
+        Time response = walkService.putActualWalkTime(walkId, actualWalkTime, walker.getId());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @ApiOperation(value = "산책의 체크리스트 체크상태 변경", notes = "변경된 상태(true/false)와 변경된 진행상황(progress)를 응답합니다")

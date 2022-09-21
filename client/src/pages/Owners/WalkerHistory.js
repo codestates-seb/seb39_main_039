@@ -17,7 +17,6 @@ const WalkerHistory = () =>{
         dispatch(getPetWalkInfo(petId.id));
     },[])
 
-    console.log(petWalkInfo);
     return(
         <div className="container bg-gray">
             <Header pageTitle={`춘식이 지난 산책 내역`} />

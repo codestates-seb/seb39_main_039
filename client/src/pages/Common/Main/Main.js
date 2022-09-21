@@ -5,7 +5,7 @@ import {
   ButtonPrimary,
   ButtonPrimaryLine
 } from "../../../components/Button/Buttons";
-import { ReactComponent as Logo } from "../../../assets/img/logo.svg";
+import { ReactComponent as Logo } from "../../../assets/img/logo-wh.svg";
 import { ReactComponent as VisualImg } from "../../../assets/img/visualImg.svg";
 import btnIcon01 from "../../../assets/img/buttonIcon01.svg";
 import btnIcon02 from "../../../assets/img/buttonIcon02.svg";
@@ -18,7 +18,7 @@ const Main = () => {
     <div className="container pa0">
       <MainIntro>
         <div>
-          <Logo />
+          <Logo className="logo-bi" />
           <h2>
             <b>믿을 수 있는</b>
             <br />
@@ -80,6 +80,11 @@ const MainIntro = styled.div`
     padding:0 40px;
   }
 
+  .logo-bi{
+    position:absolute;
+    top:30px;
+    right:40px;
+  }
   .visual-img{
     position:absolute;
     transform: translate(0, -96%);

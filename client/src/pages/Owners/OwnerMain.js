@@ -38,7 +38,6 @@ const OwnerMain = () => {
     dispatch(getMyPetInfo());
   }, []);
   
-  console.log(myPetInfo);
   return (
     <div className="container bg-gray">
       <Header>

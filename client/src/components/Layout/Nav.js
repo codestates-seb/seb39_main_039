@@ -72,8 +72,8 @@ const FooterNav = styled.div`
         width:135px;
         height:60px;
         border:6px solid var(--white-000);
-        background: rgb(71,145,255);
-        background: linear-gradient(140deg, rgba(71,145,255,1) 0%, rgba(37,208,219,1) 100%);
+        background: rgb(51,134,255);
+        background: linear-gradient(133deg, rgba(51,134,255,1) 0%, rgba(101,75,255,1) 100%);
         border-radius: 100px;
         box-shadow: 0 0 7px 0 rgba(0,0,0, .14);
         animation-name: example;

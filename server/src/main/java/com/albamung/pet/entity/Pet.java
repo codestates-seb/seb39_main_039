@@ -47,7 +47,7 @@ public class Pet {
     private List<Walk> walkList;
 
     @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
+    @JoinColumn(name = "OWNER_ID", nullable = false)
     private User owner;
 
     public void addWalkList(Walk walk) {

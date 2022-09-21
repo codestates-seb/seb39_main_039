@@ -19,7 +19,7 @@ const StartWalking = () => {
   const { walkDetailInfo } = useSelector((state) => state.mapping);
   const [checkCount, setCheckCount] = useState();
   const [changeCheckList, setChangeCheckList] = useState({
-    progress: 0
+    progress: ""
   });
 
   const CountHandlerPlus = (walkId, toDo, count) => {
@@ -46,6 +46,10 @@ const StartWalking = () => {
   let day = ("0" + date.getDate()).slice(-2);
   let hour = ("0" + date.getHours()).slice(-2);
   let minute = ("0" + date.getMinutes()).slice(-2);
+
+  useEffect(() => {
+    dispatch(getWalkDetailInfo(1));
+  }, [checkCount, changeCheckList]);
 
   useEffect(() => {
     dispatch(getWalkDetailInfo(1));

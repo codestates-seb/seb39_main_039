@@ -1,9 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as Close } from '../../assets/img/close.svg';
-import { ReactComponent as Check } from '../../assets/img/checkicon-modal.svg';
-
-function ModalEndWalk ( {isOpen, setIsOpen, confirmHandler} ) {
+function Modal ( {isOpen, setIsOpen, text, confirmHandler} ) {
     const openModalHandler = () => {
         setIsOpen(!isOpen);
     };
@@ -16,17 +14,12 @@ function ModalEndWalk ( {isOpen, setIsOpen, confirmHandler} ) {
             <button type="button" className="btn-modal-cls" onClick={openModalHandler}><Close/></button>
             <div className="modal-body">
                 <div>
-                    <b>산책을 종료하시겠습니까?</b>
-                    <span>확인하세요!</span>
-                    <p>
-                    강아지는 돌려 받으셨나요?<br />
-                    함께 건넨 강아지 용품들을 빠짐없이 받으셨나요?<br />
-                    산책자에게 보수를 지불하셨나요?
-                    </p>
+                    <b>{text}</b>
                 </div>
             </div>
             <StyledModalFooter className="modal-footer">
-                <button type="button" className="btn-modal cta" onClick={confirmHandler}><Check /> 예, 종료합니다.</button>
+                <button type="button" className="btn-modal" onClick={openModalHandler}>취소</button>
+                <button type="button" className="btn-modal con" onClick={confirmHandler}>확인</button>
             </StyledModalFooter>
         </StyledModalCon>
     </StyledModal> : null}
@@ -35,7 +28,7 @@ function ModalEndWalk ( {isOpen, setIsOpen, confirmHandler} ) {
     )
 }
 
-export default ModalEndWalk
+export default Modal
 
 
 const StyledModal = styled.div`
@@ -74,24 +67,8 @@ const StyledModalCon= styled.div`
     .modal-body{
         display: flex;
         align-items: center;
-        padding:50px 0 35px;
-        b{display:block;padding-bottom:16px;font-size:20px;font-weight:600}
-        span{
-            display: inline-block;
-            background:var(--gray-600);
-            font-weight: 600;
-            color:var(--gray-100);
-            border-radius: 50px;
-            font-size:13px;
-            padding:7px 10px 5px;
-            margin-bottom:4px;
-        }
-        p{
-            font-size:14px;
-            color:var(--gray-600);
-            line-height: 1.4em;
-        }
-        
+        min-height:150px;
+        b{display:block;margin-top:13px;font-size:18px;font-weight:600}
     }
 `
 const StyledModalFooter= styled.div`
@@ -100,16 +77,18 @@ const StyledModalFooter= styled.div`
     border-bottom-left-radius: 25px;
     border-bottom-right-radius: 25px;
     button {border:0;font-size:20px;font-weight:500}
-    .btn-modal.cta{
-        background:var(--primary);
-        color:var(--white-000);
-        padding:22px 0;
-        font-size:18px;
-        font-weight: 600;
+    .btn-modal{
+        background:var(--white-000);
+        border-top:1px solid var(--gray-200);
+        color:var(--gray-400);
+        padding:20px 0;
+        font-size:16px;
 
         svg{
             margin-right:2px;
         }
     }
-    .btn-modal.cta:hover{background:var(--primary-active);color:var(--white-000)}
+    .btn-modal.con{
+        color:var(--primary);
+    }
 `

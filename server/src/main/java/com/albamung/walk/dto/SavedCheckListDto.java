@@ -4,7 +4,7 @@ import lombok.Builder;
 
 public class SavedCheckListDto {
     @Builder
-    public static class Response{
+    public static class Response {
         private Long checkListId;
         private String content;
     }

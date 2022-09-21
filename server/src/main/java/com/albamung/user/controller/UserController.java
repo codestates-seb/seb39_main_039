@@ -15,8 +15,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.Map;
 
 @Api(tags = {"3.User"})
 @RestController
@@ -42,16 +44,19 @@ public class UserController {
     @ApiOperation(value = "사용자 기본 정보 조회", notes = "사용자 기본 정보 수정 때 얹어놓을 정보나, 햄버거 등에서 쓸만한 간단한 정보(이름, 폰, 이멜, 사진, 닉넴)")
     @GetMapping("/myInfo")
     public ResponseEntity getMyInfo(@AuthenticationPrincipal @ApiIgnore User loginUser) {
-        if(loginUser==null) loginUser = User.builder().id(1L).build();
+        if (loginUser == null) loginUser = User.builder().id(1L).build();
         if (loginUser == null) throw new CustomException("Please Login First", HttpStatus.FORBIDDEN);
         UserDto.DefaultResponse response = mapper.toDefaultResponse(userService.getUserInfo(loginUser.getId()));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-//    @PostMapping("/refresh")
-//    public ResponseEntity refreshToken(@RequestHeader("Authorization") String accessToken, @RequestBody String refreshToken) {
-//        return new ResponseEntity<>(userService.refreshToken(accessToken, refreshToken), HttpStatus.CREATED);
-//    }
+    @PostMapping("/refresh")
+    public ResponseEntity refreshToken(HttpServletResponse response, @RequestHeader("Authorization") String accessToken, @RequestBody String refreshToken) {
+        Map<String, String> tokens = userService.refreshToken(accessToken, refreshToken);
+        response.addHeader("access", tokens.get("access"));
+        response.addHeader("refresh", tokens.get("refresh"));
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
 //    @GetMapping
 //    public ResponseEntity getUsers(@RequestParam(value = "page", required = false) Integer page) {
@@ -63,7 +68,7 @@ public class UserController {
     @ApiOperation(value = "사용자 기본 정보 수정")
     @PutMapping("/editDefault")
     public ResponseEntity putUserDefault(@RequestBody UserDto.PutDefault requestBody, @AuthenticationPrincipal @ApiIgnore User user) {
-        if(user==null) user = User.builder().id(1L).build();
+        if (user == null) user = User.builder().id(1L).build();
 
         User putUser = mapper.putToUser(requestBody);
         User editedUser = userService.putUserDefault(putUser, user.getId());
@@ -71,9 +76,9 @@ public class UserController {
         return new ResponseEntity<>(editedUser.getId(), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{userId}/delete")
-    public ResponseEntity deleteUser(@PathVariable @Positive Long userId, @AuthenticationPrincipal @ApiIgnore User user) {
-        userService.deleteUser(userId, user.getId());
+    @DeleteMapping("/delete")
+    public ResponseEntity deleteUser(@AuthenticationPrincipal @ApiIgnore User user) {
+        userService.deleteUser(user.getId());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

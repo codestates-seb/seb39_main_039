@@ -156,6 +156,7 @@ const TrackingMap = () => {
 
   useEffect(() => {
     drawMap();
+    // panTo();
   }, []);
 
   useEffect(() => {

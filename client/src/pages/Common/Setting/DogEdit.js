@@ -86,7 +86,7 @@ const DogEdit = () => {
               onClick={() => selectMenuHandler(index)}
               key={index}
             >
-              <DogNameLabelType2 name={el.petName} key={index} />
+              <DogNameLabelType2 name={el.petName} picture={el.petPicture} key={index} />
             </li>
           );
         })}

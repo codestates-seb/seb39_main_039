@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const customAxios = axios.create({
-  baseURL: "https://server.albamung.tk/"
+  baseURL: "https://server.albamung.tk/",
 });
 
 customAxios.interceptors.request.use(function (config) {
@@ -11,6 +11,7 @@ customAxios.interceptors.request.use(function (config) {
     config.headers["Authorization"] = null;
     return config;
   }
+  config.headers["Content-type"] = "application/json"
   config.headers["Authorization"] = `Bearer ${Cookies.get("access")}`;
   return config;
 });

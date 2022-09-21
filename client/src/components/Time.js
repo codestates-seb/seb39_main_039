@@ -60,16 +60,24 @@ const TimeCount = ({ setIsPauseWalk, isPauseWalk }) => {
           </>
         )}
       </FunctionBtn>
-      <div style={{ textAlign: "center" }}>
-        <div style={{ fontSize: "100px" }} ref={timer}>
+      <TimeArea>
+        <div ref={timer}>
           <span>{hours}</span>:
           {minutes < 10 ? <span>0{minutes}</span> : <span>{minutes}</span>}:
           {seconds < 10 ? <span>0{seconds}</span> : <span>{seconds}</span>}
         </div>
-      </div>
+      </TimeArea>
     </>
   );
 };
+
+const TimeArea = styled.div`
+  text-align: center;
+  font-size:60px;
+  font-weight: 400;
+  letter-spacing: -.03em;
+  font-family: 'Roboto', sans-serif;
+`
 
 const FunctionBtn = styled.div`
   position: relative;

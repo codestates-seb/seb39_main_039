@@ -8,6 +8,7 @@ import calendar from './assets/img/calendar.svg'
 import reset from "styled-reset";
 
 const GlobalStyle = createGlobalStyle`
+   @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
    ${reset}
    *{
       box-sizing: border-box;
@@ -65,6 +66,7 @@ const GlobalStyle = createGlobalStyle`
    .d-flex{display:flex;justify-content:space-between}
    .list-horizonscroll{overflow: auto;white-space: nowrap;}
    .list-horizonscroll>li{display: inline-block;margin-right:6px}
+   .ff-Roboto{font-family: 'Roboto', sans-serif !important}
 
 
    // layout

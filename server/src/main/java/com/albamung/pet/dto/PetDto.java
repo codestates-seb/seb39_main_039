@@ -1,5 +1,6 @@
 package com.albamung.pet.dto;
 
+import com.albamung.walk.dto.WalkDto;
 import io.swagger.annotations.ApiModel;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class PetDto {
         private String aboutPet;
         private int walkCount;
         private int walkDistance;
+        private WalkDto.SimpleResponse currentWalk;
     }
 
     @Builder

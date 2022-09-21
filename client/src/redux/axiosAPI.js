@@ -1,8 +1,10 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
+const BASE_URL = process.env.REACT_APP_SERVER_URL;
+
 const customAxios = axios.create({
-  baseURL: "https://server.albamung.tk/",
+  baseURL: BASE_URL
 });
 
 customAxios.interceptors.request.use(function (config) {
@@ -11,7 +13,7 @@ customAxios.interceptors.request.use(function (config) {
     config.headers["Authorization"] = null;
     return config;
   }
-  config.headers["Content-type"] = "application/json"
+  config.headers["Content-type"] = "application/json";
   config.headers["Authorization"] = `Bearer ${Cookies.get("access")}`;
   return config;
 });

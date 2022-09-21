@@ -83,6 +83,10 @@ const DogAdd = () => {
             강아지 생년월일
           </label>
           <DatePicker
+            peekNextMonth
+            showMonthDropdown
+            showYearDropdown
+            dropdownMode="select"
             locale={ko}
             dateFormat="yyyy년 MM월 dd일 생"
             selected={startDate}

@@ -18,7 +18,9 @@ const StartWalking = () => {
   const dispatch = useDispatch();
   const { walkDetailInfo } = useSelector((state) => state.mapping);
   const [checkCount, setCheckCount] = useState();
-  const [changeCheckList, setChangeCheckList] = useState();
+  const [changeCheckList, setChangeCheckList] = useState({
+    progress: 0
+  });
 
   const CountHandlerPlus = (walkId, toDo, count) => {
     dispatch(countPoo(walkId, toDo, count)).then((res) =>
@@ -34,7 +36,7 @@ const StartWalking = () => {
 
   const change = (curState, checkList_id) => {
     dispatch(changeCheckListState(1, checkList_id, curState)).then((res) =>
-      setChangeCheckList(res.config.data)
+      setChangeCheckList(res.data)
     );
   };
 
@@ -140,7 +142,7 @@ const StartWalking = () => {
           <label htmlFor="" className="ipt-label">
             체크리스트
           </label>
-          {/* <em>수행률 {}%</em> */}
+          <em>수행률 {changeCheckList?.progress}%</em>
         </div>
         <CheckingList>
           {walkDetailInfo.checkList?.map((el) => (

@@ -96,6 +96,7 @@ const GlobalStyle = createGlobalStyle`
       h4{
          font-size:18px;
          font-weight: 600;
+         margin-top:-20px;
       }
 
       p{
@@ -103,6 +104,12 @@ const GlobalStyle = createGlobalStyle`
          color:var(--gray-500);
          margin-top:10px;
          line-height: 1.3em;
+      }
+
+      i{
+         display: inline-block;
+         width:200px;
+         margin-top:-30px;
       }
    }
    

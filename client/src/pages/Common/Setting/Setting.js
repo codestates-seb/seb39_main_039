@@ -4,6 +4,7 @@ import styled from "styled-components"
 import noImage from '../../../assets/img/noImage.svg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from '@fortawesome/free-solid-svg-icons';
+import Nav from "../../../components/Layout/Nav";
 import UserGrade from "../../../components/UserGrade";
 import Arrows from '../../../assets/img/arrows.svg';
 import SwitchMode from "../../../components/SwitchMode";
@@ -88,6 +89,7 @@ const Setting = () => {
                     <p>회원 탈퇴</p>
                 </li>
             </List>
+            <Nav />
         </div>
     )
 }

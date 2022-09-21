@@ -4,19 +4,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faPaw } from "@fortawesome/free-solid-svg-icons";
+import NavLink from "./NavLink";
 
 const Nav = () => {
+    function isActive(path) {
+        return window.location.pathname.startsWith(path);
+    }
+
     return(
         <FooterNav>
             <div>
-                <Link to="/ownerMain" className="home-area active">
+                <NavLink to="/ownerMain" className="home-area active" active={isActive("/ownerMain")}>
                     <i><FontAwesomeIcon icon={faHouse}/></i><p>홈</p>
-                </Link>
+                </NavLink>
             </div>
             <div>
-                <Link to="/setting" className="setting-area">
+                <NavLink to="/setting" className="setting-area" active={isActive("/setting")}>
                         <i><FontAwesomeIcon icon={faBars}/></i><p>전체</p>
-                </Link>
+                </NavLink>
             </div>
             
             <button type="button" className="nav-button">
@@ -29,6 +34,7 @@ const Nav = () => {
 }
 
 export default Nav
+
 
 const FooterNav = styled.div`
     position: fixed;
@@ -45,25 +51,16 @@ const FooterNav = styled.div`
         width:110px;
         text-align: center;
     }
-    
-    .home-area, .setting-area{
-        display: inline-block;
-        padding:12px 25px 10px;
-        color:var(--gray-300);
 
-        svg{
-            font-size:18px;
-        }
-        p{
-            font-size:12px;
-            color:var(--gray-500);
-            margin-top:3px;
-        }
+    svg{
+        font-size:18px;
+    }
+    p{
+        font-size:12px;
+        color:var(--gray-500);
+        margin-top:3px;
     }
 
-    a.active{
-        color:var(--gray-800);
-    }
 
     .nav-button{
         position:absolute;

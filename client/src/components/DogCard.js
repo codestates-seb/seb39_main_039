@@ -24,7 +24,7 @@ export const DogCard = (props) => {
     age = Number(ago.split(" ")[0]) + 1;
   }
 
-  console.log(props);
+  console.log(props.props.currenWalk);
   return (
     <div>
       <DogProfile>
@@ -43,16 +43,19 @@ export const DogCard = (props) => {
         </div>
       </DogProfile>
       <WalkState>
-        <NotWalk>
-          <p>{props.props.petName}이는 산책중이 아니에요.</p>
-        </NotWalk>
-        <Walking>
-          <div>
-            <p>{walklInfo.walker} 님과 산책중..</p>
-            <small>{endDate}까지</small>
-            <small>수행률 70%</small>
-          </div>
-        </Walking>
+        {props.props.currentWalk === null ? 
+          <NotWalk>
+            <p>{props.props.petName}이는 산책중이 아니에요.</p>
+          </NotWalk>
+        :
+          <Walking>
+            <div>
+              <p>{walklInfo.walker} 님과 산책중..</p>
+              <small>{endDate}까지</small>
+              <small>수행률 70%</small>
+            </div>
+          </Walking>
+        }
         <WalkBanner onClick={() => {
             navigate("/");
           }}>

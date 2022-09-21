@@ -49,7 +49,6 @@ export const logoutSuccess = () => {
         dispatch({
           type: "LOGOUT_SUCCESS",
         })
-        window.location.replace("/")
     } catch (error) {
       console.log("에러", error);
     }

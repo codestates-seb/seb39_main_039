@@ -72,7 +72,7 @@ const StartWalking = () => {
           </dl>
           <dl className="walk-con">
             <dt>산책 예정시간</dt>
-            <dd>~ {`${month}월-${day}일  ${hour}:${minute}시 까지`}</dd>
+            <dd>~ {`${month}월 ${day}일  ${hour}:${minute}시 까지`}</dd>
           </dl>
         </div>
       </Section>

@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useStopwatch } from "react-timer-hook";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { walkState } from "../redux/actions/mappingAction";
 import startWalking from "../assets/img/startWalking.svg";
 import pauseWalking from "../assets/img/pauseWalking.svg";
@@ -9,15 +9,18 @@ import stopWalking from "../assets/img/stopWalking.svg";
 import restartWalking from "../assets/img/restartWalking.svg";
 import takeAPicture from "../assets/img/takeAPicture.svg";
 import { useDispatch, useSelector } from "react-redux";
+import { actualWalkTime } from "../redux/actions/mappingAction";
 
 const TimeCount = ({ setIsPauseWalk, isPauseWalk }) => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { seconds, minutes, hours, start, pause } = useStopwatch({
     autoStart: false
   });
   const { isWalk } = useSelector((state) => state.mapping);
   const timer = useRef();
+  const { id } = useParams();
+
+  console.log();
 
   return (
     <>
@@ -49,7 +52,7 @@ const TimeCount = ({ setIsPauseWalk, isPauseWalk }) => {
             <StopWalkingPet
               onClick={() => {
                 dispatch(walkState(false));
-                navigate("/walkerMain");
+                dispatch(actualWalkTime(id, `${hours}:${minutes}:${seconds}`));
               }}
             ></StopWalkingPet>
             <TakePicturePet></TakePicturePet>

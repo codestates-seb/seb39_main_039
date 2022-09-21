@@ -18,34 +18,38 @@ import {
   deleteMyPetInfo
 } from "../../../redux/actions/petActions";
 import { petSpecList } from "../../../constants/petSpecies";
-import { ButtonPrimary, ButtonCancel } from "../../../components/Button/Buttons";
+import {
+  ButtonPrimary,
+  ButtonCancel
+} from "../../../components/Button/Buttons";
 
 const DogEdit = () => {
+  const sex = useRef();
+  const spec = useRef();
+
   const dispatch = useDispatch();
   const { myPetInfo } = useSelector((state) => state.pet);
 
   const [currentTab, setCurrentTab] = useState(0);
   const [birth, setBirth] = useState();
   const [myPetName, setMyPetName] = useState(myPetInfo[currentTab]?.petName);
-  const [myPetAbout, setMyPetAbout] = useState(myPetInfo[currentTab]?.aboutPet);
+  const [myPetAbout, setMyPetAbout] = useState(myPetInfo[currentTab]?.about);
+  const [myPetSpecies, setMyPetSpecies] = useState(
+    myPetInfo[currentTab]?.species
+  );
+  const [myPetBirth, setMyPetBirth] = useState(myPetInfo[currentTab]?.birthday);
+  const [myPetSex, setMyPetSex] = useState(myPetInfo[currentTab]?.sex);
 
-  const sex = useRef();
-  const spec = useRef();
-
-  let birthOfPet, year, month, day;
-  birthOfPet = myPetInfo[currentTab]?.birthday;
-  year = birthOfPet?.split("-")[0];
-  month = +birthOfPet?.split("-")[1];
-  day = +birthOfPet?.split("-")[2];
+  // console.log(myPetInfo);
 
   const ClickHandler = () => {
     dispatch(
       editMyPetInfo(
         myPetInfo[currentTab].petId,
         myPetName,
-        spec.current.value,
-        "2022-09-17T13:26:25.900Z",
-        sex.current.value,
+        spec.current?.value,
+        myPetBirth,
+        myPetSex,
         myPetAbout
       )
     );
@@ -59,11 +63,44 @@ const DogEdit = () => {
 
   const selectMenuHandler = (index) => {
     setCurrentTab(index);
+    console.log(index);
   };
 
   useEffect(() => {
     dispatch(getMyPetInfo());
-  }, []);
+  }, [
+    myPetInfo[currentTab].petName,
+    myPetInfo[currentTab].aboutPet,
+    myPetInfo[currentTab].sex,
+    myPetInfo[currentTab].birthday,
+    myPetInfo[currentTab].species,
+    currentTab
+  ]);
+
+  let birthOfPet, year, month, day;
+
+  birthOfPet = myPetInfo[currentTab]?.birthday;
+  year = birthOfPet?.split("-")[0];
+  month = +birthOfPet?.split("-")[1];
+  day = +birthOfPet?.split("-")[2];
+
+  if (month < 10 && day < 10) {
+    month = `0${month}`;
+    day = `0${day}`;
+  }
+
+  const birthPick = (data) => {
+    let year = String(new Date(data).getFullYear());
+    let month = String(new Date(data).getMonth() + 1);
+    let day = String(new Date(data).getDate());
+
+    if (month < 10 && day < 10) {
+      month = `0${month}`;
+      day = `0${day}`;
+    }
+
+    setMyPetBirth(`${year}-${month}-${day}`);
+  };
 
   useEffect(() => {
     if (year && month && day) {
@@ -71,11 +108,17 @@ const DogEdit = () => {
     }
   }, [year, month, day]);
 
+  useEffect(() => {
+    if (myPetInfo[currentTab]?.sex === "F") {
+      setMyPetSex("암컷");
+    } else {
+      setMyPetSex("수컷");
+    }
+  }, [myPetInfo[currentTab].sex]);
+
   return (
     <div className="container">
-      <Header
-        pageTitle={"강아지 정보 수정"}
-      />
+      <Header pageTitle={"강아지 정보 수정"} />
       <TabMenu>
         {menuArr.map((el, index) => {
           return (
@@ -83,10 +126,17 @@ const DogEdit = () => {
               className={`${
                 index === currentTab ? "submenu focused" : "submenu"
               }`}
-              onClick={() => selectMenuHandler(index)}
+              onClick={() => {
+                selectMenuHandler(index);
+                setMyPetName(el.petName);
+              }}
               key={index}
             >
-              <DogNameLabelType2 name={el.petName} picture={el.petPicture} key={index} />
+              <DogNameLabelType2
+                name={el.petName}
+                picture={el.petPicture}
+                key={index}
+              />
             </li>
           );
         })}
@@ -123,7 +173,7 @@ const DogEdit = () => {
               name="name"
               className="ipt-form"
               onChange={(e) => setMyPetName(e.target.value)}
-              defaultValue={myPetInfo[currentTab]?.petName}
+              value={myPetName}
             />
           </div>
           <div className="ipt-group">
@@ -142,10 +192,17 @@ const DogEdit = () => {
               강아지 생년월일
             </label>
             <DatePicker
+              peekNextMonth
+              showMonthDropdown
+              showYearDropdown
+              dropdownMode="select"
               locale={ko}
               dateFormat="yyyy년 MM월 dd일 생"
               selected={birth}
-              onChange={(date) => setBirth(date)}
+              onChange={(date) => {
+                setBirth(date);
+                birthPick(date);
+              }}
               maxDate={new Date()}
               dateFormatCalendar={DATE_FORMAT_CALENDAR}
             />
@@ -155,8 +212,17 @@ const DogEdit = () => {
               강아지 성별
             </label>
             <select className="ipt-form" ref={sex}>
-              <option value={"M"}>수컷</option>
-              <option value={"F"}>암컷</option>
+              {myPetSex === "수컷" ? (
+                <>
+                  <option selected>{myPetSex}</option>
+                  <option value={"F"}>암컷</option>
+                </>
+              ) : (
+                <>
+                  <option selected>{myPetSex}</option>
+                  <option value={"M"}>수컷</option>
+                </>
+              )}
             </select>
           </div>
           <div className="ipt-group">
@@ -168,10 +234,10 @@ const DogEdit = () => {
               id=""
               className="ipt-form"
               onChange={(e) => setMyPetAbout(e.target.value)}
-              defaultValue={myPetInfo[currentTab]?.aboutPet}
+              value={myPetAbout}
             ></textarea>
           </div>
-          
+
           <div className="btn-area">
             <ButtonPrimary onClick={ClickHandler}>수정 완료</ButtonPrimary>
             <ButtonCancel onClick={deletePet}>삭제</ButtonCancel>
@@ -186,9 +252,9 @@ export default DogEdit;
 const Form = styled.div`
   padding-bottom: 60px;
 
-  .btn-area{
-    button+button{
-      margin-top:10px
+  .btn-area {
+    button + button {
+      margin-top: 10px;
     }
   }
 `;

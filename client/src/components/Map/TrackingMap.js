@@ -102,7 +102,7 @@ const TrackingMap = () => {
   }, 3000);
 
   useInterval(() => {
-    dispatch(getWalkDetailInfo(1));
+    // dispatch(getWalkDetailInfo(1));
     getGeolocation();
     if (lat && lon) {
       if (!isPauseWalk && isWalk) {
@@ -114,7 +114,9 @@ const TrackingMap = () => {
     // drawLineImg();
     // setMapImgUrl(mapImage.current.style.background.slice(5, -2));
     // console.log(mapImg);
-  }, 1000);
+  }, 5000);
+
+  console.log(lat, lon);
 
   function getDistance(lat1, lon1, lat2, lon2) {
     if (lat1 === lat2 && lon1 === lon2) return 0;

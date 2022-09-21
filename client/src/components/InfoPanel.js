@@ -9,7 +9,7 @@ const InfoPanel = ({ number, string }) => {
 
   return (
     <Panel>
-      <div>{meter}m</div>
+      <div>{meter}</div>
       <div>{string}</div>
     </Panel>
   );

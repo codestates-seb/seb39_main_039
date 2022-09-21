@@ -19,10 +19,6 @@ const TimeCount = ({ setIsPauseWalk, isPauseWalk }) => {
   const { isWalk } = useSelector((state) => state.mapping);
   const timer = useRef();
 
-  if (hours < 10 && minutes < 10 && seconds < 10) {
-    // hours = 0hours;
-  }
-
   return (
     <>
       <FunctionBtn>

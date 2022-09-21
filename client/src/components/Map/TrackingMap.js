@@ -55,7 +55,7 @@ const TrackingMap = () => {
   const drawMap = async () => {
     options = {
       center: new kakao.maps.LatLng(lat, lon), //지도의 중심좌표.
-      level: 3, //지도의 레벨(확대, 축소 정도)
+      level: 1, //지도의 레벨(확대, 축소 정도)
       isPanto: true
     };
     container = document.getElementById("myMap");
@@ -65,7 +65,7 @@ const TrackingMap = () => {
   const makeMapImage = () => {
     options1 = {
       center: new kakao.maps.LatLng(lat, lon), //지도의 중심좌표.
-      level: 3 //지도의 레벨(확대, 축소 정도)
+      level: 1 //지도의 레벨(확대, 축소 정도)
     };
 
     container1 = document.getElementById("staticMap");
@@ -99,7 +99,7 @@ const TrackingMap = () => {
 
   setTimeout(() => {
     myMap.panTo(new kakao.maps.LatLng(lat, lon));
-  }, 500);
+  }, 3000);
 
   useInterval(() => {
     dispatch(getWalkDetailInfo(1));
@@ -156,7 +156,6 @@ const TrackingMap = () => {
 
   useEffect(() => {
     drawMap();
-    // panTo();
   }, []);
 
   useEffect(() => {
@@ -184,9 +183,14 @@ const TrackingMap = () => {
       <div>
         <TimeCount setIsPauseWalk={setIsPauseWalk} isPauseWalk={isPauseWalk} />
         <ResultInfo>
-          <InfoPanel number={walkDetailInfo.distance} string={"산책 거리"} />
-          <InfoPanel number={`${10}`} string={"산책 시간"} />
-          <InfoPanel number={`${10}`} string={"속도(분/km)"} />
+          <InfoPanel
+            number={`${walkDetailInfo.distance}m`}
+            string={"산책 거리"}
+          />
+          <InfoPanel
+            number={`${walkDetailInfo.distance}/km`}
+            string={"속도(분/km)"}
+          />
         </ResultInfo>
       </div>
     </MapBox>

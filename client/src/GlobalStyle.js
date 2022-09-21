@@ -1,10 +1,10 @@
 import { createGlobalStyle } from "styled-components";
 import colorVariables from "./assets/style/colorVariables";
 import "./assets/fonts/font.css";
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import "react-datepicker/dist/react-datepicker.css";
-import calendar from './assets/img/calendar.svg'
+import calendar from "./assets/img/calendar.svg";
 import reset from "styled-reset";
 
 const GlobalStyle = createGlobalStyle`
@@ -281,5 +281,5 @@ const GlobalStyle = createGlobalStyle`
 
 
 
-`
+`;
 export default GlobalStyle;

@@ -81,3 +81,16 @@ export const countPoo = (walkId, basic, count) => {
     }
   };
 };
+
+export const actualWalkTime = (walkId, walkTime) => {
+  return async () => {
+    try {
+      return await customAxios
+        .put(`/walk/${walkId}/actualWalkTime`, walkTime)
+        .then((res) => window.location.replace("/walkerMain"));
+    } catch (error) {
+      //에러 핸들링 하는 곳
+      console.log(error);
+    }
+  };
+};

@@ -99,10 +99,10 @@ const TrackingMap = () => {
 
   setTimeout(() => {
     myMap.panTo(new kakao.maps.LatLng(lat, lon));
-  }, 500);
+  }, 3000);
 
   useInterval(() => {
-    dispatch(getWalkDetailInfo(1));
+    // dispatch(getWalkDetailInfo(1));
     getGeolocation();
     if (lat && lon) {
       if (!isPauseWalk && isWalk) {
@@ -114,7 +114,9 @@ const TrackingMap = () => {
     // drawLineImg();
     // setMapImgUrl(mapImage.current.style.background.slice(5, -2));
     // console.log(mapImg);
-  }, 1000);
+  }, 5000);
+
+  console.log(lat, lon);
 
   function getDistance(lat1, lon1, lat2, lon2) {
     if (lat1 === lat2 && lon1 === lon2) return 0;
@@ -185,7 +187,6 @@ const TrackingMap = () => {
         <TimeCount setIsPauseWalk={setIsPauseWalk} isPauseWalk={isPauseWalk} />
         <ResultInfo>
           <InfoPanel number={walkDetailInfo.distance} string={"산책 거리"} />
-          <InfoPanel number={`${10}`} string={"산책 시간"} />
           <InfoPanel number={`${10}`} string={"속도(분/km)"} />
         </ResultInfo>
       </div>
@@ -216,7 +217,7 @@ const MapBox = styled.div`
     }
   }
 
-  .control-area{
+  .control-area {
     width: 100%;
   }
 `;

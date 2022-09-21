@@ -12,7 +12,9 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -62,5 +64,15 @@ public class Pet {
     public int getWalkDistance() {
         if (this.walkList == null) return 0;
         return this.walkList.stream().mapToInt(Walk::getDistance).sum();
+    }
+
+    public Walk getCurrentWalk() {
+        LocalDateTime now = LocalDateTime.now();
+        return this.walkList.stream().filter(s -> (s.getEndTime().isAfter(now) && s.getStartTime().isBefore(now))).findFirst().orElse(null);
+    }
+
+    public List<Walk> getFutureWalk() {
+        LocalDateTime now = LocalDateTime.now();
+        return this.walkList.stream().filter(s-> s.getStartTime().isAfter(now)).collect(Collectors.toList());
     }
 }

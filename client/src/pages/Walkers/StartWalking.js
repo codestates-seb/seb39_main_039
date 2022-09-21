@@ -51,10 +51,6 @@ const StartWalking = () => {
     dispatch(getWalkDetailInfo(1));
   }, [checkCount, changeCheckList]);
 
-  useEffect(() => {
-    dispatch(getWalkDetailInfo(1));
-  }, [checkCount, changeCheckList]);
-
   return (
     <div className="container pa0">
       <Section>

@@ -219,6 +219,10 @@ const MapBox = styled.div`
       }
     }
   }
+
+  .control-area {
+    width: 100%;
+  }
 `;
 
 const Map = styled.div`

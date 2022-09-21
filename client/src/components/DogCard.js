@@ -216,6 +216,7 @@ const WalkState = styled.div`
     margin-bottom: 8px;
     background-repeat: no-repeat;
     background-position: 94% 50%;
+    cursor: pointer;
   }
 `;
 
@@ -224,6 +225,7 @@ const Walking = styled.div`
   background-image: url("${ArrowsWh}");
   box-shadow: 0 0 15px 0 rgba(49, 130, 247, 0.6);
   color: var(--white-000);
+  transition: all .5s;
 
   small {
     position: relative;
@@ -243,6 +245,10 @@ const Walking = styled.div`
     background: var(--white-000);
     opacity: 0.4;
   }
+
+  &:hover{
+    box-shadow: 0 0 15px 0 rgba(49, 130, 243, 0.9);
+  }
 `;
 
 const NotWalk = styled.div`
@@ -258,7 +264,7 @@ const NotWalk = styled.div`
 const WalkBanner = styled.div`
   border: 1px solid var(--gray-300);
   background-image: url("${Arrows}");
-
+  transition: all .5s;
   > div {
     flex: 1;
   }
@@ -271,5 +277,9 @@ const WalkBanner = styled.div`
   }
   small {
     font-size: 12px;
+  }
+
+  &:hover{
+    border-color: var(--primary);
   }
 `;

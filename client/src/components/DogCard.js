@@ -54,7 +54,7 @@ export const DogCard = (props) => {
           </div>
         </Walking>
         <WalkBanner onClick={() => {
-            navigate("/walk/1/wantedHistory");
+            navigate("/");
           }}>
           <div>
             <p>대기중인 산책</p>
@@ -64,7 +64,7 @@ export const DogCard = (props) => {
           </div>
         </WalkBanner>
         <WalkBanner onClick={() => {
-            navigate("/1/walkerHistory");
+            navigate(`/walkerHistory/${props.props.petId}`);
           }}>
           <div>
             <p>지난 산책 내역</p>

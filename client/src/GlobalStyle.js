@@ -80,6 +80,31 @@ const GlobalStyle = createGlobalStyle`
       background:var(--gray-100);
    }
 
+
+   // 예외 페이지
+   .pg-info{
+      position:absolute;
+      top:0;
+      left:0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100vw;
+      height: 100vh;
+      text-align: center;
+
+      h4{
+         font-size:18px;
+         font-weight: 600;
+      }
+
+      p{
+         font-size:14px;
+         color:var(--gray-500);
+         margin-top:10px;
+         line-height: 1.3em;
+      }
+   }
    
    // form
    .ipt-form-area{
@@ -243,6 +268,9 @@ const GlobalStyle = createGlobalStyle`
       margin: 5px 0;
       font-size:16px
    }
+
+
+
 
 `
 export default GlobalStyle;

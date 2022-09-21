@@ -38,7 +38,7 @@ function App() {
           element={<WalkingLists />}
         ></Route>
         <Route path="/walkerMain" element={<WalkerMain />}></Route>
-        <Route path="/:id/walkerHistory" element={<WalkerHistory />}></Route>
+        <Route path="/walkerHistory/:id" element={<WalkerHistory />}></Route>
         <Route path="/wantedCreate" element={<WantedCreate />}></Route>
         <Route path="/wantedList" element={<WantedList />}></Route>
         <Route path="/wantedDetail" element={<WantedDetail />}></Route>

@@ -5,8 +5,11 @@ import { ButtonPrimary } from "../../../components/Button/Buttons";
 import Arrows from "../../../assets/img/arrows.svg";
 import checkImg from '../../../assets/img/ck.svg'
 import checkOnImg from '../../../assets/img/ck-on.svg'
+import { useNavigate } from "react-router-dom";
+
 const Terms = () => {
   const [checkItems, setCheckItems] = useState([]);
+  const navigate = useNavigate();
   const data = [
     { id: 0, title: "알바멍 이용 약관 동의 (필수)" },
     { id: 1, title: "개인정보 수집 이용 동의 (선택)" }
@@ -75,7 +78,7 @@ const Terms = () => {
           </FormArea>
         </div>
         <div>
-          <ButtonPrimary>다음</ButtonPrimary>
+          <ButtonPrimary onClick={() => {navigate("/signup");}}>다음</ButtonPrimary>
         </div>
       </ConPanel>
     </div>

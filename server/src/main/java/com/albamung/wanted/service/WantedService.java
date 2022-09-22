@@ -53,7 +53,6 @@ public class WantedService {
                 .build();
         walk.setCheckListByContents(request.getCheckListContent());
 
-        wanted.setOwner(owner);
         wanted.setWalk(walk);
 
         return wantedRepository.save(wanted);
@@ -87,7 +86,7 @@ public class WantedService {
 
     @Transactional(readOnly = true)
     public void verifyWantedUser(Wanted wanted, Long ownerId) {
-        if (!wanted.getOwner().getId().equals(ownerId))
+        if (!wanted.getWalk().getOwner().getId().equals(ownerId))
             throw new CustomException("해당 글의 작성자가 아닙니다", HttpStatus.FORBIDDEN);
     }
 }

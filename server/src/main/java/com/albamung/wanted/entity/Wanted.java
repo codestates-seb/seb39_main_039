@@ -23,15 +23,11 @@ import java.util.List;
 public class Wanted extends BaseEntityDate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long wantedId;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "WALK_ID")
     private Walk walk;
-
-    @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
-    private User owner;
 
     private String location;
 

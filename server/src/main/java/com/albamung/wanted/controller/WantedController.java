@@ -43,7 +43,7 @@ public class WantedController {
         if (owner == null) owner = User.builder().id(1L).build();
         Wanted wanted = wantedMapper.postToWanted(request);
         Wanted savedWanted = wantedService.saveWanted(wanted, request, owner.getId());
-        return new ResponseEntity<>(savedWanted.getId(), HttpStatus.CREATED);
+        return new ResponseEntity<>(savedWanted.getWantedId(), HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "구인글 상세 조회")

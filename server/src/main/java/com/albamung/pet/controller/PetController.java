@@ -1,4 +1,4 @@
-package com.albamung.pet.Controller;
+package com.albamung.pet.controller;
 
 import com.albamung.pet.dto.PetDto;
 import com.albamung.pet.entity.Pet;

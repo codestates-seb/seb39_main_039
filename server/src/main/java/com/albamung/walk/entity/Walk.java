@@ -90,12 +90,6 @@ public class Walk extends BaseEntityDate {
         return this.coordList.stream().map(s->String.format("%s %s",s.getPoint().getX(),s.getPoint().getY())).collect(Collectors.toList());
     }
 
-//    public void addCoord(String str) {
-//        if(this.coord ==null) this.coord = str;
-//        else this.coord = this.coord +","+ str;
-//        //String Builder를 쓰는게 나을까?
-//    }
-
     public List<String> getPictureList() {
         if (this.pictureList == null) return null;
         return Arrays.asList(this.pictureList.split(","));

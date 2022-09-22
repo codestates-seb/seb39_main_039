@@ -60,9 +60,6 @@ public class User extends BaseEntityDate {
 
     private String refreshToken;
 
-    @ColumnDefault("0")
-    private Long grade;
-
     private String phone;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)

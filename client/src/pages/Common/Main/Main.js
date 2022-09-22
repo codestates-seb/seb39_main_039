@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import CountUp from "react-countup";
 import { Link } from "react-router-dom";
@@ -9,10 +10,10 @@ import { ReactComponent as Logo } from "../../../assets/img/logo-wh.svg";
 import { ReactComponent as VisualImg } from "../../../assets/img/visualImg.svg";
 import btnIcon01 from "../../../assets/img/buttonIcon01.svg";
 import btnIcon02 from "../../../assets/img/buttonIcon02.svg";
-import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
 
 const Main = () => {
-  const isLogin = useSelector((state) => state.login.isLogin);
+  const isLogin = Cookies.get("access");
 
   return (
     <div className="container pa0">

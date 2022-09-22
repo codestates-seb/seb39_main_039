@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
 import PrivateRoute from "./utills/PriviteRoute";
 import {
   Login,
@@ -25,7 +25,7 @@ import {
 } from "./pages";
 
 function App() {
-  const isLogin = useSelector((state) => state.login.isLogin);
+  const isLogin = Cookies.get("access");
 
   return (
     <>

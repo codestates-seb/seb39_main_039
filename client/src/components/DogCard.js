@@ -26,8 +26,6 @@ export const DogCard = (props) => {
     age = Number(ago.split(" ")[0]) + 1;
   }
 
-  console.log(props);
-
   return (
     <div>
       <DogProfile>
@@ -57,13 +55,12 @@ export const DogCard = (props) => {
         ) : (
           <Walking>
             <div>
-              <p>{walklInfo.walker} 님과 산책중..</p>
+              <p>{props.props.currentWalk?.walker} 님과 산책중..</p>
               <small>{endDate}까지</small>
               <small>수행률 {props.props.currentWalk?.progress}%</small>
             </div>
           </Walking>
         )}
-
         <WalkBanner
           onClick={() => {
             navigate("/pendingWalk");
@@ -175,11 +172,11 @@ const DogProfile = styled.div`
       background-size: 26px auto;
     }
 
-    strong.수컷 {
+    strong.M {
       background-image: url("${sexIconMale}");
     }
 
-    strong.암컷 {
+    strong.F {
       background-image: url("${sexIconFemale}");
     }
 

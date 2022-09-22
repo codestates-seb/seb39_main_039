@@ -42,7 +42,6 @@ public class PetDto {
         @Size(max = 20, message = "Name must be under 20 letters")
         @NotBlank
         private String name;
-        private String picture;
         @PastOrPresent(message = "생일은 과거나 오늘만 가능합니다.")
         private LocalDate birthday;
         @NotBlank

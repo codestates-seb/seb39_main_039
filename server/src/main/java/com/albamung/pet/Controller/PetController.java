@@ -38,8 +38,16 @@ public class PetController {
     public ResponseEntity postPet(@AuthenticationPrincipal @ApiIgnore User owner,
                                   @RequestBody @Valid PetDto.Post request) {
         if (owner == null) owner = User.builder().id(1L).build();
-        petService.savePet(petMapper.postToPet(request), owner.getId());
-        return new ResponseEntity(HttpStatus.CREATED);
+        Pet savedPet = petService.savePet(petMapper.postToPet(request), owner.getId());
+        return new ResponseEntity(savedPet.getId(),HttpStatus.CREATED);
+    }
+
+    @ApiOperation(value = "반려견 사진 등록 && 수정")
+    @GetMapping("/{petId}/savePicture")
+    public ResponseEntity savePetPicture(@AuthenticationPrincipal @ApiIgnore User owner,
+                                         @PathVariable Long petId){
+        if (owner == null) owner = User.builder().id(1L).build();
+        return new ResponseEntity<>(petService.savePetPicture(petId, owner.getId()), HttpStatus.OK);
     }
 
     @ApiOperation(value = "반려견 정보 수정", notes ="응답으로 수정된 반려견 정보를 응답합니다.")

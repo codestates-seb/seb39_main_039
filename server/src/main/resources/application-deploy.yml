@@ -12,9 +12,9 @@ spring:
     database-platform: org.hibernate.spatial.dialect.mysql.MySQL56InnoDBSpatialDialect
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: {AWS RDS Endpoint}
-    username: {RDS Mysql Admin id}
-    password: {RDS Mysql Admin password}
+    url: { AWS RDS Endpoint }
+    username: { RDS Mysql Admin id }
+    password: { RDS Mysql Admin password }
 
   security:
     oauth2:
@@ -40,3 +40,13 @@ security:
       expire-length: 300000
 
 clientUri: https://albamung.tk
+
+access:
+  key:
+    id: { S3 Access Id }
+    secret: { S3 Access Secret }
+s3:
+  region:
+    name: { S3 Region }
+  bucket:
+    name: { S3 Bucket Name }

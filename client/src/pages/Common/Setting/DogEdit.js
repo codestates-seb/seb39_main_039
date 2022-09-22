@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Header } from "../../../components/Layout/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
@@ -28,19 +28,18 @@ const DogEdit = () => {
   const spec = useRef();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { myPetInfo } = useSelector((state) => state.pet);
+
+  let tapListUrl = useLocation().search;
+  let tapList = tapListUrl.slice(-1);
 
   const [currentTab, setCurrentTab] = useState(0);
   const [birth, setBirth] = useState();
   const [myPetName, setMyPetName] = useState(myPetInfo[currentTab]?.petName);
-  const [myPetAbout, setMyPetAbout] = useState(myPetInfo[currentTab]?.about);
-  const [myPetSpecies, setMyPetSpecies] = useState(
-    myPetInfo[currentTab]?.species
-  );
+  const [myPetAbout, setMyPetAbout] = useState(myPetInfo[currentTab]?.aboutPet);
   const [myPetBirth, setMyPetBirth] = useState(myPetInfo[currentTab]?.birthday);
-  const [myPetSex, setMyPetSex] = useState(myPetInfo[currentTab]?.sex);
-
-  // console.log(myPetInfo);
 
   const ClickHandler = () => {
     dispatch(
@@ -49,7 +48,7 @@ const DogEdit = () => {
         myPetName,
         spec.current?.value,
         myPetBirth,
-        myPetSex,
+        sex.current?.value,
         myPetAbout
       )
     );
@@ -61,19 +60,19 @@ const DogEdit = () => {
 
   const menuArr = myPetInfo.map((el) => el);
 
-  const selectMenuHandler = (index) => {
-    setCurrentTab(index);
-    console.log(index);
+  const selectMenuHandler = (tab) => {
+    setCurrentTab(tab);
+    navigate(`/dogEdit?tap=${tab}`);
   };
 
   useEffect(() => {
     dispatch(getMyPetInfo());
   }, [
-    myPetInfo[currentTab].petName,
-    myPetInfo[currentTab].aboutPet,
-    myPetInfo[currentTab].sex,
-    myPetInfo[currentTab].birthday,
-    myPetInfo[currentTab].species,
+    myPetInfo[currentTab]?.petName,
+    myPetInfo[currentTab]?.aboutPet,
+    myPetInfo[currentTab]?.birthday,
+    myPetInfo[currentTab]?.sex,
+    myPetInfo[currentTab]?.species,
     currentTab
   ]);
 
@@ -91,15 +90,16 @@ const DogEdit = () => {
 
   const birthPick = (data) => {
     let year = new Date(data).getFullYear();
-    let month = String(new Date(data).getMonth() + 1);
+    let month = new Date(data).getMonth() + 1;
     let day = new Date(data).getDate();
 
-    if (month < 10 || day < 10) {
+    if (month < 10) {
       month = `0` + String(month);
-      day = `0` + String(day);
     }
 
-    console.log(month, day);
+    if (day < 10) {
+      day = `0` + String(day);
+    }
 
     setMyPetBirth(`${year}-${month}-${day}`);
   };
@@ -111,12 +111,11 @@ const DogEdit = () => {
   }, [year, month, day]);
 
   useEffect(() => {
-    if (myPetInfo[currentTab]?.sex === "F") {
-      setMyPetSex("암컷");
-    } else {
-      setMyPetSex("수컷");
-    }
-  }, [myPetInfo[currentTab].sex]);
+    dispatch(getMyPetInfo());
+    navigate(`/dogEdit?tap=${0}`);
+    setCurrentTab(tapList);
+    console.log(tapList, currentTab);
+  }, []);
 
   return (
     <div className="container">
@@ -126,11 +125,12 @@ const DogEdit = () => {
           return (
             <li
               className={`${
-                index === currentTab ? "submenu focused" : "submenu"
+                index == currentTab ? "submenu focused" : "submenu"
               }`}
               onClick={() => {
                 selectMenuHandler(index);
                 setMyPetName(el.petName);
+                setMyPetAbout(el.aboutPet);
               }}
               key={index}
             >
@@ -150,7 +150,6 @@ const DogEdit = () => {
       </TabMenu>
 
       <Desc>
-        {/* <p>{menuArr[currentTab].content}</p> */}
         <UserInfo>
           <div className="user-con">
             <UserPhoto>
@@ -214,28 +213,30 @@ const DogEdit = () => {
               강아지 성별
             </label>
             <select className="ipt-form" ref={sex}>
-              {myPetSex === "수컷" ? (
+              {myPetInfo[currentTab]?.sex === "수컷" ? (
                 <>
-                  <option selected>{myPetSex}</option>
-                  <option value={"F"}>암컷</option>
+                  <option selected>{myPetInfo[currentTab]?.sex}</option>
+                  <option value={"암컷"}>암컷</option>
                 </>
               ) : (
                 <>
-                  <option selected>{myPetSex}</option>
-                  <option value={"M"}>수컷</option>
+                  <option selected>{myPetInfo[currentTab]?.sex}</option>
+                  <option value={"수컷"}>수컷</option>
                 </>
               )}
             </select>
           </div>
           <div className="ipt-group">
-            <label htmlFor="" className="ipt-label">
+            <label htmlFor="about" className="ipt-label">
               소개글
             </label>
             <textarea
-              name=""
-              id=""
+              name="about"
+              type="text"
               className="ipt-form"
-              onChange={(e) => setMyPetAbout(e.target.value)}
+              onChange={(e) => {
+                setMyPetAbout(e.target.value);
+              }}
               value={myPetAbout}
             ></textarea>
           </div>

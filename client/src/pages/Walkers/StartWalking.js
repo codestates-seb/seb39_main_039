@@ -7,7 +7,7 @@ import { StateCheckCard } from "../../components/StateCard";
 import sampleImg from "../../assets/img/sample-img.png";
 import { Checkbox } from "../../components/Inputs/Checkbox";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import {
   getWalkDetailInfo,
   changeCheckListState,

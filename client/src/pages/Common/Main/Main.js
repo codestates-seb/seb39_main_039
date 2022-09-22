@@ -32,14 +32,18 @@ const Main = () => {
             <b>
               <CountUp duration={1} end={21310} separator="," />
             </b>
-            마리의 <br/>강아지가<br/> 만족했어요.
+            마리의 <br />
+            강아지가
+            <br /> 만족했어요.
           </p>
 
           <BottomArea>
-            <VisualImg className="visual-img"/>
+            <VisualImg className="visual-img" />
             <ButtonGroup>
               <Link to={isLogin ? "/OwnerMain" : "/login"}>
-                <ButtonPrimary className="icon-type">산책 맡길래요</ButtonPrimary>
+                <ButtonPrimary className="icon-type">
+                  산책 맡길래요
+                </ButtonPrimary>
               </Link>
               <Link to={isLogin ? "/WalkerMain" : "/login"}>
                 <ButtonPrimaryLine className="icon-type v2">
@@ -71,27 +75,31 @@ const MainIntro = styled.div`
   min-height: 100vh;
   text-align: center;
   justify-content: center;
-  background: rgb(50,134,255);
-  background: linear-gradient(180deg, rgba(50,134,255,1) 0%, rgba(69,98,254,1) 100%);
-  
+  background: rgb(50, 134, 255);
+  background: linear-gradient(
+    180deg,
+    rgba(50, 134, 255, 1) 0%,
+    rgba(69, 98, 254, 1) 100%
+  );
+
   > div {
     width: 100%;
     text-align: left;
-    padding:0 40px;
+    padding: 0 40px;
   }
 
-  .logo-bi{
-    position:absolute;
-    top:30px;
-    right:40px;
+  .logo-bi {
+    position: absolute;
+    top: 30px;
+    right: 40px;
   }
-  .visual-img{
-    position:absolute;
+  .visual-img {
+    position: absolute;
     transform: translate(0, -96%);
-    right:0;
+    right: 0;
     z-index: 99;
-    width:250px;
-    height:360px;
+    width: 250px;
+    height: 360px;
   }
 
   h2 {
@@ -99,10 +107,10 @@ const MainIntro = styled.div`
     font-weight: 400;
     line-height: 1.25em;
     padding: 60px 0 18px;
-    color:var(--white-000);
+    color: var(--white-000);
     letter-spacing: -0.055em;
 
-    b{
+    b {
       font-weight: 800;
     }
   }
@@ -110,7 +118,7 @@ const MainIntro = styled.div`
   p {
     font-size: 16px;
     color: var(--white-000);
-    margin-top:10px;
+    margin-top: 10px;
     line-height: 1.3em;
     b {
       font-weight: 800;
@@ -120,13 +128,13 @@ const MainIntro = styled.div`
 
 const BottomArea = styled.div`
   position: absolute;
-  width:100%;
-  bottom:0;
-  left:0;
-  background:var(--white-000);
-  padding:40px 30px 25px;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  background: var(--white-000);
+  padding: 40px 30px 25px;
   border-top-left-radius: 30px;
-`
+`;
 
 const OptLink = styled.ul`
   display: flex;

@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
@@ -7,6 +7,7 @@ import { faPaw } from "@fortawesome/free-solid-svg-icons";
 import NavLink from "./NavLink";
 
 const Nav = () => {
+    const navigate = useNavigate();
     function isActive(path) {
         return window.location.pathname.startsWith(path);
     }
@@ -24,10 +25,8 @@ const Nav = () => {
                 </NavLink>
             </div>
             
-            <button type="button" className="nav-button">
-                <Link to="/wantedList">
-                    <FontAwesomeIcon icon={faPaw} />
-                </Link>
+            <button type="button" className="nav-button" onClick={()=> navigate('/wantedList')}>
+                <FontAwesomeIcon icon={faPaw} />
             </button>
         </FooterNav>
     )
@@ -81,11 +80,8 @@ const FooterNav = styled.div`
         animation-iteration-count: 3;
         animation-timing-function: ease-in;
         transform: translate(-50%, 0);
-
-        a{
-            font-size:22px;
-            color:var(--white-000);
-        }
+        font-size:22px;
+        color:var(--white-000);
     }
 
     @keyframes example {

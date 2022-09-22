@@ -6,7 +6,7 @@ import {
 //초기값
 const initialstate = {
   isLogin: false,
-  err: ""
+  err: null
 };
 
 const loginReducers = (state = initialstate, action) => {
@@ -16,7 +16,8 @@ const loginReducers = (state = initialstate, action) => {
       return {
         //객체로 내보내기
         ...state,
-        isLogin: true
+        isLogin: true,
+        err: null,
       };
     case LOGIN_ERROR:
       return {

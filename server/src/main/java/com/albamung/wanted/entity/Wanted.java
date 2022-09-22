@@ -1,7 +1,7 @@
 package com.albamung.wanted.entity;
 
 import com.albamung.helper.audit.BaseEntityDate;
-import com.albamung.user.entity.User;
+import com.albamung.pet.entity.Pet;
 import com.albamung.walk.entity.Walk;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,7 +33,12 @@ public class Wanted extends BaseEntityDate {
 
     private int pay;
     private boolean matched;
+    private String title;
 
     @OneToMany(mappedBy = "wanted")
     private List<Comment> commentList;
+
+    public List<Pet> getPetList() {
+        return this.walk.getPetList();
+    }
 }

@@ -49,7 +49,9 @@ export const DogCard = (props) => {
           <NotWalk>
             <p>{props.props.petName}이는 산책중이 아니에요.</p>
           </NotWalk>
-          <Walking>
+          <Walking onClick={() => {
+            navigate(`/walking`);
+           }}>
             <div>
               <p>{props.props.currentWalk?.walker} 님과 산책중..</p>
               <small>{endDate}까지</small>

@@ -10,12 +10,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCakeCandles } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 export const DogCard = (props) => {
   const navigate = useNavigate();
-  const walklInfo = useSelector((state) => state.mapping.walkDetailInfo);
-  const endDate = new Date(walklInfo.endTime).toLocaleString().slice(0, -3);
+  const endDate = new Date(props.props.currentWalk?.endTime).toLocaleString().slice(0, -3);
   let ago = moment(props.props.birthday).fromNow();
   let age;
   if (!ago.includes("years")) {
@@ -47,17 +45,20 @@ export const DogCard = (props) => {
       </DogProfile>
       <WalkState>
         {props.props.currentWalk === null ? (
+          <>
           <NotWalk>
             <p>{props.props.petName}이는 산책중이 아니에요.</p>
           </NotWalk>
-        ) : (
           <Walking>
             <div>
-              <p>{walklInfo.walker} 님과 산책중..</p>
+              <p>{props.props.currentWalk?.walker} 님과 산책중..</p>
               <small>{endDate}까지</small>
-              <small>수행률 70%</small>
+              <small>수행률 {props.props.currentWalk?.progress}%</small>
             </div>
           </Walking>
+        </>
+        ) : (
+          ''
         )}
         <WalkBanner
           onClick={() => {

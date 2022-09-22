@@ -25,23 +25,25 @@ const SliderArrows = styled.div`
   height: 40px;
   background-image: url("${ArrowsSlide}");
   background-position: 0 50%;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat !important;
+  background-size: auto 30px !important;
+  z-index: 99;
 
   &:before {
     display: none;
+  }
+
+  &.slick-next {
+    right: 45px;
+    background-position: 100% 50%;
   }
 
   &.slick-prev:hover,
   &.slick-prev:focus,
   &.slick-next:hover,
   &.slick-next:focus {
-    background-color: url();
-    opacity: 0.5;
-  }
-
-  &.slick-next {
-    right: 45px;
-    background-position: 100% 50%;
+    background-image: url("${ArrowsSlide}") !important;
+    opacity: 1;
   }
 
   &.slick-prev {

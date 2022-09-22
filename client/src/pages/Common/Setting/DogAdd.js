@@ -103,8 +103,8 @@ const DogAdd = () => {
           </label>
           <select className="ipt-form" ref={sex}>
             <option>강아지 성별을 선택하세요.</option>
-            <option value={"M"}>수컷</option>
-            <option value={"F"}>암컷</option>
+            <option value={"수컷"}>수컷</option>
+            <option value={"암컷"}>암컷</option>
           </select>
         </div>
         <div className="ipt-group">

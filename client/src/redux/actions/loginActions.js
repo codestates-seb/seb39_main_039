@@ -44,14 +44,13 @@ export const loginSuccess = (email, password) => {
 export const logoutSuccess = () => {
   return async (dispatch) => {
     try {
-        Cookies.remove("access");
-        Cookies.remove("refresh");
-        dispatch({
-          type: "LOGOUT_SUCCESS",
-        })
+      Cookies.remove("access");
+      Cookies.remove("refresh");
+      dispatch({
+        type: "LOGOUT_SUCCESS"
+      });
     } catch (error) {
       console.log("에러", error);
     }
-  }
-}
-  
+  };
+};

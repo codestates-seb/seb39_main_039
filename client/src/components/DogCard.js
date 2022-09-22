@@ -28,7 +28,11 @@ export const DogCard = (props) => {
     <div>
       <DogProfile>
         <span className="photo-ring pic">
-          <img style={{backgroundImage:`url(${props.props.petPicture})`}} className={`img-circle`} alt="" />
+          <img
+            style={{ backgroundImage: `url(${props.props.petPicture})` }}
+            className={`img-circle`}
+            alt=""
+          />
         </span>
         <div className="dog-info">
           <div>
@@ -42,11 +46,11 @@ export const DogCard = (props) => {
         </div>
       </DogProfile>
       <WalkState>
-        {props.props.currentWalk === null ? 
+        {props.props.currentWalk === null ? (
           <NotWalk>
             <p>{props.props.petName}이는 산책중이 아니에요.</p>
           </NotWalk>
-        :
+        ) : (
           <Walking>
             <div>
               <p>{walklInfo.walker} 님과 산책중..</p>
@@ -54,10 +58,12 @@ export const DogCard = (props) => {
               <small>수행률 70%</small>
             </div>
           </Walking>
-        }
-        <WalkBanner onClick={() => {
+        )}
+        <WalkBanner
+          onClick={() => {
             navigate("/pendingWalk");
-          }}>
+          }}
+        >
           <div>
             <p>대기중인 산책</p>
           </div>
@@ -65,9 +71,11 @@ export const DogCard = (props) => {
             <b>{props.props.walkCount}</b>건
           </div>
         </WalkBanner>
-        <WalkBanner onClick={() => {
+        <WalkBanner
+          onClick={() => {
             navigate(`/walkerHistory/${props.props.petId}`);
-          }}>
+          }}
+        >
           <div>
             <p>지난 산책 내역</p>
             <small>총 {props.props.walkDistance}km</small>
@@ -131,13 +139,13 @@ const DogProfile = styled.div`
       vertical-align: bottom;
       background-repeat: no-repeat;
       background-position: 50% 50%;
-      background-size:auto 142px;
+      background-size: auto 142px;
     }
   }
 
-  .photo-ring.pic{
-    img{
-      height:142px;
+  .photo-ring.pic {
+    img {
+      height: 142px;
     }
   }
 
@@ -162,11 +170,11 @@ const DogProfile = styled.div`
       background-size: 26px auto;
     }
 
-    strong.M {
+    strong.수컷 {
       background-image: url("${sexIconMale}");
     }
 
-    strong.F {
+    strong.암컷 {
       background-image: url("${sexIconFemale}");
     }
 
@@ -225,7 +233,7 @@ const Walking = styled.div`
   background-image: url("${ArrowsWh}");
   box-shadow: 0 0 15px 0 rgba(49, 130, 247, 0.6);
   color: var(--white-000);
-  transition: all .5s;
+  transition: all 0.5s;
 
   small {
     position: relative;
@@ -246,7 +254,7 @@ const Walking = styled.div`
     opacity: 0.4;
   }
 
-  &:hover{
+  &:hover {
     box-shadow: 0 0 15px 0 rgba(49, 130, 243, 0.9);
   }
 `;
@@ -264,7 +272,7 @@ const NotWalk = styled.div`
 const WalkBanner = styled.div`
   border: 1px solid var(--gray-300);
   background-image: url("${Arrows}");
-  transition: all .5s;
+  transition: all 0.5s;
   > div {
     flex: 1;
   }
@@ -279,7 +287,7 @@ const WalkBanner = styled.div`
     font-size: 12px;
   }
 
-  &:hover{
+  &:hover {
     border-color: var(--primary);
   }
 `;

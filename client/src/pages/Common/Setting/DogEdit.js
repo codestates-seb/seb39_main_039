@@ -35,7 +35,7 @@ const DogEdit = () => {
   let tapListUrl = useLocation().search;
   let tapList = tapListUrl.slice(-1);
 
-  const [currentTab, setCurrentTab] = useState(tapList);
+  const [currentTab, setCurrentTab] = useState(0);
   const [birth, setBirth] = useState();
   const [myPetName, setMyPetName] = useState(myPetInfo[currentTab]?.petName);
   const [myPetAbout, setMyPetAbout] = useState(myPetInfo[currentTab]?.aboutPet);
@@ -67,7 +67,14 @@ const DogEdit = () => {
 
   useEffect(() => {
     dispatch(getMyPetInfo());
-  }, []);
+  }, [
+    myPetInfo[currentTab]?.petName,
+    myPetInfo[currentTab]?.aboutPet,
+    myPetInfo[currentTab]?.birthday,
+    myPetInfo[currentTab]?.sex,
+    myPetInfo[currentTab]?.species,
+    currentTab
+  ]);
 
   let birthOfPet, year, month, day;
 
@@ -104,8 +111,10 @@ const DogEdit = () => {
   }, [year, month, day]);
 
   useEffect(() => {
-    navigate(`/dogEdit?tap=${tapList}`);
+    dispatch(getMyPetInfo());
+    navigate(`/dogEdit?tap=${0}`);
     setCurrentTab(tapList);
+    console.log(tapList, currentTab);
   }, []);
 
   return (

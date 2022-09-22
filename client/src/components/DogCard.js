@@ -13,7 +13,9 @@ import { useNavigate } from "react-router-dom";
 
 export const DogCard = (props) => {
   const navigate = useNavigate();
-  const endDate = new Date(props.props.currentWalk?.endTime).toLocaleString().slice(0, -3);
+  const endDate = new Date(props.props.currentWalk?.endTime)
+    .toLocaleString()
+    .slice(0, -3);
   let ago = moment(props.props.birthday).fromNow();
   let age;
   if (!ago.includes("years")) {
@@ -174,11 +176,11 @@ const DogProfile = styled.div`
       background-size: 26px auto;
     }
 
-    strong.수컷 {
+    strong.M {
       background-image: url("${sexIconMale}");
     }
 
-    strong.암컷 {
+    strong.F {
       background-image: url("${sexIconFemale}");
     }
 

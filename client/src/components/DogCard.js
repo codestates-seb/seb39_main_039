@@ -22,6 +22,7 @@ export const DogCard = (props) => {
     age = Number(ago.split(" ")[0]) + 1;
   }
 
+
   return (
     <div>
       <DogProfile>
@@ -50,7 +51,7 @@ export const DogCard = (props) => {
             <p>{props.props.petName}이는 산책중이 아니에요.</p>
           </NotWalk>
           <Walking onClick={() => {
-            navigate(`/walking`);
+            navigate(`/walking/${props.props.currentWalk?.walkId}`);
            }}>
             <div>
               <p>{props.props.currentWalk?.walker} 님과 산책중..</p>

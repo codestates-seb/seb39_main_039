@@ -66,7 +66,7 @@ function App() {
           path="/workHistory" 
           element={   <PrivateRoute authenticated={isLogin}component={<WorkHistory />}/>  }></Route>
         <Route 
-          path="/walking" 
+          path="/walking/:id" 
           element={   <PrivateRoute authenticated={isLogin}component={<Walking />}/>  }></Route>
         <Route 
           path="/setting" 

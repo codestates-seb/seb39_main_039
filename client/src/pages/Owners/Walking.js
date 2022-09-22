@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import TrackingMap from "../../components/Map/TrackingMap";
 import { HeaderConfirm } from "../../components/Layout/Header";
@@ -11,6 +12,7 @@ import sampleImg from "../../assets/img/sample-img.png";
 import { getWalkDetailInfo } from "../../redux/actions/mappingAction";
 
 const Walking = () => {
+  const walkId = useParams();
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const WalkInfo = useSelector((state)=>state.mapping.walkDetailInfo)

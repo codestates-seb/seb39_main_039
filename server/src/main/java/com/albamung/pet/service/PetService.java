@@ -50,7 +50,10 @@ public class PetService {
         Pet targetPet = verifyPet(petId);
         verifyPetOwner(targetPet, ownerId);
         Optional.ofNullable(pet.getBirthday()).ifPresent(targetPet::setBirthday);
-        Optional.ofNullable(pet.getSex()).ifPresent(targetPet::setSex);
+        Optional.ofNullable(pet.getSex()).ifPresent(sex -> {
+            if(sex.equals("암컷")) targetPet.setSex(true);
+            else if(sex.equals("수컷")) targetPet.setSex(false);
+        });
         Optional.ofNullable(pet.getSpecies()).ifPresent(targetPet::setSpecies);
         Optional.ofNullable(pet.getName()).ifPresent(targetPet::setName);
         Optional.ofNullable(pet.getAboutPet()).ifPresent(targetPet::setAboutPet);

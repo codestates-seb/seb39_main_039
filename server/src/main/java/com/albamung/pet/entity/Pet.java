@@ -36,8 +36,8 @@ public class Pet {
     @Column(nullable = false, columnDefinition = "DATE")
     private LocalDate birthday;
 
-    @Column(nullable = false, length = 6)
-    private String sex;
+    @Column(nullable = false)
+    private boolean sex;
 
     @Column(nullable = false, length = 255)
     private String species;
@@ -52,6 +52,10 @@ public class Pet {
     @JoinColumn(name = "OWNER_ID", nullable = false)
     private User owner;
 
+    public String getSex(){
+        if(sex) return "암컷";
+        else return "수컷";
+    }
     public void addWalkList(Walk walk) {
         this.walkList.add(walk);
     }

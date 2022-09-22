@@ -38,7 +38,7 @@ export const DogCard = (props) => {
         <div className="dog-info">
           <div>
             <span>{props.props.species}</span>
-            <strong className={props.props.sex}>{props.props.petName}</strong>
+            <strong className={props.props.sex ==='수컷' ? "M" : "F"}>{props.props.petName}</strong>
             <em>
               <FontAwesomeIcon icon={faCakeCandles} /> {props.props.birthday}
               <i>{age}세</i>

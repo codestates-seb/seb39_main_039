@@ -76,6 +76,7 @@ const WantedDetailPage = () => {
 
             {/* 댓글 지원 */}
             <CommentApply>
+                <SectLabel>지원하기</SectLabel>
                 <CommentEnter/>
                 <SectLabel>산책 지원하기 3명</SectLabel>
                 <div className="comment-list">
@@ -193,7 +194,7 @@ const CommentApply = styled.div`
 
     .comment-list{
         >*{
-            margin-top:14px;
+            margin-top:12px;
         }
     }
 

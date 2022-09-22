@@ -1,5 +1,6 @@
 package com.albamung.wanted.dto;
 
+import com.albamung.pet.dto.PetDto;
 import com.albamung.user.dto.UserDto;
 import com.albamung.walk.dto.WalkDto;
 import io.swagger.annotations.ApiModel;
@@ -17,6 +18,7 @@ public class WantedDto {
     @ApiModel("구인글 조회 응답")
     public static class DetailResponse {
         private Long wantedId;
+        private String title;
         private UserDto.SimpleOwnerResponse owner;
         private WalkDto.DetailResponse walk;
         private String location;
@@ -32,6 +34,8 @@ public class WantedDto {
     @ApiModel("구인글 리스트를 위한 간단 응답")
     public static class SimpleResponse {
         private Long wantedId;
+        private String title;
+        private List<PetDto.SimpleResponse> petList;
         private UserDto.SimpleOwnerResponse owner;
         private WalkDto.SimpleResponse walk;
         private String location;
@@ -55,6 +59,11 @@ public class WantedDto {
         private String caution;
         @NotNull(message = "보수를 입력해주세요")
         private int pay;
+        private String title;
+    }
+
+    public static class Put {
+
     }
 }
 

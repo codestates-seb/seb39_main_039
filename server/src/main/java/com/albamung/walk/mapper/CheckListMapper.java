@@ -10,9 +10,9 @@ import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CheckListMapper {
-    @Mapping(source = "id", target = "checkListId")
+    @Mapping(source = "walkCheckId", target = "checkListId")
     WalkCheckListDto.Response walkCheckListToResponse(WalkCheckList walkCheckList);
 
-    @Mapping(source = "id", target = "checkListId")
+    @Mapping(source = "savedCheckId", target = "checkListId")
     SavedCheckListDto.Response savedCheckListToResponse(SavedCheckList savedCheckList);
 }

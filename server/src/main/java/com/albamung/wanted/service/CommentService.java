@@ -99,6 +99,6 @@ public class CommentService {
      */
     @Transactional(readOnly = true)
     public void verifyCommentWanted(Comment comment, Long wantedId){
-        if(!comment.getWanted().getId().equals(wantedId)) throw new CustomException("해당 댓글은 해당 구인글의 댓글이 아닙니다", HttpStatus.BAD_REQUEST);
+        if(!comment.getWanted().getWantedId().equals(wantedId)) throw new CustomException("해당 댓글은 해당 구인글의 댓글이 아닙니다", HttpStatus.BAD_REQUEST);
     }
 }

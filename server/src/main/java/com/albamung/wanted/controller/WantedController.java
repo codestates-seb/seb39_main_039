@@ -3,6 +3,7 @@ package com.albamung.wanted.controller;
 import com.albamung.dto.PagingResponseDto;
 import com.albamung.user.entity.User;
 import com.albamung.wanted.dto.WantedDto;
+import com.albamung.wanted.entity.SortBy;
 import com.albamung.wanted.entity.Wanted;
 import com.albamung.wanted.mapper.WantedMapper;
 import com.albamung.wanted.service.WantedService;
@@ -43,7 +44,7 @@ public class WantedController {
         if (owner == null) owner = User.builder().id(1L).build();
         Wanted wanted = wantedMapper.postToWanted(request);
         Wanted savedWanted = wantedService.saveWanted(wanted, request, owner.getId());
-        return new ResponseEntity<>(savedWanted.getId(), HttpStatus.CREATED);
+        return new ResponseEntity<>(savedWanted.getWantedId(), HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "구인글 상세 조회")
@@ -55,15 +56,14 @@ public class WantedController {
 
     @ApiOperation(value = "구인글 목록 조회", notes = "현재 페이지네이션 적용된 최신순 정렬. pay순 정렬, 지역별 필터링, 매칭된 글 숨기기 구현 예정 ")
     @GetMapping
-    public ResponseEntity getWantedList(@RequestParam(required = false) Long page,
-                                        @RequestParam(required = false) String sort,
-                                        @RequestParam(required = false) String filter) {
+    public ResponseEntity getWantedList(@RequestParam(required = false) Integer page,
+                                        @RequestParam(required = false) SortBy sort,
+                                        @RequestParam(required = false) boolean matched) {
         //Enum 적용 예정
-        if (sort == null) sort = "creationDate";
-        if (page == null) page = 1L;
-        if (filter == null) filter = "none";
+        if (sort == null) sort = SortBy.recent;
+        if (page == null) page = 1;
 
-        Page<Wanted> wantedList = wantedService.getWantedList((int) (page - 1), sort, filter);
+        Page<Wanted> wantedList = wantedService.getWantedList((page - 1), sort, matched);
         List<WantedDto.SimpleResponse> items = wantedMapper.toSimpleResponseList(wantedList.getContent());
         return new ResponseEntity<>(new PagingResponseDto<>(items, wantedList), HttpStatus.OK);
     }

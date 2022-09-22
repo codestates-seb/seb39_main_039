@@ -26,6 +26,23 @@ spring:
             scope:
               - email
               - profile
+          kakao:
+            client-id: { Kakao Client Id }
+            client-secret: { Kakao Client Secret }
+            client-authentication-method: post
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+            scope:
+              - profile_nickname
+              - account_email
+              - profile_image
+            client-name: Kakao
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
 aws:
   paramstore:
     enabled: true

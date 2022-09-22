@@ -22,6 +22,7 @@ import {
   ButtonPrimary,
   ButtonCancel
 } from "../../../components/Button/Buttons";
+import { ToastContainer } from "react-toast";
 
 const DogEdit = () => {
   const sex = useRef();
@@ -30,16 +31,22 @@ const DogEdit = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { myPetInfo } = useSelector((state) => state.pet);
+  const { myPetInfo, loading } = useSelector((state) => state.pet);
 
   let tapListUrl = useLocation().search;
   let tapList = tapListUrl.slice(-1);
 
   const [currentTab, setCurrentTab] = useState(0);
-  const [birth, setBirth] = useState();
-  const [myPetName, setMyPetName] = useState(myPetInfo[currentTab]?.petName);
-  const [myPetAbout, setMyPetAbout] = useState(myPetInfo[currentTab]?.aboutPet);
-  const [myPetBirth, setMyPetBirth] = useState(myPetInfo[currentTab]?.birthday);
+
+  const [birth, setBirth] = useState(
+    new Date(myPetInfo[tapList]?.birthday.split("-").join(","))
+  );
+  // 초기값 설정 및 달력에서 픽 하면 값 변경.. Wed Dec 09 2020 09:00:00 GMT+0900 (한국 표준시)
+
+  const [myPetName, setMyPetName] = useState(myPetInfo[tapList]?.petName);
+  const [myPetAbout, setMyPetAbout] = useState(myPetInfo[tapList]?.aboutPet);
+  const [myPetBirth, setMyPetBirth] = useState(myPetInfo[tapList]?.birthday);
+  // GMT로 변환하기 위해서 2022-11-04 -> 2022,11,04로 만들었다.
 
   const ClickHandler = () => {
     dispatch(
@@ -65,29 +72,6 @@ const DogEdit = () => {
     navigate(`/dogEdit?tap=${tab}`);
   };
 
-  useEffect(() => {
-    dispatch(getMyPetInfo());
-  }, [
-    myPetInfo[currentTab]?.petName,
-    myPetInfo[currentTab]?.aboutPet,
-    myPetInfo[currentTab]?.birthday,
-    myPetInfo[currentTab]?.sex,
-    myPetInfo[currentTab]?.species,
-    currentTab
-  ]);
-
-  let birthOfPet, year, month, day;
-
-  birthOfPet = myPetInfo[currentTab]?.birthday;
-  year = birthOfPet?.split("-")[0];
-  month = +birthOfPet?.split("-")[1];
-  day = +birthOfPet?.split("-")[2];
-
-  if (month < 10 && day < 10) {
-    month = `0${month}`;
-    day = `0${day}`;
-  }
-
   const birthPick = (data) => {
     let year = new Date(data).getFullYear();
     let month = new Date(data).getMonth() + 1;
@@ -105,17 +89,19 @@ const DogEdit = () => {
   };
 
   useEffect(() => {
-    if (year && month && day) {
-      setBirth(new Date(Date.UTC(year, month - 1, day)));
-    }
-  }, [year, month, day]);
+    dispatch(getMyPetInfo());
+    navigate(`/dogEdit?tap=${tapList}`);
+    setCurrentTab(tapList);
+    console.log(myPetName, myPetAbout);
+  }, [loading]);
 
   useEffect(() => {
     dispatch(getMyPetInfo());
-    navigate(`/dogEdit?tap=${0}`);
-    setCurrentTab(tapList);
-    console.log(tapList, currentTab);
-  }, []);
+  }, [currentTab, tapList, myPetBirth]);
+
+  useEffect(() => {
+    setBirth(new Date(myPetInfo[tapList]?.birthday.split("-").join(",")));
+  }, [currentTab]);
 
   return (
     <div className="container">
@@ -199,6 +185,7 @@ const DogEdit = () => {
               dropdownMode="select"
               locale={ko}
               dateFormat="yyyy년 MM월 dd일 생"
+              setDate="today"
               selected={birth}
               onChange={(date) => {
                 setBirth(date);
@@ -242,11 +229,14 @@ const DogEdit = () => {
           </div>
 
           <div className="btn-area">
-            <ButtonPrimary onClick={ClickHandler}>수정 완료</ButtonPrimary>
+            <ButtonPrimary onClick={ClickHandler}>
+              {loading ? "..." : "수정 완료"}
+            </ButtonPrimary>
             <ButtonCancel onClick={deletePet}>삭제</ButtonCancel>
           </div>
         </Form>
       </Desc>
+      <ToastContainer position="top-right" delay={3000} />
     </div>
   );
 };

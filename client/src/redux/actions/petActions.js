@@ -1,6 +1,9 @@
 import customAxios from "../axiosAPI";
+import { useState } from "react";
+import { toast } from "react-toast";
 
 export const GET_PET_INFO_SUCCESS = "GET_PET_INFO_SUCCESS";
+export const PET_LOADING = "PET_LOADING";
 
 export const getMyPetInfo = () => {
   return async (dispatch) => {
@@ -44,9 +47,15 @@ export const addMyPet = (name, species, birth, sex, about) => {
 };
 
 export const editMyPetInfo = (petId, name, species, birth, sex, about) => {
-  return async () => {
+  return async (dispatch) => {
     try {
-      const editMyPetInfoAPI = await customAxios
+      dispatch({
+        type: "PET_LOADING",
+        payload: {
+          loading: true
+        }
+      });
+      return await customAxios
         .put(`/pet/${petId}/edit`, {
           aboutPet: `${about}`,
           birthday: `${birth}`,
@@ -54,7 +63,15 @@ export const editMyPetInfo = (petId, name, species, birth, sex, about) => {
           sex: `${sex}`,
           species: `${species}`
         })
-        .then((res) => window.location.reload());
+        .then(() => {
+          dispatch({
+            type: "PET_LOADING",
+            payload: {
+              loading: false
+            }
+          });
+          toast.success("수정이 완료 되었어요");
+        });
     } catch (error) {
       //에러 핸들링 하는 곳
       console.log("에러", error);

@@ -15,7 +15,9 @@ import { useSelector } from "react-redux";
 export const DogCard = (props) => {
   const navigate = useNavigate();
   const walklInfo = useSelector((state) => state.mapping.walkDetailInfo);
-  const endDate = new Date(walklInfo.endTime).toLocaleString().slice(0, -3);
+  const endDate = new Date(props.props.currentWalk?.endTime)
+    .toLocaleString()
+    .slice(0, -3);
   let ago = moment(props.props.birthday).fromNow();
   let age;
   if (!ago.includes("years")) {
@@ -23,6 +25,8 @@ export const DogCard = (props) => {
   } else {
     age = Number(ago.split(" ")[0]) + 1;
   }
+
+  console.log(props);
 
   return (
     <div>
@@ -55,10 +59,11 @@ export const DogCard = (props) => {
             <div>
               <p>{walklInfo.walker} 님과 산책중..</p>
               <small>{endDate}까지</small>
-              <small>수행률 70%</small>
+              <small>수행률 {props.props.currentWalk?.progress}%</small>
             </div>
           </Walking>
         )}
+
         <WalkBanner
           onClick={() => {
             navigate("/pendingWalk");

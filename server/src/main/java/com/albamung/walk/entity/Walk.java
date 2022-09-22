@@ -71,7 +71,6 @@ public class Walk extends BaseEntityDate {
     private int mealCount;
     @ColumnDefault("0")
     private int walkCount;
-    private int routeTime;
 
     @OneToMany(mappedBy = "walk", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<WalkCheckList> checkList = new ArrayList<>();

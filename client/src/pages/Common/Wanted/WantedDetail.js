@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Header } from "../../../components/Layout/Header";
 import checkedIcon from '../../../assets/img/checkedIcon.svg';
 import DogNameTag from "../../../components/DogNameTag";
+import CommentEnter from "../../../components/CommentEnter";
 import { ApplyComment, ApplyCommentBlocked } from "../../../components/Comment";
 
 const WantedDetailPage = () => {
@@ -75,6 +76,7 @@ const WantedDetailPage = () => {
 
             {/* 댓글 지원 */}
             <CommentApply>
+                <CommentEnter/>
                 <SectLabel>산책 지원하기 3명</SectLabel>
                 <div className="comment-list">
                     <ApplyComment />
@@ -191,8 +193,12 @@ const CommentApply = styled.div`
 
     .comment-list{
         >*{
-            margin-top:14px
+            margin-top:14px;
         }
+    }
+
+    .comment-form{
+        margin-bottom:20px;
     }
 `   
 

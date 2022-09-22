@@ -5,26 +5,26 @@ import {
   ButtonPrimary,
   ButtonPrimaryLine
 } from "../../../components/Button/Buttons";
-import { ReactComponent as Logo } from "../../../assets/img/logo.svg";
+import { ReactComponent as Logo } from "../../../assets/img/logo-wh.svg";
 import { ReactComponent as VisualImg } from "../../../assets/img/visualImg.svg";
 import btnIcon01 from "../../../assets/img/buttonIcon01.svg";
 import btnIcon02 from "../../../assets/img/buttonIcon02.svg";
 import { useSelector } from "react-redux";
 
 const Main = () => {
-  const { isLogin } = useSelector((state) => state.login.isLogin);
+  const isLogin = useSelector((state) => state.login.isLogin);
 
   return (
-    <div className="container">
+    <div className="container pa0">
       <MainIntro>
         <div>
-          <Logo />
+          <Logo className="logo-bi" />
           <h2>
-            믿을 수 있는
+            <b>믿을 수 있는</b>
             <br />
             펫시터를 만나는
             <br />
-            알바멍에서
+            <b>알바멍</b>에서
             <br />
             안심 산책하세요!
           </h2>
@@ -32,29 +32,35 @@ const Main = () => {
             <b>
               <CountUp duration={1} end={21310} separator="," />
             </b>
-            마리의 강아지가 만족했어요.
+            마리의 <br />
+            강아지가
+            <br /> 만족했어요.
           </p>
 
-          <VisualImg />
-          <ButtonGroup>
-            <Link to={isLogin ? "/" : "/login"}>
-              <ButtonPrimary className="icon-type">산책 맡길래요</ButtonPrimary>
-            </Link>
-            <Link to={isLogin ? "/" : "/login"}>
-              <ButtonPrimaryLine className="icon-type v2">
-                산책 시킬래요
-              </ButtonPrimaryLine>
-            </Link>
-          </ButtonGroup>
-          <OptLink>
-            <li>
-              <Link to="/">서비스 요금</Link>
-            </li>
-            <li>
-              <Link to="/">이용 가이드</Link>
-            </li>
-          </OptLink>
-          <Copyright>copyright 2022. TEAM39. All rights reserved. </Copyright>
+          <BottomArea>
+            <VisualImg className="visual-img" />
+            <ButtonGroup>
+              <Link to={isLogin ? "/OwnerMain" : "/login"}>
+                <ButtonPrimary className="icon-type">
+                  산책 맡길래요
+                </ButtonPrimary>
+              </Link>
+              <Link to={isLogin ? "/WalkerMain" : "/login"}>
+                <ButtonPrimaryLine className="icon-type v2">
+                  산책 시킬래요
+                </ButtonPrimaryLine>
+              </Link>
+            </ButtonGroup>
+            <OptLink>
+              <li>
+                <Link to="/">서비스 요금</Link>
+              </li>
+              <li>
+                <Link to="/">이용 가이드</Link>
+              </li>
+            </OptLink>
+            <Copyright>copyright 2022. TEAM39. All rights reserved. </Copyright>
+          </BottomArea>
         </div>
       </MainIntro>
     </div>
@@ -65,36 +71,75 @@ export default Main;
 
 const MainIntro = styled.div`
   position: relative;
-  display: flex;
   width: 100%;
   min-height: 100vh;
   text-align: center;
   justify-content: center;
-  align-items: center;
+  background: rgb(50, 134, 255);
+  background: linear-gradient(
+    180deg,
+    rgba(50, 134, 255, 1) 0%,
+    rgba(69, 98, 254, 1) 100%
+  );
 
   > div {
     width: 100%;
+    text-align: left;
+    padding: 0 40px;
+  }
+
+  .logo-bi {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+  }
+  .visual-img {
+    position: absolute;
+    transform: translate(0, -96%);
+    right: 0;
+    z-index: 99;
+    width: 250px;
+    height: 360px;
   }
 
   h2 {
-    font-size: 28px;
-    font-weight: 500;
+    font-size: 34px;
+    font-weight: 400;
     line-height: 1.25em;
-    padding: 25px 0 18px;
+    padding: 60px 0 18px;
+    color: var(--white-000);
+    letter-spacing: -0.055em;
+
+    b {
+      font-weight: 800;
+    }
   }
 
   p {
-    font-size: 18px;
+    font-size: 16px;
+    color: var(--white-000);
+    margin-top: 10px;
+    line-height: 1.3em;
     b {
       font-weight: 800;
     }
   }
 `;
 
+const BottomArea = styled.div`
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  background: var(--white-000);
+  padding: 40px 30px 25px;
+  border-top-left-radius: 30px;
+`;
+
 const OptLink = styled.ul`
   display: flex;
   justify-content: center;
-  margin: 20px 0 50px;
+  margin: 20px 0 30px;
   li {
     position: relative;
     font-size: 12px;
@@ -139,7 +184,6 @@ const ButtonGroup = styled.div`
 `;
 
 const Copyright = styled.small`
-  position: absolute;
   display: block;
   width: 100%;
   text-align: center;

@@ -1,4 +1,4 @@
-import axiosAPI from "../axiosAPI";
+import customAxios from "../axiosAPI";
 
 
 export const JOIN_SUCCESS = "JOIN_SUCCESS";
@@ -7,7 +7,7 @@ export const JOIN_ERROR = "JOIN_ERROR";
 export const JoinSuccess = (email, nickName, password) => {
     return async (dispatch) => {
     try {
-        const postInfo = axiosAPI.post(`/user/signUp`, {
+        const postInfo = customAxios.post(`/user/signUp`, {
            email: email,
            nickName: nickName,
            password: password

@@ -1,31 +1,33 @@
 package com.albamung.walk.entity;
 
-import com.albamung.walk.entity.Walk;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 @Entity
 @Data
 @NoArgsConstructor
+@DynamicUpdate
+@DynamicInsert
 public class WalkCheckList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "WALK_ID")
+    @JoinColumn(name = "WALK_ID", nullable = false)
     private Walk walk;
 
     private boolean checked;
 
+    @Column(length = 255, nullable = false)
     private String content;
 
-    public WalkCheckList(Walk walk, String content){
-        this.walk =walk;
+    public WalkCheckList(Walk walk, String content) {
+        this.walk = walk;
         this.content = content;
     }
 }

@@ -21,6 +21,19 @@ export const ButtonPrimary = styled.button`
   }
 `;
 
+export const ButtonCancel= styled(ButtonPrimary)`
+  background-color: var(--gray-200);
+  color: var(--gray-400);
+
+  &:hover {
+    background-color: var(--gray-300);
+  }
+
+  &.disabled {
+    color: var(--gray-400);
+  }
+`;
+
 export const ButtonPrimaryXS = styled(ButtonPrimary)`
   width: auto;
   padding: 8px 9px 7px;

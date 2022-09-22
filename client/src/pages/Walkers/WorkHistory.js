@@ -4,6 +4,7 @@ import HistoryCard from "../../components/HistoryCard";
 
 
 const WorkHistory = () =>{
+    
     return(
         <div className="container bg-gray">
             <Header pageTitle={'지난 산책 내역'} />

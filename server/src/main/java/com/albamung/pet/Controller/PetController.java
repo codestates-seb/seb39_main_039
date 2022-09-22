@@ -42,14 +42,15 @@ public class PetController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    @ApiOperation(value = "반려견 정보 수정")
+    @ApiOperation(value = "반려견 정보 수정", notes ="응답으로 수정된 반려견 정보를 응답합니다.")
     @PutMapping("/{petId}/edit")
     public ResponseEntity putPet(@AuthenticationPrincipal @ApiIgnore User owner,
                                  @RequestBody @Valid PetDto.Put request,
                                  @PathVariable Long petId) {
         if (owner == null) owner = User.builder().id(1L).build();
         Pet editedPet = petService.editPet(petMapper.putToPet(request), petId, owner.getId());
-        return new ResponseEntity<>(editedPet.getId(), HttpStatus.OK);
+        PetDto.DetailResponse response = petMapper.toDetailResponse(editedPet);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @ApiOperation(value = "반려견 간단 내역 조회", notes = "구인 글 작성 시 불러올 반려견 정보")

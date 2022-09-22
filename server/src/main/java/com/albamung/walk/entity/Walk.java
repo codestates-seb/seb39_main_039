@@ -10,12 +10,15 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.locationtech.jts.geom.LineString;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -49,11 +52,16 @@ public class Walk extends BaseEntityDate {
     private User walker;
 
     @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
+    @JoinColumn(name = "OWNER_ID", nullable = false)
     private User owner;
 
     @Column(columnDefinition = "TEXT")
     private String caution;
+
+    @ColumnDefault("0")
+    private int progress;
+
+    private Time actualWalkTime;
 
     @ColumnDefault("0")
     private int pooCount;
@@ -63,6 +71,7 @@ public class Walk extends BaseEntityDate {
     private int mealCount;
     @ColumnDefault("0")
     private int walkCount;
+    private int routeTime;
 
     @OneToMany(mappedBy = "walk", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<WalkCheckList> checkList = new ArrayList<>();
@@ -70,10 +79,16 @@ public class Walk extends BaseEntityDate {
     @ManyToMany(targetEntity = Pet.class)
     private List<Pet> petList = new ArrayList<>();
 
-    public List<String> getCoord(){
-        if(this.coord == null) return null;
-        List<String> coordList = Arrays.asList(this.coord.split(","));
-        return coordList.subList(1,coordList.size());
+    @OneToMany(mappedBy = "walk", cascade = {CascadeType.REMOVE})
+    private List<Coord> coordList = new ArrayList<>();
+    private LineString route;
+
+    public List<String> getCoord() {
+//        if (this.coord == null) return null;
+//        List<String> coordList = Arrays.asList(this.coord.split(","));
+//        return coordList.subList(1, coordList.size());
+        if(this.coordList == null) return null;
+        return this.coordList.stream().map(s->String.format("%s %s",s.getPoint().getX(),s.getPoint().getY())).collect(Collectors.toList());
     }
 
 //    public void addCoord(String str) {
@@ -82,45 +97,49 @@ public class Walk extends BaseEntityDate {
 //        //String Builder를 쓰는게 나을까?
 //    }
 
-    public List<String> getPictureList(){
-        if(this.pictureList ==null) return null;
+    public List<String> getPictureList() {
+        if (this.pictureList == null) return null;
         return Arrays.asList(this.pictureList.split(","));
     }
+
     public void addPictureList(String str) {
-        if(this.pictureList ==null) this.pictureList = str;
-        this.pictureList = this.pictureList +","+ str;
+        if (this.pictureList == null) this.pictureList = str;
+        this.pictureList = this.pictureList + "," + str;
         //String Builder를 쓰는게 나을까?
     }
 
-    public void setCheckListByContents(List<String> contentList){
-        if(contentList.size()!=0) {
+    public void setCheckListByContents(List<String> contentList) {
+        if (contentList.size() != 0) {
             List<WalkCheckList> checkList = new ArrayList<>();
             contentList.forEach(content -> {
-                checkList.add(new WalkCheckList(this,content));
+                checkList.add(new WalkCheckList(this, content));
             });
             this.checkList = checkList;
         }
     }
-    public void addPetList(Pet pet){
+
+    public void addPetList(Pet pet) {
         List<Pet> newList = new ArrayList<>();
-        if(this.petList==null){
+        if (this.petList == null) {
             newList.add(pet);
             this.petList = newList;
-        }
-        else this.petList.add(pet);
+        } else this.petList.add(pet);
         pet.addWalkList(this);
     }
 
-    public void increasePoo(int count){
+    public void increasePoo(int count) {
         this.pooCount += count;
     }
-    public void increaseSnack(int count){
+
+    public void increaseSnack(int count) {
         this.snackCount += count;
     }
-    public void increaseMeal(int count){
+
+    public void increaseMeal(int count) {
         this.mealCount += count;
     }
-    public void increaseWalk(int count){
+
+    public void increaseWalk(int count) {
         this.walkCount += count;
     }
 }

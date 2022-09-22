@@ -35,9 +35,21 @@ const WalkerCard = () => {
             <small>09.15 오후 4:00 부터 시작</small>
           </div>
         </Walking>
-        <WalkHistory
+        <WalkBanner
           onClick={() => {
-            navigate("/walk/:id/recordedWalking");
+            navigate("/walk/1/wantedHistory");
+          }}
+        >
+          <div>
+            <p>대기중인 산책</p>
+          </div>
+          <div>
+            <b>3</b>건
+          </div>
+        </WalkBanner>
+        <WalkBanner
+          onClick={() => {
+            navigate("/walk/1/wantedHistory");
           }}
         >
           <div>
@@ -47,7 +59,7 @@ const WalkerCard = () => {
           <div>
             <b>3</b>건
           </div>
-        </WalkHistory>
+        </WalkBanner>
       </WalkState>
     </div>
   );
@@ -158,15 +170,16 @@ const Walking = styled.div`
 
 const NotWalk = styled.div`
   background-color: var(--gray-200);
-
+  div{
+    width:100%
+  }
   p {
-    width: 100%;
     text-align: center;
     color: var(--gray-400);
   }
 `;
 
-const WalkHistory = styled.div`
+const WalkBanner = styled.div`
   border: 1px solid var(--gray-300);
   background-image: url("${Arrows}");
   cursor: pointer;

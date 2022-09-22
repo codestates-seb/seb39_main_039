@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { useEffect } from "react";
 import styled, { css } from "styled-components";
 
 // 약관 전체동의
@@ -49,18 +50,18 @@ export const EachCheckbox = ({ data, text, onChangeHandler, checkItems }) => {
   );
 };
 
-export const Checkbox = ({ text, func }) => {
-  const [isChecked, setIsChecked] = useState(false);
-
+export const Checkbox = ({ text, func, id, checking }) => {
+  const checkBox = useRef();
+  const [isChecked, setIsChecked] = useState(checking);
   const onClickCheck = () => {
     setIsChecked(!isChecked);
-    func(!isChecked);
+    func(!isChecked, id);
   };
 
   return (
     <CheckboxWrap>
       <div onClick={onClickCheck}>
-        <Checkedbox type="checkbox" isChecked={isChecked} />
+        <Checkedbox type="checkbox" isChecked={isChecked} ref={checkBox} />
         <CheckedLabel isChecked={isChecked}></CheckedLabel>
         <em>{text}</em>
       </div>

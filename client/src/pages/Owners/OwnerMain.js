@@ -37,7 +37,7 @@ const OwnerMain = () => {
   useEffect(() => {
     dispatch(getMyPetInfo());
   }, []);
-
+  
   return (
     <div className="container bg-gray">
       <Header>
@@ -52,7 +52,7 @@ const OwnerMain = () => {
         <DogSlide>
           <Slider {...settings}>
             {myPetInfo.map((el, idx) => (
-              <DogCard key={idx} props={el} />
+              <DogCard key={idx} props={el}/>
             ))}
 
             <AnonymousDogCard />

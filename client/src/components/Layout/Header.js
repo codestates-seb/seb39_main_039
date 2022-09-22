@@ -50,6 +50,7 @@ export const HeaderConfirm = ({pageTitle, useRight, ConfirmName, ClickHandler}) 
 
 
 const Conpanel = styled.div`
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -57,6 +58,7 @@ const Conpanel = styled.div`
     padding:3px 0;
     font-size:18px;
     font-weight: 500;
+    z-index: 99;
 
     h2{
         flex:5;

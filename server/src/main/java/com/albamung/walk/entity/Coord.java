@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.Point;
 
 import javax.persistence.*;
 
@@ -23,6 +23,9 @@ public class Coord extends BaseEntityDate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long coordId;
 
-    @Column(columnDefinition = "LINESTRING")
-    private LineString coord;
+    private Point point;
+
+    @ManyToOne
+    @JoinColumn(name = "WALK_ID")
+    private Walk walk;
 }

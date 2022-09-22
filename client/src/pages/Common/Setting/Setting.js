@@ -1,31 +1,62 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components"
 import noImage from '../../../assets/img/noImage.svg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from '@fortawesome/free-solid-svg-icons';
+import Nav from "../../../components/Layout/Nav";
 import UserGrade from "../../../components/UserGrade";
 import Arrows from '../../../assets/img/arrows.svg';
 import SwitchMode from "../../../components/SwitchMode";
+import { delUser } from "../../../redux/actions/userActions";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutSuccess } from "../../../redux/actions/loginActions";
+import { getUserInfo } from "../../../redux/actions/userActions";
+import { useNavigate } from "react-router-dom";
+import Modal from "../../../components/Modal/Modal";
 
 const Setting = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { userInfo } = useSelector((state) => state.user);
+
     const [isOn, setIsOn]= useState(true);
+    const [isOpen, setIsOpen] = useState(false);
+    
     const toggleHandler = () => {
         setIsOn(!isOn)
     }
 
+    useEffect(()=>{
+        dispatch(getUserInfo())
+    },[])
+
+    const logout = () => {
+        dispatch(logoutSuccess())
+    };
+
+    const deleteUser = () => {
+        dispatch(delUser());
+    }
+
     return(
         <div className="container">
-            <PageSummary>전체</PageSummary>
+            <Modal
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                confirmHandler={deleteUser}
+                text={'탈퇴하시겠습니까?'}
+            />
+            <PageSummary><b>전체</b> <small onClick={logout}>로그아웃</small></PageSummary>
             <UserInfo>
                 <div className="user-con">
                     <UserPhoto>
-                        <img src={noImage} className="user-photo" alt=""/>
-                        <Link to="/" className="user-edit"><FontAwesomeIcon icon={faPen}/></Link>
+                        <img src={userInfo.profileImage} className="user-photo" alt=""/>
+                        <Link to="/userEdit" className="user-edit"><FontAwesomeIcon icon={faPen}/></Link>
                     </UserPhoto>
-                    <p className="user-name">사용자이름</p>
-                    <em className="user-phone">010-1234-1234</em>
-                    <p className="user-email">user@email.com</p>
+                    <p className="user-name">{userInfo.nickName}</p>
+                    <em className="user-phone">{userInfo.phone}</em>
+                    <p className="user-email">{userInfo.email}</p>
                 </div>
                 <UserGrade className="user-grade" />
             </UserInfo>
@@ -37,24 +68,28 @@ const Setting = () => {
                         <SwitchMode isOn={isOn} toggleHandler={toggleHandler}/>
                     </div>
                 </li>
-                <li>
-                    <p><Link to='/UserEdit'>내 정보 수정</Link></p>
+                <li onClick={() => { navigate("/UserEdit");}}>
+                    <p>내 정보 수정</p>
                     <div></div>
                 </li>
-                <li>
-                    <p><Link to='/DogEdit'>강아지 정보 수정</Link></p>
+                <li onClick={() => { navigate("/DogEdit");}}>
+                    <p>강아지 정보 수정</p>
                     <div className="opt-info">3마리</div>
                 </li>
-                <li>
-                    <p><Link to='/WalkerEdit'>알바 정보 수정</Link></p>
+                <li onClick={() => { navigate("/WalkerEdit");}}>
+                    <p>알바 정보 수정</p>
                 </li>
                 <li>
                     <p>내 체크리스트 템플릿</p>
                 </li>
-                <li>
-                    <p><Link to='/WantedList'>구인글 리스트</Link></p>
+                <li onClick={() => { navigate("/WantedList");}}>
+                    <p>구인글 리스트</p>
+                </li>
+                <li onClick={()=>setIsOpen(true)}>
+                    <p>회원 탈퇴</p>
                 </li>
             </List>
+            <Nav />
         </div>
     )
 }
@@ -62,10 +97,23 @@ const Setting = () => {
 export default Setting
 
 const PageSummary = styled.h3`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding-top:20px;
     font-size:20px;
     font-weight: 500;
     line-height: 1.4em;
+    
+    small {
+        display: inline-block;
+        font-size:12px;
+        color:var(--gray-500);
+        background-color:var(--gray-050);
+        padding:0 8px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 `
 
 const UserInfo = styled.section`
@@ -85,8 +133,12 @@ const UserInfo = styled.section`
         background:var(--gray-100);
         border:1px solid var(--gray-200);
         border-radius: 6px;
-        padding:5px 7px;
+        padding:5px 7px 3px;
         margin:10px 0 6px;
+    }
+    .user-phone:empty{
+        padding:0;
+        margin:0;
     }
     .user-email{
         font-size:16px;
@@ -130,6 +182,7 @@ const UserPhoto = styled.div`
 
 const List = styled.ul`
     margin:10px 0;
+    padding-bottom:10px;
     font-weight: 500;
 
     li{
@@ -141,6 +194,7 @@ const List = styled.ul`
         background-repeat: no-repeat;
         background-position:98% 50%;
         background-image:url('${Arrows}');
+        cursor: pointer;
 
         p a{
             color:var(--black-900)
@@ -148,6 +202,7 @@ const List = styled.ul`
         .opt-info{
             padding-right:40px;
             font-size:13px;
+            line-height:16px;
         }
 
         .opt-info.v2{
@@ -156,6 +211,13 @@ const List = styled.ul`
             top:50%;
             padding-right:0;
             transform: translate(0, -50%);
+        }
+    }
+
+    li:last-child{
+        margin-top:30px;
+        p{
+            color:var(--gray-400)
         }
     }
 `

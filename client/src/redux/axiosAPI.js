@@ -1,13 +1,26 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
-const axiosAPI = axios.create({
-  baseURL: "https://server.albamung.tk/",
-  headers: { "Content-type": "application/json" }
+const BASE_URL = process.env.REACT_APP_SERVER_URL;
+
+const customAxios = axios.create({
+  baseURL: BASE_URL
 });
 
-axiosAPI.interceptors.request.use(
+customAxios.interceptors.request.use(function (config) {
+  config.headers["Content-type"] = "application/json";
+  if (!Cookies.get("access")) {
+    config.headers["Authorization"] = null;
+    return config;
+  }
+  config.headers["Content-type"] = "application/json";
+  config.headers["Authorization"] = `Bearer ${Cookies.get("access")}`;
+  return config;
+});
+
+customAxios.interceptors.request.use(
   function (config) {
-    console.log("req start", config);
+    // console.log("req start", config);
     return config;
   },
   function (error) {
@@ -16,9 +29,9 @@ axiosAPI.interceptors.request.use(
   }
 );
 
-axiosAPI.interceptors.response.use(
+customAxios.interceptors.response.use(
   function (response) {
-    console.log("response", response);
+    // console.log("response", response);
     return response;
   },
   function (error) {
@@ -27,4 +40,4 @@ axiosAPI.interceptors.response.use(
   }
 );
 
-export default axiosAPI;
+export default customAxios;

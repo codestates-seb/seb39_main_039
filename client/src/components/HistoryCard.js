@@ -3,7 +3,28 @@ import sampleMap from '../assets/img/sample-map.png';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaw } from '@fortawesome/free-solid-svg-icons';
 
-const HistoryCard = ({fellow}) => {
+const HistoryCard = ({startTime, endTime, distance, walker}) => {
+    let days = (getDayOfWeek(new Date(startTime)));
+    let total = totalTime((new Date(startTime)), new Date(endTime));
+    let MakeTime = MakeDateForm(total);
+
+    function getDayOfWeek(date){ 
+        const week = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
+        const dayOfWeek = week[new Date(date).getDay()];
+        return dayOfWeek;
+    }
+    
+    function totalTime(start, end){
+        return (end.getTime() - start.getTime()) / (1000*60);;
+    }
+
+    function MakeDateForm(total) {
+        var hour = parseInt(total/3600) < 10 ? '0'+ parseInt(total/3600) : min(total/3600);
+        var min = parseInt((total%3600)/60) < 10 ? '0'+ parseInt((total%3600)/60) : parseInt((total%3600)/60);
+        var sec = total % 60 < 10 ? '0'+total % 60 : total % 60;
+        return hour+":"+min+":" + sec;
+    }
+    
     return(
         <Card>
             <span className="history-img">
@@ -11,13 +32,13 @@ const HistoryCard = ({fellow}) => {
             </span>
             <div className="history-info">
                 <div className="i1">
-                    <p>9월 10일 토요일</p>
-                    <i><FontAwesomeIcon icon={faPaw} />{fellow}</i>
+                    <p>{new Date(startTime).toISOString().split('T')[0]} {days}</p>
+                    <i><FontAwesomeIcon icon={faPaw} />{walker}</i>
                 </div>
                 <div className="i2">
                     <em className="label">산책</em>
-                    <span><em>시간</em> 22:00</span>
-                    <span><em>거리</em> 3km</span>
+                    <span><em>시간</em> {MakeTime}</span>
+                    <span><em>거리</em> {distance}km</span>
                 </div>
             </div>
         </Card>

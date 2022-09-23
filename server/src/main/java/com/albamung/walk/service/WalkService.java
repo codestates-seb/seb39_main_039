@@ -109,6 +109,9 @@ public class WalkService {
 //        walkRepository.UpdateCoord(walkId, "," + coord);
     }
 
+    /**
+     * 산책 기본요소 입력
+     */
     public int putBasic(Long walkId, String basic, int count, Long loginId) {
         Walk targetWalk = verifyWalk(walkId);
         verifyWalkUser(targetWalk, loginId);

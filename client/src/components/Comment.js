@@ -12,7 +12,7 @@ export const ApplyComment = ({data}) => {
                 </div>
                 <div className="user-name">
                     <strong>{data.walker?.walkerName} <em>(등급 아이콘 예정)</em></strong>
-                    070-1234-1234
+                    <button>휴대폰 번호 보기</button>
                 </div>
             </div>
             <div className="user-con">
@@ -62,6 +62,16 @@ const Card= styled.div`
                 font-weight: 600;
                 font-size:15px;
                 color:var(--black-900);
+            }
+
+            button{
+                background:var(--gray-100);
+                border:1px solid var(--gray-200);
+                color:var(--gray-700);
+                border-radius:5px;
+                margin-top:2px;
+                padding:3px 6px;
+                font-size:12px;
             }
         }
         .user-photo{

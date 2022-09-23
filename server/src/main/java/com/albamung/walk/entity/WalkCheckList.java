@@ -7,7 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "walk_check")
 @Data
 @NoArgsConstructor
 @DynamicUpdate
@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class WalkCheckList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long walkCheckId;
 
     @ManyToOne
     @JoinColumn(name = "WALK_ID", nullable = false)

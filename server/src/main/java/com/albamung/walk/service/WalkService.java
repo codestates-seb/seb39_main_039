@@ -51,7 +51,7 @@ public class WalkService {
 //        WalkCheckList targetCheckList = checkListRepository.findById(checkListId).orElseThrow(() -> new CustomException("존재하지 않는 체크리스트 입니다", HttpStatus.NO_CONTENT));
         //체크리스트 아이디가 해당 산책에 속하지 않을 때 에러
         targetWalk.getCheckList()
-                .stream().filter(s -> s.getId().equals(checkListId))
+                .stream().filter(s -> s.getWalkCheckId().equals(checkListId))
                 .findFirst()
                 .orElseThrow(() -> new CustomException("해당 체크리스트는 이 산책의 체크리스트가 아닙니다", HttpStatus.BAD_REQUEST))
                 .setChecked(check);

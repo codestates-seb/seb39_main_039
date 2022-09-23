@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.http.HttpStatus;
@@ -52,16 +51,13 @@ public class User extends BaseEntityDate {
     @Column(length = 512)
     private String profileImage;
 
-    @Column(nullable = true, length = 10)
+    @Column(nullable = true, length = 20)
     private String fullName;
 
     @Column(nullable = true, length = 30)
     private String location;
 
     private String refreshToken;
-
-    @ColumnDefault("0")
-    private Long grade;
 
     private String phone;
 
@@ -109,7 +105,7 @@ public class User extends BaseEntityDate {
                         .nickName((String) properties.get("nickname"))
                         .profileImage((String) properties.get("profile_image"))
                         .provider("KAKAO")
-                        .providerId((String) attributes.get("id"))
+                        .providerId(String.valueOf(attributes.get("id")))
                         .password("12345678")
                         .roles("ROLE_USER")
                         .build();

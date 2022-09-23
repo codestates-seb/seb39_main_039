@@ -28,7 +28,7 @@ public class Comment extends BaseEntityDate {
     private boolean matched;
 
     @ManyToOne
-    @JoinColumn(name = "WALKER_ID")
+    @JoinColumn(name = "USER_ID")
     private User walker;
 
     @ManyToOne

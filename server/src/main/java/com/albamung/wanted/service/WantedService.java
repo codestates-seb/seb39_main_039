@@ -7,6 +7,7 @@ import com.albamung.user.entity.User;
 import com.albamung.user.service.UserService;
 import com.albamung.walk.entity.Walk;
 import com.albamung.wanted.dto.WantedDto;
+import com.albamung.wanted.entity.SortBy;
 import com.albamung.wanted.entity.Wanted;
 import com.albamung.wanted.repository.WantedRepository;
 import org.springframework.data.domain.Page;
@@ -53,7 +54,6 @@ public class WantedService {
                 .build();
         walk.setCheckListByContents(request.getCheckListContent());
 
-        wanted.setOwner(owner);
         wanted.setWalk(walk);
 
         return wantedRepository.save(wanted);
@@ -68,12 +68,12 @@ public class WantedService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Wanted> getWantedList(int page, String sort, String filter) {
-        int size = 5;
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(sort).descending());
-        Page<Wanted> wantedList = wantedRepository.findAll(pageRequest);
-
-        return wantedList;
+    public Page<Wanted> getWantedList(int page, SortBy sortBy, boolean matched) {
+        //JPA Specification 적용예정
+        int size = 10;
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(sortBy.getValue()).descending());
+        if (matched) return wantedRepository.findAllByMatched(true, pageRequest);
+        else return wantedRepository.findAll(pageRequest);
     }
 
 
@@ -87,7 +87,7 @@ public class WantedService {
 
     @Transactional(readOnly = true)
     public void verifyWantedUser(Wanted wanted, Long ownerId) {
-        if (!wanted.getOwner().getId().equals(ownerId))
+        if (!wanted.getWalk().getOwner().getId().equals(ownerId))
             throw new CustomException("해당 글의 작성자가 아닙니다", HttpStatus.FORBIDDEN);
     }
 }

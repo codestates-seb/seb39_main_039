@@ -33,6 +33,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web:2.7.3'
     implementation 'org.hibernate:hibernate-spatial:5.6.10.Final'
 
+    implementation platform('com.amazonaws:aws-java-sdk-bom:1.12.300')
+    implementation 'com.amazonaws:aws-java-sdk-s3'
+
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
     annotationProcessor 'org.projectlombok:lombok'

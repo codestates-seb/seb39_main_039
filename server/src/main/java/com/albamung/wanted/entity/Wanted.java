@@ -1,7 +1,7 @@
 package com.albamung.wanted.entity;
 
 import com.albamung.helper.audit.BaseEntityDate;
-import com.albamung.user.entity.User;
+import com.albamung.pet.entity.Pet;
 import com.albamung.walk.entity.Walk;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,21 +23,22 @@ import java.util.List;
 public class Wanted extends BaseEntityDate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long wantedId;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "WALK_ID")
     private Walk walk;
 
-    @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
-    private User owner;
-
     private String location;
 
     private int pay;
     private boolean matched;
+    private String title;
 
     @OneToMany(mappedBy = "wanted")
     private List<Comment> commentList;
+
+    public List<Pet> getPetList() {
+        return this.walk.getPetList();
+    }
 }

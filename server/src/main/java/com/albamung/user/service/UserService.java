@@ -68,7 +68,7 @@ public class UserService {
      */
     public User putUserDefault(User user, long loginUserId) {
         User targetUser = verifyUser(loginUserId);
-        Optional.ofNullable(user.getNickName()).ifPresent(targetUser::setNickName);
+        Optional.ofNullable(user.getNickName()).ifPresent(nickName->targetUser.setNickName(nickName + " #" + (userRepository.countAllByNickNameStartsWith(nickName)+1)));
         Optional.ofNullable(user.getFullName()).ifPresent(targetUser::setFullName);
         Optional.ofNullable(user.getPhone()).ifPresent(targetUser::setPhone);
         return targetUser;

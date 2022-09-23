@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import sexIconMale from "../assets/img/sexIcon-male.svg";
 import sexIconFemale from "../assets/img/sexIcon-female.svg";
 import anonymousDog from "../assets/img/anonymousDog.svg";
@@ -9,10 +9,11 @@ import { ButtonPrimaryXS } from "./Button/Buttons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCakeCandles } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
-import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export const DogCard = (props) => {
   const navigate = useNavigate();
+  const walklInfo = useSelector((state) => state.mapping.walkDetailInfo);
   const endDate = new Date(props.props.currentWalk?.endTime)
     .toLocaleString()
     .slice(0, -3);
@@ -23,7 +24,6 @@ export const DogCard = (props) => {
   } else {
     age = Number(ago.split(" ")[0]) + 1;
   }
-
 
   return (
     <div>
@@ -49,21 +49,23 @@ export const DogCard = (props) => {
       <WalkState>
         {props.props.currentWalk === null ? (
           <>
-          <NotWalk>
-            <p>{props.props.petName}이는 산책중이 아니에요.</p>
-          </NotWalk>
-          <Walking onClick={() => {
-            navigate(`/walking/${props.props.currentWalk?.walkId}`);
-           }}>
-            <div>
-              <p>{props.props.currentWalk?.walker} 님과 산책중..</p>
-              <small>{endDate}까지</small>
-              <small>수행률 {props.props.currentWalk?.progress}%</small>
-            </div>
-          </Walking>
-        </>
+            <NotWalk>
+              <p>{props.props.petName}이는 산책중이 아니에요.</p>
+            </NotWalk>
+            <Walking
+              onClick={() => {
+                navigate(`/walking/${props.props.currentWalk?.walkId}`);
+              }}
+            >
+              <div>
+                <p>{props.props.currentWalk?.walker} 님과 산책중..</p>
+                <small>{endDate}까지</small>
+                <small>수행률 {props.props.currentWalk?.progress}%</small>
+              </div>
+            </Walking>
+          </>
         ) : (
-          ''
+          ""
         )}
         <WalkBanner
           onClick={() => {
@@ -176,11 +178,11 @@ const DogProfile = styled.div`
       background-size: 26px auto;
     }
 
-    strong.M {
+    strong.수컷 {
       background-image: url("${sexIconMale}");
     }
 
-    strong.F {
+    strong.암컷 {
       background-image: url("${sexIconFemale}");
     }
 

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import anonymousDog from "../assets/img/anonymousDog.svg";
 
@@ -20,9 +20,9 @@ export const DogNameLabel = ({ size, name, species, picture }) => {
   );
 };
 
-export const DogNameLabelType2 = ({ name, size, picture }) => {
+export const DogNameLabelType2 = ({ name, size, picture, selectMyPet }) => {
   return (
-    <Label className={`type2 ${size}`}>
+    <Label className={`type2 ${size}`} onClick={selectMyPet}>
       <span className="dog-photo">
         <img
           style={{ backgroundImage: `url(${picture})` }}
@@ -58,7 +58,7 @@ const Label = styled.span`
   border: 1px solid var(--gray-200);
   border-radius: 50px;
   padding: 0.2em 0.7em 0.2em 0.2em;
-  margin-bottom:0.3em;
+  margin-bottom: 0.3em;
 
   .dog-photo {
     display: inline-block;

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Header } from "../../components/Layout/Header";
 import { DogNameLabelType2 } from "../../components/DogNameLabel";
 import { ButtonPrimary } from "../../components/Button/Buttons";
@@ -12,8 +12,21 @@ import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 import { ko } from "date-fns/esm/locale";
 import { useInputAutoHeight } from "../../hooks/useInput";
+import { useDispatch, useSelector } from "react-redux";
+import { postWanted } from "../../redux/actions/wantedActions";
 
 const WantedCreate = () => {
+  const { myPetInfo } = useSelector((state) => state.pet);
+  const [petSelect, setPetSelect] = useState(false);
+  const dispatch = useDispatch();
+  const titleRef = useRef();
+
+  const selectMyPet = () => {
+    setPetSelect(!petSelect);
+  };
+
+  console.log(titleRef.current?.value);
+
   const [
     checkItemContent,
     lineHeight,
@@ -34,21 +47,48 @@ const WantedCreate = () => {
     { title: "올림픽공원 산책을 해주세요." },
     { title: "가방에 있는 영양제 1포를 먹여주세요." }
   ];
+
+  const addWanted = () => {
+    dispatch(
+      postWanted(
+        "조심히 다뤄주셈욤",
+        ["밥밥", "물물", "간식"],
+        "2022-09-22T15:31:50.916Z",
+        "경기도 성남시",
+        10000,
+        [1],
+        "2022-09-22T15:31:50.916Z"
+      )
+    );
+  };
   return (
     <div className="container">
       <Header pageTitle={"구인 글 작성"} />
       <Form>
         <Section className="pt0 pb20">
+          <div className="ipt-group">
+            <label htmlFor="" className="ipt-label">
+              제목
+            </label>
+            <input
+              ref={titleRef}
+              type="text"
+              className="ipt-form"
+              name="username"
+              placeholder="제목을 입력해주세요."
+            />
+          </div>
           <label className="ipt-label">산책할 강아지 선택</label>
           <DogSelect>
-            <li className="active">
-              <DogNameLabelType2 name={"춘식"} size={"lg"} />
-            </li>
-            <li>
-              <DogNameLabelType2 name={"춘식"} size={"lg"} />
-            </li>
-            <li>
-              <DogNameLabelType2 name={"춘식"} size={"lg"} />
+            <li className={petSelect ? "active" : "active no-select"}>
+              {myPetInfo.map((el, idx) => (
+                <DogNameLabelType2
+                  name={el.petName}
+                  size={"s"}
+                  picture={el.petPicture}
+                  selectMyPet={selectMyPet}
+                />
+              ))}
             </li>
           </DogSelect>
         </Section>
@@ -149,9 +189,9 @@ const WantedCreate = () => {
           ></textarea>
         </Section>
 
-        <Link to="/wantedDetail">
-          <ButtonPrimary>등록하기</ButtonPrimary>
-        </Link>
+        {/* <Link to="/wantedDetail"> */}
+        <ButtonPrimary onClick={addWanted}>등록하기</ButtonPrimary>
+        {/* </Link> */}
       </Form>
     </div>
   );
@@ -180,6 +220,15 @@ const DogSelect = styled.ul`
     span {
       background: var(--primary);
       color: var(--white-000);
+      margin: 3px;
+    }
+  }
+
+  .no-select {
+    span {
+      background: var(--white-000);
+      color: var(--primary);
+      margin: 3px;
     }
   }
 `;

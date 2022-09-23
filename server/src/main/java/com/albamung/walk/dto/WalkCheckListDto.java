@@ -11,4 +11,11 @@ public class WalkCheckListDto {
         private String content;
         private boolean checked;
     }
+
+    @Builder
+    @Getter
+    public static class Put {
+        private Long checkListId;
+        private String content;
+    }
 }

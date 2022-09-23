@@ -5,7 +5,7 @@ import com.albamung.pet.entity.Pet;
 import com.albamung.pet.service.PetService;
 import com.albamung.walk.entity.Coord;
 import com.albamung.walk.entity.Walk;
-import com.albamung.walk.entity.WalkCheckList;
+import com.albamung.walk.entity.WalkCheck;
 import com.albamung.walk.repository.CoordRepository;
 import com.albamung.walk.repository.WalkRepository;
 import org.locationtech.jts.geom.Point;
@@ -55,14 +55,14 @@ public class WalkService {
                 .findFirst()
                 .orElseThrow(() -> new CustomException("해당 체크리스트는 이 산책의 체크리스트가 아닙니다", HttpStatus.BAD_REQUEST))
                 .setChecked(check);
-        int countTrue = (int) targetWalk.getCheckList().stream().filter(WalkCheckList::isChecked).count();
+        int countTrue = (int) targetWalk.getCheckList().stream().filter(WalkCheck::isChecked).count();
         float progress = (float) countTrue / targetWalk.getCheckList().size();
         targetWalk.setProgress((int) (progress * 100));
 
         return targetWalk;
     }
 
-    public Time putActualWalkTime(Long walkId, Time actualWalkTime, Long walkerId){
+    public Time putActualWalkTime(Long walkId, Time actualWalkTime, Long walkerId) {
         Walk targetWalk = verifyWalk(walkId);
         verifyWalkUser(targetWalk, walkerId);
         targetWalk.setActualWalkTime(actualWalkTime);
@@ -144,7 +144,7 @@ public class WalkService {
     @Transactional(readOnly = true)
     public void verifyWalkUser(Walk walk, Long userId) {
         if (walk.getOwner().getId().equals(userId)) return;
-        if (walk.getWalker()!=null && walk.getWalker().getId().equals(userId)) return;
+        if (walk.getWalker() != null && walk.getWalker().getId().equals(userId)) return;
         throw new CustomException("알바나 견주만이 수정 가능합니다", HttpStatus.FORBIDDEN);
     }
 

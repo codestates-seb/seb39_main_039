@@ -4,7 +4,7 @@ import com.albamung.exception.CustomException;
 import com.albamung.user.service.UserService;
 import com.albamung.wanted.entity.Comment;
 import com.albamung.wanted.entity.Wanted;
-import com.albamung.wanted.repository.CommentRespository;
+import com.albamung.wanted.repository.CommentRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,12 +16,12 @@ import java.util.Optional;
 public class CommentService {
     private final WantedService wantedService;
     private final UserService userService;
-    private final CommentRespository commentRespository;
+    private final CommentRepository commentRepository;
 
-    public CommentService(WantedService wantedService, UserService userService, CommentRespository commentRespository) {
+    public CommentService(WantedService wantedService, UserService userService, CommentRepository commentRepository) {
         this.wantedService = wantedService;
         this.userService = userService;
-        this.commentRespository = commentRespository;
+        this.commentRepository = commentRepository;
     }
 
     /**
@@ -30,7 +30,7 @@ public class CommentService {
     public Comment saveComment(Comment comment, Long wantedId, Long walkedId) {
         comment.setWanted(wantedService.verifyWanted(wantedId));
         comment.setWalker(userService.verifyUser(walkedId));
-        return commentRespository.save(comment);
+        return commentRepository.save(comment);
     }
 
     /**
@@ -74,7 +74,7 @@ public class CommentService {
         Comment targetComment = verifyComment(commentId);
         verifyCommentUser(targetComment, walkerId);
 
-        commentRespository.deleteById(targetComment.getCommentId());
+        commentRepository.deleteById(targetComment.getCommentId());
     }
 
     /**
@@ -82,7 +82,7 @@ public class CommentService {
      */
     @Transactional(readOnly = true)
     public Comment verifyComment(Long commentId) {
-        return commentRespository.findById(commentId).orElseThrow(() -> new CustomException("존재하지 않는 댓글입니다", HttpStatus.NO_CONTENT));
+        return commentRepository.findById(commentId).orElseThrow(() -> new CustomException("존재하지 않는 댓글입니다", HttpStatus.NO_CONTENT));
     }
 
     /**

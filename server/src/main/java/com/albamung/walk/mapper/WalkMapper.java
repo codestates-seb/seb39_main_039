@@ -10,12 +10,16 @@ import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,  uses = {UserMapper.class, CheckListMapper.class, PetMapper.class})
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {UserMapper.class, CheckListMapper.class, PetMapper.class})
 public interface WalkMapper {
     @Mapping(source = "id", target = "walkId")
     WalkDto.DetailResponse toDetailResponse(Walk walk);
+
     @Mapping(source = "id", target = "walkId")
     WalkDto.SimpleResponse toSimpleResponse(Walk walk);
+
+    @Mapping(source = "id", target = "walkId")
+    WalkDto.WantedResponse toWantedResponse(Walk walk);
 
     List<WalkDto.SimpleResponse> listToSimpleResponseList(List<Walk> walkList);
 }

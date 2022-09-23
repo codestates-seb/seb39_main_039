@@ -1,5 +1,7 @@
 package com.albamung.walk.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
@@ -10,9 +12,11 @@ import javax.persistence.*;
 @Entity(name = "walk_check")
 @Data
 @NoArgsConstructor
-@DynamicUpdate
+@Builder
+@AllArgsConstructor
 @DynamicInsert
-public class WalkCheckList {
+@DynamicUpdate
+public class WalkCheck {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long walkCheckId;
@@ -25,9 +29,4 @@ public class WalkCheckList {
 
     @Column(length = 255, nullable = false)
     private String content;
-
-    public WalkCheckList(Walk walk, String content) {
-        this.walk = walk;
-        this.content = content;
-    }
 }

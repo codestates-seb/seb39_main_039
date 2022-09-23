@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@DynamicUpdate
 @DynamicInsert
+@DynamicUpdate
 public class Walk extends BaseEntityDate {
 
     @Id
@@ -72,8 +72,8 @@ public class Walk extends BaseEntityDate {
     @ColumnDefault("0")
     private int walkCount;
 
-    @OneToMany(mappedBy = "walk", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-    private List<WalkCheckList> checkList = new ArrayList<>();
+    @OneToMany(mappedBy = "walk", cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<WalkCheck> checkList = new ArrayList<>();
 
     @ManyToMany(targetEntity = Pet.class)
     private List<Pet> petList = new ArrayList<>();
@@ -86,8 +86,8 @@ public class Walk extends BaseEntityDate {
 //        if (this.coord == null) return null;
 //        List<String> coordList = Arrays.asList(this.coord.split(","));
 //        return coordList.subList(1, coordList.size());
-        if(this.coordList == null) return null;
-        return this.coordList.stream().map(s->String.format("%s %s",s.getPoint().getX(),s.getPoint().getY())).collect(Collectors.toList());
+        if (this.coordList == null) return null;
+        return this.coordList.stream().map(s -> String.format("%s %s", s.getPoint().getX(), s.getPoint().getY())).collect(Collectors.toList());
     }
 
     public List<String> getPictureList() {
@@ -102,10 +102,13 @@ public class Walk extends BaseEntityDate {
     }
 
     public void setCheckListByContents(List<String> contentList) {
-        if (contentList.size() != 0) {
-            List<WalkCheckList> checkList = new ArrayList<>();
+        List<WalkCheck> checkList;
+        if (this.checkList == null) checkList = new ArrayList<>();
+        else checkList = this.checkList;
+
+        if (contentList != null) {
             contentList.forEach(content -> {
-                checkList.add(new WalkCheckList(this, content));
+                checkList.add(WalkCheck.builder().walk(this).content(content).build());
             });
             this.checkList = checkList;
         }

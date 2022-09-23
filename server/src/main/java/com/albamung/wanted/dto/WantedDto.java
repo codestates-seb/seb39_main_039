@@ -1,7 +1,6 @@
 package com.albamung.wanted.dto;
 
-import com.albamung.pet.dto.PetDto;
-import com.albamung.user.dto.UserDto;
+import com.albamung.walk.dto.WalkCheckListDto;
 import com.albamung.walk.dto.WalkDto;
 import io.swagger.annotations.ApiModel;
 import lombok.Builder;
@@ -19,8 +18,7 @@ public class WantedDto {
     public static class DetailResponse {
         private Long wantedId;
         private String title;
-        private UserDto.SimpleOwnerResponse owner;
-        private WalkDto.DetailResponse walk;
+        private WalkDto.WantedResponse walk;
         private String location;
         private int pay;
         private LocalDateTime creationDate;
@@ -35,9 +33,7 @@ public class WantedDto {
     public static class SimpleResponse {
         private Long wantedId;
         private String title;
-        private List<PetDto.SimpleResponse> petList;
-        private UserDto.SimpleOwnerResponse owner;
-        private WalkDto.SimpleResponse walk;
+        private WalkDto.WantedResponse walk;
         private String location;
         private int pay;
         private LocalDateTime creationDate;
@@ -49,7 +45,7 @@ public class WantedDto {
     @Getter
     @ApiModel("구인글 등록")
     public static class Post {
-        @FutureOrPresent(message = "시작 시간으 과거 일 수 없습니다")
+        @FutureOrPresent(message = "시작 시간은 과거 일 수 없습니다")
         private LocalDateTime startTime;
         @FutureOrPresent(message = "종료 시간은 과거 일 수 없습니다")
         private LocalDateTime endTime;
@@ -62,8 +58,22 @@ public class WantedDto {
         private String title;
     }
 
+    @Getter
+    @Builder
+    @ApiModel("구인글 수정")
     public static class Put {
-
+        private List<String> checkListContent;
+        private List<WalkCheckListDto.Put> checkList;
+        private List<Long> checkListIdToDelete;
+        private List<Long> petId;
+        private String location;
+        @FutureOrPresent(message = "시작 시간은 과거 일 수 없습니다")
+        private LocalDateTime startTime;
+        @FutureOrPresent(message = "종료 시간은 과거 일 수 없습니다")
+        private LocalDateTime endTime;
+        private int pay;
+        private String title;
+        private String caution;
     }
 }
 

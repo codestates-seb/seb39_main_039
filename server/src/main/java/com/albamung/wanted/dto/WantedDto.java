@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -55,6 +56,7 @@ public class WantedDto {
         private String caution;
         @NotNull(message = "보수를 입력해주세요")
         private int pay;
+        @NotBlank
         private String title;
     }
 
@@ -72,6 +74,7 @@ public class WantedDto {
         @FutureOrPresent(message = "종료 시간은 과거 일 수 없습니다")
         private LocalDateTime endTime;
         private int pay;
+        @NotBlank
         private String title;
         private String caution;
     }

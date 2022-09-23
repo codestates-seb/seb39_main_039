@@ -16,6 +16,7 @@ public class WalkDto {
     @Getter
     public static class DetailResponse {
         private Long walkId;
+        private UserDto.SimpleOwnerResponse owner;
         private List<String> coord;
         private List<WalkCheckListDto.Response> checkList;
         private List<PetDto.SimpleResponse> petList;
@@ -46,11 +47,24 @@ public class WalkDto {
     @Builder
     public static class SimpleResponse {
         private Long walkId;
+        private UserDto.SimpleOwnerResponse owner;
         private LocalDateTime startTime;
         private LocalDateTime endTime;
         private int distance;
         private boolean ended;
         private int progress;
+        private UserDto.SimpleWalkerResponse walker;
+    }
+    @Getter
+    @Builder
+    public static class WantedResponse {
+        private Long walkId;
+        private UserDto.SimpleOwnerResponse owner;
+        private List<WalkCheckListDto.Response> checkList;
+        private List<PetDto.SimpleResponse> petList;
+        private LocalDateTime startTime;
+        private LocalDateTime endTime;
+        private String caution;
         private UserDto.SimpleWalkerResponse walker;
     }
 }

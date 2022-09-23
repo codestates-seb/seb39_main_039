@@ -6,6 +6,9 @@ import com.albamung.pet.service.PetService;
 import com.albamung.user.entity.User;
 import com.albamung.user.service.UserService;
 import com.albamung.walk.entity.Walk;
+import com.albamung.walk.entity.WalkCheck;
+import com.albamung.walk.mapper.CheckListMapper;
+import com.albamung.walk.service.CheckListService;
 import com.albamung.wanted.dto.WantedDto;
 import com.albamung.wanted.entity.SortBy;
 import com.albamung.wanted.entity.Wanted;
@@ -17,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,11 +30,16 @@ public class WantedService {
     private final WantedRepository wantedRepository;
     private final UserService userService;
     private final PetService petService;
+    private final CheckListService checkListService;
+    private final CheckListMapper checkListMapper;
 
-    public WantedService(WantedRepository wantedRepository, UserService userService, PetService petService) {
+
+    public WantedService(WantedRepository wantedRepository, UserService userService, PetService petService, CheckListService checkListService, CheckListMapper checkListMapper) {
         this.wantedRepository = wantedRepository;
         this.userService = userService;
         this.petService = petService;
+        this.checkListService = checkListService;
+        this.checkListMapper = checkListMapper;
     }
 
     /**
@@ -53,9 +62,7 @@ public class WantedService {
                 .coord("0")
                 .build();
         walk.setCheckListByContents(request.getCheckListContent());
-
         wanted.setWalk(walk);
-
         return wantedRepository.save(wanted);
     }
 
@@ -72,9 +79,47 @@ public class WantedService {
         //JPA Specification 적용예정
         int size = 10;
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by(sortBy.getValue()).descending());
-        if (matched) return wantedRepository.findAllByMatched(true, pageRequest);
+        if (matched) return wantedRepository.findAllByMatched(false, pageRequest);
         else return wantedRepository.findAll(pageRequest);
     }
+
+    /**
+     * 구인글 수정
+     */
+    public Wanted editWanted(Long wantedId, WantedDto.Put editingWanted, Long ownerId) {
+        Wanted targetWanted = verifyWanted(wantedId);
+        Walk targetWalk = targetWanted.getWalk();
+        verifyWantedUser(targetWanted, ownerId);
+
+        targetWanted.setPay(editingWanted.getPay());
+        targetWanted.setTitle(editingWanted.getTitle());
+        targetWalk.setStartTime(editingWanted.getStartTime());
+        targetWalk.setEndTime(editingWanted.getEndTime());
+        targetWalk.setCaution(editingWanted.getCaution());
+        targetWanted.setLocation(editingWanted.getLocation());
+
+        List<Pet> petList = editingWanted.getPetId().stream().map(petService::verifyPet).collect(Collectors.toList());
+        targetWalk.setPetList(petList);
+
+        List<WalkCheck> checkListToDelete = new ArrayList<>(List.copyOf(targetWalk.getCheckList()));
+
+        editingWanted.getCheckList().forEach(editingCheck -> {
+            WalkCheck targetCheck = targetWalk.getCheckList().stream().filter(s -> s.getWalkCheckId().equals(editingCheck.getCheckListId())).findFirst().orElseThrow();
+            targetCheck.setContent(editingCheck.getContent());
+            checkListToDelete.remove(targetCheck);
+        });
+        checkListToDelete.forEach(s -> targetWalk.getCheckList().remove(s));
+
+        targetWalk.setCheckListByContents(editingWanted.getCheckListContent());
+        return targetWanted;
+    }
+
+
+//    public void deleteCheckList(Long wantedId, Long checkListId, Long ownerId) {
+//        Wanted targetWanted = verifyWanted(wantedId);
+//        verifyWantedUser(targetWanted, ownerId);
+//        walkCheckRepository.deleteById(checkListId);
+//    }
 
 
     /**

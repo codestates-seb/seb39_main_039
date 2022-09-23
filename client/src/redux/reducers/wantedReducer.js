@@ -1,5 +1,6 @@
 import {
   GET_ALL_WANTED_LIST_SUCCESS,
+  GET_SCROLL_ALL_WANTED_LIST_SUCCESS,
   GET_WANTED_DETAIL_SUCCESS,
   WANTED_LOADING
 } from "../actions/wantedActions";
@@ -7,6 +8,7 @@ import {
 const initialstate = {
   allWantedList: [],
   wantedDetail: [],
+  scrollAllWantedList: [],
   loading: ""
 };
 
@@ -22,6 +24,14 @@ const wantedReducer = (state = initialstate, action) => {
       return {
         ...state,
         allWantedList: payload.allWantedList
+      };
+    case GET_SCROLL_ALL_WANTED_LIST_SUCCESS:
+      return {
+        ...state,
+        scrollAllWantedList: [
+          ...state.scrollAllWantedList,
+          ...payload.scrollAllWantedList
+        ]
       };
     case GET_WANTED_DETAIL_SUCCESS:
       return {

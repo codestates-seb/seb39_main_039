@@ -12,8 +12,8 @@ import wantedReducer from "./wantedReducer";
 
 const persistConfig = {
   key: "root",
-  storage,
-  blackList: ["pet"]
+  storage: storage,
+  whiteList: ["login"]
 };
 
 const rootReducer = combineReducers({

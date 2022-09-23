@@ -8,17 +8,34 @@ import DropDown from "../../../components/DropDown";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllWantedList } from "../../../redux/actions/wantedActions";
 import { ThreeDots } from "react-loader-spinner";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useInfinteScroll } from "../../../hooks/useInfiniteScroll";
+import { getScrollAllWantedList } from "../../../redux/actions/wantedActions";
+
+import { useInView } from "react-intersection-observer";
+import { set } from "date-fns";
 
 const WantedList = () => {
-  const { allWantedList, loading } = useSelector((state) => state.wanted);
+  const { allWantedList, loading, scrollAllWantedList } = useSelector(
+    (state) => state.wanted
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [ref, inView] = useInView();
+
+  const [target, setTarget] = useState(null);
   const [isOn, setIsOn] = useState(false);
   const [matchedToggle, setMatchedToggle] = useState(false);
   const [selectedSort, setSelectedSort] = useState("최신순");
   const [selectedLocation, setSelectedLocation] = useState("서울시 강동구");
+  const [page, setPage] = useState(1);
+
+  const [scroll, setScroll] = useState(false);
+  // console.log(page);
+  // //////
+
+  // ///////
 
   let sortOption, checked;
 
@@ -36,11 +53,26 @@ const WantedList = () => {
   }
 
   useEffect(() => {
-    dispatch(getAllWantedList(sortOption, `${selectedLocation}`, isOn));
-    navigate(
-      `/wantedList?sort=${sortOption}&location=${selectedLocation}&matched=${isOn}`
-    );
-  }, [sortOption, isOn, selectedLocation]);
+    dispatch(getAllWantedList("pay", `경기도 수원시`, false, 1));
+    console.log("??????");
+  }, []);
+
+  useEffect(() => {
+    if (
+      scrollAllWantedList.length < allWantedList.page?.totalElements &&
+      inView
+    ) {
+      setScroll(true);
+      setPage(page + 1);
+      navigate(
+        `/wantedList?sort=${sortOption}&location=${selectedLocation}&matched=${isOn}&page=${page}`
+      );
+      dispatch(getScrollAllWantedList("pay", `경기도 수원시`, false, page));
+
+      console.log("scroll", scroll);
+      console.log("inView", inView);
+    }
+  }, [inView]);
 
   return (
     <div className="container bg-gray">
@@ -75,13 +107,30 @@ const WantedList = () => {
           <ThreeDots color="#3183f8" height={80} width={80} />
         </Loading>
       ) : (
-        <WantedCardList>
-          {allWantedList.items?.map((item) => (
-            <WantedCard key={item.id} item={item} />
-          ))}
-
-          <FloatingBtnAdd mid={"wantedCreate"} />
-        </WantedCardList>
+        <>
+          {scroll ? (
+            <WantedCardList>
+              {scrollAllWantedList?.map((item) => (
+                <WantedCard key={item.id} item={item} />
+              ))}
+              <FloatingBtnAdd mid={"wantedCreate"} />
+            </WantedCardList>
+          ) : (
+            <WantedCardList>
+              {allWantedList.items?.map((item) => (
+                <WantedCard key={item.id} item={item} />
+              ))}
+              <FloatingBtnAdd mid={"wantedCreate"} />
+            </WantedCardList>
+          )}
+        </>
+      )}
+      {loading ? (
+        <Loading>
+          <ThreeDots color="#3183f8" height={80} width={80} />
+        </Loading>
+      ) : (
+        <Scroll ref={ref}></Scroll>
       )}
     </div>
   );
@@ -117,8 +166,9 @@ const SwitchGroup = styled.div`
 `;
 
 const Loading = styled.div`
-  display: flex;
   height: 100vh;
-  justify-content: center;
-  align-items: center;
+`;
+
+const Scroll = styled.div`
+  height: 200px;
 `;

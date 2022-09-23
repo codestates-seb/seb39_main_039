@@ -6,16 +6,16 @@ import CommentEnter from "../../../components/CommentEnter";
 import { ApplyComment, ApplyCommentBlocked } from "../../../components/Comment";
 import { useDispatch, useSelector } from "react-redux";
 import { startOfYesterday } from "date-fns";
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getWantedDetail } from "../../../redux/actions/wantedActions";
 import { ThreeDots } from "react-loader-spinner";
 import useConvertTime from "../../../hooks/useConvertTime";
+import { useEffect } from "react";
+import { getWantedDetail } from "../../../redux/actions/wantedActions";
 
 const WantedDetailPage = () => {
   const { id } = useParams();
-  const dispatch = useDispatch();
   const { wantedDetail, loading } = useSelector((state) => state.wanted);
+  const dispatch = useDispatch();
 
   let endTimeForm = useConvertTime(
     wantedDetail.walk?.endTime.toLocaleString().slice(0, -3).split("T")

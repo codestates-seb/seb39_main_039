@@ -20,7 +20,7 @@ customAxios.interceptors.request.use(function (config) {
 
 customAxios.interceptors.request.use(
   function (config) {
-    console.log("req start", config);
+    // console.log("req start", config);
     return config;
   },
   function (error) {
@@ -31,7 +31,7 @@ customAxios.interceptors.request.use(
 
 customAxios.interceptors.response.use(
   function (response) {
-    console.log("response", response);
+    // console.log("response", response);
     return response;
   },
   function (error) {

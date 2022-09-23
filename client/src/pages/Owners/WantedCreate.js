@@ -18,14 +18,14 @@ import { postWanted } from "../../redux/actions/wantedActions";
 const WantedCreate = () => {
   const { myPetInfo } = useSelector((state) => state.pet);
   const [petSelect, setPetSelect] = useState(false);
+  const [redirectId, setRedirectId] = useState();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const titleRef = useRef();
 
   const selectMyPet = () => {
     setPetSelect(!petSelect);
   };
-
-  console.log(titleRef.current?.value);
 
   const [
     checkItemContent,
@@ -53,13 +53,14 @@ const WantedCreate = () => {
       postWanted(
         "조심히 다뤄주셈욤",
         ["밥밥", "물물", "간식"],
-        "2022-09-22T15:31:50.916Z",
+        "2022-09-23T20:30:00",
         "경기도 성남시",
-        10000,
-        [1],
-        "2022-09-22T15:31:50.916Z"
+        1000,
+        [2, 3],
+        "2022-09-23T22:30:00",
+        "이번에동???"
       )
-    );
+    ).then((res) => navigate(`/wantedDetail/${res.data}`));
   };
   return (
     <div className="container">
@@ -189,9 +190,7 @@ const WantedCreate = () => {
           ></textarea>
         </Section>
 
-        {/* <Link to="/wantedDetail"> */}
         <ButtonPrimary onClick={addWanted}>등록하기</ButtonPrimary>
-        {/* </Link> */}
       </Form>
     </div>
   );

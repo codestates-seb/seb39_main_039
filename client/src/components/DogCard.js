@@ -13,7 +13,6 @@ import { useSelector } from "react-redux";
 
 export const DogCard = (props) => {
   const navigate = useNavigate();
-  const walklInfo = useSelector((state) => state.mapping.walkDetailInfo);
   const endDate = new Date(props.props.currentWalk?.endTime)
     .toLocaleString()
     .slice(0, -3);
@@ -77,7 +76,7 @@ export const DogCard = (props) => {
             <p>대기중인 산책</p>
           </div>
           <div>
-            <b>{props.props.walkCount}</b>건
+            <b>{props.props.walkWaitingCount}</b>건
           </div>
         </WalkBanner>
         <WalkBanner
@@ -90,7 +89,7 @@ export const DogCard = (props) => {
             <small>총 {props.props.walkDistance}km</small>
           </div>
           <div>
-            <b>{props.props.walkCount}</b>건
+            <b>{props.props.walkHistoryCount}</b>건
           </div>
         </WalkBanner>
       </WalkState>

@@ -109,7 +109,7 @@ const WantedDetailPage = () => {
           {/* 댓글 지원 */}
           <CommentApply>
             <SectLabel>지원하기</SectLabel>
-            <CommentEnter />
+            <CommentEnter wantedId={wantedDetail.wantedId}/>
             <SectLabel>산책 지원하기 3명</SectLabel>
             <div className="comment-list">
               {wantedDetail.commentList.reverse().map((data, key)=>{

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import anonymousDog from "../assets/img/anonymousDog.svg";
 
@@ -20,9 +20,9 @@ export const DogNameLabel = ({ size, name, species, picture }) => {
   );
 };
 
-export const DogNameLabelType2 = ({ name, size, picture }) => {
+export const DogNameLabelType2 = ({ name, size, picture, selectMyPet }) => {
   return (
-    <Label className={`type2 ${size}`}>
+    <Label className={`type2 ${size}`} onClick={selectMyPet}>
       <span className="dog-photo">
         <img
           style={{ backgroundImage: `url(${picture})` }}

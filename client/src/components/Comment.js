@@ -1,21 +1,24 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 
-export const ApplyComment = () => {
+export const ApplyComment = ({data}) => {
+    let creatDate =new Date(data.creationDate).toLocaleString();
+        
     return(
         <Card>
             <div className="user-info">
                 <div className="user-photo">
-                    <img src={'https://avatars.githubusercontent.com/u/9497404?v=4'} className="img-circle" alt="" />
+                    <img src={data.walker?.walkerPicture} className="img-circle" alt="" />
                 </div>
                 <div className="user-name">
-                    <strong>이지은 <em>(등급 아이콘 예정)</em></strong>
+                    <strong>{data.walker?.walkerName} <em>(등급 아이콘 예정)</em></strong>
                     070-1234-1234
                 </div>
             </div>
             <div className="user-con">
-                <strong>시바견의 특성을 잘 아는 지원자입니다!</strong>
-                <p>시바견 산책 경험이 많고 특성을 잘 이해하고 있기 때문에 춘식이와 즐거운 시간을 보낼 수 있을 것 같아요!! 🥳</p>
+                {/* <strong>시바견의 특성을 잘 아는 지원자입니다!</strong> */}
+                <p>{data.content}</p>
+                <small>{creatDate}</small>
             </div>
             <Link to="/" className="user-select">이 지원자와 함께 산책 보내기</Link>
         </Card>
@@ -79,7 +82,13 @@ const Card= styled.div`
 
         p{
             font-size:14px;
-            color:var(--gray-600)
+            color:var(--gray-700)
+        }
+
+        small{
+            font-size:11px;
+            color:var(--gray-600);
+            letter-spacing: -.035em;
         }
     }
 

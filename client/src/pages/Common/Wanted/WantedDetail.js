@@ -28,7 +28,7 @@ const WantedDetailPage = () => {
     dispatch(getWantedDetail(id));
   }, []);
 
-  console.log(wantedDetail);
+  console.log(wantedDetail.commentList);
 
   return (
     <div className="container bg-gray pa0">

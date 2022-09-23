@@ -25,6 +25,7 @@ export const DogCard = (props) => {
     age = Number(ago.split(" ")[0]) + 1;
   }
 
+  console.log(props);
   return (
     <div>
       <DogProfile>
@@ -178,11 +179,11 @@ const DogProfile = styled.div`
       background-size: 26px auto;
     }
 
-    strong.수컷 {
+    strong.M {
       background-image: url("${sexIconMale}");
     }
 
-    strong.암컷 {
+    strong.F {
       background-image: url("${sexIconFemale}");
     }
 

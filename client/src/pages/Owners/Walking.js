@@ -26,10 +26,9 @@ const Walking = () => {
   };
 
   useEffect(()=>{
-    dispatch(getWalkDetailInfo(1));
+    dispatch(getWalkDetailInfo(Number(walkId.id)));
   },[])
-  
-  console.log(WalkInfo);
+
 
   return (
     <div className="container pa0">

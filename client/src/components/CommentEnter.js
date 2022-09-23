@@ -1,22 +1,20 @@
 import styled from "styled-components"
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import { addComment } from "../redux/actions/commentActions";
 
 
-const CommentEnter = () => {
+const CommentEnter = ({walker}) => {
     const dispatch = useDispatch();
+    const { userInfo } = useSelector((state) => state.user);
     const [content, setContent] = useState("");
     const changeHandler = (e) => {
         setContent(e.target.value)
     }
 
-
-    console.log(content)
-      
     return(
         <CommentForm>
-            <strong>이지은</strong>
+            <strong>{userInfo.nickName}</strong>
             <textarea 
                 value={content}
                 onChange={changeHandler}

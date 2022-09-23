@@ -13,7 +13,6 @@ import { useSelector } from "react-redux";
 
 export const DogCard = (props) => {
   const navigate = useNavigate();
-  const walklInfo = useSelector((state) => state.mapping.walkDetailInfo);
   const endDate = new Date(props.props.currentWalk?.endTime)
     .toLocaleString()
     .slice(0, -3);
@@ -25,6 +24,7 @@ export const DogCard = (props) => {
     age = Number(ago.split(" ")[0]) + 1;
   }
 
+  console.log(props.props.currentWalk);
   return (
     <div>
       <DogProfile>
@@ -47,26 +47,27 @@ export const DogCard = (props) => {
         </div>
       </DogProfile>
       <WalkState>
-        {props.props.currentWalk === null ? (
+        {/* {props.props.currentWalk === null ? ( */}
           <>
             <NotWalk>
               <p>{props.props.petName}이는 산책중이 아니에요.</p>
             </NotWalk>
             <Walking
               onClick={() => {
-                navigate(`/walking/${props.props.currentWalk?.walkId}`);
+                navigate(`/walking/1`);
+                // navigate(`/walking/${props.props.currentWalk?.walkId}`);
               }}
             >
               <div>
-                <p>{props.props.currentWalk?.walker} 님과 산책중..</p>
+                <p>{props.props.currentWalk?.walker.walkerName} 님과 산책중..</p>
                 <small>{endDate}까지</small>
                 <small>수행률 {props.props.currentWalk?.progress}%</small>
               </div>
             </Walking>
           </>
-        ) : (
+        {/* ) : (
           ""
-        )}
+        )} */}
         <WalkBanner
           onClick={() => {
             navigate("/pendingWalk");
@@ -76,7 +77,7 @@ export const DogCard = (props) => {
             <p>대기중인 산책</p>
           </div>
           <div>
-            <b>{props.props.walkCount}</b>건
+            <b>{props.props.walkWaitingCount}</b>건
           </div>
         </WalkBanner>
         <WalkBanner
@@ -89,7 +90,7 @@ export const DogCard = (props) => {
             <small>총 {props.props.walkDistance}km</small>
           </div>
           <div>
-            <b>{props.props.walkCount}</b>건
+            <b>{props.props.walkHistoryCount}</b>건
           </div>
         </WalkBanner>
       </WalkState>

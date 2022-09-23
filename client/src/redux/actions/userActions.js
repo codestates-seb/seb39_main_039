@@ -31,7 +31,7 @@ export const editUserInfo = (fullName, phone, nickName) => {
         phone: `${phone}`,
         nickName: `${nickName}`
       })
-      .then((res) => window.location.reload());
+      // .then((res) => window.location.reload());
     } catch (error) {
       //에러 핸들링 하는 곳
       console.log(error);

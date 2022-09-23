@@ -30,9 +30,6 @@ export const ApplyComment = ({data, wantedId}) => {
         setIsOn(false);
     }
 
-    console.log(data);
-
-
     return(
         <Card>
             <Modal

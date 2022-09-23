@@ -1,11 +1,29 @@
 import styled from "styled-components"
+import { useState } from "react";
 import { Link } from "react-router-dom"
+import { useDispatch } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+import Modal from '../components/Modal/Modal'
+import { delComment } from "../redux/actions/commentActions";
 
-export const ApplyComment = ({data}) => {
+export const ApplyComment = ({data, wantedId}) => {
+    const dispatch = useDispatch();
+    const [ isOn, setIsOn ] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
     let creatDate =new Date(data.creationDate).toLocaleString();
-        
+
+    const deleteComment = () => {
+        dispatch(delComment(wantedId, data.commentId));
+    };
     return(
         <Card>
+            <Modal
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                confirmHandler={deleteComment}
+                text={"지원 댓글을 삭제하시겠습니까?"}
+            />
             <div className="user-info">
                 <div className="user-photo">
                     <img src={data.walker?.walkerPicture} className="img-circle" alt="" />
@@ -13,6 +31,14 @@ export const ApplyComment = ({data}) => {
                 <div className="user-name">
                     <strong>{data.walker?.walkerName} <em>(등급 아이콘 예정)</em></strong>
                     <button>휴대폰 번호 보기</button>
+                    
+                    <OptionButton>
+                        <i onClick={()=>setIsOn(!isOn)}><FontAwesomeIcon icon={faEllipsisVertical}/></i>
+                        <ul className={isOn && 'active'}>
+                            <li>수정</li>
+                            <li onClick={() => setIsOpen(true)}>삭제</li>
+                        </ul>
+                    </OptionButton>
                 </div>
             </div>
             <div className="user-con">
@@ -40,7 +66,56 @@ export const ApplyCommentBlocked = () => {
     )
 }
 
+
+const OptionButton = styled.div`
+    position: absolute;
+    top:13px;
+    right:10px;
+    
+    i{
+        display: inline-block;
+        width:35px;
+        height:35px;
+        text-align: center;
+        line-height: 35px;
+        font-size:15px;
+        cursor: pointer;
+    }
+
+    ul{
+        overflow: hidden;
+        display: none;
+        position: absolute;
+        width:100px;
+        top:30px;
+        right:0;
+        background:var(--white-000);
+        box-shadow:0 0 6px 0 rgba(0,0,0, .015);
+        border:1px solid var(--gray-300);
+        border-radius: 5px;
+
+        li{
+            text-align: center;
+            padding:10px 10px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        li+li{
+            border-top:1px solid #eee;
+        }
+
+        li:hover{
+            background-color:var(--gray-050)
+        }
+    }
+
+    ul.active{
+        display: inline-block;
+    }
+`
+
 const Card= styled.div`
+    position: relative;
     overflow: hidden;
     background:var(--white-000);
     box-shadow: 0 0 10px 0 rgba(0,0,0, .15);

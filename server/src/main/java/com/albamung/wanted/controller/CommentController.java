@@ -41,7 +41,7 @@ public class CommentController {
         Comment comment = commentMapper.postToComment(request);
         Comment savedComment = commentService.saveComment(comment, wantedId, walker.getId());
 
-        return new ResponseEntity<>(savedComment.getWanted().getId(), HttpStatus.CREATED);
+        return new ResponseEntity<>(savedComment.getWanted().getWantedId(), HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "댓글 수정", notes = "응답으로 수정된 댓글의 구인글 ID를 반환")
@@ -54,7 +54,7 @@ public class CommentController {
         Comment comment = commentMapper.putToComment(request);
         Comment editedComment = commentService.editComment(comment, commentId, walker.getId());
 
-        return new ResponseEntity<>(editedComment.getWanted().getId(), HttpStatus.OK);
+        return new ResponseEntity<>(editedComment.getWanted().getWantedId(), HttpStatus.OK);
     }
 
     @ApiOperation(value = "댓글 삭제")
@@ -76,6 +76,6 @@ public class CommentController {
         if (owner == null) owner = User.builder().id(1L).build();
         Comment matchedComment = commentService.matchComment(commentId, wantedId, match, owner.getId());
 
-        return new ResponseEntity<>(matchedComment.getWanted().getId(), HttpStatus.OK);
+        return new ResponseEntity<>(matchedComment.getWanted().getWantedId(), HttpStatus.OK);
     }
 }

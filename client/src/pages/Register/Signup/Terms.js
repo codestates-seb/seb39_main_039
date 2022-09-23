@@ -14,7 +14,9 @@ const Terms = () => {
     { id: 0, title: "알바멍 이용 약관 동의 (필수)" },
     { id: 1, title: "개인정보 수집 이용 동의 (선택)" }
   ];
-  
+  const isAllChecked = checkItems.includes(0) === true;
+  const [emailError, setEmailError] = useState();
+
   const handleAllCheck = (checked) => {
     if (checked) {
       const idArray = [];
@@ -30,6 +32,14 @@ const Terms = () => {
       setCheckItems((prev) => [...prev, id]);
     } else {
       setCheckItems(checkItems.filter((el) => el !== id));
+    }
+  };
+
+  const nextJoin = () => {
+    if (isAllChecked) {
+      navigate("/signup")
+    } else {
+      setEmailError('필수 약관에 동의해주세요.')
     }
   };
 
@@ -77,8 +87,11 @@ const Terms = () => {
             ))}
           </FormArea>
         </div>
-        <div>
-          <ButtonPrimary onClick={() => {navigate("/signup");}}>다음</ButtonPrimary>
+        <div className="btn-area">
+          <p className="err-info">{emailError}</p>
+          <ButtonPrimary 
+            onClick={() => {nextJoin()}} 
+            className={!isAllChecked && `disabled`}>다음</ButtonPrimary>
         </div>
       </ConPanel>
     </div>
@@ -93,6 +106,19 @@ const ConPanel = styled.div`
   padding-bottom: 4vh;
   flex-direction: column;
   justify-content: space-between;
+
+  .btn-area{
+    position: relative;
+    .err-info{
+      position: absolute;
+      left:50%;
+      color:var(--err-danger);
+      font-size:13px;
+      margin-top:-22px;
+      transform: translate(-50%, 0);
+    }
+  }
+
 `;
 
 const PageSummary = styled.h3`

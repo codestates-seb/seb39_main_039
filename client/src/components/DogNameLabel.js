@@ -53,10 +53,12 @@ export const AnonymousLabelType2 = () => {
 const Label = styled.span`
   overflow: hidden;
   display: inline-flex;
+  align-items: center;
   background: var(--white-000);
   border: 1px solid var(--gray-200);
   border-radius: 50px;
-  padding: 0.2em 0.7em 0 0.2em;
+  padding: 0.2em 0.7em 0.2em 0.2em;
+  margin-bottom: 0.3em;
 
   .dog-photo {
     display: inline-block;
@@ -74,7 +76,6 @@ const Label = styled.span`
     display: flex;
     align-items: center;
     font-weight: 500;
-    margin-top: -0.2em;
 
     dt {
       color: var(--gray-600);

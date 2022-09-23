@@ -5,7 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "saved_check")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class SavedCheckList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long savedCheckId;
 
     private String content;
 

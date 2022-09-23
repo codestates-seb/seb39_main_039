@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Header } from "../../../components/Layout/Header";
 import checkedIcon from "../../../assets/img/checkedIcon.svg";
 import DogNameTag from "../../../components/DogNameTag";
+import CommentEnter from "../../../components/CommentEnter";
 import { ApplyComment, ApplyCommentBlocked } from "../../../components/Comment";
 import { useDispatch, useSelector } from "react-redux";
 import { startOfYesterday } from "date-fns";
@@ -225,8 +226,12 @@ const CommentApply = styled.div`
 
   .comment-list {
     > * {
-      margin-top: 14px;
+      margin-top: 12px;
     }
+  }
+
+  .comment-form {
+    margin-bottom: 20px;
   }
 `;
 

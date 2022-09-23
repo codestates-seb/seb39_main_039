@@ -71,7 +71,6 @@ public class Walk extends BaseEntityDate {
     private int mealCount;
     @ColumnDefault("0")
     private int walkCount;
-    private int routeTime;
 
     @OneToMany(mappedBy = "walk", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<WalkCheckList> checkList = new ArrayList<>();
@@ -90,12 +89,6 @@ public class Walk extends BaseEntityDate {
         if(this.coordList == null) return null;
         return this.coordList.stream().map(s->String.format("%s %s",s.getPoint().getX(),s.getPoint().getY())).collect(Collectors.toList());
     }
-
-//    public void addCoord(String str) {
-//        if(this.coord ==null) this.coord = str;
-//        else this.coord = this.coord +","+ str;
-//        //String Builder를 쓰는게 나을까?
-//    }
 
     public List<String> getPictureList() {
         if (this.pictureList == null) return null;

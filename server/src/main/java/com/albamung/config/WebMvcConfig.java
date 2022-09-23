@@ -11,6 +11,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOriginPatterns("http://localhost:3000")
                 .allowedOriginPatterns("https://*.albamung.tk")
+                .allowedOriginPatterns("https://albamung.tk")
                 .allowedMethods("*")
                 .allowCredentials(true);
     }

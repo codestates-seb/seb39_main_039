@@ -35,11 +35,6 @@ const LogoArea = styled.div`
   }
 `;
 
-const Alert = styled.div`
-  font-size: 19px;
-  color: var(--gray-600);
-`;
-
 const Section = styled.section`
   background: var(--white-000);
   padding: 20px;
@@ -49,13 +44,6 @@ const Section = styled.section`
 
 const UserSlide = styled.div`
   padding-bottom: 20px;
-`;
-
-const Weather = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 60px;
 `;
 
 const InfoSection = styled.section`

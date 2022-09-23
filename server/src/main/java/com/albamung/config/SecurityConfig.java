@@ -33,7 +33,6 @@ public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
     private final PrincipalOauth2UserService principalOauth2UserService;
     private final UserRepository userRepository;
-
     private final CustomOauth2SuccessHandler customOauth2SuccessHandler;
 
     public SecurityConfig(JwtTokenProvider jwtTokenProvider, PrincipalOauth2UserService principalOauth2UserService, UserRepository userRepository, CustomOauth2SuccessHandler customOauth2SuccessHandler) {
@@ -73,6 +72,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOriginPattern("http://localhost:3000");
         configuration.addAllowedOriginPattern("https://*.albamung.tk");
+        configuration.addAllowedOriginPattern("https://albamung.tk");
         configuration.setAllowCredentials(true);
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");

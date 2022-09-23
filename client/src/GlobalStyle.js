@@ -64,6 +64,7 @@ const GlobalStyle = createGlobalStyle`
    .pt25{padding-top:25px !important}
    .pb0{padding-bottom:0 !important}
    .bb0{border-bottom:0 !important}
+   .mb0{margin-bottom:0 !important}
    .d-flex{display:flex;justify-content:space-between}
    .list-horizonscroll{overflow: auto;white-space: nowrap;}
    .list-horizonscroll>li{display: inline-block;margin-right:6px}

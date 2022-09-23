@@ -17,22 +17,25 @@ const Login = () => {
   const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.login.isLogin);
   const err = useSelector((state) => state.login.err);
-  console.log("isLogin", isLogin);
+
   const [state, setState] = useInput({
     email: "",
     password: ""
   });
   const { email, password } = state;
   const [errMessage, setErrMessage] = useState();
-
+  console.log("err", err);
   const postLogin = () => {
     (async () => {
       await loginRequestHandler();
     })();
     if (isValidInput) {
       dispatch(loginSuccess(email, password));
-
-      if (!isLogin) {
+      
+      
+      if (err === null) {
+        setErrMessage(null);
+      } else {
         setErrMessage(err);
       }
     }

@@ -110,7 +110,7 @@ function App() {
           }
         ></Route>
         <Route
-          path="/walking"
+          path="/walking/:id"
           element={
             <PrivateRoute authenticated={isLogin} component={<Walking />} />
           }

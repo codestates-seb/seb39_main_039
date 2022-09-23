@@ -24,7 +24,7 @@ export const DogCard = (props) => {
     age = Number(ago.split(" ")[0]) + 1;
   }
 
-  console.log(props);
+  console.log(props.props.currentWalk);
   return (
     <div>
       <DogProfile>
@@ -38,7 +38,7 @@ export const DogCard = (props) => {
         <div className="dog-info">
           <div>
             <span>{props.props.species}</span>
-            <strong className={props.props.sex ==='수컷' ? "M" : "F"}>{props.props.petName}</strong>
+            <strong className={props.props.sex}>{props.props.petName}</strong>
             <em>
               <FontAwesomeIcon icon={faCakeCandles} /> {props.props.birthday}
               <i>{age}세</i>
@@ -47,26 +47,27 @@ export const DogCard = (props) => {
         </div>
       </DogProfile>
       <WalkState>
-        {props.props.currentWalk === null ? (
+        {/* {props.props.currentWalk === null ? ( */}
           <>
             <NotWalk>
               <p>{props.props.petName}이는 산책중이 아니에요.</p>
             </NotWalk>
             <Walking
               onClick={() => {
-                navigate(`/walking/${props.props.currentWalk?.walkId}`);
+                navigate(`/walking/1`);
+                // navigate(`/walking/${props.props.currentWalk?.walkId}`);
               }}
             >
               <div>
-                <p>{props.props.currentWalk?.walker} 님과 산책중..</p>
+                <p>{props.props.currentWalk?.walker.walkerName} 님과 산책중..</p>
                 <small>{endDate}까지</small>
                 <small>수행률 {props.props.currentWalk?.progress}%</small>
               </div>
             </Walking>
           </>
-        ) : (
+        {/* ) : (
           ""
-        )}
+        )} */}
         <WalkBanner
           onClick={() => {
             navigate("/pendingWalk");
@@ -178,11 +179,11 @@ const DogProfile = styled.div`
       background-size: 26px auto;
     }
 
-    strong.M {
+    strong.수컷 {
       background-image: url("${sexIconMale}");
     }
 
-    strong.F {
+    strong.암컷 {
       background-image: url("${sexIconFemale}");
     }
 

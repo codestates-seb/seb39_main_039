@@ -17,13 +17,12 @@ const WantedDetailPage = () => {
   const dispatch = useDispatch();
   const { wantedDetail, loading } = useSelector((state) => state.wanted);
 
-  let endTimeForm = useConvertTime(
-    wantedDetail.walk?.endTime.toLocaleString().slice(0, -3).split("T")
-  );
-  let startTimeForm = useConvertTime(
-    wantedDetail.walk?.startTime.toLocaleString().slice(0, -3).split("T")
-  );
-
+  // let endTimeForm = useConvertTime(
+  //   wantedDetail.walk?.endTime.toLocaleString().slice(0, -3).split("T")
+  // );
+  // let startTimeForm = useConvertTime(
+  //   wantedDetail.walk?.startTime.toLocaleString().slice(0, -3).split("T")
+  // );
   useEffect(() => {
     dispatch(getWantedDetail(id));
   }, []);
@@ -42,7 +41,7 @@ const WantedDetailPage = () => {
               <h3>{wantedDetail.title}</h3>
               <ul>
                 <li>{wantedDetail.owner}헤헤</li>
-                <li>{wantedDetail.creationDate?.split("T")[0]}</li>
+                {/* <li>{wantedDetail.creationDate?.split("T")[0]}</li> */}
               </ul>
             </ConHeader>
           </Section>
@@ -50,10 +49,10 @@ const WantedDetailPage = () => {
             <div>
               <SectLabel>
                 함께 산책할 강아지{" "}
-                <b>{wantedDetail.walk.petList?.length}마리</b>
+                {/* <b>{wantedDetail.walk?.petList?.length}마리</b> */}
               </SectLabel>
               <DogsInfo>
-                {wantedDetail.walk.petList?.map((item) => (
+                {/* {wantedDetail.walk?.petList?.map((item) => (
                   <div>
                     <DogNameTag
                       name={item.petName}
@@ -61,7 +60,7 @@ const WantedDetailPage = () => {
                       species={item.species}
                     />
                   </div>
-                ))}
+                ))} */}
               </DogsInfo>
             </div>
             <ConInfo>
@@ -76,14 +75,14 @@ const WantedDetailPage = () => {
                   <SectLabel>산책 희망 시간</SectLabel>
                 </dt>
                 <dd>
-                  <span>
+                  {/* <span>
                     <small>시작 시간</small>
                     {`${startTimeForm[0]}-${startTimeForm[1]}-${startTimeForm[2]} ${startTimeForm[3]}:${startTimeForm[4]}`}
                   </span>
                   <span>
                     <small>종료 시간</small>
                     {`${endTimeForm[0]}-${endTimeForm[1]}-${endTimeForm[2]} ${endTimeForm[3]}:${endTimeForm[4]}`}
-                  </span>
+                  </span> */}
                 </dd>
               </dl>
               <dl>
@@ -97,9 +96,9 @@ const WantedDetailPage = () => {
           <Section>
             <SectLabel>체크리스트</SectLabel>
             <ConCheckList>
-              {wantedDetail.walk.checkList?.map((item, idx) => (
+              {/* {wantedDetail.walk.checkList?.map((item, idx) => (
                 <li key={item.petId}>{item.content}</li>
-              ))}
+              ))} */}
             </ConCheckList>
           </Section>
           <Section>
@@ -109,10 +108,15 @@ const WantedDetailPage = () => {
 
           {/* 댓글 지원 */}
           <CommentApply>
+            <SectLabel>지원하기</SectLabel>
+            <CommentEnter wantedId={wantedDetail.wantedId}/>
             <SectLabel>산책 지원하기 3명</SectLabel>
             <div className="comment-list">
-              <ApplyComment />
-              <ApplyComment />
+              {wantedDetail.commentList.reverse().map((data, key)=>{
+                return(
+                  <ApplyComment data={data} wantedId={wantedDetail.wantedId} key={key}/>
+                )
+              })}
 
               {/* 글 작성자가 아닌 경우 코멘트 내용 가려짐*/}
               <ApplyCommentBlocked />

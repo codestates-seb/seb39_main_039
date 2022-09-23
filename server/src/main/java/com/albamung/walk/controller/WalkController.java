@@ -50,13 +50,23 @@ public class WalkController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "각 반려견의 산책 리스트 조회")
-    @GetMapping("/walkList")
-    public ResponseEntity getPetWalkList(@AuthenticationPrincipal @ApiIgnore User owner,
+    @ApiOperation(value = "각 반려견의 지난 산책 리스트 조회")
+    @GetMapping("/walkHistory")
+    public ResponseEntity getWalkHistoryListByPet(@AuthenticationPrincipal @ApiIgnore User owner,
                                          @RequestParam Long petId,
                                          @RequestParam int page) {
         if (owner == null) owner = User.builder().id(1L).build();
-        Page<Walk> walkList = walkService.getWalkListByPetId(petId, page - 1, owner.getId());
+        Page<Walk> walkList = walkService.getWalkHistoryListByPetId(petId, page - 1, owner.getId(), "history");
+        List<WalkDto.SimpleResponse> items = walkMapper.listToSimpleResponseList(walkList.getContent());
+        return new ResponseEntity<>(new PagingResponseDto<>(items, walkList), HttpStatus.OK);
+    }
+    @ApiOperation(value = "각 반려견의 대기중 산책 리스트 조회")
+    @GetMapping("/walkWaiting")
+    public ResponseEntity getWalkWaitingListByPet(@AuthenticationPrincipal @ApiIgnore User owner,
+                                                  @RequestParam Long petId,
+                                                  @RequestParam int page) {
+        if (owner == null) owner = User.builder().id(1L).build();
+        Page<Walk> walkList = walkService.getWalkHistoryListByPetId(petId, page - 1, owner.getId(), "waiting");
         List<WalkDto.SimpleResponse> items = walkMapper.listToSimpleResponseList(walkList.getContent());
         return new ResponseEntity<>(new PagingResponseDto<>(items, walkList), HttpStatus.OK);
     }
@@ -137,7 +147,6 @@ public class WalkController {
     public ResponseEntity endWalk(@AuthenticationPrincipal @ApiIgnore User owner,
                                   @PathVariable @Positive Long walkId) {
         if (owner == null) owner = User.builder().id(1L).build();
-
         return new ResponseEntity<>(walkService.endWalk(walkId, owner.getId()), HttpStatus.OK);
     }
 }

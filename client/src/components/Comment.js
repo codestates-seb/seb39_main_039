@@ -29,6 +29,7 @@ export const ApplyComment = ({data, wantedId}) => {
         setOnEdit(true);
         setIsOn(false);
     }
+
     return(
         <Card>
             <Modal
@@ -58,7 +59,7 @@ export const ApplyComment = ({data, wantedId}) => {
                 <div className="user-con">
                     {/* <strong>시바견의 특성을 잘 아는 지원자입니다!</strong> */}
                     <p>{content}</p>
-                    <small>{creatDate}</small>
+                    <small>{creatDate} {data.lastActivityDate !== data.creationDate && "수정됨"}</small>
                 </div>
             :
                 <div className="user-con edit">

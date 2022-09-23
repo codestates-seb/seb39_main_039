@@ -23,12 +23,9 @@ const WantedDetailPage = () => {
   // let startTimeForm = useConvertTime(
   //   wantedDetail.walk?.startTime.toLocaleString().slice(0, -3).split("T")
   // );
-
   useEffect(() => {
     dispatch(getWantedDetail(id));
   }, []);
-
-  console.log(wantedDetail);
 
   return (
     <div className="container bg-gray pa0">
@@ -112,10 +109,10 @@ const WantedDetailPage = () => {
           {/* 댓글 지원 */}
           <CommentApply>
             <SectLabel>지원하기</SectLabel>
-            <CommentEnter/>
+            <CommentEnter />
             <SectLabel>산책 지원하기 3명</SectLabel>
             <div className="comment-list">
-              {wantedDetail.commentList.map((data, key)=>{
+              {wantedDetail.commentList.reverse().map((data, key)=>{
                 return(
                   <ApplyComment data={data} wantedId={wantedDetail.wantedId} key={key}/>
                 )

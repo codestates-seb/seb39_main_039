@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom"
 import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,8 +8,10 @@ import Modal from '../components/Modal/Modal'
 import { delComment } from "../redux/actions/commentActions";
 import { editComment } from "../redux/actions/commentActions";
 
+
 export const ApplyComment = ({data, wantedId}) => {
     const dispatch = useDispatch();
+    const optionBody = useRef();
     const [ isOn, setIsOn ] = useState(false);
     const [ isOpen, setIsOpen ] = useState(false);
     const [ onEdit, setOnEdit ] = useState(false);
@@ -25,10 +27,28 @@ export const ApplyComment = ({data, wantedId}) => {
         setOnEdit(false);
     };
 
+    const cancelEditComment = () => {
+        setContent(data.content);
+        setOnEdit(false);
+    }
+
     const onEditHandler = () => {
         setOnEdit(true);
         setIsOn(false);
     }
+
+    useEffect(() => {
+        document.addEventListener("mousedown", clickModalOutside);
+        return () => {
+          document.removeEventListener("mousedown", clickModalOutside);
+        };
+    });
+    
+    const clickModalOutside = (event) => {
+       if (!optionBody.current.contains(event.target)) {
+           setIsOn(false);
+       }
+    };
 
     return(
         <Card>
@@ -48,7 +68,7 @@ export const ApplyComment = ({data, wantedId}) => {
                     
                     <OptionButton>
                         <i onClick={()=>setIsOn(!isOn)}><FontAwesomeIcon icon={faEllipsisVertical}/></i>
-                        <ul className={isOn && 'active'}>
+                        <ul ref={optionBody}className={isOn && 'active'}>
                             <li onClick={onEditHandler}>수정</li>
                             <li onClick={() => setIsOpen(true)}>삭제</li>
                         </ul>
@@ -64,7 +84,11 @@ export const ApplyComment = ({data, wantedId}) => {
             :
                 <div className="user-con edit">
                     <textarea value={content} onChange={(e)=>setContent(e.target.value)}/>
-                    <button onClick={updateComment}>수정하기</button>
+                    <div className="btn-area">
+                        <button className="btn-cancel" onClick={cancelEditComment}>취소</button>
+                        <button className="btn-enter"onClick={updateComment}>수정하기</button>
+                    </div>
+                    
                 </div>
             }
            
@@ -209,14 +233,30 @@ const Card= styled.div`
             min-height:100px;
         }
 
+        .btn-area{
+            display: flex;
+            gap: 10px;
+            margin-top:3px;
+        }
+
+        .btn-cancel{
+            flex:1;
+            background-color:var(--gray-200);
+            color:var(--gray-500)
+        }
+        
+        .btn-enter{
+            flex:3
+        }
+
         button{
             display: inline-block;
             width:100%;
             background:var(--primary);
             color:var(--white-000);
-            padding:13px;
+            padding:11px;
             border:0;
-            font-size:15px;
+            font-size:14px;
             font-weight: 500;
             border-radius: 6px;
         }

@@ -14,6 +14,7 @@ import Nav from "../../components/Layout/Nav";
 import { useSelector, useDispatch } from "react-redux";
 import { getMyPetInfo } from "../../redux/actions/petActions";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const OwnerMain = () => {
   const dispatch = useDispatch();
@@ -42,7 +43,7 @@ const OwnerMain = () => {
     <div className="container bg-gray">
       <Header>
         <LogoArea>
-          <Logo />
+          <Link to={'/'}><Logo /></Link>
         </LogoArea>
         <Alert>
           <FontAwesomeIcon icon={faBell} />

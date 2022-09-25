@@ -6,13 +6,14 @@ import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import Nav from '../../components/Layout/Nav'
 import PlaceList from "../../components/PlaceList";
 import WalkerCard from "../../components/WalkerCard";
+import { Link } from "react-router-dom";
 
 const WalkerMain = () => {
     return(
         <div className="container bg-gray">
             <Header>
                 <LogoArea>
-                    <Logo/>
+                    <Link to={'/'}><Logo/></Link>
                 </LogoArea>
                 <Alert>
                     <FontAwesomeIcon icon={faBell}/>

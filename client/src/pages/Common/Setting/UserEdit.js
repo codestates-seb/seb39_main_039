@@ -2,23 +2,23 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Header } from "../../../components/Layout/Header";
-import noImage from "../../../assets/img/noImage.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { ButtonPrimary } from "../../../components/Button/Buttons";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserInfo, editUserInfo } from "../../../redux/actions/userActions";
 import { ToastContainer } from "react-toast";
+import noImage from "../../../assets/img/noImage.svg";
 
 const UserEdit = () => {
   const dispatch = useDispatch(); 
-  const { userInfo } = useSelector((state) => state.user);
+  const { userInfo, loading } = useSelector((state) => state.user);
   const [ fullName, setFullName ] = useState(userInfo.fullName);
   const [ phone, setPhone ] = useState(userInfo.phone);
   const [ nickName, setNickName ] = useState(userInfo.nickName);
   useEffect(() => {
     dispatch(getUserInfo());
-  }, [userInfo]);
+  }, [loading]);
 
   const ClickHandler = () => {
     dispatch(editUserInfo(fullName, phone, nickName));

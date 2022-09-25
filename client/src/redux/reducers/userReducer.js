@@ -1,8 +1,9 @@
-import { GET_USER_INFO_SUCCESS, DELETE_USER_SUCCESS } from "../actions/userActions";
+import { GET_USER_INFO_SUCCESS, DELETE_USER_SUCCESS, USER_LOADING } from "../actions/userActions";
 
 const initialstate = {
   isLogin:false,
-  userInfo: []
+  userInfo: [],
+  loading: ''
 };
 
 const userReducer = (state = initialstate, action) => {
@@ -19,6 +20,12 @@ const userReducer = (state = initialstate, action) => {
         ...state,
         isLogin:false
       }
+
+      case USER_LOADING:
+      return {
+        ...state,
+        loading: payload.loading
+      };
     default:
       return state;
   }

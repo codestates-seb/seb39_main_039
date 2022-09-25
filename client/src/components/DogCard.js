@@ -69,7 +69,7 @@ export const DogCard = (props) => {
         )} */}
         <WalkBanner
           onClick={() => {
-            navigate("/pendingWalk");
+            navigate(`/pendingWalk/${props.props.petId}`);
           }}
         >
           <div>

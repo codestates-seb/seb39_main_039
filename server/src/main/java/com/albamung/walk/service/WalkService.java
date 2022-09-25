@@ -109,6 +109,9 @@ public class WalkService {
 //        walkRepository.UpdateCoord(walkId, "," + coord);
     }
 
+    /**
+     * 산책 기본요소 입력
+     */
     public int putBasic(Long walkId, String basic, int count, Long loginId) {
         Walk targetWalk = verifyWalk(walkId);
         verifyWalkUser(targetWalk, loginId);
@@ -151,14 +154,17 @@ public class WalkService {
     /**
      * 반려견에 대한 산책페이지 조회
      */
-    public Page<Walk> getWalkListByPetId(Long petId, int page, Long ownerId) {
+    public Page<Walk> getWalkHistoryListByPetId(Long petId, int page, Long ownerId, String when) {
         Pet targetPet = petService.verifyPet(petId);
         petService.verifyPetOwner(targetPet, ownerId);
 
         int size = 5;
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("creationDate").descending());
 
-        Page<Walk> walkList = walkRepository.findAllByPetListIdAndEndTimeIsBefore(petId, LocalDateTime.now(), pageRequest);
+        Page<Walk> walkList = null;
+        if(when.equals("history")) walkList = walkRepository.findAllByPetListIdAndEndTimeIsBefore(petId, LocalDateTime.now(), pageRequest);
+        if(when.equals("waiting")) walkList= walkRepository.findAllByPetListIdAndStartTimeIsAfter(petId, LocalDateTime.now(), pageRequest);
+
         if (walkList == null) throw new CustomException("산책이 존재하지 않거나, 존재하지 않는 반려견 ID입니다", HttpStatus.NO_CONTENT);
         return walkList;
     }

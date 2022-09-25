@@ -15,8 +15,8 @@ export const Header = ({pageTitle, useRight}) => {
                 <button className="btn-back" onClick={() => navigate(-1)}><IconBack /></button>
             </div>
             <h2>{pageTitle}</h2>
-        <div className={`right-area ${useRight}`}>
-                <Link to ="/" className={useRight}><IconSearch/></Link>
+            <div className={`right-area ${useRight}`}>
+                <button className={`btn-back`}><IconSearch/></button>
             </div>
         </Conpanel>
     )
@@ -68,7 +68,7 @@ const Conpanel = styled.div`
         border:0;
         background:0;
     }
-    
+
     h2{
         flex:5;
         text-align: center;
@@ -85,10 +85,11 @@ const Conpanel = styled.div`
     }
 
     .right-area{
-        text-align: right;
-        margin-right: -10px;
+        margin-right: -10px !important;
         button {
             display: none;
+            width: 100%;
+            text-align: right;
         }
     }
 

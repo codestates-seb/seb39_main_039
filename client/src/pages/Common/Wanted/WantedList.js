@@ -44,7 +44,7 @@ const WantedList = () => {
 
   return (
     <div className="container bg-gray">
-      <Header pageTitle={"구인글 리스트"} useRight="on" />
+      <Header pageTitle={"구인글 리스트"} useRight="on" link={'/ownerMain'}/>
 
       <ListFilter>
         <ul className="sort-group">

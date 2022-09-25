@@ -7,12 +7,12 @@ import { useNavigate } from "react-router-dom";
 // 우측 아이콘도 사용할 경우 useRight 'on'
 // <Header pageTitle={'로그인'} useRight="on"></Header>
 
-export const Header = ({pageTitle, useRight}) => {
+export const Header = ({pageTitle, useRight, link}) => {
     const navigate = useNavigate()
     return(
         <Conpanel>
             <div className="left-area">
-                <button className="btn-back" onClick={() => navigate(-1)}><IconBack /></button>
+                <button className="btn-back" onClick={() => navigate(link ? link: -1)}><IconBack /></button>
             </div>
             <h2>{pageTitle}</h2>
             <div className={`right-area ${useRight}`}>
@@ -22,12 +22,12 @@ export const Header = ({pageTitle, useRight}) => {
     )
 }
 
-export const HeaderClose = ({pageTitle}) => {
+export const HeaderClose = ({pageTitle, link}) => {
     const navigate = useNavigate()
     return(
         <Conpanel>
             <div className="left-area">
-                <button className="btn-back" onClick={() => navigate(-1)}></button>
+                <button className="btn-back" onClick={() => navigate(link ? link: -1)}></button>
             </div>
             <h2>{pageTitle}</h2>
             <div className="right-area on">
@@ -37,12 +37,12 @@ export const HeaderClose = ({pageTitle}) => {
     )
 }
 
-export const HeaderConfirm = ({pageTitle, useRight, ConfirmName, ClickHandler}) => {
+export const HeaderConfirm = ({pageTitle, useRight, ConfirmName, ClickHandler, link}) => {
     const navigate = useNavigate()
     return(
         <Conpanel>
             <div className="left-area">
-                <button className="btn-back" onClick={() => navigate(-1)}><IconBack /></button>
+                <button className="btn-back" onClick={() => navigate(link ? link: -1)}><IconBack /></button>
             </div>
             <h2 className="confirm">{pageTitle}</h2>
             <div className={`right-area on confirm`} onClick={ClickHandler}>

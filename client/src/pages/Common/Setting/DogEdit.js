@@ -105,7 +105,7 @@ const DogEdit = () => {
 
   return (
     <div className="container">
-      <Header pageTitle={"강아지 정보 수정"} />
+      <Header pageTitle={"강아지 정보 수정"} link={'/setting'} />
       <TabMenu>
         {menuArr.map((el, index) => {
           return (

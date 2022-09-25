@@ -33,6 +33,7 @@ public class Wanted extends BaseEntityDate {
 
     private int pay;
     private boolean matched;
+    @Column(nullable = false)
     private String title;
 
     @OneToMany(mappedBy = "wanted")

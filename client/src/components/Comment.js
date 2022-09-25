@@ -68,7 +68,7 @@ export const ApplyComment = ({data, wantedId}) => {
                     
                     <OptionButton>
                         <i onClick={()=>setIsOn(!isOn)}><FontAwesomeIcon icon={faEllipsisVertical}/></i>
-                        <ul ref={optionBody}className={isOn && 'active'}>
+                        <ul ref={optionBody}className={isOn ? 'active' : ''}>
                             <li onClick={onEditHandler}>수정</li>
                             <li onClick={() => setIsOpen(true)}>삭제</li>
                         </ul>

@@ -112,7 +112,7 @@ const WantedDetailPage = () => {
             <CommentEnter wantedId={wantedDetail.wantedId}/>
             <SectLabel>산책 지원하기 3명</SectLabel>
             <div className="comment-list">
-              {wantedDetail.commentList.reverse().map((data, key)=>{
+              {wantedDetail.commentList?.reverse().map((data, key)=>{
                 return(
                   <ApplyComment data={data} wantedId={wantedDetail.wantedId} key={key}/>
                 )

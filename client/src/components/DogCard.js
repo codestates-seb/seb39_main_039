@@ -24,7 +24,6 @@ export const DogCard = (props) => {
     age = Number(ago.split(" ")[0]) + 1;
   }
 
-  console.log(props.props.currentWalk);
   return (
     <div>
       <DogProfile>
@@ -70,7 +69,7 @@ export const DogCard = (props) => {
         )} */}
         <WalkBanner
           onClick={() => {
-            navigate("/pendingWalk");
+            navigate(`/pendingWalk/${props.props.petId}`);
           }}
         >
           <div>

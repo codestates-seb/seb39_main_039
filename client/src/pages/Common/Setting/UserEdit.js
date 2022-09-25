@@ -8,7 +8,7 @@ import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { ButtonPrimary } from "../../../components/Button/Buttons";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserInfo, editUserInfo } from "../../../redux/actions/userActions";
-
+import { ToastContainer } from "react-toast";
 
 const UserEdit = () => {
   const dispatch = useDispatch(); 
@@ -94,6 +94,7 @@ const UserEdit = () => {
           <ButtonPrimary onClick={ClickHandler}>수정 완료</ButtonPrimary>
         </div>
       </Form>
+      <ToastContainer position="top-right" delay={3000} />
     </div>
   );
 };

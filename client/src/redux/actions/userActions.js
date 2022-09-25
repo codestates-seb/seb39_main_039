@@ -1,5 +1,6 @@
 import customAxios from "../axiosAPI";
 import Cookies from "js-cookie";
+import { toast } from "react-toast";
 
 export const GET_USER_INFO_SUCCESS = "GET_USER_INFO_SUCCESS";
 export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
@@ -30,6 +31,9 @@ export const editUserInfo = (fullName, phone, nickName) => {
         fullName: `${fullName}`,
         phone: `${phone}`,
         nickName: `${nickName}`
+      })
+      .then(()=>{
+        toast.success("수정이 완료 되었어요");
       })
       // .then((res) => window.location.reload());
     } catch (error) {

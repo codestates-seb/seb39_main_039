@@ -74,7 +74,7 @@ function App() {
           }
         ></Route>
         <Route
-          path="/pendingWalk"
+          path="/pendingWalk/:id"
           element={
             <PrivateRoute authenticated={isLogin} component={<PendingWalk />} />
           }

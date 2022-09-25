@@ -19,6 +19,7 @@ const Setting = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.user);
+  const { myPetInfo } = useSelector((state) => state.pet);
 
   const [isOn, setIsOn] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
@@ -38,6 +39,7 @@ const Setting = () => {
   const deleteUser = () => {
     dispatch(delUser());
   };
+
 
   return (
     <div className="container">
@@ -86,7 +88,7 @@ const Setting = () => {
           }}
         >
           <p>강아지 정보 수정</p>
-          <div className="opt-info">3마리</div>
+          <div className="opt-info">{myPetInfo.length}마리</div>
         </li>
         <li
           onClick={() => {

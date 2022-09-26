@@ -53,8 +53,7 @@ public class WantedDto {
         private LocalDateTime endTime;
         private List<String> checkListContent;
         private List<Long> petId;
-        //        private City.Region region;
-//        private String city;
+        @Positive
         private Long cityId;
         private String caution;
         @NotNull(message = "보수를 입력해주세요")
@@ -70,10 +69,8 @@ public class WantedDto {
     public static class Put {
         private List<String> checkListContent;
         private List<WalkCheckListDto.Put> checkList;
-        private List<Long> checkListIdToDelete;
         private List<Long> petId;
-        //        private City.Region region;
-//        private String city;
+        @Positive
         private Long cityId;
         @FutureOrPresent(message = "시작 시간은 과거 일 수 없습니다")
         private LocalDateTime startTime;

@@ -53,22 +53,30 @@ public class WalkController {
 
     @ApiOperation(value = "각 반려견의 지난 산책 리스트 조회")
     @GetMapping("/walkHistory")
-    public ResponseEntity getWalkHistoryListByPet(@AuthenticationPrincipal @ApiIgnore User owner,
-                                                  @RequestParam @Positive Long petId,
+    public ResponseEntity getWalkHistoryListByPet(@AuthenticationPrincipal @ApiIgnore User user,
+                                                  @RequestParam(required = false) @Positive Long petId,
                                                   @RequestParam int page) {
-        if (owner == null) owner = User.builder().id(1L).build();
-        Page<Walk> walkList = walkService.getWalkHistoryListByPetId(petId, page - 1, owner.getId(), "history");
+        if (user == null) user = User.builder().id(1L).build();
+        Page<Walk> walkList;
+
+        if (petId != null) walkList = walkService.getWalkHistoryListByPetId(petId, page - 1, user.getId(), "history");
+        else walkList = walkService.getWalkHistoryListByWalkerId(user.getId(), page - 1, "history");
+
         List<WalkDto.SimpleResponse> items = walkMapper.listToSimpleResponseList(walkList.getContent());
         return new ResponseEntity<>(new PagingResponseDto<>(items, walkList), HttpStatus.OK);
     }
 
     @ApiOperation(value = "각 반려견의 대기중 산책 리스트 조회")
     @GetMapping("/walkWaiting")
-    public ResponseEntity getWalkWaitingListByPet(@AuthenticationPrincipal @ApiIgnore User owner,
-                                                  @RequestParam Long petId,
+    public ResponseEntity getWalkWaitingListByPet(@AuthenticationPrincipal @ApiIgnore User user,
+                                                  @RequestParam(required = false) Long petId,
                                                   @RequestParam int page) {
-        if (owner == null) owner = User.builder().id(1L).build();
-        Page<Walk> walkList = walkService.getWalkHistoryListByPetId(petId, page - 1, owner.getId(), "waiting");
+        if (user == null) user = User.builder().id(1L).build();
+        Page<Walk> walkList;
+
+        if (petId != null) walkList = walkService.getWalkHistoryListByPetId(petId, page - 1, user.getId(), "waiting");
+        else walkList = walkService.getWalkHistoryListByWalkerId(user.getId(), page - 1, "waiting");
+
         List<WalkDto.SimpleResponse> items = walkMapper.listToSimpleResponseList(walkList.getContent());
         return new ResponseEntity<>(new PagingResponseDto<>(items, walkList), HttpStatus.OK);
     }

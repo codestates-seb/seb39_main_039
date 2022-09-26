@@ -14,14 +14,6 @@ import javax.validation.constraints.Size;
 public class UserDto {
 
 
-    @Builder
-    @Getter
-    public static class SimpleWalkerResponse {
-        private Long walkerId;
-        private String walkerName;
-        private String walkerPicture;
-    }
-
     @Getter
     @Builder
     public static class SimpleOwnerResponse {
@@ -74,17 +66,5 @@ public class UserDto {
 
         @Size(min = 2, max = 20, message = "너무 길거나 짧은 이름입니다.")
         private String fullName;
-    }
-
-    @Builder
-    @Getter
-    public static class Response {
-        private long userId;
-        private String profileImage;
-        private String nickName;
-        private String aboutMe;
-        private String location;
-        private String fullName;
-        private Long grade;
     }
 }

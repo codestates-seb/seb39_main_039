@@ -1,6 +1,5 @@
 import styled from "styled-components"
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom"
 import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
@@ -27,8 +26,7 @@ export const ApplyComment = ({data, wantedId}) => {
     };
 
     const pickComment = () => {
-        console.log('gg');
-        dispatch(selectComment(wantedId, data.commentId, true));
+        dispatch(selectComment(wantedId, data.commentId, `true`));
     };
 
     const cancelEditComment = () => {
@@ -84,7 +82,6 @@ export const ApplyComment = ({data, wantedId}) => {
             </div>
             {!onEdit? 
                 <div className="user-con">
-                    {/* <strong>시바견의 특성을 잘 아는 지원자입니다!</strong> */}
                     <p>{content}</p>
                     <small>{creatDate} {data.lastActivityDate !== data.creationDate && "수정됨"}</small>
                 </div>

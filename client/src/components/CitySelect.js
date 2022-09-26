@@ -27,14 +27,11 @@ const CitySelect = ({isOpen, setIsOpen, setRegion, setRegionName, confirmHandler
         {city:'전북'},
         {city:'제주'},
     ]
-
-    useEffect(() => {
-        document.body.style= `overflow: hidden`;
-        return () => document.body.style = `overflow: auto`
-    }, [])
+   
 
     const openModalHandler = () => {
         setIsOpen(!isOpen);
+        document.body.style.overflow = "unset";
     };
 
     const citySelect = (regionName) =>{
@@ -51,6 +48,7 @@ const CitySelect = ({isOpen, setIsOpen, setRegion, setRegionName, confirmHandler
     return(
         <>
             {isOpen ? 
+            <>
             <StyledModal className="modal" onClick={openModalHandler}>
                 <StyledModalCon onClick={(e) => e.stopPropagation()}>
                     <button type="button" className="btn-modal-cls" onClick={openModalHandler}><Close/></button>
@@ -87,7 +85,10 @@ const CitySelect = ({isOpen, setIsOpen, setRegion, setRegionName, confirmHandler
                        <ButtonPrimary className='btn-select' onClick={()=>confirmHandler()}>선택</ButtonPrimary>
                     </div>
                 </StyledModalCon>
-            </StyledModal> : null}
+            </StyledModal>
+            </>
+            : null}
+            
         </>
     )
 }

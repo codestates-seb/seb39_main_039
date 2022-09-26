@@ -25,14 +25,16 @@ const WantedCreate = () => {
 
   const [ isOpen, setIsOpen ] = useState(false); // 지역 모달창 여닫기
   const cityModal = () => { //모달창 여닫기
-    setIsOpen(true)
+    setIsOpen(true);
+    document.body.style.overflow = "hidden";
   }
   const [ region, setRegion ] = useState('');  //지역 id받아오는 state
   const [ regionName, setRegionName ] = useState('지역을 선택해주세요.') //선택한 지역 값 input값으로 넣기
   const regionConfirmHandler = () => { //지역정보 받아오기
     console.log('선택 지역 id', region);
     setRegionName(regionName);
-    setIsOpen(false)
+    setIsOpen(false);
+    document.body.style.overflow = "unset";
   }
 
 

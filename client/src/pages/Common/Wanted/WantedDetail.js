@@ -6,23 +6,25 @@ import CommentEnter from "../../../components/CommentEnter";
 import { ApplyComment, ApplyCommentBlocked } from "../../../components/Comment";
 import { useDispatch, useSelector } from "react-redux";
 import { startOfYesterday } from "date-fns";
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getWantedDetail } from "../../../redux/actions/wantedActions";
 import { ThreeDots } from "react-loader-spinner";
 import useConvertTime from "../../../hooks/useConvertTime";
+import { useEffect } from "react";
+import { getWantedDetail } from "../../../redux/actions/wantedActions";
+import { ButtonCancel } from "../../../components/Button/Buttons";
 
 const WantedDetailPage = () => {
   const { id } = useParams();
-  const dispatch = useDispatch();
   const { wantedDetail, loading } = useSelector((state) => state.wanted);
+  const dispatch = useDispatch();
 
-  // let endTimeForm = useConvertTime(
-  //   wantedDetail.walk?.endTime.toLocaleString().slice(0, -3).split("T")
-  // );
-  // let startTimeForm = useConvertTime(
-  //   wantedDetail.walk?.startTime.toLocaleString().slice(0, -3).split("T")
-  // );
+  let endTimeForm = useConvertTime(
+    wantedDetail.walk?.endTime.toLocaleString().slice(0, -3).split("T")
+  );
+  let startTimeForm = useConvertTime(
+    wantedDetail.walk?.startTime.toLocaleString().slice(0, -3).split("T")
+  );
+
   useEffect(() => {
     dispatch(getWantedDetail(id));
   }, []);
@@ -40,19 +42,21 @@ const WantedDetailPage = () => {
             <ConHeader>
               <h3>{wantedDetail.title}</h3>
               <ul>
-                <li>{wantedDetail.owner}헤헤</li>
-                {/* <li>{wantedDetail.creationDate?.split("T")[0]}</li> */}
+                <li>
+                  <img width={10} src={wantedDetail.walk.owner?.profileImage} />{" "}
+                  {wantedDetail.walk.owner?.nickName}
+                </li>
+                <li>{wantedDetail.creationDate?.split("T")[0]}</li>
               </ul>
             </ConHeader>
           </Section>
           <Section>
             <div>
               <SectLabel>
-                함께 산책할 강아지{" "}
-                {/* <b>{wantedDetail.walk?.petList?.length}마리</b> */}
+                함께 산책할 강아지 <b>{wantedDetail.walk.petList.length}마리</b>
               </SectLabel>
               <DogsInfo>
-                {/* {wantedDetail.walk?.petList?.map((item) => (
+                {wantedDetail.walk.petList?.map((item) => (
                   <div>
                     <DogNameTag
                       name={item.petName}
@@ -60,7 +64,7 @@ const WantedDetailPage = () => {
                       species={item.species}
                     />
                   </div>
-                ))} */}
+                ))}
               </DogsInfo>
             </div>
             <ConInfo>
@@ -75,14 +79,14 @@ const WantedDetailPage = () => {
                   <SectLabel>산책 희망 시간</SectLabel>
                 </dt>
                 <dd>
-                  {/* <span>
+                  <span>
                     <small>시작 시간</small>
                     {`${startTimeForm[0]}-${startTimeForm[1]}-${startTimeForm[2]} ${startTimeForm[3]}:${startTimeForm[4]}`}
                   </span>
                   <span>
                     <small>종료 시간</small>
                     {`${endTimeForm[0]}-${endTimeForm[1]}-${endTimeForm[2]} ${endTimeForm[3]}:${endTimeForm[4]}`}
-                  </span> */}
+                  </span>
                 </dd>
               </dl>
               <dl>
@@ -96,9 +100,9 @@ const WantedDetailPage = () => {
           <Section>
             <SectLabel>체크리스트</SectLabel>
             <ConCheckList>
-              {/* {wantedDetail.walk.checkList?.map((item, idx) => (
+              {wantedDetail.walk.checkList?.map((item, idx) => (
                 <li key={item.petId}>{item.content}</li>
-              ))} */}
+              ))}
             </ConCheckList>
           </Section>
           <Section>
@@ -108,15 +112,10 @@ const WantedDetailPage = () => {
 
           {/* 댓글 지원 */}
           <CommentApply>
-            <SectLabel>지원하기</SectLabel>
-            <CommentEnter wantedId={wantedDetail.wantedId}/>
             <SectLabel>산책 지원하기 3명</SectLabel>
             <div className="comment-list">
-              {wantedDetail.commentList?.reverse().map((data, key)=>{
-                return(
-                  <ApplyComment data={data} wantedId={wantedDetail.wantedId} key={key}/>
-                )
-              })}
+              <ApplyComment />
+              <ApplyComment />
 
               {/* 글 작성자가 아닌 경우 코멘트 내용 가려짐*/}
               <ApplyCommentBlocked />

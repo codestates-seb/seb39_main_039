@@ -88,4 +88,15 @@ public class WantedController {
         List<WantedDto.SimpleResponse> items = wantedMapper.toSimpleResponseList(wantedList.getContent());
         return new ResponseEntity<>(new PagingResponseDto<>(items, wantedList), HttpStatus.OK);
     }
+
+
+    @ApiOperation(value = "구인글 삭제")
+    @DeleteMapping("/{wantedId}/delete")
+    public ResponseEntity deleteWanted(@AuthenticationPrincipal @ApiIgnore User owner,
+                                       @PathVariable Long wantedId) {
+        if (owner == null) owner = User.builder().id(1L).build();
+        wantedService.deleteWanted(wantedId, owner.getId());
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

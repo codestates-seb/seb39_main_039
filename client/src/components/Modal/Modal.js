@@ -19,7 +19,7 @@ function Modal ( {isOpen, setIsOpen, text, confirmHandler} ) {
             </div>
             <StyledModalFooter className="modal-footer">
                 <button type="button" className="btn-modal" onClick={openModalHandler}>취소</button>
-                <button type="button" className="btn-modal con" onClick={confirmHandler}>확인</button>
+                <button type="button" className="btn-modal con" onClick={()=>confirmHandler()}>확인</button>
             </StyledModalFooter>
         </StyledModalCon>
     </StyledModal> : null}

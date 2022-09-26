@@ -40,6 +40,8 @@ const Setting = () => {
     dispatch(delUser());
   };
 
+  console.log(userInfo);
+
 
   return (
     <div className="container">

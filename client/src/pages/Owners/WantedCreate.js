@@ -29,10 +29,11 @@ const WantedCreate = () => {
     document.body.style.overflow = "hidden";
   }
   const [ region, setRegion ] = useState('');  //지역 id받아오는 state
-  const [ regionName, setRegionName ] = useState('지역을 선택해주세요.') //선택한 지역 값 input값으로 넣기
+  const [ regionName, setRegionName ] = useState(''); // 지역 이름 담기
+  const [ regionNamePick, setRegionNamePick ] = useState('지역을 선택해주세요.') //지역이름 선택 하면! input값으로 넣기
   const regionConfirmHandler = () => { //지역정보 받아오기
     console.log('선택 지역 id', region);
-    setRegionName(regionName);
+    setRegionNamePick(regionName);
     setIsOpen(false);
     document.body.style.overflow = "unset";
   }
@@ -122,7 +123,7 @@ const WantedCreate = () => {
             <label htmlFor="" className="ipt-label">
               지역
             </label>
-            <input type="text" className="ipt-form" value={regionName} onChange={()=>console.log()} onClick={cityModal} />
+            <input type="text" className="ipt-form" value={regionNamePick} onChange={()=>console.log()} onClick={cityModal} />
           </div>
 
           <div className="ipt-group">

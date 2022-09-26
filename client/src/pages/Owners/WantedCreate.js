@@ -21,6 +21,7 @@ const WantedCreate = () => {
   const [petSelect, setPetSelect] = useState(false);
   const dispatch = useDispatch();
   const titleRef = useRef();
+  const regionRef = useRef();
 
 
   const [ isOpen, setIsOpen ] = useState(false); // 지역 모달창 여닫기
@@ -36,6 +37,7 @@ const WantedCreate = () => {
     setRegionNamePick(regionName);
     setIsOpen(false);
     document.body.style.overflow = "unset";
+    regionRef.current.focus();
   }
 
 
@@ -123,7 +125,13 @@ const WantedCreate = () => {
             <label htmlFor="" className="ipt-label">
               지역
             </label>
-            <input type="text" className="ipt-form" value={regionNamePick} onChange={()=>console.log()} onClick={cityModal} />
+            <input 
+              type="text" 
+              className="ipt-form" 
+              value={regionNamePick} 
+              ref={regionRef}
+              onChange={()=>console.log()} 
+              onClick={cityModal} />
           </div>
 
           <div className="ipt-group">

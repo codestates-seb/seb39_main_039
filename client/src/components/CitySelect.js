@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as Close } from '../assets/img/close.svg';
 import { getCityInfo } from '../redux/actions/cityActions';
@@ -55,6 +55,8 @@ const CitySelect = ({isOpen, setIsOpen, setRegion, setRegionName, confirmHandler
         const siblings = iptRef.current.filter((node) => node.innerText !== iptRef.current[idx].innerText);
         siblings.map((el)=>{return el.className = "off"})
         e.target.className = "on";
+        regionRef.current.map((el)=>{return el.className = "off"})
+        setRegionName();
     };
 
     const handleRegionClick = (e, idx) => {
@@ -81,6 +83,7 @@ const CitySelect = ({isOpen, setIsOpen, setRegion, setRegionName, confirmHandler
                                         return(
                                             <li 
                                             onClick={(e)=>citySelectHandler(e, el, idx)}
+                                            className={idx===0 && 'default'}
                                             key={idx}
                                             ref={(inputEl) => (iptRef.current[idx] = inputEl)}
                                             >{el.city}</li>
@@ -167,11 +170,10 @@ const StyledModalCon= styled.div`
             .i1{
                 flex:1;
                 border-right:1px solid var(--gray-300);
-                li.on{
+                li.on, li.default{
                     background:var(--primary);
                     color:var(--white-000);
                 }
-
             }
 
             .i2{

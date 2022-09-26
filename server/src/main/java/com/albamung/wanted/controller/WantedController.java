@@ -77,12 +77,14 @@ public class WantedController {
     @GetMapping
     public ResponseEntity getWantedList(@RequestParam(required = false) Integer page,
                                         @RequestParam(required = false) SortBy sort,
-                                        @RequestParam(required = false) boolean matched) {
+                                        @RequestParam(required = false) boolean matched,
+                                        @RequestParam(required = false) Long cityId) {
         //Enum 적용 예정
         if (sort == null) sort = SortBy.recent;
         if (page == null) page = 1;
+        if (cityId == null) cityId = 0L;
 
-        Page<Wanted> wantedList = wantedService.getWantedList((page - 1), sort, matched);
+        Page<Wanted> wantedList = wantedService.getWantedList((page - 1), sort, matched, cityId);
         List<WantedDto.SimpleResponse> items = wantedMapper.toSimpleResponseList(wantedList.getContent());
         return new ResponseEntity<>(new PagingResponseDto<>(items, wantedList), HttpStatus.OK);
     }

@@ -167,10 +167,20 @@ const StyledModalCon= styled.div`
             .i1{
                 flex:1;
                 border-right:1px solid var(--gray-300);
+                li.on{
+                    background:var(--primary);
+                    color:var(--white-000);
+                }
+
             }
 
             .i2{
                 flex:3;
+                li.on{
+                    background:var(--gray-100);
+                    color:var(--primary);
+                    font-weight: 800;
+                }
             }
 
             .item-ul{
@@ -184,10 +194,7 @@ const StyledModalCon= styled.div`
                     font-size: 17px;
                 }
 
-                li.on{
-                    background:var(--primary);
-                    color:var(--white-000);
-                }
+                
             }
         }
         .btn-select{

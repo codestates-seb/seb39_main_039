@@ -14,6 +14,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.http.HttpStatus;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -81,6 +82,11 @@ public class User extends BaseEntityDate {
             roleList.add(RoleType.valueOf(s));
         }
         return roleList;
+    }
+
+    public Walk getCurrentWalk(){
+        LocalDateTime now = LocalDateTime.now();
+        return this.walkWalkerList.stream().filter(s->s.getStartTime().isAfter(now)&&s.getEndTime().isBefore(now)).findFirst().orElse(null);
     }
 
     public static User of(ProviderType providerType, Map<String, Object> attributes) {

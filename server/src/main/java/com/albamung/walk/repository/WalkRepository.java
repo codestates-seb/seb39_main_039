@@ -16,4 +16,7 @@ public interface WalkRepository extends JpaRepository<Walk, Long> {
 
     Page<Walk> findAllByPetListIdAndEndTimeIsBefore(Long petId, LocalDateTime now, PageRequest pageRequest);
     Page<Walk> findAllByPetListIdAndStartTimeIsAfter(Long petId, LocalDateTime now, PageRequest pageRequest);
+
+    Page<Walk> findAllByWalkerIdAndEndTimeIsBefore(Long walkerId, LocalDateTime now, PageRequest pageRequest);
+    Page<Walk> findAllByWalkerIdAndStartTimeIsAfter(Long walkerId, LocalDateTime now, PageRequest pageRequest);
 }

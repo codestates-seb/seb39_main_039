@@ -1,6 +1,7 @@
 package com.albamung.user.mapper;
 
 import com.albamung.user.dto.UserDto;
+import com.albamung.user.dto.WalkerDto;
 import com.albamung.user.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -25,10 +26,13 @@ public interface UserMapper {
     @Mapping(source = "id", target = "walkerId")
     @Mapping(source = "nickName", target = "walkerName")
     @Mapping(source = "profileImage", target = "walkerPicture")
-    UserDto.SimpleWalkerResponse toSimpleWalkerResponse(User user);
+    WalkerDto.SimpleWalkerResponse toSimpleWalkerResponse(User user);
 
     User putToUser(UserDto.PutDefault put);
 
     @Mapping(source = "id", target = "ownerId")
     UserDto.SimpleOwnerResponse toSimpleOwnerResponse(User user);
+
+    @Mapping(source = "id", target = "walkerId")
+    WalkerDto.DetailWalkerResponse toDetailWalkerResponse(User user);
 }

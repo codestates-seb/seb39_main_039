@@ -38,7 +38,7 @@ public class Wanted extends BaseEntityDate {
     @Column(nullable = false)
     private String title;
 
-    @OneToMany(mappedBy = "wanted")
+    @OneToMany(mappedBy = "wanted", cascade = CascadeType.REMOVE)
     private List<Comment> commentList;
 
     public List<Pet> getPetList() {

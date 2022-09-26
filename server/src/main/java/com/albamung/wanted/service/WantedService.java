@@ -78,11 +78,16 @@ public class WantedService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Wanted> getWantedList(int page, SortBy sortBy, boolean matched, Long locationId) {
+    public Page<Wanted> getWantedList(int page, SortBy sortBy, boolean matched, Long cityId) {
         //JPA Specification 적용예정
         int size = 10;
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by(sortBy.getValue()).descending());
-        if (matched) return wantedRepository.findAllByMatched(false, pageRequest);
+        if (cityId == 0 && matched) return wantedRepository.findAllByMatched(false, pageRequest);
+        else if (cityId > 0 && matched)
+            return wantedRepository.findAllByMatchedAndLocation_CityId(false, cityId, pageRequest);
+        else if (cityId > 0)
+            return wantedRepository.findAllByLocation_CityId(cityId, pageRequest);
+
         else return wantedRepository.findAll(pageRequest);
     }
 

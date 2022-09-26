@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface WantedRepository extends JpaRepository<Wanted, Long> {
     Page<Wanted> findAllByMatched(boolean matched, PageRequest pageRequest);
+    Page<Wanted> findAllByMatchedAndLocation_CityId(boolean matched, Long cityId, PageRequest pageRequest);
+    Page<Wanted> findAllByLocation_CityId(Long cityId, PageRequest pageRequest);
 }

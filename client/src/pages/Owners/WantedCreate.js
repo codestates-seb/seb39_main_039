@@ -15,6 +15,7 @@ import { useInputAutoHeight } from "../../hooks/useInput";
 import { useDispatch, useSelector } from "react-redux";
 import { postWanted } from "../../redux/actions/wantedActions";
 
+import CitySelect from "../../components/CitySelect";
 const WantedCreate = () => {
   const { myPetInfo } = useSelector((state) => state.pet);
   const [petSelect, setPetSelect] = useState(false);
@@ -22,6 +23,27 @@ const WantedCreate = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const titleRef = useRef();
+  
+
+  ////////////////////////////////////// 지역 선택 컴포넌트 세트👀💦
+  const regionRef = useRef(); //선택 후 지역 인풋 포커싱
+  const [ isOpen, setIsOpen ] = useState(false); // 지역 모달창 여닫기
+  const cityModal = () => { //모달창 여닫기
+    setIsOpen(true);
+    document.body.style.overflow = "hidden";
+  }
+  const [ region, setRegion ] = useState('');  //지역 id받아오는 state
+  const [ regionName, setRegionName ] = useState(''); // 지역 이름 담기
+  const [ regionNamePick, setRegionNamePick ] = useState('지역을 선택해주세요.') //지역이름 선택 하면! input값으로 넣기
+  const regionConfirmHandler = () => { //지역정보 받아오기
+    console.log('선택 지역 id', region);
+    setRegionNamePick(regionName);
+    setIsOpen(false);
+    document.body.style.overflow = "unset";
+    regionRef.current.focus();
+  }
+ ////////////////////////////////////// 지역 선택 컴포넌트 세트👀💦
+
 
   const selectMyPet = () => {
     setPetSelect(!petSelect);
@@ -62,9 +84,18 @@ const WantedCreate = () => {
       )
     ).then((res) => navigate(`/wantedDetail/${res.data}`));
   };
+
+  console.log(region);
   return (
     <div className="container">
       <Header pageTitle={"구인 글 작성"} />
+      <CitySelect 
+        isOpen={isOpen} //모달 여닫기
+        setIsOpen={setIsOpen} //모달 여닫기
+        setRegion={setRegion} // 지역 id값 담기
+        setRegionName={setRegionName} // 지역 명 담기
+        confirmHandler={regionConfirmHandler} //지역 정보 받아오며 모달 닫기
+      />
       <Form>
         <Section className="pt0 pb20">
           <div className="ipt-group">
@@ -82,8 +113,9 @@ const WantedCreate = () => {
           <label className="ipt-label">산책할 강아지 선택</label>
           <DogSelect>
             <li className={petSelect ? "active" : "active no-select"}>
-              {myPetInfo.map((el, idx) => (
+              {myPetInfo?.map((el, idx) => (
                 <DogNameLabelType2
+                  key={idx}
                   name={el.petName}
                   size={"s"}
                   picture={el.petPicture}
@@ -98,13 +130,13 @@ const WantedCreate = () => {
             <label htmlFor="" className="ipt-label">
               지역
             </label>
-            <select className="ipt-form">
-              <option>지역을 선택해주세요.</option>
-              <option>지역을 선택해주세요.</option>
-              <option>지역을 선택해주세요.</option>
-              <option>지역을 선택해주세요.</option>
-              <option>지역을 선택해주세요.</option>
-            </select>
+            <input 
+              type="text" 
+              className="ipt-form" 
+              value={regionNamePick} // 선택한 지역명 값에 담기
+              ref={regionRef}
+              onChange={()=>console.log()} // value써서 임시로 넣은 기능없는 onChange
+              onClick={cityModal} /> 
           </div>
 
           <div className="ipt-group">

@@ -8,6 +8,7 @@ import petwalkReducer from "./petwalkReducer";
 
 import userReducer from "./userReducer";
 import wantedReducer from "./wantedReducer";
+import cityReducer from "./cityReducer";
 
 const rootReducer = combineReducers({
   login: loginReducers,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   pet: petReducer,
   petwalk: petwalkReducer,
   user: userReducer,
-  wanted: wantedReducer
+  wanted: wantedReducer,
+  city: cityReducer,
 });
 
 export default rootReducer;

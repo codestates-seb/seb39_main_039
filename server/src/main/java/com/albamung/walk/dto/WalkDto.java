@@ -50,6 +50,7 @@ public class WalkDto {
     public static class SimpleResponse {
         private Long walkId;
         private UserDto.SimpleOwnerResponse owner;
+        private List<PetDto.SimpleResponse> petList;
         private LocalDateTime startTime;
         private LocalDateTime endTime;
         private int distance;

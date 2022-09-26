@@ -44,6 +44,7 @@ const Walking = () => {
           pageTitle={"진행중인 산책"}
           ConfirmName={"종료"}
           ClickHandler={ClickHandler}
+          link={'/ownerMain'}
         />
         <div className="walk-team">
           <dl className="walk-con">

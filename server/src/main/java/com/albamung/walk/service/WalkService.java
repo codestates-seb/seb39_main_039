@@ -211,4 +211,19 @@ public class WalkService {
         if (walkList == null) throw new CustomException("산책이 존재하지 않거나, 존재하지 않는 반려견 ID입니다", HttpStatus.NO_CONTENT);
         return walkList;
     }
+    public Page<Walk> getWalkHistoryListByWalkerId(Long walkerId, int page, String when) {
+
+        int size = 5;
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("creationDate").descending());
+
+        Page<Walk> walkList = null;
+        if (when.equals("history"))
+            walkList = walkRepository.findAllByWalkerIdAndEndTimeIsBefore(walkerId, LocalDateTime.now(), pageRequest);
+        if (when.equals("waiting"))
+            walkList = walkRepository.findAllByWalkerIdAndStartTimeIsAfter(walkerId, LocalDateTime.now(), pageRequest);
+
+        if (walkList == null) throw new CustomException("산책이 존재하지 않거나, 존재하지 않는 사용자 ID입니다", HttpStatus.NO_CONTENT);
+        return walkList;
+    }
+
 }

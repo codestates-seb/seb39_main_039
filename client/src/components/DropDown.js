@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useOutSideClick } from "../hooks/useOutsideClick";
-import { useDispatch } from "react-redux";
 
 const Dropdown = ({
   name,

@@ -15,4 +15,5 @@ public interface WalkRepository extends JpaRepository<Walk, Long> {
     void increaseDistance(Long walkId, int distance);
 
     Page<Walk> findAllByPetListIdAndEndTimeIsBefore(Long petId, LocalDateTime now, PageRequest pageRequest);
+    Page<Walk> findAllByPetListIdAndStartTimeIsAfter(Long petId, LocalDateTime now, PageRequest pageRequest);
 }

@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import CountUp from "react-countup";
 import { Link } from "react-router-dom";
@@ -7,12 +8,14 @@ import {
 } from "../../../components/Button/Buttons";
 import { ReactComponent as Logo } from "../../../assets/img/logo-wh.svg";
 import { ReactComponent as VisualImg } from "../../../assets/img/visualImg.svg";
+import { useSelector } from "react-redux";
 import btnIcon01 from "../../../assets/img/buttonIcon01.svg";
 import btnIcon02 from "../../../assets/img/buttonIcon02.svg";
-import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
 
 const Main = () => {
-  const isLogin = useSelector((state) => state.login.isLogin);
+  const isLogin = Cookies.get("access");
+  const { userInfo } = useSelector((state) => state.user);
 
   return (
     <div className="container pa0">
@@ -39,6 +42,12 @@ const Main = () => {
 
           <BottomArea>
             <VisualImg className="visual-img" />
+            {isLogin &&
+              <LoginUser>
+                <div><img src={userInfo.profileImage} className="img-circle xs" alt=""/></div>
+                <div><b>{userInfo.nickName} 님</b> 반가워요!</div>
+              </LoginUser>
+            }
             <ButtonGroup>
               <Link to={isLogin ? "/OwnerMain" : "/login"}>
                 <ButtonPrimary className="icon-type">
@@ -68,6 +77,21 @@ const Main = () => {
 };
 
 export default Main;
+
+const LoginUser = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin:0 0 15px 13px;
+  font-size:18px;
+
+  img{
+    border:1px solid var(--gray-100)
+  }
+  b{
+    font-weight: 600;
+  }
+`
 
 const MainIntro = styled.div`
   position: relative;

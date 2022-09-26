@@ -54,17 +54,49 @@ public class WantedController {
         return new ResponseEntity<>(wantedMapper.toDetailResponse(wanted), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "구인글 수정", notes = "기본요소는 Post와 동일합니다. 기존 체크리스트 수정만 약간의 추가가 있습니다.\n \"checkList\" = [{\"checkListId\" = 1 ,\"content\" = \"수정내역\"} , {...}]")
+    @PutMapping("/{wantedId}/edit")
+    public ResponseEntity putWanted(@AuthenticationPrincipal @ApiIgnore User owner,
+                                    @RequestBody @Valid WantedDto.Put request,
+                                    @PathVariable Long wantedId) {
+        if (owner == null) owner = User.builder().id(1L).build();
+        Wanted editedWanted = wantedService.editWanted(wantedId, request, owner.getId());
+        return new ResponseEntity(wantedMapper.toDetailResponse(editedWanted), HttpStatus.OK);
+    }
+//
+//    @ApiOperation(value = "구인글 수정 시 체크리스트 삭제")
+//    @DeleteMapping("/{wantedId}/edit/checkList/{checkListId}/delete")
+//    public ResponseEntity deleteCheckList(@AuthenticationPrincipal @ApiIgnore User owner,
+//                                          @PathVariable Long checkListId,
+//                                          @PathVariable Long wantedId){
+//
+//    }
+
+
     @ApiOperation(value = "구인글 목록 조회", notes = "현재 페이지네이션 적용된 최신순 정렬. pay순 정렬, 지역별 필터링, 매칭된 글 숨기기 구현 예정 ")
     @GetMapping
     public ResponseEntity getWantedList(@RequestParam(required = false) Integer page,
                                         @RequestParam(required = false) SortBy sort,
-                                        @RequestParam(required = false) boolean matched) {
+                                        @RequestParam(required = false) boolean matched,
+                                        @RequestParam(required = false) Long cityId) {
         //Enum 적용 예정
         if (sort == null) sort = SortBy.recent;
         if (page == null) page = 1;
+        if (cityId == null) cityId = 0L;
 
-        Page<Wanted> wantedList = wantedService.getWantedList((page - 1), sort, matched);
+        Page<Wanted> wantedList = wantedService.getWantedList((page - 1), sort, matched, cityId);
         List<WantedDto.SimpleResponse> items = wantedMapper.toSimpleResponseList(wantedList.getContent());
         return new ResponseEntity<>(new PagingResponseDto<>(items, wantedList), HttpStatus.OK);
+    }
+
+
+    @ApiOperation(value = "구인글 삭제")
+    @DeleteMapping("/{wantedId}/delete")
+    public ResponseEntity deleteWanted(@AuthenticationPrincipal @ApiIgnore User owner,
+                                       @PathVariable Long wantedId) {
+        if (owner == null) owner = User.builder().id(1L).build();
+        wantedService.deleteWanted(wantedId, owner.getId());
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

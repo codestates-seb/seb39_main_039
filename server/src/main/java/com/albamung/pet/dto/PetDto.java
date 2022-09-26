@@ -32,7 +32,8 @@ public class PetDto {
         private String species;
         private String sex;
         private String aboutPet;
-        private int walkCount;
+        private int walkHistoryCount;
+        private int walkWaitingCount;
         private int walkDistance;
         private WalkDto.SimpleResponse currentWalk;
     }

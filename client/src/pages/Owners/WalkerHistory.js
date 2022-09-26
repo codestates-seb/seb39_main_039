@@ -14,9 +14,9 @@ const WalkerHistory = () => {
   const petWalkInfo = useSelector((state) => state.petwalk.petWalkInfo);
 
   useEffect(() => {
-    dispatch(getPetWalkInfo(petId.id));
+    dispatch(getPetWalkInfo(Number(petId.id)));
   }, []);
-
+  
   return (
     <div className="container bg-gray">
       <Header pageTitle={`춘식이 지난 산책 내역`} />

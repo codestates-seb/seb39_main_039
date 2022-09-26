@@ -1,25 +1,19 @@
 package com.albamung;
 
-import com.albamung.walk.entity.Coord;
-import com.albamung.walk.repository.CoordRepository;
+import com.albamung.helper.fileUpload.S3fileService;
 import lombok.Builder;
 import lombok.Getter;
-import org.locationtech.jts.geom.Point;
-import org.locationtech.jts.io.ParseException;
-import org.locationtech.jts.io.WKTReader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-
 @RestController
 @RequestMapping("/test")
 public class TestController {
-    private final CoordRepository coordRepository;
+    private final S3fileService s3fileService;
 
-    public TestController(CoordRepository coordRepository) {
-        this.coordRepository = coordRepository;
+    public TestController(S3fileService s3fileService) {
+        this.s3fileService = s3fileService;
     }
 
     @Builder
@@ -29,23 +23,19 @@ public class TestController {
         Integer distance;
     }
 
-    @PostMapping("/coord")
-    public ResponseEntity postCoord(@RequestBody Post request) throws ParseException {
-        Coord coord = new Coord();
+    @GetMapping("/signUrl")
+    public ResponseEntity postCoord(@RequestBody String fileName){
+        String dirName = "image/pet/";
 
-        String pointWKT = String.format("POINT(%s)", request.getCoord());
-        Point point = (Point) new WKTReader().read(pointWKT);
-        coord.setPoint(point);
-        Coord save = coordRepository.save(coord);
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity(s3fileService.save(fileName),HttpStatus.CREATED);
     }
 
-    @GetMapping("/coord/{coordId}")
-    public ResponseEntity getCoord(@PathVariable Long coordId) {
-        Coord coord = coordRepository.findById(coordId).orElseThrow();
-
-        return new ResponseEntity(Arrays.toString(coord.getCoord().getCoordinates()), HttpStatus.OK);
-    }
+//    @GetMapping("/coord/{coordId}")
+//    public ResponseEntity getCoord(@PathVariable Long coordId) {
+//        Coord coord = coordRepository.findById(coordId).orElseThrow();
+//
+//        return new ResponseEntity(Arrays.toString(coord.getCoord().getCoordinates()), HttpStatus.OK);
+//    }
 }
 
 // point들을 하나씩 입력한다

@@ -1,8 +1,10 @@
 import customAxios from "../axiosAPI";
 import Cookies from "js-cookie";
+import { toast } from "react-toast";
 
 export const GET_USER_INFO_SUCCESS = "GET_USER_INFO_SUCCESS";
 export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
+export const USER_LOADING = "USER_LOADING";
 
 export const getUserInfo = () => {
   return async (dispatch) => {
@@ -23,15 +25,30 @@ export const getUserInfo = () => {
 };
 
 export const editUserInfo = (fullName, phone, nickName) => {
-  return async () => {
+  return async (dispatch) => {
     try {
-      const editUserInfoAPI = await customAxios
+      dispatch({
+        type: "USER_LOADING",
+        payload: {
+          loading: true
+        }
+      });
+      return await customAxios
       .put(`/user/editDefault`, {
         fullName: `${fullName}`,
         phone: `${phone}`,
         nickName: `${nickName}`
       })
-      .then((res) => window.location.reload());
+      .then(()=>{
+        dispatch({
+          type: "USER_LOADING",
+          payload: {
+            loading: false
+          }
+        });
+        toast.success("수정이 완료 되었어요");
+      })
+      // .then((res) => window.location.reload());
     } catch (error) {
       //에러 핸들링 하는 곳
       console.log(error);

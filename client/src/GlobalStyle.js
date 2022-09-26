@@ -190,6 +190,11 @@ const GlobalStyle = createGlobalStyle`
    }
 
 
+   //toast
+   .toastContainer{
+      z-index: 99;
+   }
+
    
    //datepicker style
    .react-datepicker__input-container input{

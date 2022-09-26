@@ -16,7 +16,6 @@ import javax.persistence.*;
 import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,8 +24,8 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@DynamicUpdate
 @DynamicInsert
+@DynamicUpdate
 public class Walk extends BaseEntityDate {
 
     @Id
@@ -42,8 +41,6 @@ public class Walk extends BaseEntityDate {
 
     @ColumnDefault("0")
     private int distance;
-    @Column(columnDefinition = "LONGTEXT")
-    private String pictureList;
 
     private boolean ended;
 
@@ -72,8 +69,8 @@ public class Walk extends BaseEntityDate {
     @ColumnDefault("0")
     private int walkCount;
 
-    @OneToMany(mappedBy = "walk", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-    private List<WalkCheckList> checkList = new ArrayList<>();
+    @OneToMany(mappedBy = "walk", cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<WalkCheck> checkList = new ArrayList<>();
 
     @ManyToMany(targetEntity = Pet.class)
     private List<Pet> petList = new ArrayList<>();
@@ -82,33 +79,29 @@ public class Walk extends BaseEntityDate {
     private List<Coord> coordList = new ArrayList<>();
     private LineString route;
 
+    @OneToMany(mappedBy = "walk", cascade = {CascadeType.REMOVE})
+    private List<WalkPicture> pictureList = new ArrayList<>();
+
     public List<String> getCoord() {
-//        if (this.coord == null) return null;
-//        List<String> coordList = Arrays.asList(this.coord.split(","));
-//        return coordList.subList(1, coordList.size());
-        if(this.coordList == null) return null;
-        return this.coordList.stream().map(s->String.format("%s %s",s.getPoint().getX(),s.getPoint().getY())).collect(Collectors.toList());
-    }
-
-    public List<String> getPictureList() {
-        if (this.pictureList == null) return null;
-        return Arrays.asList(this.pictureList.split(","));
-    }
-
-    public void addPictureList(String str) {
-        if (this.pictureList == null) this.pictureList = str;
-        this.pictureList = this.pictureList + "," + str;
-        //String Builder를 쓰는게 나을까?
+        if (this.coordList == null) return null;
+        return this.coordList.stream().map(s -> String.format("%s %s", s.getPoint().getX(), s.getPoint().getY())).collect(Collectors.toList());
     }
 
     public void setCheckListByContents(List<String> contentList) {
-        if (contentList.size() != 0) {
-            List<WalkCheckList> checkList = new ArrayList<>();
+        List<WalkCheck> checkList;
+        if (this.checkList == null) checkList = new ArrayList<>();
+        else checkList = this.checkList;
+
+        if (contentList != null) {
             contentList.forEach(content -> {
-                checkList.add(new WalkCheckList(this, content));
+                checkList.add(WalkCheck.builder().walk(this).content(content).build());
             });
             this.checkList = checkList;
         }
+    }
+
+    public List<String> getPictureList() {
+        return this.pictureList.stream().map(WalkPicture::getLink).collect(Collectors.toList());
     }
 
     public void addPetList(Pet pet) {

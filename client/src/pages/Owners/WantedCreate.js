@@ -21,9 +21,10 @@ const WantedCreate = () => {
   const [petSelect, setPetSelect] = useState(false);
   const dispatch = useDispatch();
   const titleRef = useRef();
-  const regionRef = useRef();
+  
 
-
+  ////////////////////////////////////// 지역 선택 컴포넌트 세트👀💦
+  const regionRef = useRef(); //선택 후 지역 인풋 포커싱
   const [ isOpen, setIsOpen ] = useState(false); // 지역 모달창 여닫기
   const cityModal = () => { //모달창 여닫기
     setIsOpen(true);
@@ -39,6 +40,7 @@ const WantedCreate = () => {
     document.body.style.overflow = "unset";
     regionRef.current.focus();
   }
+ ////////////////////////////////////// 지역 선택 컴포넌트 세트👀💦
 
 
   const selectMyPet = () => {
@@ -128,10 +130,10 @@ const WantedCreate = () => {
             <input 
               type="text" 
               className="ipt-form" 
-              value={regionNamePick} 
+              value={regionNamePick} // 선택한 지역명 값에 담기
               ref={regionRef}
-              onChange={()=>console.log()} 
-              onClick={cityModal} />
+              onChange={()=>console.log()} // value써서 임시로 넣은 기능없는 onChange
+              onClick={cityModal} /> 
           </div>
 
           <div className="ipt-group">

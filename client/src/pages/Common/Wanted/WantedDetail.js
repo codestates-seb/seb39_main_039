@@ -62,6 +62,7 @@ const WantedDetailPage = () => {
                       name={item.petName}
                       key={item.petId}
                       species={item.species}
+                      sex={item.sex}
                     />
                   </div>
                 ))}
@@ -112,10 +113,15 @@ const WantedDetailPage = () => {
 
           {/* 댓글 지원 */}
           <CommentApply>
+            <SectLabel>지원하기</SectLabel>
+            <CommentEnter wantedId={wantedDetail.wantedId}/>
             <SectLabel>산책 지원하기 3명</SectLabel>
             <div className="comment-list">
-              <ApplyComment />
-              <ApplyComment />
+              {wantedDetail.commentList?.reverse().map((data, key)=>{
+                return(
+                  <ApplyComment data={data} wantedId={wantedDetail.wantedId} key={key}/>
+                )
+              })}
 
               {/* 글 작성자가 아닌 경우 코멘트 내용 가려짐*/}
               <ApplyCommentBlocked />
@@ -139,6 +145,10 @@ const Section = styled.section`
     padding: 13px 0 20px;
     line-height: 1.3em;
     font-size: 15px;
+  }
+
+  &:first-child{
+    padding-top:0;
   }
 `;
 

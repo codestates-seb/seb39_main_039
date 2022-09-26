@@ -46,6 +46,7 @@ export const logoutSuccess = () => {
     try {
       Cookies.remove("access");
       Cookies.remove("refresh");
+      localStorage.removeItem('user')
       dispatch({
         type: "LOGOUT_SUCCESS"
       });

@@ -19,7 +19,6 @@ import CitySelect from "../../components/CitySelect";
 const WantedCreate = () => {
   const { myPetInfo } = useSelector((state) => state.pet);
   const [petSelect, setPetSelect] = useState(false);
-  const [redirectId, setRedirectId] = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const titleRef = useRef();

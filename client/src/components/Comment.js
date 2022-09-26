@@ -1,9 +1,9 @@
 import styled from "styled-components"
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import Modal from '../components/Modal/Modal'
 import { delComment, editComment, selectComment } from "../redux/actions/commentActions";
 import SelectWalkerButton from "./Button/SelectWalkerButton";
@@ -11,10 +11,12 @@ import SelectWalkerButton from "./Button/SelectWalkerButton";
 export const ApplyComment = ({data, wantedId}) => {
     const dispatch = useDispatch();
     const optionBody = useRef();
-    const [ isOn, setIsOn ] = useState(false);
-    const [ isOpen, setIsOpen ] = useState(false);
-    const [ onEdit, setOnEdit ] = useState(false);
+    const [ isOn, setIsOn ] = useState(false); // 수정,삭제 옵션툴
+    const [ isOpen, setIsOpen ] = useState(false); // 댓글 삭제 모달
+    const [ isMtOpen, setIsMtOpen ] = useState(false); // 매칭 모달
+    const [ onEdit, setOnEdit ] = useState(false); // 수정 폼 
     const [ content, setContent ] = useState(data.content);
+
     let creatDate =new Date(data.creationDate).toLocaleString();
 
     const deleteComment = () => {
@@ -27,9 +29,14 @@ export const ApplyComment = ({data, wantedId}) => {
     };
 
     const pickComment = () => {
-        console.log('gg');
         dispatch(selectComment(wantedId, data.commentId, true));
+        setIsMtOpen(false)
     };
+
+    const cancelPickComment =() => {
+        dispatch(selectComment(wantedId, data.commentId, false));
+        setIsMtOpen(false)
+    }
 
     const cancelEditComment = () => {
         setContent(data.content);
@@ -54,7 +61,6 @@ export const ApplyComment = ({data, wantedId}) => {
        }
     };
 
-    console.log(data);
 
     return(
         <Card>
@@ -68,9 +74,10 @@ export const ApplyComment = ({data, wantedId}) => {
             <div className="user-info">
                 <div className="user-photo">
                     <img src={data.walker?.walkerPicture} className="img-circle" alt="" />
+                    {data.matched ? <i><FontAwesomeIcon icon={faCheck}/></i>:''} 
                 </div>
                 <div className="user-name">
-                    <strong>{data.walker?.walkerName} <em>(등급 아이콘 예정)</em></strong>
+                    <strong>{data.walker?.walkerName}</strong>
                     <button>휴대폰 번호 보기</button>
                     
                     <OptionButton>
@@ -84,7 +91,6 @@ export const ApplyComment = ({data, wantedId}) => {
             </div>
             {!onEdit? 
                 <div className="user-con">
-                    {/* <strong>시바견의 특성을 잘 아는 지원자입니다!</strong> */}
                     <p>{content}</p>
                     <small>{creatDate} {data.lastActivityDate !== data.creationDate && "수정됨"}</small>
                 </div>
@@ -99,8 +105,22 @@ export const ApplyComment = ({data, wantedId}) => {
                 </div>
             }
            
-            <SelectWalkerButton pickComment={pickComment}/>
-            
+           {data.matched?
+            <SelectWalkerButton 
+                pickComment={cancelPickComment} 
+                isMtOpen={isMtOpen} 
+                setIsMtOpen={setIsMtOpen}
+                cancel={'cancel'}
+                btnText={'매칭 취소'}
+                text={"산책 매칭을 취소하시겠습니까?"}/>
+            :
+            <SelectWalkerButton 
+                pickComment={pickComment} 
+                isMtOpen={isMtOpen} 
+                setIsMtOpen={setIsMtOpen} 
+                btnText={'이 지원자와 함께 산책 보내기'}
+                text={"이 지원자와 산책을 보내시겠습니까?"}/>
+            }
         </Card>
     )
 }
@@ -204,8 +224,25 @@ const Card= styled.div`
             }
         }
         .user-photo{
+            position: relative;
             img{
                 width:50px;
+            }
+            i{
+                position: absolute;
+                display:flex;
+                justify-content: center;
+                align-items: center;
+                right:-5px;
+                bottom:0;
+                width:26px;
+                height:26px;
+                color:var(--white-000);
+                font-size:13px;
+                font-weight: 800;
+                background-color:var(--primary);
+                border-radius: 50px;
+                padding:5px;
             }
         }
     }
@@ -281,7 +318,9 @@ const Card= styled.div`
         font-weight:500;
         font-size:15px;
         padding:16px 0;
-        
+    }
+    .user-select.cancel{
+        color:var(--err-danger)
     }
 
     .user-select:hover{

@@ -53,8 +53,7 @@ export const DogCard = (props) => {
             </NotWalk>
             <Walking
               onClick={() => {
-                navigate(`/walking/1`);
-                // navigate(`/walking/${props.props.currentWalk?.walkId}`);
+                navigate(`/walking/${props.props.currentWalk?.walkId}`);
               }}
             >
               <div>

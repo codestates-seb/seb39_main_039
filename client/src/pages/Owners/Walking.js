@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import TrackingMap from "../../components/Map/TrackingMap";
+import RecordedMap from "../../components/Map/RecordedMap";
 import { HeaderConfirm } from "../../components/Layout/Header";
 import { DogNameLabel } from "../../components/DogNameLabel";
 import { CheckListView } from "../../components/CheckListView";
@@ -69,6 +70,7 @@ const Walking = () => {
       </Section>
       <Sect className="map-area">
         <TrackingMap />
+        <RecordedMap />
         <StateBoxArea className="pt25">
           <li>
             <StateCard type={"i1"} name={"산책"} count={WalkInfo.walkCount} />

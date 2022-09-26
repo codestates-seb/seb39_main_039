@@ -43,16 +43,18 @@ public class CommentService {
 
         return targetComment;
     }
+
     /**
      * 댓글 - 구인글 매칭
      */
-    public Comment matchComment(Long commentId, Long wantedId, boolean match, Long ownerId){
+    public Comment matchComment(Long commentId, Long wantedId, boolean match, Long ownerId) {
         Comment targetComment = verifyComment(commentId);
         verifyCommentWanted(targetComment, wantedId);
-        
+
         Wanted targetWanted = wantedService.verifyWanted(wantedId);
         //이미 매칭되어있는데 새로운 매칭을 요청하거나, 매칭되지 않았는데 매칭 해제를 요청할 때
-        if(match == targetWanted.isMatched()) throw new CustomException("이미 매칭 됐거나, 해제할 매칭이 없습니다", HttpStatus.BAD_REQUEST);
+        if (match == targetWanted.isMatched())
+            throw new CustomException("이미 매칭 됐거나, 해제할 매칭이 없습니다", HttpStatus.BAD_REQUEST);
 
         wantedService.verifyWantedUser(targetWanted, ownerId);
 
@@ -60,10 +62,19 @@ public class CommentService {
         targetComment.setMatched(match);
 
         //true(매칭)일 경우 알바 정보를 산책에 넣어주고, false(매칭 해제)인 경우 알바 정보를 지워줌
-        if(match) targetWanted.getWalk().setWalker(targetComment.getWalker());
+        if (match) targetWanted.getWalk().setWalker(targetComment.getWalker());
         else targetWanted.getWalk().setWalker(null);
 
         return targetComment;
+    }
+
+    /**
+     * 견주의 댓글 글쓴이 폰번호 확인
+     */
+    public String viewPhoneNumber(Long commentId, Long ownerId) {
+        Comment targetComment = verifyComment(commentId);
+        wantedService.verifyWantedUser(targetComment.getWanted(), ownerId);
+        return targetComment.getWalker().getPhone();
     }
 
     /**
@@ -98,7 +109,8 @@ public class CommentService {
      * 댓글과 구인글 매칭 검사
      */
     @Transactional(readOnly = true)
-    public void verifyCommentWanted(Comment comment, Long wantedId){
-        if(!comment.getWanted().getWantedId().equals(wantedId)) throw new CustomException("해당 댓글은 해당 구인글의 댓글이 아닙니다", HttpStatus.BAD_REQUEST);
+    public void verifyCommentWanted(Comment comment, Long wantedId) {
+        if (!comment.getWanted().getWantedId().equals(wantedId))
+            throw new CustomException("해당 댓글은 해당 구인글의 댓글이 아닙니다", HttpStatus.BAD_REQUEST);
     }
 }

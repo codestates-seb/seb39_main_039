@@ -15,17 +15,31 @@ import { useInputAutoHeight } from "../../hooks/useInput";
 import { useDispatch, useSelector } from "react-redux";
 import { postWanted } from "../../redux/actions/wantedActions";
 
+import CitySelect from "../../components/CitySelect";
 const WantedCreate = () => {
   const { myPetInfo } = useSelector((state) => state.pet);
   const [petSelect, setPetSelect] = useState(false);
   const dispatch = useDispatch();
   const titleRef = useRef();
 
+  
+  const [ isOpen, setIsOpen ] = useState(false); // 지역 모달창 여닫기
+  const cityModal = () => { //모달창 여닫기
+    setIsOpen(true)
+  }
+  const [ region, setRegion ] = useState('');  //지역 id받아오는 state
+  const [ regionValue, setRegionValue ] = useState('지역을 선택해주세요.') //선택한 지역 값 input값으로 넣기
+  const regionConfirmHandler = () => { //지역정보 받아오기
+    console.log('선택 지역 id', region);
+    setRegionValue(regionValue);
+    setIsOpen(false)
+  }
+
+
+
   const selectMyPet = () => {
     setPetSelect(!petSelect);
   };
-
-  console.log(titleRef.current?.value);
 
   const [
     checkItemContent,
@@ -61,9 +75,18 @@ const WantedCreate = () => {
       )
     );
   };
+
+  console.log(region);
   return (
     <div className="container">
       <Header pageTitle={"구인 글 작성"} />
+      <CitySelect 
+        isOpen={isOpen} 
+        setRegion={setRegion}
+        setRegionValue={setRegionValue}
+        setIsOpen={setIsOpen}
+        confirmHandler={regionConfirmHandler}
+      />
       <Form>
         <Section className="pt0 pb20">
           <div className="ipt-group">
@@ -81,8 +104,9 @@ const WantedCreate = () => {
           <label className="ipt-label">산책할 강아지 선택</label>
           <DogSelect>
             <li className={petSelect ? "active" : "active no-select"}>
-              {myPetInfo.map((el, idx) => (
+              {myPetInfo?.map((el, idx) => (
                 <DogNameLabelType2
+                  key={idx}
                   name={el.petName}
                   size={"s"}
                   picture={el.petPicture}
@@ -97,13 +121,7 @@ const WantedCreate = () => {
             <label htmlFor="" className="ipt-label">
               지역
             </label>
-            <select className="ipt-form">
-              <option>지역을 선택해주세요.</option>
-              <option>지역을 선택해주세요.</option>
-              <option>지역을 선택해주세요.</option>
-              <option>지역을 선택해주세요.</option>
-              <option>지역을 선택해주세요.</option>
-            </select>
+            <input type="text" className="ipt-form" value={regionValue} onClick={cityModal} />
           </div>
 
           <div className="ipt-group">

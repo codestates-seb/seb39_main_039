@@ -69,7 +69,7 @@ const Walking = () => {
         </div>
       </Section>
       <Sect className="map-area">
-        <TrackingMap />
+        {/* <TrackingMap /> */}
         <RecordedMap />
         <StateBoxArea className="pt25">
           <li>

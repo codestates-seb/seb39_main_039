@@ -22,7 +22,13 @@ const GlobalStyle = createGlobalStyle`
    body {
    background: var(--gray-100);
    letter-spacing: -.050em;
+   /* -ms-overflow-style: none; */
    }
+
+   /* ::-webkit-scrollbar {
+    display: none;
+} */
+ 
 
    :root {
       ${colorVariables};

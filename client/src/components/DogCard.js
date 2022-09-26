@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 
 export const DogCard = (props) => {
   const navigate = useNavigate();
+  const walklInfo = useSelector((state) => state.mapping.walkDetailInfo);
   const endDate = new Date(props.props.currentWalk?.endTime)
     .toLocaleString()
     .slice(0, -3);

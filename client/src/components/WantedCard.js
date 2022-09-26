@@ -6,9 +6,12 @@ import { faSackDollar } from "@fortawesome/free-solid-svg-icons";
 import { faDog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useConvertTime from "../hooks/useConvertTime";
+import { useDispatch } from "react-redux";
+import { getWantedDetail } from "../redux/actions/wantedActions";
 
 const WantedCard = ({ item }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   let endTimeForm = useConvertTime(
     item.walk.endTime.toLocaleString().slice(0, -3).split("T")
@@ -19,7 +22,12 @@ const WantedCard = ({ item }) => {
   );
 
   return (
-    <Card onClick={() => navigate(`/wantedDetail/${item.wantedId}`)}>
+    <Card
+      onClick={() => {
+        navigate(`/wantedDetail/${item.wantedId}`);
+        dispatch(getWantedDetail(item.wantedId));
+      }}
+    >
       <div className="con-dogs">
         {item.petList?.map((item) => (
           <DogNameLabel
@@ -136,6 +144,7 @@ const Card = styled.div`
     align-items: center;
     span {
       margin-left: 5px;
+      font-weight: 600;
     }
   }
 

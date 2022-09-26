@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useMemo,
-  useCallback
-} from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Header } from "../../../components/Layout/Header";
 import WantedCard from "../../../components/WantedCard";
@@ -12,13 +6,7 @@ import { SwitchButton } from "../../../components/Switch";
 import { FloatingBtnAdd } from "../../../components/Button/FloatingBtn";
 import DropDown from "../../../components/DropDown";
 import { useDispatch, useSelector } from "react-redux";
-import { ThreeDots } from "react-loader-spinner";
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-  useSearchParams
-} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   getAllWantedList,
   getScrollAllWantedList,
@@ -27,25 +15,19 @@ import {
 import { useInView } from "react-intersection-observer";
 
 const WantedList = () => {
-  const {
-    allWantedList,
-    loading,
-    scrollAllWantedList,
-    totalPage,
-    scrollOptionList
-  } = useSelector((state) => state.wanted);
+  const { scrollAllWantedList, totalPage } = useSelector(
+    (state) => state.wanted
+  );
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const search = useLocation();
-  const name = new URLSearchParams(search);
 
   const [isOn, setIsOn] = useState(false);
   const [selectedSort, setSelectedSort] = useState("최신순");
   const [selectedLocation, setSelectedLocation] = useState("경기도 수원시");
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(2);
   const [option, setOption] = useState(false);
 
-  const { ref, inView, entry } = useInView({
+  const { ref, inView } = useInView({
     threshold: 0.7
   });
 
@@ -64,7 +46,7 @@ const WantedList = () => {
     sortOption = "pay";
   }
 
-  const fakeFetch = (delay = 500) =>
+  const fakeFetch = (delay = 300) =>
     new Promise((res) => setTimeout(res, delay));
 
   const fetchMoreData = async () => {
@@ -78,7 +60,6 @@ const WantedList = () => {
   };
 
   useEffect(() => {
-    console.log("인ㅂ");
     if (!inView) {
       return;
     }
@@ -89,10 +70,11 @@ const WantedList = () => {
     dispatch(resetScrollAllWantedList());
     setOption(true);
     setPage(1);
-    dispatch(getAllWantedList(sortOption, "", isOn, page));
   }, [sortOption, isOn]);
 
-  console.log(allWantedList, scrollAllWantedList);
+  useEffect(() => {
+    dispatch(getScrollAllWantedList(sortOption, "", isOn, 1));
+  }, []);
 
   return (
     <div className="container bg-gray">
@@ -121,19 +103,13 @@ const WantedList = () => {
           <SwitchButton isOn={isOn} toggleHandler={toggleHandler} />
         </SwitchGroup>
       </ListFilter>
-      {loading ? (
-        <Loading>
-          <ThreeDots color="#3183f8" height={80} width={80} />
-        </Loading>
-      ) : option ? (
+      {option ? (
         <WantedCardList>
-          {allWantedList?.map((item, idx) => (
+          {scrollAllWantedList?.map((item, idx) => (
             <WantedCard key={idx} item={item} />
           ))}
           <FloatingBtnAdd mid={"wantedCreate"} />
-          <div ref={ref}>
-            <h2>{`Header inside viewport ${inView}.`}</h2>
-          </div>
+          <Scroll ref={ref}></Scroll>
         </WantedCardList>
       ) : (
         <WantedCardList>
@@ -141,9 +117,7 @@ const WantedList = () => {
             <WantedCard key={idx} item={item} />
           ))}
           <FloatingBtnAdd mid={"wantedCreate"} />
-          <div ref={ref}>
-            <h2>{`Header inside viewport ${inView}.`}</h2>
-          </div>
+          <Scroll ref={ref}></Scroll>
         </WantedCardList>
       )}
     </div>
@@ -185,4 +159,8 @@ const Loading = styled.div`
   height: 100vh;
   justify-content: center;
   align-items: center;
+`;
+
+const Scroll = styled.div`
+  height: 200px;
 `;

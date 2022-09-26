@@ -144,6 +144,7 @@ const Card = styled.div`
     align-items: center;
     span {
       margin-left: 5px;
+      font-weight: 600;
     }
   }
 

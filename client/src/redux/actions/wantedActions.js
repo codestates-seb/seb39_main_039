@@ -30,15 +30,18 @@ export const getAllWantedList = (sort, cityId, matched, page) => {
         type: "GET_ALL_WANTED_LIST_SUCCESS",
         payload: {
           allWantedList: get_AllWantedList.data.items,
-          totalPage: get_AllWantedList.data.page.totalElements
+          totalPage: get_AllWantedList.data.page.totalElements,
+          scrollAllWantedList: get_AllWantedList.data.items
         }
       });
-      dispatch({
-        type: "WANTED_LOADING",
-        payload: {
-          loading: false
-        }
-      });
+      setTimeout(() => {
+        dispatch({
+          type: "WANTED_LOADING",
+          payload: {
+            loading: false
+          }
+        });
+      }, 1000);
     } catch (error) {
       //에러 핸들링 하는 곳
       console.log(error);

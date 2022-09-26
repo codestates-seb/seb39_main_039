@@ -28,7 +28,7 @@ const wantedReducer = (state = initialstate, action) => {
         ...state,
         allWantedList: payload.allWantedList,
         totalPage: payload.totalPage,
-        scrollOptionList: state.scrollAllWantedList
+        scrollOptionList: payload.allWantedList
       };
     case GET_SCROLL_ALL_WANTED_LIST_SUCCESS:
       return {

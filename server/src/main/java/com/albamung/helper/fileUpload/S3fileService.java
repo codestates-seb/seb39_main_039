@@ -46,6 +46,11 @@ public class S3fileService {
     }
 
     @Async
+    public void delete(String fileName) {
+        amazonS3.deleteObject(s3BucketName, fileName);
+    }
+
+    @Async
     public String save(String fileName) {
         return generateUrl(fileName, HttpMethod.PUT);
     }

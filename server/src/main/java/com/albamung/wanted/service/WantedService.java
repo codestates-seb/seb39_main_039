@@ -123,6 +123,12 @@ public class WantedService {
         return targetWanted;
     }
 
+    public void deleteWanted(Long wantedId, Long ownerId){
+        Wanted targetWanted = verifyWanted(wantedId);
+        verifyWantedUser(targetWanted, ownerId);
+        wantedRepository.deleteById(wantedId);
+    }
+
     /**
      * 구인글 ID 유효성 검사
      */

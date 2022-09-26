@@ -1,16 +1,20 @@
 package com.albamung.walk.service;
 
 import com.albamung.exception.CustomException;
+import com.albamung.helper.fileUpload.S3fileService;
 import com.albamung.pet.entity.Pet;
 import com.albamung.pet.service.PetService;
 import com.albamung.walk.entity.Coord;
 import com.albamung.walk.entity.Walk;
 import com.albamung.walk.entity.WalkCheck;
+import com.albamung.walk.entity.WalkPicture;
 import com.albamung.walk.repository.CoordRepository;
+import com.albamung.walk.repository.WalkPictureRepository;
 import com.albamung.walk.repository.WalkRepository;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -27,12 +31,18 @@ public class WalkService {
     private final WalkRepository walkRepository;
     private final PetService petService;
     private final CoordRepository coordRepository;
+    private final S3fileService s3fileService;
+    private final WalkPictureRepository walkPictureRepository;
 
+    @Value("${clientUri}")
+    private String clientUrl;
 
-    public WalkService(WalkRepository walkRepository, PetService petService, CoordRepository coordRepository) {
+    public WalkService(WalkRepository walkRepository, PetService petService, CoordRepository coordRepository, S3fileService s3fileService, WalkPictureRepository walkPictureRepository) {
         this.walkRepository = walkRepository;
         this.petService = petService;
         this.coordRepository = coordRepository;
+        this.s3fileService = s3fileService;
+        this.walkPictureRepository = walkPictureRepository;
         ;
     }
 
@@ -47,6 +57,7 @@ public class WalkService {
      */
     public Walk checkCheckList(Long walkId, Long checkListId, boolean check, Long walkerId) {
         Walk targetWalk = verifyWalk(walkId);
+        if (targetWalk.isEnded()) throw new CustomException("이미 종료된 산책입니다", HttpStatus.FORBIDDEN);
         verifyWalkUser(targetWalk, walkerId);
 //        WalkCheckList targetCheckList = checkListRepository.findById(checkListId).orElseThrow(() -> new CustomException("존재하지 않는 체크리스트 입니다", HttpStatus.NO_CONTENT));
         //체크리스트 아이디가 해당 산책에 속하지 않을 때 에러
@@ -64,6 +75,7 @@ public class WalkService {
 
     public Time putActualWalkTime(Long walkId, Time actualWalkTime, Long walkerId) {
         Walk targetWalk = verifyWalk(walkId);
+        if (targetWalk.isEnded()) throw new CustomException("이미 종료된 산책입니다", HttpStatus.FORBIDDEN);
         verifyWalkUser(targetWalk, walkerId);
         targetWalk.setActualWalkTime(actualWalkTime);
         return actualWalkTime;
@@ -88,6 +100,7 @@ public class WalkService {
      */
     public boolean endWalk(Long walkId, Long ownerId) {
         Walk targetWalk = verifyWalk(walkId);
+        if (targetWalk.isEnded()) throw new CustomException("이미 종료된 산책입니다", HttpStatus.FORBIDDEN);
         verifyWalkUser(targetWalk, ownerId);
         targetWalk.setEnded(true);
         return true;
@@ -99,6 +112,7 @@ public class WalkService {
      */
     public void putCoord(Long walkId, String coord, int distance, Long loginId) throws ParseException {
         Walk targetWalk = verifyWalk(walkId);
+        if (targetWalk.isEnded()) throw new CustomException("이미 종료된 산책입니다", HttpStatus.FORBIDDEN);
         verifyWalkUser(targetWalk, loginId);
 
         walkRepository.increaseDistance(walkId, distance);
@@ -114,6 +128,7 @@ public class WalkService {
      */
     public int putBasic(Long walkId, String basic, int count, Long loginId) {
         Walk targetWalk = verifyWalk(walkId);
+        if (targetWalk.isEnded()) throw new CustomException("이미 종료된 산책입니다", HttpStatus.FORBIDDEN);
         verifyWalkUser(targetWalk, loginId);
         switch (basic) {
             case "poo":
@@ -131,6 +146,32 @@ public class WalkService {
             default:
                 throw new CustomException("잘못된 변수입니다. 변경할 poo, meal, snack, walk를 입력해주세요", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    /**
+     * 산책 사진 등록
+     */
+    public String saveWalkPicture(Long walkId, Long walkerId) {
+        final String dirName = "image/walk/" + walkId.toString() + "/";
+        Walk targetWalk = verifyWalk(walkId);
+        verifyWalkUser(targetWalk, walkerId);
+        String UUIDFileName = s3fileService.createUUIDFileName(walkerId.toString(), dirName);
+        WalkPicture walkPicture = WalkPicture.builder().walk(targetWalk).link(clientUrl + "/" + UUIDFileName).build();
+        walkPictureRepository.save(walkPicture);
+        return s3fileService.save(UUIDFileName);
+    }
+
+    public void deleteWalkPicture(Long walkId, String link, Long walkerId) {
+        Walk targetWalk = verifyWalk(walkId);
+        verifyWalkUser(targetWalk, walkerId);
+
+        String fileName = link.replace(clientUrl + "/", "");
+        try {
+            s3fileService.delete(fileName);
+        } catch (Exception e) {
+            throw new CustomException("삭제에 실패했습니다. 링크를 확인해주세요", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        walkPictureRepository.deleteByLink(link);
     }
 
     /**
@@ -162,8 +203,10 @@ public class WalkService {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("creationDate").descending());
 
         Page<Walk> walkList = null;
-        if(when.equals("history")) walkList = walkRepository.findAllByPetListIdAndEndTimeIsBefore(petId, LocalDateTime.now(), pageRequest);
-        if(when.equals("waiting")) walkList= walkRepository.findAllByPetListIdAndStartTimeIsAfter(petId, LocalDateTime.now(), pageRequest);
+        if (when.equals("history"))
+            walkList = walkRepository.findAllByPetListIdAndEndTimeIsBefore(petId, LocalDateTime.now(), pageRequest);
+        if (when.equals("waiting"))
+            walkList = walkRepository.findAllByPetListIdAndStartTimeIsAfter(petId, LocalDateTime.now(), pageRequest);
 
         if (walkList == null) throw new CustomException("산책이 존재하지 않거나, 존재하지 않는 반려견 ID입니다", HttpStatus.NO_CONTENT);
         return walkList;

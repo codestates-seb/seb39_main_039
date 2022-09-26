@@ -5,9 +5,8 @@ import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import Modal from '../components/Modal/Modal'
-import { delComment } from "../redux/actions/commentActions";
-import { editComment } from "../redux/actions/commentActions";
-
+import { delComment, editComment, selectComment } from "../redux/actions/commentActions";
+import SelectWalkerButton from "./Button/SelectWalkerButton";
 
 export const ApplyComment = ({data, wantedId}) => {
     const dispatch = useDispatch();
@@ -25,6 +24,11 @@ export const ApplyComment = ({data, wantedId}) => {
     const updateComment = () => {
         dispatch(editComment(wantedId, data.commentId, content));
         setOnEdit(false);
+    };
+
+    const pickComment = () => {
+        console.log('gg');
+        dispatch(selectComment(wantedId, data.commentId, true));
     };
 
     const cancelEditComment = () => {
@@ -50,6 +54,8 @@ export const ApplyComment = ({data, wantedId}) => {
        }
     };
 
+    console.log(data);
+
     return(
         <Card>
             <Modal
@@ -58,6 +64,7 @@ export const ApplyComment = ({data, wantedId}) => {
                 confirmHandler={deleteComment}
                 text={"지원 댓글을 삭제하시겠습니까?"}
             />
+
             <div className="user-info">
                 <div className="user-photo">
                     <img src={data.walker?.walkerPicture} className="img-circle" alt="" />
@@ -92,7 +99,8 @@ export const ApplyComment = ({data, wantedId}) => {
                 </div>
             }
            
-            <Link to="/" className="user-select">이 지원자와 함께 산책 보내기</Link>
+            <SelectWalkerButton pickComment={pickComment}/>
+            
         </Card>
     )
 }
@@ -264,12 +272,16 @@ const Card= styled.div`
 
     .user-select{
         display: inline-block;
+        border:0;
         text-align: center;
         width:100%;
         border-top:1px solid var(--gray-200);
+        background-color:var(--white-000);
         color:var(--primary);
         font-weight:500;
+        font-size:15px;
         padding:16px 0;
+        
     }
 
     .user-select:hover{

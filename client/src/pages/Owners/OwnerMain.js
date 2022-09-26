@@ -52,7 +52,7 @@ const OwnerMain = () => {
       <Section>
         <DogSlide>
           <Slider {...settings}>
-            {myPetInfo.map((el, idx) => (
+            {myPetInfo?.map((el, idx) => (
               <DogCard key={idx} props={el}/>
             ))}
 

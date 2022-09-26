@@ -42,3 +42,17 @@ export const delComment = (wantedId, commentId) => {
     }
   };
 };
+
+
+export const selectComment = (wantedId, commentId, pick) => {
+  return async () => {
+    try {
+      const selectCommentAPI = customAxios
+        .put(`/wanted/${wantedId}/comment/${commentId}/edit`, pick)
+      let select_comment = await selectCommentAPI;
+    } catch (error) {
+      //에러 핸들링 하는 곳
+      console.log("에러", error);
+    }
+  };
+};

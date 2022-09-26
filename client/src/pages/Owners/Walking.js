@@ -29,6 +29,7 @@ const Walking = () => {
     dispatch(getWalkDetailInfo(Number(walkId.id)));
   },[])
 
+  console.log(WalkInfo)
 
   return (
     <div className="container pa0">
@@ -47,9 +48,9 @@ const Walking = () => {
           <dl className="walk-con">
             <dt>산책견</dt>
             <dd>
-              {WalkInfo.petList?.map((el)=>{
+              {WalkInfo.petList?.map((el, idx)=>{
                 return(
-                  <DogNameLabel size={"xs"} species={el.species} name={el.petName} picture={el.petPicture} />
+                  <DogNameLabel size={"xs"} key={idx} species={el.species} name={el.petName} picture={el.petPicture} />
                 )
               })}
             </dd>
@@ -57,7 +58,7 @@ const Walking = () => {
           <dl className="walk-con v2">
             <dt>산책자</dt>
             <dd>
-              <DogNameLabel size={"xs"} name={WalkInfo.walker} />
+              <DogNameLabel size={"xs"} picture={WalkInfo.walker?.walkerPicture} name={WalkInfo.walker?.walkerName} />
             </dd>
           </dl>
           <dl className="walk-con mb0">
@@ -93,9 +94,9 @@ const Walking = () => {
           <em>수행률 {WalkInfo.progress}%</em>
         </div>
         <CheckListView>
-          {WalkInfo.checkList?.map((el)=>{
+          {WalkInfo.checkList?.map((el, idx)=>{
             return(
-              <li className={el.checked && "checked"}>{el.content}</li>
+              <li key={idx} className={el.checked ? "checked" : ''}>{el.content}</li>
             )
           })}
         </CheckListView>

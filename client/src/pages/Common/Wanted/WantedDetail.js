@@ -62,6 +62,7 @@ const WantedDetailPage = () => {
                       name={item.petName}
                       key={item.petId}
                       species={item.species}
+                      sex={item.sex}
                     />
                   </div>
                 ))}
@@ -144,6 +145,10 @@ const Section = styled.section`
     padding: 13px 0 20px;
     line-height: 1.3em;
     font-size: 15px;
+  }
+
+  &:first-child{
+    padding-top:0;
   }
 `;
 

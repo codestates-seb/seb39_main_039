@@ -20,7 +20,7 @@ const WalkerHistory = () =>{
     return(
         <div className="container bg-gray">
             <Header pageTitle={`대기중인 산책 내역`} />
-            {petWalkPendingInfo.items.length !== 0 ?
+            {petWalkPendingInfo.items?.length !== 0 ?
                 <List>
                 {petWalkPendingInfo.items?.map((el) => {
                   return (

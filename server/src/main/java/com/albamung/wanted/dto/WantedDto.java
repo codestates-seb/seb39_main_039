@@ -9,6 +9,7 @@ import lombok.Getter;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -52,9 +53,12 @@ public class WantedDto {
         private LocalDateTime endTime;
         private List<String> checkListContent;
         private List<Long> petId;
-        private String location;
+        //        private City.Region region;
+//        private String city;
+        private Long cityId;
         private String caution;
         @NotNull(message = "보수를 입력해주세요")
+        @Positive
         private int pay;
         @NotBlank
         private String title;
@@ -68,7 +72,9 @@ public class WantedDto {
         private List<WalkCheckListDto.Put> checkList;
         private List<Long> checkListIdToDelete;
         private List<Long> petId;
-        private String location;
+        //        private City.Region region;
+//        private String city;
+        private Long cityId;
         @FutureOrPresent(message = "시작 시간은 과거 일 수 없습니다")
         private LocalDateTime startTime;
         @FutureOrPresent(message = "종료 시간은 과거 일 수 없습니다")

@@ -29,7 +29,9 @@ public class Wanted extends BaseEntityDate {
     @JoinColumn(name = "WALK_ID")
     private Walk walk;
 
-    private String location;
+    @ManyToOne
+    @JoinColumn(name = "CITY_ID")
+    private City location;
 
     private int pay;
     private boolean matched;
@@ -41,5 +43,9 @@ public class Wanted extends BaseEntityDate {
 
     public List<Pet> getPetList() {
         return this.walk.getPetList();
+    }
+
+    public String getLocation() {
+        return this.location.getRegionName() + " " + this.location.getName();
     }
 }

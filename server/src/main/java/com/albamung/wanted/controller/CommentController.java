@@ -57,6 +57,14 @@ public class CommentController {
         return new ResponseEntity<>(editedComment.getWanted().getWantedId(), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "견주의 댓글 글쓴이 폰번호 확인", notes = "응답으로 폰번호를 응답합니다. 해당 글의 견주가 아닌 경우 에러 403")
+    @GetMapping("/{commentId}/viewPhoneNumber")
+    public ResponseEntity getPhoneNumber(@AuthenticationPrincipal @ApiIgnore User owner,
+                                         @PathVariable Long commentId, @PathVariable Long wantedId) {
+        if (owner == null) owner = User.builder().id(1L).build();
+        return new ResponseEntity<>(commentService.viewPhoneNumber(commentId, owner.getId()), HttpStatus.OK);
+    }
+
     @ApiOperation(value = "댓글 삭제")
     @DeleteMapping("/{commentId}/delete")
     public ResponseEntity deleteComment(@AuthenticationPrincipal @ApiIgnore User walker,

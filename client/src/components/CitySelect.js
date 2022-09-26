@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as Close } from '../assets/img/close.svg';
 import { getCityInfo } from '../redux/actions/cityActions';
 import { useDispatch, useSelector } from "react-redux";
 import { ButtonPrimary } from './Button/Buttons';
 
-const CitySelect = ({isOpen, setIsOpen, setRegion, setRegionValue, confirmHandler}) => {
+const CitySelect = ({isOpen, setIsOpen, setRegion, setRegionName, confirmHandler}) => {
     const dispatch = useDispatch();
     const { cityInfo } = useSelector((state) => state.city);
 
@@ -43,10 +43,9 @@ const CitySelect = ({isOpen, setIsOpen, setRegion, setRegionValue, confirmHandle
     }
 
     const regionHandler = (e) => {
-        setRegion(e.target.value);
-        setRegionValue(e.target.dataset.name)
+        setRegion(Number(e.target.dataset.id));
+        setRegionName(e.target.dataset.name)
     }
-
 
     
     return(
@@ -75,7 +74,7 @@ const CitySelect = ({isOpen, setIsOpen, setRegion, setRegionValue, confirmHandle
                                     {cityInfo?.map((el, key)=>{
                                         return(
                                             <li 
-                                                value={el.cityId} 
+                                                data-id={el.cityId} 
                                                 data-name={`${el.regionName} ${el.name}`}
                                                 onClick={(e)=>regionHandler(e)}
                                                 key={key}

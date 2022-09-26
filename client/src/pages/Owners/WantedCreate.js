@@ -22,19 +22,18 @@ const WantedCreate = () => {
   const dispatch = useDispatch();
   const titleRef = useRef();
 
-  
+
   const [ isOpen, setIsOpen ] = useState(false); // 지역 모달창 여닫기
   const cityModal = () => { //모달창 여닫기
     setIsOpen(true)
   }
   const [ region, setRegion ] = useState('');  //지역 id받아오는 state
-  const [ regionValue, setRegionValue ] = useState('지역을 선택해주세요.') //선택한 지역 값 input값으로 넣기
+  const [ regionName, setRegionName ] = useState('지역을 선택해주세요.') //선택한 지역 값 input값으로 넣기
   const regionConfirmHandler = () => { //지역정보 받아오기
     console.log('선택 지역 id', region);
-    setRegionValue(regionValue);
+    setRegionName(regionName);
     setIsOpen(false)
   }
-
 
 
   const selectMyPet = () => {
@@ -81,11 +80,11 @@ const WantedCreate = () => {
     <div className="container">
       <Header pageTitle={"구인 글 작성"} />
       <CitySelect 
-        isOpen={isOpen} 
-        setRegion={setRegion}
-        setRegionValue={setRegionValue}
-        setIsOpen={setIsOpen}
-        confirmHandler={regionConfirmHandler}
+        isOpen={isOpen} //모달 여닫기
+        setIsOpen={setIsOpen} //모달 여닫기
+        setRegion={setRegion} // 지역 id값 담기
+        setRegionName={setRegionName} // 지역 명 담기
+        confirmHandler={regionConfirmHandler} //지역 정보 받아오며 모달 닫기
       />
       <Form>
         <Section className="pt0 pb20">
@@ -121,7 +120,7 @@ const WantedCreate = () => {
             <label htmlFor="" className="ipt-label">
               지역
             </label>
-            <input type="text" className="ipt-form" value={regionValue} onClick={cityModal} />
+            <input type="text" className="ipt-form" value={regionName} onChange={()=>console.log()} onClick={cityModal} />
           </div>
 
           <div className="ipt-group">

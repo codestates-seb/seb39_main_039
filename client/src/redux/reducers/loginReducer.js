@@ -5,7 +5,7 @@ import {
 } from "../actions/loginActions";
 //초기값
 const initialstate = {
-  isLogin: false,
+  isLogin: true,
   err: null
 };
 
@@ -17,7 +17,7 @@ const loginReducers = (state = initialstate, action) => {
         //객체로 내보내기
         ...state,
         isLogin: true,
-        err: null,
+        err: null
       };
     case LOGIN_ERROR:
       return {

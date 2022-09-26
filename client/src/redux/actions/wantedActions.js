@@ -8,8 +8,9 @@ export const GET_SCROLL_ALL_WANTED_LIST_SUCCESS =
 export const GET_WANTED_DETAIL_SUCCESS = "GET_WANTED_DETAIL_SUCCESS";
 export const POST_WANTED_SUCCESS = "POST_WANTED_SUCCESS";
 export const WANTED_LOADING = "WANTED_LOADING";
+export const RESET_WANTED_LIST_SUCCESS = "RESET_WANTED_LIST_SUCCESS";
 
-export const getAllWantedList = (sort, location, matched, page) => {
+export const getAllWantedList = (sort, cityId, matched, page) => {
   return async (dispatch) => {
     try {
       dispatch({
@@ -18,14 +19,18 @@ export const getAllWantedList = (sort, location, matched, page) => {
           loading: true
         }
       });
-      const get_AllWantedList = await customAxios.get(
-        `/wanted?sort=${sort}&location=${location}&matched=${matched}&page=${page}`
-      );
-
+      const get_AllWantedList = await customAxios
+        .get(
+          `/wanted?sort=${sort}&cityId=${cityId}&matched=${matched}&page=${page}`
+        )
+        .then((res) => {
+          return res;
+        });
       dispatch({
         type: "GET_ALL_WANTED_LIST_SUCCESS",
         payload: {
-          allWantedList: get_AllWantedList.data
+          allWantedList: get_AllWantedList.data.items,
+          totalPage: get_AllWantedList.data.page.totalElements
         }
       });
       dispatch({
@@ -41,7 +46,7 @@ export const getAllWantedList = (sort, location, matched, page) => {
   };
 };
 
-export const getScrollAllWantedList = (sort, location, matched, page) => {
+export const getScrollAllWantedList = (sort, cityId, matched, page) => {
   return async (dispatch) => {
     try {
       dispatch({
@@ -51,19 +56,35 @@ export const getScrollAllWantedList = (sort, location, matched, page) => {
         }
       });
       const get_ScrollAllWantedList = await customAxios.get(
-        `/wanted?sort=${sort}&location=${location}&matched=${matched}&page=${page}`
+        `/wanted?sort=${sort}&cityId=${cityId}&matched=${matched}&page=${page}`
       );
-
       dispatch({
         type: "GET_SCROLL_ALL_WANTED_LIST_SUCCESS",
         payload: {
-          scrollAllWantedList: get_ScrollAllWantedList.data.items
+          scrollAllWantedList: get_ScrollAllWantedList.data.items,
+          totalPage: get_ScrollAllWantedList.data.page.totalElements
         }
       });
       dispatch({
         type: "WANTED_LOADING",
         payload: {
           loading: false
+        }
+      });
+    } catch (error) {
+      //에러 핸들링 하는 곳
+      console.log(error);
+    }
+  };
+};
+
+export const resetScrollAllWantedList = () => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: "RESET_WANTED_LIST_SUCCESS",
+        payload: {
+          scrollAllWantedList: []
         }
       });
     } catch (error) {

@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useMemo,
-  useCallback
-} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { Header } from "../../../components/Layout/Header";
 import WantedCard from "../../../components/WantedCard";
@@ -12,44 +6,38 @@ import { SwitchButton } from "../../../components/Switch";
 import { FloatingBtnAdd } from "../../../components/Button/FloatingBtn";
 import DropDown from "../../../components/DropDown";
 import { useDispatch, useSelector } from "react-redux";
+import { getAllWantedList } from "../../../redux/actions/wantedActions";
 import { ThreeDots } from "react-loader-spinner";
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-  useSearchParams
-} from "react-router-dom";
-import {
-  getAllWantedList,
-  getScrollAllWantedList,
-  resetScrollAllWantedList
-} from "../../../redux/actions/wantedActions";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useInfinteScroll } from "../../../hooks/useInfiniteScroll";
+import { getScrollAllWantedList } from "../../../redux/actions/wantedActions";
+
 import { useInView } from "react-intersection-observer";
+import { set } from "date-fns";
 
 const WantedList = () => {
-  const {
-    allWantedList,
-    loading,
-    scrollAllWantedList,
-    totalPage,
-    scrollOptionList
-  } = useSelector((state) => state.wanted);
+  const { allWantedList, loading, scrollAllWantedList } = useSelector(
+    (state) => state.wanted
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const search = useLocation();
-  const name = new URLSearchParams(search);
 
+  const [ref, inView] = useInView();
+
+  const [target, setTarget] = useState(null);
   const [isOn, setIsOn] = useState(false);
+  const [matchedToggle, setMatchedToggle] = useState(false);
   const [selectedSort, setSelectedSort] = useState("최신순");
-  const [selectedLocation, setSelectedLocation] = useState("경기도 수원시");
+  const [selectedLocation, setSelectedLocation] = useState("서울시 강동구");
   const [page, setPage] = useState(1);
-  const [option, setOption] = useState(false);
 
-  const { ref, inView, entry } = useInView({
-    threshold: 0.7
-  });
+  const [scroll, setScroll] = useState(false);
+  // console.log(page);
+  // //////
 
-  let sortOption;
+  // ///////
+
+  let sortOption, checked;
 
   const toggleHandler = () => {
     setIsOn(!isOn);
@@ -64,39 +52,33 @@ const WantedList = () => {
     sortOption = "pay";
   }
 
-  const fakeFetch = (delay = 500) =>
-    new Promise((res) => setTimeout(res, delay));
+  useEffect(() => {
+    dispatch(getAllWantedList("pay", `경기도 수원시`, false, 1));
+    // dispatch(getScrollAllWantedList("pay", `경기도 수원시`, false, 1));
+    console.log("??????", allWantedList);
+  }, []);
 
-  const fetchMoreData = async () => {
-    setOption(false);
-    await fakeFetch();
-    if (scrollAllWantedList.length < totalPage) {
-      dispatch(getScrollAllWantedList(sortOption, "", isOn, page)).then(
-        setPage(page + 1)
+  useEffect(() => {
+    if (
+      scrollAllWantedList.length < allWantedList.page?.totalElements &&
+      inView
+    ) {
+      setScroll(true);
+      setPage(page + 1);
+      navigate(
+        `/wantedList?sort=${sortOption}&location=${selectedLocation}&matched=${isOn}&page=${page}`
       );
+      dispatch(getScrollAllWantedList("pay", `경기도 수원시`, false, page));
     }
-  };
 
-  useEffect(() => {
-    console.log("인ㅂ");
-    if (!inView) {
-      return;
-    }
-    fetchMoreData();
+    console.log("scroll", scroll);
+    console.log("inView", inView);
   }, [inView]);
-
-  useEffect(() => {
-    dispatch(resetScrollAllWantedList());
-    setOption(true);
-    setPage(1);
-    dispatch(getAllWantedList(sortOption, "", isOn, page));
-  }, [sortOption, isOn]);
-
-  console.log(allWantedList, scrollAllWantedList);
 
   return (
     <div className="container bg-gray">
       <Header pageTitle={"구인글 리스트"} useRight="on" />
+
       <ListFilter>
         <ul className="sort-group">
           <li>
@@ -125,27 +107,27 @@ const WantedList = () => {
         <Loading>
           <ThreeDots color="#3183f8" height={80} width={80} />
         </Loading>
-      ) : option ? (
-        <WantedCardList>
-          {allWantedList?.map((item, idx) => (
-            <WantedCard key={idx} item={item} />
-          ))}
-          <FloatingBtnAdd mid={"wantedCreate"} />
-          <div ref={ref}>
-            <h2>{`Header inside viewport ${inView}.`}</h2>
-          </div>
-        </WantedCardList>
       ) : (
-        <WantedCardList>
-          {scrollAllWantedList?.map((item, idx) => (
-            <WantedCard key={idx} item={item} />
-          ))}
-          <FloatingBtnAdd mid={"wantedCreate"} />
-          <div ref={ref}>
-            <h2>{`Header inside viewport ${inView}.`}</h2>
-          </div>
-        </WantedCardList>
+        <>
+          {/* {scroll ? (
+            <WantedCardList>
+              {scrollAllWantedList?.map((item) => (
+                <WantedCard key={item.id} item={item} />
+              ))}
+              <FloatingBtnAdd mid={"wantedCreate"} />
+            </WantedCardList>
+          ) : ( */}
+          <WantedCardList>
+            {allWantedList.items?.map((item) => (
+              <WantedCard key={item.id} item={item} />
+            ))}
+            <FloatingBtnAdd mid={"wantedCreate"} />
+          </WantedCardList>
+          {/* )} */}
+        </>
       )}
+
+      <Scroll ref={ref}></Scroll>
     </div>
   );
 };
@@ -180,9 +162,9 @@ const SwitchGroup = styled.div`
 `;
 
 const Loading = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
+  height: 100px;
+`;
+
+const Scroll = styled.div`
+  height: 10px;
 `;

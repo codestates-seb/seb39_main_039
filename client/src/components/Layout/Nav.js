@@ -42,9 +42,7 @@ const Nav = () => {
       <button
         type="button"
         className="nav-button"
-        onClick={() =>
-          navigate("/wantedList?sort=pay&location=&matched=false&page=1")
-        }
+        onClick={() => navigate("/wantedList")}
       >
         <FontAwesomeIcon icon={faPaw} />
       </button>

@@ -11,6 +11,7 @@ import { ThreeDots } from "react-loader-spinner";
 import useConvertTime from "../../../hooks/useConvertTime";
 import { useEffect } from "react";
 import { getWantedDetail } from "../../../redux/actions/wantedActions";
+import { ButtonCancel } from "../../../components/Button/Buttons";
 
 const WantedDetailPage = () => {
   const { id } = useParams();
@@ -41,7 +42,10 @@ const WantedDetailPage = () => {
             <ConHeader>
               <h3>{wantedDetail.title}</h3>
               <ul>
-                <li>{wantedDetail.owner}헤헤</li>
+                <li>
+                  <img width={10} src={wantedDetail.walk.owner?.profileImage} />{" "}
+                  {wantedDetail.walk.owner?.nickName}
+                </li>
                 <li>{wantedDetail.creationDate?.split("T")[0]}</li>
               </ul>
             </ConHeader>
@@ -49,8 +53,7 @@ const WantedDetailPage = () => {
           <Section>
             <div>
               <SectLabel>
-                함께 산책할 강아지{" "}
-                <b>{wantedDetail.walk.petList?.length}마리</b>
+                함께 산책할 강아지 <b>{wantedDetail.walk.petList.length}마리</b>
               </SectLabel>
               <DogsInfo>
                 {wantedDetail.walk.petList?.map((item) => (

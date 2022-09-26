@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as Close } from '../assets/img/close.svg';
 import { getCityInfo } from '../redux/actions/cityActions';
@@ -27,7 +27,6 @@ const CitySelect = ({isOpen, setIsOpen, setRegion, setRegionName, confirmHandler
         {city:'전북'},
         {city:'제주'},
     ]
-   
 
     const openModalHandler = () => {
         setIsOpen(!isOpen);
@@ -39,12 +38,33 @@ const CitySelect = ({isOpen, setIsOpen, setRegion, setRegionName, confirmHandler
         setRegion(null);
     }
 
-    const regionHandler = (e) => {
+    const regionHandler = (e, idx) => {
         setRegion(Number(e.target.dataset.id));
-        setRegionName(e.target.dataset.name)
+        setRegionName(e.target.dataset.name);
+        handleRegionClick(e, idx)
     }
 
-    
+    const citySelectHandler = (e, el, idx) => {
+        citySelect(`${el.city}`)
+        handleClick(e, idx)
+    }
+
+    const iptRef = useRef([]);
+    const regionRef = useRef([]);
+    const handleClick = (e, idx) => {
+        const siblings = iptRef.current.filter((node) => node.innerText !== iptRef.current[idx].innerText);
+        siblings.map((el)=>{return el.className = "off"})
+        e.target.className = "on";
+    };
+
+    const handleRegionClick = (e, idx) => {
+        const test = regionRef.current.filter((node)=> node !== null)
+        const siblings = test.filter((node)=> node.dataset.id !== regionRef.current[idx].dataset.id);
+        siblings.map((el)=>{return el.className = "off"})
+        e.target.className = "on";
+        console.log('엥', regionRef.current);
+    };
+
     return(
         <>
             {isOpen ? 
@@ -60,8 +80,9 @@ const CitySelect = ({isOpen, setIsOpen, setRegion, setRegionName, confirmHandler
                                     {cityData.map((el, idx)=>{
                                         return(
                                             <li 
-                                            onClick={()=>citySelect(`${el.city}`)}
+                                            onClick={(e)=>citySelectHandler(e, el, idx)}
                                             key={idx}
+                                            ref={(inputEl) => (iptRef.current[idx] = inputEl)}
                                             >{el.city}</li>
                                         )
                                     })}
@@ -69,13 +90,14 @@ const CitySelect = ({isOpen, setIsOpen, setRegion, setRegionName, confirmHandler
                             </div>
                             <div className="i2">
                                 <ul className="item-ul">
-                                    {cityInfo?.map((el, key)=>{
+                                    {cityInfo?.map((el, idx)=>{
                                         return(
                                             <li 
                                                 data-id={el.cityId} 
                                                 data-name={`${el.regionName} ${el.name}`}
-                                                onClick={(e)=>regionHandler(e)}
-                                                key={key}
+                                                onClick={(e)=>regionHandler(e, idx)}
+                                                ref={(inputEl) => (regionRef.current[idx] = inputEl)}
+                                                key={idx}
                                             >{el.name}</li>
                                         )
                                     })}

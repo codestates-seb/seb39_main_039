@@ -47,6 +47,7 @@ public class WalkService {
      */
     public Walk checkCheckList(Long walkId, Long checkListId, boolean check, Long walkerId) {
         Walk targetWalk = verifyWalk(walkId);
+        if (targetWalk.isEnded()) throw new CustomException("이미 종료된 산책입니다", HttpStatus.FORBIDDEN);
         verifyWalkUser(targetWalk, walkerId);
 //        WalkCheckList targetCheckList = checkListRepository.findById(checkListId).orElseThrow(() -> new CustomException("존재하지 않는 체크리스트 입니다", HttpStatus.NO_CONTENT));
         //체크리스트 아이디가 해당 산책에 속하지 않을 때 에러
@@ -64,6 +65,7 @@ public class WalkService {
 
     public Time putActualWalkTime(Long walkId, Time actualWalkTime, Long walkerId) {
         Walk targetWalk = verifyWalk(walkId);
+        if (targetWalk.isEnded()) throw new CustomException("이미 종료된 산책입니다", HttpStatus.FORBIDDEN);
         verifyWalkUser(targetWalk, walkerId);
         targetWalk.setActualWalkTime(actualWalkTime);
         return actualWalkTime;
@@ -88,6 +90,7 @@ public class WalkService {
      */
     public boolean endWalk(Long walkId, Long ownerId) {
         Walk targetWalk = verifyWalk(walkId);
+        if (targetWalk.isEnded()) throw new CustomException("이미 종료된 산책입니다", HttpStatus.FORBIDDEN);
         verifyWalkUser(targetWalk, ownerId);
         targetWalk.setEnded(true);
         return true;
@@ -99,6 +102,7 @@ public class WalkService {
      */
     public void putCoord(Long walkId, String coord, int distance, Long loginId) throws ParseException {
         Walk targetWalk = verifyWalk(walkId);
+        if (targetWalk.isEnded()) throw new CustomException("이미 종료된 산책입니다", HttpStatus.FORBIDDEN);
         verifyWalkUser(targetWalk, loginId);
 
         walkRepository.increaseDistance(walkId, distance);
@@ -114,6 +118,7 @@ public class WalkService {
      */
     public int putBasic(Long walkId, String basic, int count, Long loginId) {
         Walk targetWalk = verifyWalk(walkId);
+        if (targetWalk.isEnded()) throw new CustomException("이미 종료된 산책입니다", HttpStatus.FORBIDDEN);
         verifyWalkUser(targetWalk, loginId);
         switch (basic) {
             case "poo":
@@ -162,8 +167,10 @@ public class WalkService {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("creationDate").descending());
 
         Page<Walk> walkList = null;
-        if(when.equals("history")) walkList = walkRepository.findAllByPetListIdAndEndTimeIsBefore(petId, LocalDateTime.now(), pageRequest);
-        if(when.equals("waiting")) walkList= walkRepository.findAllByPetListIdAndStartTimeIsAfter(petId, LocalDateTime.now(), pageRequest);
+        if (when.equals("history"))
+            walkList = walkRepository.findAllByPetListIdAndEndTimeIsBefore(petId, LocalDateTime.now(), pageRequest);
+        if (when.equals("waiting"))
+            walkList = walkRepository.findAllByPetListIdAndStartTimeIsAfter(petId, LocalDateTime.now(), pageRequest);
 
         if (walkList == null) throw new CustomException("산책이 존재하지 않거나, 존재하지 않는 반려견 ID입니다", HttpStatus.NO_CONTENT);
         return walkList;

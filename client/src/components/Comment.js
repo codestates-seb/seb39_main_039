@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
@@ -61,7 +61,6 @@ export const ApplyComment = ({data, wantedId}) => {
        }
     };
 
-    console.log(data);
 
     return(
         <Card>

@@ -16,7 +16,7 @@ export const getUserInfo = () => {
         payload: {
           userInfo: get_userInfo.data
         }
-      });
+      })
     } catch (error) {
       //에러 핸들링 하는 곳
       console.log(error);

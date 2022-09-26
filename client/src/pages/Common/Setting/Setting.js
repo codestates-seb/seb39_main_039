@@ -42,7 +42,7 @@ const Setting = () => {
     dispatch(delUser());
   };
 
-  console.log('test', myPetInfo);
+  console.log('test', userInfo);
 
 
   return (

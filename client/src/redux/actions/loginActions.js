@@ -22,6 +22,7 @@ export const loginSuccess = (email, password) => {
           Cookies.set("refresh", response.headers.refresh, {
             expires: 7
           });
+          localStorage.setItem('user', response.data);
         })
         .then(() => {
           dispatch({
@@ -46,6 +47,7 @@ export const logoutSuccess = () => {
     try {
       Cookies.remove("access");
       Cookies.remove("refresh");
+      localStorage.removeItem('user');
       dispatch({
         type: "LOGOUT_SUCCESS"
       });

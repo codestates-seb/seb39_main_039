@@ -12,7 +12,7 @@ import {
   getScrollAllWantedList,
   resetScrollAllWantedList
 } from "../../../redux/actions/wantedActions";
-import { useInView } from "react-intersection-observer";
+import { useInView } from 'react-intersection-observer';
 
 const WantedList = () => {
   const { scrollAllWantedList, totalPage } = useSelector(
@@ -133,7 +133,6 @@ const ListFilter = styled.div`
   font-size: 15px;
   font-weight: 500;
   margin: 15px 0 10px;
-
   .sort-group {
     display: flex;
     gap: 10px;

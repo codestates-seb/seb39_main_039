@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutSuccess } from "../../../redux/actions/loginActions";
 import { getUserInfo } from "../../../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
+import { getMyPetInfo } from "../../../redux/actions/petActions";
 import Modal from "../../../components/Modal/Modal";
 
 const Setting = () => {
@@ -30,6 +31,7 @@ const Setting = () => {
 
   useEffect(() => {
     dispatch(getUserInfo());
+    dispatch(getMyPetInfo());
   }, []);
 
   const logout = () => {
@@ -39,6 +41,8 @@ const Setting = () => {
   const deleteUser = () => {
     dispatch(delUser());
   };
+
+  console.log('test', myPetInfo);
 
 
   return (

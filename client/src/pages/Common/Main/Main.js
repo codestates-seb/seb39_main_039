@@ -8,7 +8,8 @@ import {
 } from "../../../components/Button/Buttons";
 import { ReactComponent as Logo } from "../../../assets/img/logo-wh.svg";
 import { ReactComponent as VisualImg } from "../../../assets/img/visualImg.svg";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getUserInfo } from "../../../redux/actions/userActions";
 import btnIcon01 from "../../../assets/img/buttonIcon01.svg";
 import btnIcon02 from "../../../assets/img/buttonIcon02.svg";
 import Cookies from "js-cookie";
@@ -16,7 +17,11 @@ import Cookies from "js-cookie";
 const Main = () => {
   const isLogin = Cookies.get("access");
   const { userInfo } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(getUserInfo());
+  }, []);
   return (
     <div className="container pa0">
       <MainIntro>

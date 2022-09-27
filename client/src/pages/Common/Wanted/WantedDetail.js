@@ -9,9 +9,9 @@ import { startOfYesterday } from "date-fns";
 import { useParams } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import useConvertTime from "../../../hooks/useConvertTime";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getWantedDetail } from "../../../redux/actions/wantedActions";
-import { ButtonCancel } from "../../../components/Button/Buttons";
+import { ToastContainer } from "react-toast";
 
 const WantedDetailPage = () => {
   const { id } = useParams();
@@ -28,6 +28,8 @@ const WantedDetailPage = () => {
   useEffect(() => {
     dispatch(getWantedDetail(id));
   }, []);
+
+  
 
   return (
     <div className="container bg-gray pa0">
@@ -130,6 +132,7 @@ const WantedDetailPage = () => {
           </CommentApply>
         </>
       )}
+      <ToastContainer position="top-right" delay={3000} />
     </div>
   );
 };

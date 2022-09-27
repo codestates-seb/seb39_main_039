@@ -31,7 +31,7 @@ public class Wanted extends BaseEntityDate {
 
     @ManyToOne
     @JoinColumn(name = "CITY_ID")
-    private City location;
+    private City city;
 
     private int pay;
     private boolean matched;
@@ -46,6 +46,9 @@ public class Wanted extends BaseEntityDate {
     }
 
     public String getLocation() {
-        return this.location.getRegionName() + " " + this.location.getName();
+        return this.city.getRegionName() + " " + this.city.getName();
+    }
+    public Long getCityId() {
+        return this.city.getCityId();
     }
 }

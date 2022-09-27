@@ -27,6 +27,7 @@ public class WantedDto {
         private LocalDateTime lastActivityDate;
         private boolean matched;
         private List<CommentDto.Response> commentList;
+        private Long cityId;
     }
 
     @Builder
@@ -41,6 +42,7 @@ public class WantedDto {
         private LocalDateTime creationDate;
         private LocalDateTime lastActivityDate;
         private boolean matched;
+        private Long cityId;
     }
 
     @Builder

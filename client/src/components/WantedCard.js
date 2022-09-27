@@ -79,9 +79,9 @@ const WantedCard = ({ item }) => {
               <FontAwesomeIcon icon={faDog} /> 시간
             </dt>
             <dd>
-              {`${startTimeForm[0]}-${startTimeForm[1]} ${startTimeForm[2]}:${startTimeForm[3]}`}{" "}
+              {`${startTimeForm[0]}-${startTimeForm[1]}-${startTimeForm[2]} ${startTimeForm[3]}:${startTimeForm[4]}`}{" "}
               ~{" "}
-              {`${endTimeForm[0]}-${endTimeForm[1]} ${endTimeForm[2]}:${endTimeForm[3]}`}
+              {`${endTimeForm[0]}-${endTimeForm[1]} ${endTimeForm[2]} ${endTimeForm[3]}:${endTimeForm[4]}`}
             </dd>
             <dt>
               <em>{ago}</em> <FontAwesomeIcon icon={faComment} /> {}

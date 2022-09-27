@@ -22,7 +22,7 @@ const WalkerHistory = () => {
       <Header pageTitle={`춘식이 지난 산책 내역`} />
       {petWalkInfo.items?.length !== 0 ? (
         <List>
-          {petWalkInfo.items?.map((el) => {
+          {petWalkInfo.items?.map((el, idx) => {
             return (
               <li>
                 <HistoryCard
@@ -30,6 +30,7 @@ const WalkerHistory = () => {
                   endTime={el.endTime}
                   distance={el.distance}
                   walker={el.walker}
+                  key={idx}
                 />
               </li>
             );

@@ -2,30 +2,37 @@ import styled from "styled-components"
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getContactInfo } from "../../redux/actions/commentActions";
-import { tr } from "date-fns/locale";
+import ModalContact from "../Modal/ModalContact";
 
-const GetContactButton = ({wantedId, commentId}) => {
+const GetContactButton = ({wantedId, commentId, walker, photo}) => {
     const dispatch = useDispatch();
+    const [ isOpen, setIsOpen ] = useState(false);
     const { contactInfo } = useSelector((state)=>state.comment.contactInfo);
-    const [ contact, setContact ] = useState('휴대폰 번호 보기');
-    const [ contactOn, setContactOn ] = useState(false);
-
+    const [ contact, setContact ] = useState('');
+    
     const getContactModal = () => {
         dispatch(getContactInfo(wantedId, commentId));
         setContact(contactInfo)
-        setContactOn(true)
+        setIsOpen(true)
     };
+
+    const confirmHandler = () => {
+        setIsOpen(false)
+        setContact('')
+    }
 
     console.log(contact);
     return(
         <>
-            {/* <Modal
+            <ModalContact
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}
                 confirmHandler={confirmHandler}
+                walker={walker}
+                photo={photo}
                 text={`${contactInfo}`}
-            /> */}
-            <Button className={contactOn ? 'on' : ''}onClick={getContactModal}>{contact}</Button>
+            />
+            <Button onClick={getContactModal}>휴대폰번호 보기</Button>
         </>
     )
 }
@@ -41,11 +48,4 @@ const Button = styled.button`
     margin-top:2px;
     padding:3px 6px;
     font-size:12px;
-
-    &.on{
-        background:var(--primary);
-        color:var(--white-000);
-        font-weight: 600;
-        border:0;
-    }
 `

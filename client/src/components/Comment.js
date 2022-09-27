@@ -78,7 +78,12 @@ export const ApplyComment = ({data, wantedId}) => {
                 </div>
                 <div className="user-name">
                     <strong>{data.walker?.walkerName}</strong>
-                    <GetContactButton wantedId={wantedId} commentId={data.commentId}/>
+                    <GetContactButton 
+                        wantedId={wantedId} 
+                        commentId={data.commentId}
+                        walker={data.walker?.walkerName}
+                        photo={data.walker?.walkerPicture}
+                    />
                     
                     <OptionButton>
                         <i onClick={()=>setIsOn(!isOn)}><FontAwesomeIcon icon={faEllipsisVertical}/></i>

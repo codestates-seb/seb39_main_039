@@ -71,7 +71,7 @@ const Walking = () => {
       </Section>
       <Sect className="map-area">
         {/* <TrackingMap /> */}
-        <RecordedMap />
+        <RecordedMap walkId={walkId.id}/>
         <StateBoxArea className="pt25">
           <li>
             <StateCard type={"i1"} name={"산책"} count={WalkInfo.walkCount} />

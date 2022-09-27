@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const { kakao } = window;
 
-const TrackingMap = () => {
+const TrackingMap = ({walkId}) => {
   const [myMap, setMyMap] = useState(null);
   const [recordedLine, setRecordedLine] = useState([]);
   const dispatch = useDispatch();
@@ -77,7 +77,7 @@ const TrackingMap = () => {
 
   useEffect(() => {
     getGeolocation();
-    dispatch(getWalkDetailInfo(1));
+    dispatch(getWalkDetailInfo(walkId));
     makeRecordObj();
     if (lat > 0 && lon > 0) {
       drawMap();
@@ -98,7 +98,7 @@ const TrackingMap = () => {
           </MapGPSBtn>
           <MapRefreshBtn
             onClick={() => {
-              dispatch(getWalkDetailInfo(38));
+              dispatch(getWalkDetailInfo(walkId));
             }}
           >
             <FontAwesomeIcon color="#ffff" icon={faRotate} size="2x" />

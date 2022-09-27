@@ -137,6 +137,10 @@ const Section = styled.section`
   padding: 20px;
   background: var(--white-000);
 
+  &:first-child{
+    padding-top:0;
+  }
+
   .walk-team {
     margin: 15px 0 0;
 

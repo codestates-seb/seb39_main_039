@@ -4,37 +4,43 @@ import Arrows from "../assets/img/arrows.svg";
 import ArrowsWh from "../assets/img/arrows-wh.svg";
 import { useNavigate } from "react-router-dom";
 
-const WalkerCard = () => {
+const WalkerCard = (data) => {
+  const walkerInfo = data.data;
   const navigate = useNavigate();
+  let startTime = new Date(walkerInfo.currentWalk.startTime.toString());
+  //Asia/Seoul
   return (
     <div>
       <WalkerProfile>
         <span className="photo-ring">
-          <img src={noImage} className={`img-circle`} alt="" />
+          <img src={walkerInfo.profileImage} className={`img-circle`} alt={noImage} />
         </span>
         <div className="dog-info">
           <div>
-            <strong>이지은</strong>
-            <em>010-1234-1234</em>
+            <strong>{walkerInfo.nickName}</strong>
+            <em>{walkerInfo.phone}</em>
           </div>
         </div>
       </WalkerProfile>
       <WalkState>
+        {walkerInfo.currentWalk === null ? (
         <NotWalk>
           <div>
             <p>산책 할 강아지가 없어요 🐶</p>
           </div>
         </NotWalk>
+            ) : (
         <Walking
           onClick={() => {
-            navigate("/walk/1/walking");
+            navigate(`/walk/${walkerInfo.currentWalk.walkId}/walking`);
           }}
         >
           <div>
-            <p>춘식 외 2마리와 산책 하기</p>
-            <small>09.15 오후 4:00 부터 시작</small>
+            <p>{walkerInfo.currentWalk.petList[0].petName} 외 {Object.keys(walkerInfo.currentWalk.petList).length}마리와 산책 하기</p>
+            <small>{startTime.getMonth() +1 }월 {startTime.getDate()}일 {startTime.getHours()}시 {startTime.getMinutes()}분 부터 시작</small>
           </div>
         </Walking>
+            )}
         <WalkBanner
           onClick={() => {
             navigate("/walk/1/wantedHistory");
@@ -44,7 +50,7 @@ const WalkerCard = () => {
             <p>대기중인 산책</p>
           </div>
           <div>
-            <b>3</b>건
+            <b>{walkerInfo.walkWaitingCount}</b>건
           </div>
         </WalkBanner>
         <WalkBanner
@@ -54,10 +60,10 @@ const WalkerCard = () => {
         >
           <div>
             <p>지난 산책 내역</p>
-            <small>총 13km</small>
+            <small>총 {walkerInfo.walkDistance} m</small>
           </div>
           <div>
-            <b>3</b>건
+            <b>{walkerInfo.walkHistoryCount}</b>건
           </div>
         </WalkBanner>
       </WalkState>

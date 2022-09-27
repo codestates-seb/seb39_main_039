@@ -168,6 +168,11 @@ const ListFilter = styled.div`
       position: relative;
       padding-right:13px;
 
+      svg{
+        font-size:14px;
+        color:var(--gray-600)
+      }
+
       .ico-caret {
         display: inline-block;
         border-top: 4px solid #333;

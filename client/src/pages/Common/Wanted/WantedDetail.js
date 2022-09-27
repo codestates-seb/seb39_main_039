@@ -187,6 +187,10 @@ const Section = styled.section`
   border-bottom: 9px solid var(--gray-100);
   padding: 20px;
   background: var(--white-000);
+  
+  &:first-child{
+    padding-top:0
+  }
 
   .p-area {
     padding: 13px 0 20px;
@@ -262,6 +266,7 @@ const ConHeader = styled.div`
   h3 {
     font-size: 19px;
     font-weight: 500;
+    padding-top:15px;
     padding-bottom: 16px;
   }
 

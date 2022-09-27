@@ -12,6 +12,7 @@ import ModalEndWalk from "../../components/Modal/ModalEndWalk";
 import sampleImg from "../../assets/img/sample-img.png";
 import { getWalkDetailInfo } from "../../redux/actions/mappingAction";
 
+
 const Walking = () => {
   const walkId = useParams();
   const dispatch = useDispatch();
@@ -70,7 +71,6 @@ const Walking = () => {
         </div>
       </Section>
       <Sect className="map-area">
-        {/* <TrackingMap /> */}
         <RecordedMap walkId={walkId.id}/>
         <StateBoxArea className="pt25">
           <li>

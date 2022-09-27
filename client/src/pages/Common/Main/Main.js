@@ -22,6 +22,7 @@ const Main = () => {
   useEffect(() => {
     dispatch(getUserInfo());
   }, []);
+
   return (
     <div className="container pa0">
       <MainIntro>
@@ -47,12 +48,20 @@ const Main = () => {
 
           <BottomArea>
             <VisualImg className="visual-img" />
-            {isLogin &&
+            {isLogin && (
               <LoginUser>
-                <div><img src={userInfo.profileImage} className="img-circle xs" alt=""/></div>
-                <div><b>{userInfo.nickName} 님</b> 반가워요!</div>
+                <div>
+                  <img
+                    src={userInfo.profileImage}
+                    className="img-circle xs"
+                    alt=""
+                  />
+                </div>
+                <div>
+                  <b>{userInfo.nickName} 님</b> 반가워요!
+                </div>
               </LoginUser>
-            }
+            )}
             <ButtonGroup>
               <Link to={isLogin ? "/OwnerMain" : "/login"}>
                 <ButtonPrimary className="icon-type">
@@ -87,16 +96,16 @@ const LoginUser = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
-  margin:0 0 15px 13px;
-  font-size:18px;
+  margin: 0 0 15px 13px;
+  font-size: 18px;
 
-  img{
-    border:1px solid var(--gray-100)
+  img {
+    border: 1px solid var(--gray-100);
   }
-  b{
+  b {
     font-weight: 600;
   }
-`
+`;
 
 const MainIntro = styled.div`
   position: relative;

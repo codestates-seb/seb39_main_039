@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { Header } from "../../../components/Layout/Header";
 import WantedCard from "../../../components/WantedCard";
@@ -12,10 +12,11 @@ import {
   getScrollAllWantedList,
   resetScrollAllWantedList
 } from "../../../redux/actions/wantedActions";
-import { useInView } from 'react-intersection-observer';
+import { useInView } from "react-intersection-observer";
+import CitySelect from "../../../components/CitySelect";
 
 const WantedList = () => {
-  const { scrollAllWantedList, totalPage } = useSelector(
+  const { scrollAllWantedList, totalPage, wantedDetail } = useSelector(
     (state) => state.wanted
   );
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const WantedList = () => {
   const [isOn, setIsOn] = useState(false);
   const [selectedSort, setSelectedSort] = useState("최신순");
   const [selectedLocation, setSelectedLocation] = useState("경기도 수원시");
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(1);
   const [option, setOption] = useState(false);
 
   const { ref, inView } = useInView({
@@ -46,6 +47,24 @@ const WantedList = () => {
     sortOption = "pay";
   }
 
+  const regionRef = useRef(); //선택 후 지역 인풋 포커싱
+  const [isOpen, setIsOpen] = useState(false); // 지역 모달창 여닫기
+  const cityModal = () => {
+    //모달창 여닫기
+    setIsOpen(true);
+    document.body.style.overflow = "hidden";
+  };
+  const [region, setRegion] = useState(""); //지역 id받아오는 state
+  const [regionName, setRegionName] = useState(""); // 지역 이름 담기
+  const [regionNamePick, setRegionNamePick] = useState("동네 설정"); //지역이름 선택 하면! input값으로 넣기
+  const regionConfirmHandler = () => {
+    //지역정보 받아오기
+    setRegionNamePick(regionName);
+    setIsOpen(false);
+    document.body.style.overflow = "unset";
+    regionRef.current.focus();
+  };
+
   const fakeFetch = (delay = 300) =>
     new Promise((res) => setTimeout(res, delay));
 
@@ -53,7 +72,7 @@ const WantedList = () => {
     setOption(false);
     await fakeFetch();
     if (scrollAllWantedList.length < totalPage) {
-      dispatch(getScrollAllWantedList(sortOption, "", isOn, page)).then(
+      dispatch(getScrollAllWantedList(sortOption, region, isOn, page)).then(
         setPage(page + 1)
       );
     }
@@ -68,17 +87,29 @@ const WantedList = () => {
 
   useEffect(() => {
     dispatch(resetScrollAllWantedList());
+    // if (region > 0)
+    // dispatch(getScrollAllWantedList(sortOption, region, isOn, 1));
     setOption(true);
     setPage(1);
-  }, [sortOption, isOn]);
+  }, [sortOption, isOn, regionNamePick]);
 
   useEffect(() => {
-    dispatch(getScrollAllWantedList(sortOption, "", isOn, 1));
+    // dispatch(resetScrollAllWantedList());
+    dispatch(getScrollAllWantedList(sortOption, "", isOn, page));
   }, []);
+
+  //region있을때에는 리셋되면 안됨
 
   return (
     <div className="container bg-gray">
       <Header pageTitle={"구인글 리스트"} useRight="on" />
+      <CitySelect
+        isOpen={isOpen} //모달 여닫기
+        setIsOpen={setIsOpen} //모달 여닫기
+        setRegion={setRegion} // 지역 id값 담기
+        setRegionName={setRegionName} // 지역 명 담기
+        confirmHandler={regionConfirmHandler} //지역 정보 받아오며 모달 닫기
+      />
       <ListFilter>
         <ul className="sort-group">
           <li>
@@ -90,12 +121,16 @@ const WantedList = () => {
             />
           </li>
           <li>
-            <DropDown
-              name={selectedLocation}
-              data={sortData2}
-              setSelectedLocation={setSelectedLocation}
-              value={"sortData2"}
-            />
+            <div className="ipt-group">
+              <input
+                type="text"
+                className="ipt-form"
+                value={regionNamePick} // 선택한 지역명 값에 담기
+                ref={regionRef}
+                onChange={() => console.log()} // value써서 임시로 넣은 기능없는 onChange
+                onClick={cityModal}
+              />
+            </div>
           </li>
         </ul>
         <SwitchGroup>
@@ -136,6 +171,19 @@ const ListFilter = styled.div`
   .sort-group {
     display: flex;
     gap: 10px;
+    > li:first-child {
+      width: 80px;
+    }
+  }
+
+  .ipt-group {
+    height: 40%;
+  }
+
+  > ul > li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `;
 

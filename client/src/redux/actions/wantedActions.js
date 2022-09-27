@@ -1,6 +1,5 @@
+import { useNavigate } from "react-router-dom";
 import customAxios from "../axiosAPI";
-import { toast } from "react-toast";
-import { useCallback, useEffect, useRef, useState } from "react";
 
 export const GET_ALL_WANTED_LIST_SUCCESS = "GET_ALL_WANTED_LIST_SUCCESS";
 export const GET_SCROLL_ALL_WANTED_LIST_SUCCESS =
@@ -129,8 +128,8 @@ export const getWantedDetail = (wantedId) => {
 export const postWanted = (
   caution,
   checkListContent,
+  cityId,
   endTime,
-  location,
   pay,
   petId,
   startTime,
@@ -144,25 +143,70 @@ export const postWanted = (
           loading: true
         }
       });
+      await customAxios.post(`/wanted/create`, {
+        caution: caution,
+        checkList: [],
+        checkListContent: checkListContent,
+        checkListIdToDelete: "",
+        cityId: cityId,
+        endTime: endTime,
+        pay: pay,
+        petId: petId,
+        startTime: startTime,
+        title: title
+      });
+      // .then((res) => window.location.replace(`/wantedDetail/${res.data}`));
+      dispatch({
+        type: "WANTED_LOADING",
+        payload: {
+          loading: false
+        }
+      });
+    } catch (error) {
+      //에러 핸들링 하는 곳
+      console.log(error);
+    }
+  };
+};
+
+export const modifyWanted = (
+  caution,
+  checkListContent,
+  cityId,
+  endTime,
+  pay,
+  petId,
+  startTime,
+  title,
+  wantedId
+) => {
+  return async () => {
+    try {
       return await customAxios
-        .post(`/wanted/create`, {
+        .put(`/wanted/${wantedId}/edit`, {
           caution: caution,
           checkListContent: checkListContent,
+          cityId: cityId,
           endTime: endTime,
-          location: location,
           pay: pay,
           petId: petId,
           startTime: startTime,
           title: title
         })
-        .then(
-          dispatch({
-            type: "WANTED_LOADING",
-            payload: {
-              loading: false
-            }
-          })
-        );
+        .then((res) => window.location.replace(`/wantedDetail/${wantedId}`));
+    } catch (error) {
+      //에러 핸들링 하는 곳
+      console.log(error);
+    }
+  };
+};
+
+export const deleteWanted = (wantedId) => {
+  return async () => {
+    try {
+      return await customAxios
+        .delete(`/wanted/${wantedId}/delete`)
+        .then((res) => window.location.replace(`/wantedList`));
     } catch (error) {
       //에러 핸들링 하는 곳
       console.log(error);

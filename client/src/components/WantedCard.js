@@ -5,9 +5,12 @@ import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { faSackDollar } from "@fortawesome/free-solid-svg-icons";
 import { faDog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faComment } from "@fortawesome/free-solid-svg-icons";
 import useConvertTime from "../hooks/useConvertTime";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getWantedDetail } from "../redux/actions/wantedActions";
+import moment from "moment";
+import { useEffect } from "react";
 
 const WantedCard = ({ item }) => {
   const navigate = useNavigate();
@@ -21,11 +24,19 @@ const WantedCard = ({ item }) => {
     item.walk.startTime.toLocaleString().slice(0, -3).split("T")
   );
 
+  let timeZone = moment(item.creationDate).add(9, "hours").fromNow();
+  let ago;
+  if (timeZone.includes("day")) {
+    ago = moment(item.creationDate).format("YYYY-MM-DD");
+  } else {
+    ago = timeZone;
+  }
+
   return (
     <Card
       onClick={() => {
-        navigate(`/wantedDetail/${item.wantedId}`);
         dispatch(getWantedDetail(item.wantedId));
+        navigate(`/wantedDetail/${item.wantedId}`);
       }}
     >
       <div className="con-dogs">
@@ -72,6 +83,9 @@ const WantedCard = ({ item }) => {
               ~{" "}
               {`${endTimeForm[0]}-${endTimeForm[1]} ${endTimeForm[2]}:${endTimeForm[3]}`}
             </dd>
+            <dt>
+              <em>{ago}</em> <FontAwesomeIcon icon={faComment} /> {}
+            </dt>
           </dl>
         </li>
       </ul>
@@ -126,6 +140,7 @@ const Card = styled.div`
       display: flex;
       font-size: 11px;
       margin: 7px 0;
+      align-items: flex-end;
     }
     dt {
       color: var(--gray-500);
@@ -137,6 +152,11 @@ const Card = styled.div`
         width: 12px;
       }
     }
+
+    dt:nth-child(3) {
+      position: absolute;
+      right: 20px;
+    }
   }
 
   .title {
@@ -145,6 +165,12 @@ const Card = styled.div`
     span {
       margin-left: 5px;
       font-weight: 600;
+    }
+    > em {
+      position: absolute;
+      right: 30px;
+      font-size: 13px;
+      color: var(--gray-500);
     }
   }
 

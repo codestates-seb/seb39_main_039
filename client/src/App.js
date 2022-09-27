@@ -21,7 +21,8 @@ import {
   DogAdd,
   WalkerEdit,
   WorkHistory,
-  PendingWalk
+  PendingWalk,
+  WantedEdit
 } from "./pages";
 
 function App() {
@@ -143,6 +144,12 @@ function App() {
           path="/walkerEdit"
           element={
             <PrivateRoute authenticated={isLogin} component={<WalkerEdit />} />
+          }
+        ></Route>
+        <Route
+          path="/wantedEdit/:id"
+          element={
+            <PrivateRoute authenticated={isLogin} component={<WantedEdit />} />
           }
         ></Route>
       </Routes>

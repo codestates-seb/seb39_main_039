@@ -58,13 +58,13 @@ const Card = styled.div`
 
     .i1{
         display: flex;
+        flex:1;
         align-items: center;
-        justify-content: center;
-        padding:0 10px;
+        justify-content: flex-end;
+        padding:0 15px ;
+        border-right:1px solid var(--gray-200);
         font-weight: 800;
         font-size:20px;
-        flex:1;
-        border-right:1px solid var(--gray-200);
         color:var(--gray-400)
     }
     .i2{
@@ -75,7 +75,7 @@ const Card = styled.div`
     > div > dl{
         display: flex;
         margin:7px 0;
-        font-size:14px;
+        font-size:13px;
         gap:10px;
 
         dt{

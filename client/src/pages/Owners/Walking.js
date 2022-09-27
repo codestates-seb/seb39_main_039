@@ -12,6 +12,7 @@ import ModalEndWalk from "../../components/Modal/ModalEndWalk";
 import sampleImg from "../../assets/img/sample-img.png";
 import { getWalkDetailInfo } from "../../redux/actions/mappingAction";
 
+
 const Walking = () => {
   const walkId = useParams();
   const dispatch = useDispatch();
@@ -70,8 +71,7 @@ const Walking = () => {
         </div>
       </Section>
       <Sect className="map-area">
-        {/* <TrackingMap /> */}
-        <RecordedMap />
+        <RecordedMap walkId={walkId.id}/>
         <StateBoxArea className="pt25">
           <li>
             <StateCard type={"i1"} name={"산책"} count={WalkInfo.walkCount} />
@@ -136,6 +136,10 @@ const Section = styled.section`
   border-bottom: 9px solid var(--gray-100);
   padding: 20px;
   background: var(--white-000);
+
+  &:first-child{
+    padding-top:0;
+  }
 
   .walk-team {
     margin: 15px 0 0;

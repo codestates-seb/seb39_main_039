@@ -9,8 +9,8 @@ import styled from "styled-components";
 import { useInterval } from "../../hooks/useInterval";
 
 import TimeCount from "../Time";
-import InfoPanel from "../InfoPanel";
 import { useNavigate } from "react-router-dom";
+import WalkResultInfo from "../WalkResultInfo";
 
 const { kakao } = window;
 
@@ -183,10 +183,7 @@ const TrackingMap = () => {
 
       <div className="control-area">
         <TimeCount setIsPauseWalk={setIsPauseWalk} isPauseWalk={isPauseWalk} />
-        <ResultInfo>
-          <InfoPanel number={walkDetailInfo.distance} string={"산책 거리"} />
-          <InfoPanel number={`${10}`} string={"속도(분/km)"} />
-        </ResultInfo>
+        <WalkResultInfo walkDetailInfo={walkDetailInfo} />
       </div>
     </MapBox>
   );
@@ -233,17 +230,5 @@ const Map = styled.div`
   }
 `;
 
-const ResultInfo = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin: 20px 0 0;
-
-  > div {
-    flex: 1;
-    text-align: center;
-  }
-`;
 
 export default TrackingMap;

@@ -9,14 +9,14 @@ import { startOfYesterday } from "date-fns";
 import { useNavigate, useParams } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import useConvertTime from "../../../hooks/useConvertTime";
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useEffect, useState, useRef } from "react";
 import { getWantedDetail } from "../../../redux/actions/wantedActions";
 import { ButtonCancel } from "../../../components/Button/Buttons";
-import { useLayoutEffect, useState } from "react";
 import Modal from "../../../components/Modal/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { deleteWanted } from "../../../redux/actions/wantedActions";
+import { ToastContainer } from "react-toast";
 
 const WantedDetailPage = () => {
   const { id } = useParams();
@@ -53,6 +53,8 @@ const WantedDetailPage = () => {
   useEffect(() => {
     dispatch(getWantedDetail(Number(id)));
   }, []);
+
+  
 
   return (
     <div className="container bg-gray pa0">
@@ -174,6 +176,7 @@ const WantedDetailPage = () => {
           </CommentApply>
         </>
       )}
+      <ToastContainer position="top-right" delay={3000} />
     </div>
   );
 };
@@ -184,6 +187,10 @@ const Section = styled.section`
   border-bottom: 9px solid var(--gray-100);
   padding: 20px;
   background: var(--white-000);
+  
+  &:first-child{
+    padding-top:0
+  }
 
   .p-area {
     padding: 13px 0 20px;
@@ -259,6 +266,7 @@ const ConHeader = styled.div`
   h3 {
     font-size: 19px;
     font-weight: 500;
+    padding-top:15px;
     padding-bottom: 16px;
   }
 

@@ -9,6 +9,7 @@ import petwalkReducer from "./petwalkReducer";
 import userReducer from "./userReducer";
 import wantedReducer from "./wantedReducer";
 import cityReducer from "./cityReducer";
+import commentReducer from './commentReducer'
 
 const rootReducer = combineReducers({
   login: loginReducers,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   wanted: wantedReducer,
   city: cityReducer,
+  comment: commentReducer,
 });
 
 export default rootReducer;

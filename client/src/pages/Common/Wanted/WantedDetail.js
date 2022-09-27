@@ -3,7 +3,7 @@ import { Header } from "../../../components/Layout/Header";
 import checkedIcon from "../../../assets/img/checkedIcon.svg";
 import DogNameTag from "../../../components/DogNameTag";
 import CommentEnter from "../../../components/CommentEnter";
-import { ApplyComment, ApplyCommentBlocked } from "../../../components/Comment";
+import { ApplyComment } from "../../../components/Comment";
 import { useDispatch, useSelector } from "react-redux";
 import { startOfYesterday } from "date-fns";
 import { useNavigate, useParams } from "react-router-dom";
@@ -22,12 +22,11 @@ const WantedDetailPage = () => {
   const { id } = useParams();
   const { wantedDetail, loading } = useSelector((state) => state.wanted);
   const dispatch = useDispatch();
-
   const optionBody = useRef();
   const [isOn, setIsOn] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [onEdit, setOnEdit] = useState(false);
-
+  
   const navigate = useNavigate();
 
   let endTimeForm = useConvertTime(
@@ -54,7 +53,6 @@ const WantedDetailPage = () => {
     dispatch(getWantedDetail(Number(id)));
   }, []);
 
-  
 
   return (
     <div className="container bg-gray pa0">
@@ -157,21 +155,18 @@ const WantedDetailPage = () => {
           <CommentApply>
             <SectLabel>지원하기</SectLabel>
             <CommentEnter wantedId={wantedDetail.wantedId} />
-            <SectLabel>산책 지원하기 3명</SectLabel>
+            <SectLabel>산책 지원하기 {wantedDetail.commentList?.length}명</SectLabel>
             <div className="comment-list">
               {wantedDetail.commentList?.reverse().map((data, key) => {
                 return (
                   <ApplyComment
                     data={data}
                     wantedId={wantedDetail.wantedId}
+                    writerId={wantedDetail.walk?.owner.ownerId}
                     key={key}
                   />
                 );
               })}
-
-              {/* 글 작성자가 아닌 경우 코멘트 내용 가려짐*/}
-              <ApplyCommentBlocked />
-              <ApplyCommentBlocked />
             </div>
           </CommentApply>
         </>

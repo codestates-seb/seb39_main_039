@@ -14,7 +14,6 @@ const loginReducers = (state = initialstate, action) => {
   switch (action.type) {
     case LOGIN_SUCCESS:
       return {
-        //객체로 내보내기
         ...state,
         isLogin: true,
         err: null

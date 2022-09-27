@@ -8,20 +8,16 @@ const GetContactButton = ({wantedId, commentId, walker, photo}) => {
     const dispatch = useDispatch();
     const [ isOpen, setIsOpen ] = useState(false);
     const { contactInfo } = useSelector((state)=>state.comment.contactInfo);
-    const [ contact, setContact ] = useState('');
     
     const getContactModal = () => {
         dispatch(getContactInfo(wantedId, commentId));
-        setContact(contactInfo)
         setIsOpen(true)
     };
 
     const confirmHandler = () => {
         setIsOpen(false)
-        setContact('')
     }
 
-    console.log(contact);
     return(
         <>
             <ModalContact

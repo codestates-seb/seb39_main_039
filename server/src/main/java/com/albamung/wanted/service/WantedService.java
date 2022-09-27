@@ -110,15 +110,15 @@ public class WantedService {
         List<Pet> petList = request.getPetId().stream().map(petService::verifyPet).collect(Collectors.toList());
         targetWalk.setPetList(petList);
 
-        List<WalkCheck> checkListToDelete = new ArrayList<>(List.copyOf(targetWalk.getCheckList()));
-
-        request.getCheckList().forEach(editingCheck -> {
-            WalkCheck targetCheck = targetWalk.getCheckList().stream().filter(s -> s.getWalkCheckId().equals(editingCheck.getCheckListId())).findFirst().orElseThrow();
-            targetCheck.setContent(editingCheck.getContent());
-            checkListToDelete.remove(targetCheck);
-        });
-        checkListToDelete.forEach(s -> targetWalk.getCheckList().remove(s));
-
+//        List<WalkCheck> checkListToDelete = new ArrayList<>(List.copyOf(targetWalk.getCheckList()));
+//
+////        request.getCheckList().forEach(editingCheck -> {
+////            WalkCheck targetCheck = targetWalk.getCheckList().stream().filter(s -> s.getWalkCheckId().equals(editingCheck.getCheckListId())).findFirst().orElseThrow();
+////            targetCheck.setContent(editingCheck.getContent());
+////            checkListToDelete.remove(targetCheck);
+////        });
+//        checkListToDelete.forEach(s -> targetWalk.getCheckList().remove(s));
+        targetWalk.getCheckList().clear();
         targetWalk.setCheckListByContents(request.getCheckListContent());
         return targetWanted;
     }

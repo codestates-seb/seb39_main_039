@@ -1,14 +1,16 @@
 package com.albamung.user.mapper;
 
+import com.albamung.pet.mapper.PetMapper;
 import com.albamung.user.dto.UserDto;
 import com.albamung.user.dto.WalkerDto;
 import com.albamung.user.entity.User;
+import com.albamung.walk.mapper.WalkMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = WalkMapper.class)
 public interface UserMapper {
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 

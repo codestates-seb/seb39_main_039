@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
@@ -8,8 +8,9 @@ import Modal from '../components/Modal/Modal'
 import { delComment, editComment, selectComment } from "../redux/actions/commentActions";
 import SelectWalkerButton from "./Button/SelectWalkerButton";
 import GetContactButton from "./Button/GetContactButton";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 
-export const ApplyComment = ({data, wantedId}) => {
+export const ApplyComment = ({data, wantedId, writerId}) => {
     const dispatch = useDispatch();
     const optionBody = useRef();
     const [ isOn, setIsOn ] = useState(false); // 수정,삭제 옵션툴
@@ -17,7 +18,9 @@ export const ApplyComment = ({data, wantedId}) => {
     const [ isMtOpen, setIsMtOpen ] = useState(false); // 매칭 모달
     const [ onEdit, setOnEdit ] = useState(false); // 수정 폼 
     const [ content, setContent ] = useState(data.content);
-    
+    const [useCurrent] = useCurrentUser();
+    const currentUser = useCurrent(writerId);
+
     let creatDate =new Date(data.creationDate).toLocaleString();
 
     const deleteComment = () => {
@@ -62,89 +65,88 @@ export const ApplyComment = ({data, wantedId}) => {
        }
     };
 
-    return(
-        <Card>
-            <Modal
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
-                confirmHandler={deleteComment}
-                text={"지원 댓글을 삭제하시겠습니까?"}
-            />
 
-            <div className="user-info">
-                <div className="user-photo">
-                    <img src={data.walker?.walkerPicture} className="img-circle" alt="" />
-                    {data.matched ? <i><FontAwesomeIcon icon={faCheck}/></i>:''} 
-                </div>
-                <div className="user-name">
-                    <strong>{data.walker?.walkerName}</strong>
-                    <GetContactButton 
-                        wantedId={wantedId} 
-                        commentId={data.commentId}
-                        walker={data.walker?.walkerName}
-                        photo={data.walker?.walkerPicture}
-                    />
-                    
-                    <OptionButton>
-                        <i onClick={()=>setIsOn(!isOn)}><FontAwesomeIcon icon={faEllipsisVertical}/></i>
-                        <ul ref={optionBody}className={isOn ? 'active' : ''}>
-                            <li onClick={onEditHandler}>수정</li>
-                            <li onClick={() => setIsOpen(true)}>삭제</li>
-                        </ul>
-                    </OptionButton>
-                </div>
-            </div>
-            {!onEdit? 
-                <div className="user-con">
-                    <p>{content}</p>
-                    <small>{creatDate} {data.lastActivityDate !== data.creationDate && "수정됨"}</small>
-                </div>
-            :
-                <div className="user-con edit">
-                    <textarea value={content} onChange={(e)=>setContent(e.target.value)}/>
-                    <div className="btn-area">
-                        <button className="btn-cancel" onClick={cancelEditComment}>취소</button>
-                        <button className="btn-enter"onClick={updateComment}>수정하기</button>
+    return(
+        <>
+            {currentUser ? 
+             <Card>
+                <Modal
+                    isOpen={isOpen}
+                    setIsOpen={setIsOpen}
+                    confirmHandler={deleteComment}
+                    text={"지원 댓글을 삭제하시겠습니까?"}
+                />
+                <div className="user-info">
+                    <div className="user-photo">
+                        <img src={data.walker?.walkerPicture} className="img-circle" alt="" />
+                        {data.matched ? <i><FontAwesomeIcon icon={faCheck}/></i>:''} 
                     </div>
-                    
+                    <div className="user-name">
+                        <strong>{data.walker?.walkerName}</strong>
+                        <GetContactButton 
+                            wantedId={wantedId} 
+                            commentId={data.commentId}
+                            walker={data.walker?.walkerName}
+                            photo={data.walker?.walkerPicture}
+                        />
+                        
+                        <OptionButton>
+                            <i onClick={()=>setIsOn(!isOn)}><FontAwesomeIcon icon={faEllipsisVertical}/></i>
+                            <ul ref={optionBody}className={isOn ? 'active' : ''}>
+                                <li onClick={onEditHandler}>수정</li>
+                                <li onClick={() => setIsOpen(true)}>삭제</li>
+                            </ul>
+                        </OptionButton>
+                    </div>
                 </div>
-            }
-           
-           {data.matched?
-            <SelectWalkerButton 
-                pickComment={cancelPickComment} 
-                isMtOpen={isMtOpen} 
-                setIsMtOpen={setIsMtOpen}
-                cancel={'cancel'}
-                btnText={'매칭 취소'}
-                text={"산책 매칭을 취소하시겠습니까?"}/>
+                {!onEdit? 
+                    <div className="user-con">
+                        <p>{content}</p>
+                        <small>{creatDate} {data.lastActivityDate !== data.creationDate && "수정됨"}</small>
+                    </div>
+                :
+                    <div className="user-con edit">
+                        <textarea value={content} onChange={(e)=>setContent(e.target.value)}/>
+                        <div className="btn-area">
+                            <button className="btn-cancel" onClick={cancelEditComment}>취소</button>
+                            <button className="btn-enter"onClick={updateComment}>수정하기</button>
+                        </div>
+                        
+                    </div>
+                }
+            
+                {data.matched?
+                <SelectWalkerButton 
+                    pickComment={cancelPickComment} 
+                    isMtOpen={isMtOpen} 
+                    setIsMtOpen={setIsMtOpen}
+                    cancel={'cancel'}
+                    btnText={'매칭 취소'}
+                    text={"산책 매칭을 취소하시겠습니까?"}/>
+                :
+                <SelectWalkerButton 
+                    pickComment={pickComment} 
+                    isMtOpen={isMtOpen} 
+                    setIsMtOpen={setIsMtOpen} 
+                    btnText={'이 지원자와 함께 산책 보내기'}
+                    text={"이 지원자와 산책을 보내시겠습니까?"}/>
+                }
+            </Card>
             :
-            <SelectWalkerButton 
-                pickComment={pickComment} 
-                isMtOpen={isMtOpen} 
-                setIsMtOpen={setIsMtOpen} 
-                btnText={'이 지원자와 함께 산책 보내기'}
-                text={"이 지원자와 산책을 보내시겠습니까?"}/>
+            <Card className="blocked">
+                <div className="user-info">
+                    <div className="user-photo">
+                        <img src={'https://avatars.githubusercontent.com/u/9497404?v=4'} className="img-circle" alt="" />
+                    </div>
+                    <div className="user-name">
+                        <strong>산책 가자~</strong>
+                    </div>
+                </div>
+            </Card>
             }
-        </Card>
+        </>
     )
 }
-
-export const ApplyCommentBlocked = () => {
-    return(
-        <Card className="blocked">
-            <div className="user-info">
-                <div className="user-photo">
-                    <img src={'https://avatars.githubusercontent.com/u/9497404?v=4'} className="img-circle" alt="" />
-                </div>
-                <div className="user-name">
-                    <strong>춘식아~ 산책 가자</strong>
-                </div>
-            </div>
-        </Card>
-    )
-}
-
 
 const OptionButton = styled.div`
     position: absolute;

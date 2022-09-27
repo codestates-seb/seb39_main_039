@@ -11,7 +11,14 @@ import {
   WalkerEdit
 } from "./Common";
 import { Login, SignUp, Terms } from "./Register";
-import { OwnerMain, WantedCreate, WalkerHistory, Walking, PendingWalk } from "./Owners";
+import {
+  OwnerMain,
+  WantedCreate,
+  WalkerHistory,
+  Walking,
+  PendingWalk,
+  WantedEdit
+} from "./Owners";
 import { WalkerMain, StartWalking, WorkHistory } from "./Walkers";
 
 export {
@@ -34,5 +41,6 @@ export {
   WalkingLists,
   StartWalking,
   WorkHistory,
-  PendingWalk
+  PendingWalk,
+  WantedEdit
 };

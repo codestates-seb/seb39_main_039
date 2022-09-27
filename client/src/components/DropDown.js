@@ -80,12 +80,12 @@ const DropDownButton = styled.div`
     position: absolute;
     top: 140%;
     left: 0;
-    min-width: 270px;
+    /* min-width: 270px; */
+    min-width: 100px;
     background: var(--white-000);
     border-radius: 15px;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.15);
     z-index: 99;
-
     li {
       padding: 13px 18px;
       text-align: left;

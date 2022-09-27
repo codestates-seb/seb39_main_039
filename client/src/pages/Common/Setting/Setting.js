@@ -14,6 +14,7 @@ import { logoutSuccess } from "../../../redux/actions/loginActions";
 import { getUserInfo } from "../../../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
 import Modal from "../../../components/Modal/Modal";
+import { getMyPetInfo } from "../../../redux/actions/petActions";
 
 const Setting = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const Setting = () => {
 
   useEffect(() => {
     dispatch(getUserInfo());
+    dispatch(getMyPetInfo());
   }, []);
 
   const logout = () => {
@@ -39,7 +41,6 @@ const Setting = () => {
   const deleteUser = () => {
     dispatch(delUser());
   };
-
 
   return (
     <div className="container">

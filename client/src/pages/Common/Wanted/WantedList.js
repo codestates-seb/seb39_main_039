@@ -4,6 +4,8 @@ import { Header } from "../../../components/Layout/Header";
 import WantedCard from "../../../components/WantedCard";
 import { SwitchButton } from "../../../components/Switch";
 import { FloatingBtnAdd } from "../../../components/Button/FloatingBtn";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import DropDown from "../../../components/DropDown";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -39,7 +41,6 @@ const WantedList = () => {
   };
 
   const sortData = [{ name: "최신순" }, { name: "보수순" }];
-  const sortData2 = [{ name: "서울시 강동구" }, { name: "경기도 수원시" }];
 
   if (selectedSort === "최신순") {
     sortOption = "recent";
@@ -113,6 +114,9 @@ const WantedList = () => {
       <ListFilter>
         <ul className="sort-group">
           <li>
+            <span className="cate" onClick={cityModal}><FontAwesomeIcon icon={faLocationDot}/> {regionNamePick} <i className="ico-caret"></i></span>
+          </li>
+          <li>
             <DropDown
               name={selectedSort}
               data={sortData}
@@ -120,21 +124,9 @@ const WantedList = () => {
               value={"sortData"}
             />
           </li>
-          <li>
-            <div className="ipt-group">
-              <input
-                type="text"
-                className="ipt-form"
-                value={regionNamePick} // 선택한 지역명 값에 담기
-                ref={regionRef}
-                onChange={() => console.log()} // value써서 임시로 넣은 기능없는 onChange
-                onClick={cityModal}
-              />
-            </div>
-          </li>
         </ul>
         <SwitchGroup>
-          <em>매칭 된 글 제외</em>
+          <em>매칭 글 제외</em>
           <SwitchButton isOn={isOn} toggleHandler={toggleHandler} />
         </SwitchGroup>
       </ListFilter>
@@ -171,8 +163,21 @@ const ListFilter = styled.div`
   .sort-group {
     display: flex;
     gap: 10px;
-    > li:first-child {
-      width: 80px;
+
+    .cate{
+      position: relative;
+      padding-right:13px;
+
+      .ico-caret {
+        display: inline-block;
+        border-top: 4px solid #333;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        margin-top: -2px;
+      }
     }
   }
 
@@ -198,14 +203,6 @@ const SwitchGroup = styled.div`
   align-items: center;
   font-family: "Pretendard-Medium";
   gap: 5px;
-`;
-
-const Loading = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
 `;
 
 const Scroll = styled.div`

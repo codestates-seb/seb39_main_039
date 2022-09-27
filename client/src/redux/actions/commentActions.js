@@ -2,6 +2,7 @@ import customAxios from "../axiosAPI";
 import { toast } from "react-toast";
 
 export const COMMENT_SELECT_ERROR = "COMMENT_SELECT_ERROR";
+export const GET_CONTACT_INFO_SUCCESS = "GET_CONTACT_INFO_SUCCESS";
 
 
 export const addComment = (wantedId, content) => {
@@ -62,6 +63,24 @@ export const selectComment = (wantedId, commentId, pick) => {
           payload: error.response.data
         });
       }
+    }
+  };
+};
+
+
+export const getContactInfo = (wantedId, commentId) => {
+  return async (dispatch) => {
+    try {
+      const getContactInfoAPI = customAxios.get(`/wanted/${wantedId}/comment/${commentId}/viewPhoneNumber`);
+      let get_contactInfo = await getContactInfoAPI;
+      dispatch({
+        type: "GET_CONTACT_INFO_SUCCESS",
+        payload: {
+          contactInfo: get_contactInfo.data
+        }
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 };

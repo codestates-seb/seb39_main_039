@@ -28,8 +28,8 @@ const WantedCreate = () => {
   const [wantedCaution, setWantedCaution] = useState();
   const [wantedReward, setWantedReward] = useState();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  ////////////////////////////////////// 지역 선택 컴포넌트 세트👀💦
   const regionRef = useRef(); //선택 후 지역 인풋 포커싱
   const [isOpen, setIsOpen] = useState(false); // 지역 모달창 여닫기
   const cityModal = () => {
@@ -49,13 +49,11 @@ const WantedCreate = () => {
   const [regionNamePick, setRegionNamePick] = useState("지역을 선택해주세요."); //지역이름 선택 하면! input값으로 넣기
   const regionConfirmHandler = () => {
     //지역정보 받아오기
-    console.log("선택 지역 id", region);
     setRegionNamePick(regionName);
     setIsOpen(false);
     document.body.style.overflow = "unset";
     regionRef.current.focus();
   };
-  ////////////////////////////////////// 지역 선택 컴포넌트 세트👀💦
 
   const onCheckPetElement = (checked, item) => {
     if (checked) {
@@ -100,7 +98,7 @@ const WantedCreate = () => {
         startDate,
         wantedTitle
       )
-    );
+    ).then((res) => navigate(`/wantedDetail/${res.data}`));
   };
 
   const addCheckList = (title) => {

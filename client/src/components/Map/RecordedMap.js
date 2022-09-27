@@ -5,7 +5,6 @@ import {
   getWalkDetailInfo
 } from "../../redux/actions/mappingAction";
 import styled from "styled-components";
-import { Header } from "../Layout/Header";
 import { useNavigate } from "react-router-dom";
 import { faLocationArrow, faRotate } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,10 +14,10 @@ const { kakao } = window;
 const TrackingMap = () => {
   const [myMap, setMyMap] = useState(null);
   const [recordedLine, setRecordedLine] = useState([]);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { lat, lon, walkDetailInfo } = useSelector((state) => state.mapping);
 
+  const navigate = useNavigate();
   function getGeolocation() {
     let geolocation = navigator.geolocation.watchPosition(
       function (position) {
@@ -86,9 +85,8 @@ const TrackingMap = () => {
   }, [lat, lon]);
 
   return (
-    <MapBox>
-      <Header />
-      <Map id="myMap" style={{ width: "375px", height: "300px" }}></Map>
+    <>
+      <Map id="myMap" style={{ width: "100%", height: "300px" }}></Map>
       {recordedLine ? (
         <Handler>
           <MapGPSBtn
@@ -100,9 +98,7 @@ const TrackingMap = () => {
           </MapGPSBtn>
           <MapRefreshBtn
             onClick={() => {
-              // navigate("/walk/1/recordedWalking");
-
-              dispatch(getWalkDetailInfo(1));
+              dispatch(getWalkDetailInfo(38));
             }}
           >
             <FontAwesomeIcon color="#ffff" icon={faRotate} size="2x" />
@@ -111,14 +107,10 @@ const TrackingMap = () => {
       ) : (
         <></>
       )}
-    </MapBox>
+    </>
   );
 };
 
-const MapBox = styled.div`
-  background-color: white;
-  height: 100vh;
-`;
 
 const Map = styled.div`
   opacity: 0.6;

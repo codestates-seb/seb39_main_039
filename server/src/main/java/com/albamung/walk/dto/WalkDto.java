@@ -2,6 +2,8 @@ package com.albamung.walk.dto;
 
 import com.albamung.pet.dto.PetDto;
 import com.albamung.user.dto.UserDto;
+import com.albamung.user.dto.WalkerDto;
+import com.albamung.walk.entity.Walk;
 import io.swagger.annotations.ApiModel;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,7 +34,7 @@ public class WalkDto {
         private int progress;
         private Time actualWalkTime;
         private String caution;
-        private UserDto.SimpleWalkerResponse walker;
+        private WalkerDto.SimpleWalkerResponse walker;
     }
 
     @Getter
@@ -48,12 +50,13 @@ public class WalkDto {
     public static class SimpleResponse {
         private Long walkId;
         private UserDto.SimpleOwnerResponse owner;
+        private List<PetDto.SimpleResponse> petList;
         private LocalDateTime startTime;
         private LocalDateTime endTime;
         private int distance;
         private boolean ended;
         private int progress;
-        private UserDto.SimpleWalkerResponse walker;
+        private WalkerDto.SimpleWalkerResponse walker;
     }
     @Getter
     @Builder
@@ -65,6 +68,6 @@ public class WalkDto {
         private LocalDateTime startTime;
         private LocalDateTime endTime;
         private String caution;
-        private UserDto.SimpleWalkerResponse walker;
+        private WalkerDto.SimpleWalkerResponse walker;
     }
 }

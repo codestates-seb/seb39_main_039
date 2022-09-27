@@ -58,7 +58,7 @@ export const DogCard = (props) => {
             }}
           >
             <div>
-              <p>{props.props.currentWalk?.walker} 님과 산책중..</p>
+              <p>{props.props.currentWalk?.walker.walkerName} 님과 산책중..</p>
               <small>{endDate}까지</small>
               <small>수행률 {props.props.currentWalk?.progress}%</small>
             </div>

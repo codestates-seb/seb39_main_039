@@ -1,6 +1,7 @@
 package com.albamung.wanted.dto;
 
 import com.albamung.user.dto.UserDto;
+import com.albamung.user.dto.WalkerDto;
 import io.swagger.annotations.ApiModel;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +18,7 @@ public class CommentDto {
         private String content;
         private LocalDateTime creationDate;
         private LocalDateTime lastActivityDate;
-        private UserDto.SimpleWalkerResponse walker;
+        private WalkerDto.SimpleWalkerResponse walker;
         private boolean matched;
     }
 

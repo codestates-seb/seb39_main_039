@@ -76,8 +76,6 @@ public class UserService {
         return targetUser;
     }
 
-
-
     /**
      * 유저 존재 검사
      */

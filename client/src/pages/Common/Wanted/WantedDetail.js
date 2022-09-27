@@ -6,29 +6,17 @@ import CommentEnter from "../../../components/CommentEnter";
 import { ApplyComment, ApplyCommentBlocked } from "../../../components/Comment";
 import { useDispatch, useSelector } from "react-redux";
 import { startOfYesterday } from "date-fns";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import useConvertTime from "../../../hooks/useConvertTime";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { getWantedDetail } from "../../../redux/actions/wantedActions";
 import { ButtonCancel } from "../../../components/Button/Buttons";
-import { useLayoutEffect, useState } from "react";
-import Modal from "../../../components/Modal/Modal";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
-import { deleteWanted } from "../../../redux/actions/wantedActions";
 
 const WantedDetailPage = () => {
   const { id } = useParams();
   const { wantedDetail, loading } = useSelector((state) => state.wanted);
   const dispatch = useDispatch();
-
-  const optionBody = useRef();
-  const [isOn, setIsOn] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const [onEdit, setOnEdit] = useState(false);
-
-  const navigate = useNavigate();
 
   let endTimeForm = useConvertTime(
     wantedDetail.walk?.endTime.toLocaleString().slice(0, -3).split("T")
@@ -37,25 +25,8 @@ const WantedDetailPage = () => {
     wantedDetail.walk?.startTime.toLocaleString().slice(0, -3).split("T")
   );
 
-  console.log(typeof id);
-
-  const onEditHandler = () => {
-    setOnEdit(true);
-    setIsOn(false);
-  };
-
-  const delWanted = () => {
-    dispatch(deleteWanted(id));
-    setOnEdit(false);
-  };
-
-  const modifyWanted = () => {
-    navigate(`/wantedEdit/${id}`);
-    dispatch(getWantedDetail(id));
-  };
-
   useEffect(() => {
-    dispatch(getWantedDetail(Number(id)));
+    dispatch(getWantedDetail(id));
   }, []);
 
   return (
@@ -81,25 +52,9 @@ const WantedDetailPage = () => {
           </Section>
           <Section>
             <div>
-              <Modal
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
-                confirmHandler={delWanted}
-                text={"구인글을 삭제하시겠습니까?"}
-              />
               <SectLabel>
-                함께 산책할 강아지{" "}
-                <b>{wantedDetail.walk.petList?.length}마리</b>
+                함께 산책할 강아지 <b>{wantedDetail.walk.petList.length}마리</b>
               </SectLabel>
-              <OptionButton>
-                <i onClick={() => setIsOn(!isOn)}>
-                  <FontAwesomeIcon icon={faEllipsisVertical} />
-                </i>
-                <ul ref={optionBody} className={isOn ? "active" : ""}>
-                  <li onClick={modifyWanted}>수정</li>
-                  <li onClick={() => setIsOpen(true)}>삭제</li>
-                </ul>
-              </OptionButton>
               <DogsInfo>
                 {wantedDetail.walk.petList?.map((item) => (
                   <div>
@@ -107,6 +62,7 @@ const WantedDetailPage = () => {
                       name={item.petName}
                       key={item.petId}
                       species={item.species}
+                      sex={item.sex}
                     />
                   </div>
                 ))}
@@ -158,17 +114,13 @@ const WantedDetailPage = () => {
           {/* 댓글 지원 */}
           <CommentApply>
             <SectLabel>지원하기</SectLabel>
-            <CommentEnter wantedId={wantedDetail.wantedId} />
+            <CommentEnter wantedId={wantedDetail.wantedId}/>
             <SectLabel>산책 지원하기 3명</SectLabel>
             <div className="comment-list">
-              {wantedDetail.commentList?.reverse().map((data, key) => {
-                return (
-                  <ApplyComment
-                    data={data}
-                    wantedId={wantedDetail.wantedId}
-                    key={key}
-                  />
-                );
+              {wantedDetail.commentList?.reverse().map((data, key)=>{
+                return(
+                  <ApplyComment data={data} wantedId={wantedDetail.wantedId} key={key}/>
+                )
               })}
 
               {/* 글 작성자가 아닌 경우 코멘트 내용 가려짐*/}
@@ -193,6 +145,10 @@ const Section = styled.section`
     padding: 13px 0 20px;
     line-height: 1.3em;
     font-size: 15px;
+  }
+
+  &:first-child{
+    padding-top:0;
   }
 `;
 
@@ -307,52 +263,4 @@ const Loading = styled.div`
   height: 100vh;
   justify-content: center;
   align-items: center;
-`;
-
-const OptionButton = styled.div`
-  z-index: 99;
-  position: absolute;
-  top: 13px;
-  right: 10px;
-
-  i {
-    display: inline-block;
-    width: 35px;
-    height: 35px;
-    text-align: center;
-    line-height: 35px;
-    font-size: 15px;
-    cursor: pointer;
-  }
-
-  ul {
-    overflow: hidden;
-    display: none;
-    position: absolute;
-    width: 100px;
-    top: 30px;
-    right: 0;
-    background: var(--white-000);
-    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.015);
-    border: 1px solid var(--gray-300);
-    border-radius: 5px;
-
-    li {
-      text-align: center;
-      padding: 10px 10px;
-      font-weight: 500;
-      cursor: pointer;
-    }
-    li + li {
-      border-top: 1px solid #eee;
-    }
-
-    li:hover {
-      background-color: var(--gray-050);
-    }
-  }
-
-  ul.active {
-    display: inline-block;
-  }
 `;

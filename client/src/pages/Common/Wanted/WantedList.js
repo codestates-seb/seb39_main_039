@@ -82,8 +82,6 @@ const WantedList = () => {
     if (!inView) {
       return;
     }
-
-    console.log(sortOption, region, isOn, page);
     fetchMoreData();
   }, [inView]);
 
@@ -170,7 +168,6 @@ const ListFilter = styled.div`
   font-size: 15px;
   font-weight: 500;
   margin: 15px 0 10px;
-
   .sort-group {
     display: flex;
     gap: 10px;

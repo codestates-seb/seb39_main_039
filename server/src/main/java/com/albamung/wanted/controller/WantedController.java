@@ -61,7 +61,7 @@ public class WantedController {
                                     @PathVariable Long wantedId) {
         if (owner == null) owner = User.builder().id(1L).build();
         Wanted editedWanted = wantedService.editWanted(wantedId, request, owner.getId());
-        return new ResponseEntity(wantedMapper.toDetailResponse(editedWanted), HttpStatus.OK);
+        return new ResponseEntity<>(wantedMapper.toDetailResponse(editedWanted), HttpStatus.OK);
     }
 //
 //    @ApiOperation(value = "구인글 수정 시 체크리스트 삭제")

@@ -51,4 +51,8 @@ public class Wanted extends BaseEntityDate {
     public Long getCityId() {
         return this.city.getCityId();
     }
+
+    public int getCommentCount() {
+        return this.commentList.size();
+    }
 }

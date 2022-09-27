@@ -43,6 +43,7 @@ public class WantedDto {
         private LocalDateTime lastActivityDate;
         private boolean matched;
         private Long cityId;
+        private int commentCount;
     }
 
     @Builder

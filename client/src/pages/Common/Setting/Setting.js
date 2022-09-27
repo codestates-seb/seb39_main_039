@@ -42,9 +42,6 @@ const Setting = () => {
     dispatch(delUser());
   };
 
-  console.log('test', userInfo);
-
-
   return (
     <div className="container">
       <Modal

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { Header } from "../../components/Layout/Header";
 import { DogNameLabelType2 } from "../../components/DogNameLabel";
 import {
@@ -16,19 +16,21 @@ import setMinutes from "date-fns/setMinutes";
 import { ko } from "date-fns/esm/locale";
 import { useInputAutoHeight } from "../../hooks/useInput";
 import { useDispatch, useSelector } from "react-redux";
-import { postWanted } from "../../redux/actions/wantedActions";
+import { getWantedDetail, postWanted } from "../../redux/actions/wantedActions";
 import { getMyPetInfo } from "../../redux/actions/petActions";
+import { modifyWanted } from "../../redux/actions/wantedActions";
 import { nanoid } from "nanoid";
 import CitySelect from "../../components/CitySelect";
-import { id } from "date-fns/locale";
 
-const WantedCreate = () => {
+const WantedEdit = () => {
   const { myPetInfo } = useSelector((state) => state.pet);
-  const [wantedTitle, setWantedTitle] = useState();
-  const [wantedCaution, setWantedCaution] = useState();
-  const [wantedReward, setWantedReward] = useState();
+  const { wantedDetail } = useSelector((state) => state.wanted);
+  const [wantedTitle, setWantedTitle] = useState(wantedDetail.title);
+  const [wantedCaution, setWantedCaution] = useState(wantedDetail.walk.caution);
+  const [wantedReward, setWantedReward] = useState(wantedDetail.pay);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { id } = useParams();
+  const selectPetRef = useRef();
 
   const regionRef = useRef(); //선택 후 지역 인풋 포커싱
   const [isOpen, setIsOpen] = useState(false); // 지역 모달창 여닫기
@@ -38,15 +40,13 @@ const WantedCreate = () => {
     document.body.style.overflow = "hidden";
   };
   const [checklistData, setCheckListData] = useState([
-    { id: nanoid(), title: "간식 먹이기 전에 훈련을 해주세요." },
-    { id: nanoid(), title: "올림픽공원 산책을 해주세요." },
-    { id: nanoid(), title: "가방에 있는 영양제 1포를 먹여주세요." }
+    ...wantedDetail.walk.checkList?.map((el) => el)
   ]);
   const [checkedList, setCheckedList] = useState([]);
   const [petChecked, setPetChecked] = useState([]);
   const [region, setRegion] = useState(""); //지역 id받아오는 state
   const [regionName, setRegionName] = useState(""); // 지역 이름 담기
-  const [regionNamePick, setRegionNamePick] = useState("지역을 선택해주세요."); //지역이름 선택 하면! input값으로 넣기
+  const [regionNamePick, setRegionNamePick] = useState(wantedDetail.location); //지역이름 선택 하면! input값으로 넣기
   const regionConfirmHandler = () => {
     //지역정보 받아오기
     setRegionNamePick(regionName);
@@ -54,6 +54,8 @@ const WantedCreate = () => {
     document.body.style.overflow = "unset";
     regionRef.current.focus();
   };
+
+  console.log(wantedDetail.location);
 
   const onCheckPetElement = (checked, item) => {
     if (checked) {
@@ -63,6 +65,8 @@ const WantedCreate = () => {
     }
   };
 
+  console.log("myPetInfo", myPetInfo);
+
   const onCheckListElement = (checked, value) => {
     if (checked) {
       setCheckedList([...checkedList, value]);
@@ -70,6 +74,10 @@ const WantedCreate = () => {
       setCheckedList(checkedList.filter((el) => el !== value));
     }
   };
+
+  console.log(petChecked);
+  console.log(checkedList);
+  console.log(selectPetRef.current);
 
   const [
     checkItemContent,
@@ -79,16 +87,14 @@ const WantedCreate = () => {
   ] = useInputAutoHeight("");
 
   const [startDate, setStartDate] = useState(
-    setHours(setMinutes(new Date(), 30), 17)
+    new Date(wantedDetail.walk.startTime)
   );
 
-  const [endDate, setEndDate] = useState(
-    setHours(setMinutes(new Date(), 30), 17)
-  );
+  const [endDate, setEndDate] = useState(new Date(wantedDetail.walk.endTime));
 
-  const addWanted = () => {
+  const putWanted = () => {
     dispatch(
-      postWanted(
+      modifyWanted(
         wantedCaution,
         checkedList,
         region,
@@ -96,26 +102,32 @@ const WantedCreate = () => {
         wantedReward,
         petChecked,
         startDate,
-        wantedTitle
+        wantedTitle,
+        id
       )
-    ).then((res) => navigate(`/wantedDetail/${res.data}`));
+    );
   };
 
   const addCheckList = (title) => {
-    setCheckListData([...checklistData, { id: nanoid(), title: title }]);
+    setCheckListData([
+      ...checklistData,
+      { checkListId: nanoid(), content: title }
+    ]);
   };
 
   const deleteCheckList = (id) => {
-    setCheckListData(checklistData.filter((el) => el.id !== id));
+    console.log(id);
+    setCheckListData(checklistData.filter((el) => el.checkListId !== id));
   };
 
   useEffect(() => {
+    dispatch(getWantedDetail(id));
     dispatch(getMyPetInfo());
   }, []);
 
   return (
     <div className="container">
-      <Header pageTitle={"구인 글 작성"} />
+      <Header pageTitle={"구인 글 수정"} />
       <CitySelect
         isOpen={isOpen} //모달 여닫기
         setIsOpen={setIsOpen} //모달 여닫기
@@ -142,8 +154,13 @@ const WantedCreate = () => {
           <DogSelect>
             {myPetInfo?.map((el, idx) => (
               <li>
-                <DogCheckBoxLabel htmlFor={el.petName}>
+                <DogCheckBoxLabel key={el.petId} htmlFor={el.petName}>
                   <DogCheckBox
+                    defaultChecked={
+                      wantedDetail.walk.petList[idx]?.petName
+                        ? true ?? setPetChecked(el.petId)
+                        : false
+                    }
                     type="checkbox"
                     name={el.petName}
                     onChange={(e) => {
@@ -224,19 +241,22 @@ const WantedCreate = () => {
           <ConCheckList>
             {checklistData.map((el, idx) => (
               <li>
-                <label htmlFor={el.title}>
+                <label htmlFor={el.content}>
                   <span>
                     <DogCheckBox
+                      key={el.checkListId}
                       type="checkbox"
-                      name={el.title}
+                      name={el.content}
                       onChange={(e) => {
                         onCheckListElement(e.target.checked, e.target.name);
                       }}
                     />
-                    <span>{el.title}</span>
+                    <span>{el.content}</span>
                   </span>
                   <span>
-                    <ButtonPrimaryXS onClick={() => deleteCheckList(el.id)}>
+                    <ButtonPrimaryXS
+                      onClick={() => deleteCheckList(el.checkListId)}
+                    >
                       삭제
                     </ButtonPrimaryXS>
                   </span>
@@ -268,13 +288,13 @@ const WantedCreate = () => {
           ></textarea>
         </Section>
 
-        <ButtonPrimary onClick={addWanted}>등록하기</ButtonPrimary>
+        <ButtonPrimary onClick={putWanted}>수정하기</ButtonPrimary>
       </Form>
     </div>
   );
 };
 
-export default WantedCreate;
+export default WantedEdit;
 
 const Section = styled.section`
   padding: 20px 0 40px;

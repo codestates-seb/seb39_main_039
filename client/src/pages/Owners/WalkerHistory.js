@@ -22,7 +22,7 @@ const WalkerHistory = () => {
 
   return (
     <div className="container bg-gray">
-      <Header pageTitle={`${petName[0].petName} 지난 산책 내역`} />
+      <Header pageTitle={`${petName[0].petName} 지난 산책 내역`} link={'/ownerMain'} />
       {petWalkInfo.items?.length !== 0 ? (
         <List>
           {petWalkInfo.items?.map((el, idx) => {

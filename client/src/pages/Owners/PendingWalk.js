@@ -6,13 +6,13 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Loadinglottie } from "../..";
 import { getPetWalkPendingInfo } from "../../redux/actions/petwalkActions";
-import HistoryCard from "../../components/HistoryCard";
+import PendingCard from "../../components/PendingCard";
 
 const WalkerHistory = () =>{
     const petId = useParams();
     const dispatch = useDispatch();
     const petWalkPendingInfo = useSelector((state) => state.petwalk.petWalkPendingInfo);
-  
+   
     useEffect(() => {
       dispatch(getPetWalkPendingInfo(Number(petId.id)));
     }, []);
@@ -25,12 +25,7 @@ const WalkerHistory = () =>{
                 {petWalkPendingInfo.items?.map((el) => {
                   return (
                     <li>
-                        <div>
-                            <p>의뢰인 : {el.owner.fullName}</p>
-                            <p>산책 가는 강아지 : </p>
-                            <p>산책 시작일 : {el.startTime}</p>
-                            <p>산책 종료일 : {el.endTime}</p>
-                        </div>
+                        <PendingCard el={el}/>
                     </li>
                   );
                 })}

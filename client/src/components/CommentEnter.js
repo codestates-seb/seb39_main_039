@@ -1,25 +1,40 @@
 import styled from "styled-components"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector} from "react-redux";
 import { addComment } from "../redux/actions/commentActions";
-
+import { getUserInfo } from "../redux/actions/userActions";
 
 const CommentEnter = ({wantedId}) => {
     const dispatch = useDispatch();
     const { userInfo } = useSelector((state) => state.user);
+    const { addError } = useSelector((state) => state.comment)
     const [content, setContent] = useState("");
+    const [err, setErr] = useState()
     const changeHandler = (e) => {
         setContent(e.target.value)
+    }
+    useEffect(()=>{
+        dispatch(getUserInfo());
+        setErr(addError);
+    },[])
+
+    useEffect(()=>{
+        setErr(addError);
+    },[addError])
+
+    const addHandler = () => {
+        dispatch(addComment(wantedId, content))
     }
 
     return(
         <CommentForm>
             <strong>{userInfo.nickName}</strong>
+            <p>{err}</p>
             <textarea 
                 value={content}
                 onChange={changeHandler}
                 placeholder="상세 지원글을 남겨주세요."></textarea>
-            <button onClick={()=>dispatch(addComment(wantedId, content))}>등록</button>
+            <button onClick={addHandler}>등록</button>
         </CommentForm>
     )
 }
@@ -33,6 +48,16 @@ const CommentForm = styled.div`
     border:2px solid var(--primary);
     border-radius: 10px;
     margin:8px 0 30px;
+
+    p{
+        color:var(--err-danger);
+        font-size:12px;
+        padding-bottom:10px;
+    }
+
+    p:empty{
+        padding-bottom:0
+    }
 
     strong{
         display: block;

@@ -47,11 +47,11 @@ export const DogCard = (props) => {
         </div>
       </DogProfile>
       <WalkState>
-        {/* {props.props.currentWalk === null ? ( */}
-        <>
+        {props.props.currentWalk === null ? (
           <NotWalk>
             <p>{props.props.petName}이는 산책중이 아니에요.</p>
           </NotWalk>
+        ) : (
           <Walking
             onClick={() => {
               navigate(`/walking/${props.props.currentWalk?.walkId}`);
@@ -63,10 +63,7 @@ export const DogCard = (props) => {
               <small>수행률 {props.props.currentWalk?.progress}%</small>
             </div>
           </Walking>
-        </>
-        {/* ) : (
-          ""
-        )} */}
+        )}
         <WalkBanner
           onClick={() => {
             navigate(`/pendingWalk/${props.props.petId}`);

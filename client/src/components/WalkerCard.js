@@ -3,19 +3,36 @@ import noImage from "../assets/img/noImage.svg";
 import Arrows from "../assets/img/arrows.svg";
 import ArrowsWh from "../assets/img/arrows-wh.svg";
 import { useNavigate } from "react-router-dom";
+import { getWalkerUser, getUserInfo } from "../redux/actions/userActions";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const WalkerCard = () => {
   const navigate = useNavigate();
+  const { walkerUserInfo, userInfo } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getWalkerUser());
+    dispatch(getUserInfo());
+  }, []);
+
+  console.log(walkerUserInfo);
+
   return (
     <div>
       <WalkerProfile>
         <span className="photo-ring">
-          <img src={noImage} className={`img-circle`} alt="" />
+          <img
+            src={walkerUserInfo.profileImage}
+            className={`img-circle`}
+            alt=""
+          />
         </span>
         <div className="dog-info">
           <div>
-            <strong>이지은</strong>
-            <em>010-1234-1234</em>
+            <strong>{userInfo.fullName}</strong>
+            <em>{walkerUserInfo.phone}</em>
           </div>
         </div>
       </WalkerProfile>
@@ -44,7 +61,7 @@ const WalkerCard = () => {
             <p>대기중인 산책</p>
           </div>
           <div>
-            <b>3</b>건
+            <b>{walkerUserInfo.walkWaitingCount}</b>건
           </div>
         </WalkBanner>
         <WalkBanner
@@ -54,10 +71,10 @@ const WalkerCard = () => {
         >
           <div>
             <p>지난 산책 내역</p>
-            <small>총 13km</small>
+            <small>총 {walkerUserInfo.walkDistance} km</small>
           </div>
           <div>
-            <b>3</b>건
+            <b>{walkerUserInfo.walkHistoryCount}</b>건
           </div>
         </WalkBanner>
       </WalkState>
@@ -170,8 +187,8 @@ const Walking = styled.div`
 
 const NotWalk = styled.div`
   background-color: var(--gray-200);
-  div{
-    width:100%
+  div {
+    width: 100%;
   }
   p {
     text-align: center;

@@ -22,12 +22,17 @@ const Setting = () => {
   const { userInfo } = useSelector((state) => state.user);
   const { myPetInfo } = useSelector((state) => state.pet);
 
-  const [isOn, setIsOn] = useState(true);
+  const [isOn, setIsOn] = useState(
+    Boolean(localStorage.getItem("OwnerOrWalker"))
+  );
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleHandler = () => {
     setIsOn(!isOn);
+    // true:견주 false:알바
+    Boolean(localStorage.setItem("OwnerOrWalker", isOn));
   };
+  console.log(isOn);
 
   useEffect(() => {
     dispatch(getUserInfo());

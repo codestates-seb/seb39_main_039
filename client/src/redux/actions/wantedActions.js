@@ -143,19 +143,20 @@ export const postWanted = (
           loading: true
         }
       });
-      await customAxios.post(`/wanted/create`, {
-        caution: caution,
-        checkList: [],
-        checkListContent: checkListContent,
-        checkListIdToDelete: "",
-        cityId: cityId,
-        endTime: endTime,
-        pay: pay,
-        petId: petId,
-        startTime: startTime,
-        title: title
-      });
-      // .then((res) => window.location.replace(`/wantedDetail/${res.data}`));
+      await customAxios
+        .post(`/wanted/create`, {
+          caution: caution,
+          checkList: [],
+          checkListContent: checkListContent,
+          checkListIdToDelete: "",
+          cityId: cityId,
+          endTime: endTime,
+          pay: pay,
+          petId: petId,
+          startTime: startTime,
+          title: title
+        })
+        .then((res) => window.location.replace(`/wantedDetail/${res.data}`));
       dispatch({
         type: "WANTED_LOADING",
         payload: {

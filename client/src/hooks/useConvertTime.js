@@ -1,6 +1,6 @@
 import React from "react";
 
-const useConvertTime = (time) => {
+const useConvertTime1 = (time) => {
   if (time) {
     let year = time[0].slice(0, 4);
     let month = time[0].slice(5, 7);
@@ -12,4 +12,4 @@ const useConvertTime = (time) => {
   }
 };
 
-export default useConvertTime;
+export default useConvertTime1;

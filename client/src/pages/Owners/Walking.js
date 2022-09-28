@@ -17,19 +17,19 @@ const Walking = () => {
   const walkId = useParams();
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
-  const WalkInfo = useSelector((state)=>state.mapping.walkDetailInfo)
-  const time = new Date(WalkInfo.endTime).toLocaleString().slice(0, -3);
+  const WalkInfo = useSelector((state) => state.mapping.walkDetailInfo);
+  const time = new Date(WalkInfo.endTime + "z").toLocaleString().slice(0, -3);
   const ClickHandler = () => {
     setIsOpen(!isOpen);
   };
 
   const confirmHandler = () => {
-    dispatch(closeWalk(walkId.id))
+    dispatch(closeWalk(walkId.id));
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(getWalkDetailInfo(Number(walkId.id)));
-  },[])
+  }, []);
 
   console.log(WalkInfo);
   return (
@@ -44,33 +44,45 @@ const Walking = () => {
           pageTitle={"진행중인 산책"}
           ConfirmName={"종료"}
           ClickHandler={ClickHandler}
-          link={'/ownerMain'}
+          link={"/ownerMain"}
         />
         <div className="walk-team">
           <dl className="walk-con">
             <dt>산책견</dt>
             <dd>
-              {WalkInfo.petList?.map((el, idx)=>{
-                return(
-                  <DogNameLabel size={"xs"} key={idx} species={el.species} name={el.petName} picture={el.petPicture} />
-                )
+              {WalkInfo.petList?.map((el, idx) => {
+                return (
+                  <DogNameLabel
+                    size={"xs"}
+                    key={idx}
+                    species={el.species}
+                    name={el.petName}
+                    picture={el.petPicture}
+                  />
+                );
               })}
             </dd>
           </dl>
           <dl className="walk-con v2">
             <dt>의뢰인</dt>
             <dd>
-              <DogNameLabel size={"xs"} picture={WalkInfo.owner?.profileImage} name={WalkInfo.owner?.nickName} />
+              <DogNameLabel
+                size={"xs"}
+                picture={WalkInfo.owner?.profileImage}
+                name={WalkInfo.owner?.nickName}
+              />
             </dd>
           </dl>
           <dl className="walk-con mb0">
             <dt>산책 예정시간</dt>
-            <dd><p>~ {time}까지</p></dd>
+            <dd>
+              <p>~ {time}까지</p>
+            </dd>
           </dl>
         </div>
       </Section>
       <Sect className="map-area">
-        <RecordedMap walkId={walkId.id}/>
+        <RecordedMap walkId={walkId.id} />
         <StateBoxArea className="pt25">
           <li>
             <StateCard type={"i1"} name={"산책"} count={WalkInfo.walkCount} />
@@ -96,10 +108,12 @@ const Walking = () => {
           <em>수행률 {WalkInfo.progress}%</em>
         </div>
         <CheckListView>
-          {WalkInfo.checkList?.map((el, idx)=>{
-            return(
-              <li key={idx} className={el.checked ? "checked" : ''}>{el.content}</li>
-            )
+          {WalkInfo.checkList?.map((el, idx) => {
+            return (
+              <li key={idx} className={el.checked ? "checked" : ""}>
+                {el.content}
+              </li>
+            );
           })}
         </CheckListView>
       </Sect>
@@ -136,8 +150,8 @@ const Section = styled.section`
   padding: 20px;
   background: var(--white-000);
 
-  &:first-child{
-    padding-top:0;
+  &:first-child {
+    padding-top: 0;
   }
 
   .walk-team {
@@ -171,7 +185,7 @@ const Section = styled.section`
         span {
           margin-right: 5px;
         }
-        p{
+        p {
           line-height: 30px;
         }
       }
@@ -188,9 +202,9 @@ const Sect = styled.section`
   padding: 30px 0;
   border-bottom: 1px solid var(--gray-200);
 
-  &.map-area{
-    padding-top:0;
-    margin:0;
+  &.map-area {
+    padding-top: 0;
+    margin: 0;
   }
 `;
 

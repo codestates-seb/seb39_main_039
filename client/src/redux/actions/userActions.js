@@ -80,12 +80,24 @@ export const delUser = () => {
 export const getWalkerUser = () => {
   return async (dispatch) => {
     try {
+      dispatch({
+        type: "USER_LOADING",
+        payload: {
+          loading: true
+        }
+      });
       const get_walkerUserAPI = customAxios.get(`/walker`);
       let get_walkerUserInfo = await get_walkerUserAPI;
       dispatch({
         type: "GET_WALKER_USER_INFO",
         payload: {
           walkerUserInfo: get_walkerUserInfo.data
+        }
+      });
+      dispatch({
+        type: "USER_LOADING",
+        payload: {
+          loading: false
         }
       });
     } catch (error) {

@@ -23,53 +23,59 @@ import {
   ButtonCancel
 } from "../../../components/Button/Buttons";
 import { ToastContainer } from "react-toast";
+import { ThreeDots } from "react-loader-spinner";
 
 const DogEdit = () => {
-  const sex = useRef();
-  const spec = useRef();
-
+  const sexRef = useRef();
+  const specRef = useRef();
+  const birthRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { myPetInfo, loading } = useSelector((state) => state.pet);
 
-  let tapListUrl = useLocation().search;
-  let tapList = tapListUrl.slice(-1);
+  const petSexList = ["수컷", "암컷"];
 
-  const [currentTab, setCurrentTab] = useState(0);
+  let tabListUrl = useLocation().search;
+  let tabList = tabListUrl.slice(-1);
 
-  const [birth, setBirth] = useState(
-    new Date(myPetInfo[tapList]?.birthday.split("-").join(","))
-  );
+  localStorage.setItem("tabList", tabList);
+  let tab = localStorage.getItem("tabList");
+
   // 초기값 설정 및 달력에서 픽 하면 값 변경.. Wed Dec 09 2020 09:00:00 GMT+0900 (한국 표준시)
 
-  const [myPetName, setMyPetName] = useState(myPetInfo[tapList]?.petName);
-  const [myPetAbout, setMyPetAbout] = useState(myPetInfo[tapList]?.aboutPet);
-  const [myPetBirth, setMyPetBirth] = useState(myPetInfo[tapList]?.birthday);
+  const [myPetSex, setMyPetSex] = useState(myPetInfo[tab]?.sex);
+  const [myPetSpecies, setMyPetSpecies] = useState(myPetInfo[tab]?.species);
+  const [myPetName, setMyPetName] = useState(myPetInfo[tab]?.petName);
+  const [myPetAbout, setMyPetAbout] = useState(myPetInfo[tab]?.aboutPet);
+  const [myPetBirth, setMyPetBirth] = useState(
+    new Date(myPetInfo[tab]?.birthday)
+  );
+  const [convertMyPetBirth, setConvertMyPetBirth] = useState("");
+
   // GMT로 변환하기 위해서 2022-11-04 -> 2022,11,04로 만들었다.
 
   const ClickHandler = () => {
     dispatch(
       editMyPetInfo(
-        myPetInfo[currentTab].petId,
+        myPetInfo[tab].petId,
         myPetName,
-        spec.current?.value,
-        myPetBirth,
-        sex.current?.value,
+        myPetSpecies,
+        convertMyPetBirth,
+        myPetSex,
         myPetAbout
       )
     );
   };
 
   const deletePet = () => {
-    dispatch(deleteMyPetInfo(myPetInfo[currentTab].petId));
+    dispatch(deleteMyPetInfo(myPetInfo[tab].petId));
   };
 
   const menuArr = myPetInfo.map((el) => el);
 
   const selectMenuHandler = (tab) => {
-    setCurrentTab(tab);
-    navigate(`/dogEdit?tap=${tab}`);
+    navigate(`/dogEdit?tab=${tab}`);
   };
 
   const birthPick = (data) => {
@@ -85,22 +91,15 @@ const DogEdit = () => {
       day = `0` + String(day);
     }
 
-    setMyPetBirth(`${year}-${month}-${day}`);
+    setConvertMyPetBirth(`${year}-${month}-${day}`);
   };
 
   useEffect(() => {
     dispatch(getMyPetInfo());
-    navigate(`/dogEdit?tap=${tapList}`);
-    setCurrentTab(tapList);
-  }, []);
-
-  useEffect(() => {
-    dispatch(getMyPetInfo());
-  }, [currentTab, tapList, myPetBirth]);
-
-  useEffect(() => {
-    setBirth(new Date(myPetInfo[tapList]?.birthday.split("-").join(",")));
-  }, [currentTab]);
+    setMyPetSpecies(myPetInfo[tab].species);
+    setMyPetBirth(new Date(myPetInfo[tab]?.birthday));
+    setMyPetSex(myPetInfo[tab]?.sex);
+  }, [tab]);
 
   return (
     <div className="container">
@@ -109,9 +108,7 @@ const DogEdit = () => {
         {menuArr.map((el, index) => {
           return (
             <li
-              className={`${
-                index == currentTab ? "submenu focused" : "submenu"
-              }`}
+              className={`${index == tab ? "submenu focused" : "submenu"}`}
               onClick={() => {
                 selectMenuHandler(index);
                 setMyPetName(el.petName);
@@ -133,108 +130,125 @@ const DogEdit = () => {
           </Link>
         </li>
       </TabMenu>
+      {loading ? (
+        <Loading>
+          <ThreeDots color="#3183f8" height={80} width={80} />
+        </Loading>
+      ) : (
+        <>
+          {" "}
+          <Desc>
+            <UserInfo>
+              <div className="user-con">
+                <UserPhoto>
+                  <img
+                    src={menuArr[tab]?.petPicture}
+                    className="user-photo"
+                    alt=""
+                  />
+                  <Link to="/" className="user-edit">
+                    <FontAwesomeIcon icon={faCamera} />
+                  </Link>
+                </UserPhoto>
+              </div>
+            </UserInfo>
+            <Form>
+              <div className="ipt-group">
+                <label htmlFor="name" className="ipt-label">
+                  강아지 이름
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  className="ipt-form"
+                  onChange={(e) => setMyPetName(e.target.value)}
+                  value={myPetName}
+                />
+              </div>
+              <div className="ipt-group">
+                <label htmlFor="phone" className="ipt-label">
+                  강아지 종
+                </label>
+                <select
+                  ref={specRef}
+                  name={myPetInfo[tab]?.petId}
+                  className="ipt-form"
+                  value={tab && myPetSpecies}
+                  onChange={(value) => setMyPetSpecies(value.target.value)}
+                >
+                  {petSpecList.map((el, idx) => (
+                    <option value={el} key={idx}>
+                      {el}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="ipt-group">
+                <label htmlFor="" className="ipt-label">
+                  강아지 생년월일
+                </label>
+                <DatePicker
+                  ref={birthRef}
+                  peekNextMonth
+                  showMonthDropdown
+                  showYearDropdown
+                  dropdownMode="select"
+                  locale={ko}
+                  dateFormat="yyyy년 MM월 dd일 생"
+                  setDate="today"
+                  selected={tab && myPetBirth}
+                  onChange={(date) => {
+                    setMyPetBirth(date);
+                    birthPick(date);
+                  }}
+                  maxDate={new Date()}
+                  dateFormatCalendar={DATE_FORMAT_CALENDAR}
+                />
+              </div>
+              <div className="ipt-group">
+                <label htmlFor="" className="ipt-label">
+                  강아지 성별
+                </label>
+                <select
+                  className="ipt-form"
+                  name={myPetInfo[tab]?.petId}
+                  ref={sexRef}
+                  value={tab && myPetSex}
+                  onChange={(value) => setMyPetSex(value.target.value)}
+                >
+                  {petSexList.map((el, idx) => (
+                    <option value={el} key={idx}>
+                      {el}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="ipt-group">
+                <label htmlFor="about" className="ipt-label">
+                  소개글
+                </label>
+                <textarea
+                  name="about"
+                  type="text"
+                  className="ipt-form"
+                  onChange={(e) => {
+                    setMyPetAbout(e.target.value);
+                  }}
+                  value={myPetAbout}
+                ></textarea>
+              </div>
 
-      <Desc>
-        <UserInfo>
-          <div className="user-con">
-            <UserPhoto>
-              <img
-                src={menuArr[currentTab]?.petPicture}
-                className="user-photo"
-                alt=""
-              />
-              <Link to="/" className="user-edit">
-                <FontAwesomeIcon icon={faCamera} />
-              </Link>
-            </UserPhoto>
-          </div>
-        </UserInfo>
-        <Form>
-          <div className="ipt-group">
-            <label htmlFor="name" className="ipt-label">
-              강아지 이름
-            </label>
-            <input
-              type="text"
-              name="name"
-              className="ipt-form"
-              onChange={(e) => setMyPetName(e.target.value)}
-              value={myPetName}
-            />
-          </div>
-          <div className="ipt-group">
-            <label htmlFor="phone" className="ipt-label">
-              강아지 종
-            </label>
-            <select className="ipt-form" ref={spec}>
-              <option>{myPetInfo[currentTab]?.species}</option>
-              {petSpecList.map((el, idx) => (
-                <option key={idx}>{el}</option>
-              ))}
-            </select>
-          </div>
-          <div className="ipt-group">
-            <label htmlFor="" className="ipt-label">
-              강아지 생년월일
-            </label>
-            <DatePicker
-              peekNextMonth
-              showMonthDropdown
-              showYearDropdown
-              dropdownMode="select"
-              locale={ko}
-              dateFormat="yyyy년 MM월 dd일 생"
-              setDate="today"
-              selected={birth}
-              onChange={(date) => {
-                setBirth(date);
-                birthPick(date);
-              }}
-              maxDate={new Date()}
-              dateFormatCalendar={DATE_FORMAT_CALENDAR}
-            />
-          </div>
-          <div className="ipt-group">
-            <label htmlFor="" className="ipt-label">
-              강아지 성별
-            </label>
-            <select className="ipt-form" ref={sex}>
-              {myPetInfo[currentTab]?.sex === "수컷" ? (
-                <>
-                  <option selected>{myPetInfo[currentTab]?.sex}</option>
-                  <option value={"암컷"}>암컷</option>
-                </>
-              ) : (
-                <>
-                  <option selected>{myPetInfo[currentTab]?.sex}</option>
-                  <option value={"수컷"}>수컷</option>
-                </>
-              )}
-            </select>
-          </div>
-          <div className="ipt-group">
-            <label htmlFor="about" className="ipt-label">
-              소개글
-            </label>
-            <textarea
-              name="about"
-              type="text"
-              className="ipt-form"
-              onChange={(e) => {
-                setMyPetAbout(e.target.value);
-              }}
-              value={myPetAbout}
-            ></textarea>
-          </div>
+              <div className="btn-area">
+                <ButtonPrimary onClick={ClickHandler}>
+                  {loading ? "..." : "수정 완료"}
+                </ButtonPrimary>
+                <ButtonCancel onClick={deletePet}>삭제</ButtonCancel>
+              </div>
+            </Form>
+          </Desc>
+        </>
+      )}
 
-          <div className="btn-area">
-            <ButtonPrimary onClick={ClickHandler}>
-              {loading ? "..." : "수정 완료"}
-            </ButtonPrimary>
-            <ButtonCancel onClick={deletePet}>삭제</ButtonCancel>
-          </div>
-        </Form>
-      </Desc>
       <ToastContainer position="top-right" delay={3000} />
     </div>
   );
@@ -317,4 +331,11 @@ const UserPhoto = styled.div`
       color: var(--gray-800);
     }
   }
+`;
+
+const Loading = styled.div`
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
 `;

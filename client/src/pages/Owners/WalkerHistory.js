@@ -21,7 +21,7 @@ const WalkerHistory = () => {
   const petName = myPetInfo.filter((el)=> el.petId === Number(petId.id))
 
   return (
-    <div className="container bg-gray">
+    <div className="container bg-gray v2">
       <Header pageTitle={`${petName[0].petName} 지난 산책 내역`} link={'/ownerMain'} />
       {petWalkInfo.items?.length !== 0 ? (
         <List>

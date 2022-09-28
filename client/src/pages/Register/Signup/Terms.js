@@ -103,6 +103,7 @@ export default Terms;
 const ConPanel = styled.div`
   display: flex;
   min-height: 100vh;
+  padding-top:40px;
   padding-bottom: 4vh;
   flex-direction: column;
   justify-content: space-between;

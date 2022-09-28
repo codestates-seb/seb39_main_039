@@ -57,7 +57,7 @@ const WantedDetailPage = () => {
   if (!wantedDetail.walk) return <div></div>;
 
   return (
-    <div className="container bg-gray pa0">
+    <div className="container pa0 v2">
       {loading ? (
         <Loading>
           <ThreeDots color="#3183f8" height={80} width={80} />

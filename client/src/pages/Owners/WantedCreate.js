@@ -114,7 +114,7 @@ const WantedCreate = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="container v2">
       <Header pageTitle={"구인 글 작성"} />
       <CitySelect
         isOpen={isOpen} //모달 여닫기

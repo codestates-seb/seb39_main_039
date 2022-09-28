@@ -102,7 +102,7 @@ const WantedList = () => {
   //region있을때에는 리셋되면 안됨
 
   return (
-    <div className="container bg-gray">
+    <div className="container bg-gray v2">
       <Header pageTitle={"구인글 리스트"} useRight="on" />
       <CitySelect
         isOpen={isOpen} //모달 여닫기

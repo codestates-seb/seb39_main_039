@@ -82,12 +82,18 @@ export const ApplyComment = ({data, wantedId, writerId}) => {
                     </div>
                     <div className="user-name">
                         <strong>{data.walker?.walkerName}</strong>
-                        <GetContactButton 
-                            wantedId={wantedId} 
-                            commentId={data.commentId}
-                            walker={data.walker?.walkerName}
-                            photo={data.walker?.walkerPicture}
-                        />
+                        {writerUser ?
+                            <div className="user-contact">
+                                <GetContactButton 
+                                    wantedId={wantedId} 
+                                    commentId={data.commentId}
+                                    walker={data.walker?.walkerName}
+                                    photo={data.walker?.walkerPicture}
+                                />
+                            </div>
+                        :
+                            <div>산책 지원합니다!</div>
+                        }
                         {applicantUser &&
                             <OptionButton>
                                 <i onClick={()=>setIsOn(!isOn)}><FontAwesomeIcon icon={faEllipsisVertical}/></i>
@@ -134,18 +140,6 @@ export const ApplyComment = ({data, wantedId, writerId}) => {
                         }
                     </>
                 }
-            </Card>
-
-
-            <Card className="blocked">
-                <div className="user-info">
-                    <div className="user-photo">
-                        <img src={'https://avatars.githubusercontent.com/u/9497404?v=4'} className="img-circle" alt="" />
-                    </div>
-                    <div className="user-name">
-                        <strong>산책 가자~</strong>
-                    </div>
-                </div>
             </Card>
         </>
     )
@@ -328,6 +322,9 @@ const Card= styled.div`
     }
 
     &.blocked{
+        .user-contact, .user-con{
+            display: none;
+        }
         background:var(--gray-200);
         box-shadow: none;
     }

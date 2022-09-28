@@ -47,7 +47,7 @@ export const closeWalk = (walkerId) => {
   return async (dispatch) => {
     try {
       const getCloseWalkApi = customAxios
-        .get(`/walk/${walkerId}/end`)
+        .put(`/walk/${walkerId}/end`)
         .then((res) => window.location.replace("/walkerMain"));
       let get_closeWalkApi = await getCloseWalkApi;
       dispatch({

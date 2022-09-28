@@ -2,7 +2,8 @@ import {
   GET_LOCATION_SUCCESS,
   GET_WALK_STATE_SUCCESS,
   GET_LOCATION_REQUEST,
-  GET_WALK_DETAIL_INFO_SUCCESS
+  GET_WALK_DETAIL_INFO_SUCCESS,
+  CLOSE_WALK_SUCCESS,
 } from "../actions/mappingAction";
 
 const initialstate = {
@@ -10,7 +11,8 @@ const initialstate = {
   lat: "",
   lon: "",
   isWalk: false,
-  walkDetailInfo: []
+  walkDetailInfo: [],
+  closeWalklInfo : []
 };
 
 const mappingReducer = (state = initialstate, action) => {
@@ -36,6 +38,11 @@ const mappingReducer = (state = initialstate, action) => {
         ...state,
         walkDetailInfo: payload.walkDetailInfo
       };
+    case CLOSE_WALK_SUCCESS:
+        return {
+          ...state,
+          closeWalklInfo: payload.closeWalklInfo
+    };
     default:
       return { ...state };
   }

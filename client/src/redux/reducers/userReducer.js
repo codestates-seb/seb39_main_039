@@ -1,9 +1,15 @@
-import { GET_USER_INFO_SUCCESS, DELETE_USER_SUCCESS, USER_LOADING } from "../actions/userActions";
+import {
+  GET_USER_INFO_SUCCESS,
+  DELETE_USER_SUCCESS,
+  USER_LOADING,
+  GET_WALKER_USER_INFO
+} from "../actions/userActions";
 
 const initialstate = {
-  isLogin:false,
+  isLogin: false,
   userInfo: [],
-  loading: ''
+  walkerUserInfo: [],
+  loading: ""
 };
 
 const userReducer = (state = initialstate, action) => {
@@ -14,18 +20,22 @@ const userReducer = (state = initialstate, action) => {
         ...state,
         userInfo: payload.userInfo
       };
-
     case DELETE_USER_SUCCESS:
-      return{
+      return {
         ...state,
-        isLogin:false
-      }
-
-      case USER_LOADING:
+        isLogin: false
+      };
+    case GET_WALKER_USER_INFO:
+      return {
+        ...state,
+        walkerUserInfo: payload.walkerUserInfo
+      };
+    case USER_LOADING:
       return {
         ...state,
         loading: payload.loading
       };
+
     default:
       return state;
   }

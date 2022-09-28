@@ -30,7 +30,6 @@ const Setting = () => {
     setIsOn(!isOn);
     // false 일 때 견주, True 일 때 알바
   };
-  console.log(isOn);
 
   useEffect(() => {
     dispatch(getUserInfo());

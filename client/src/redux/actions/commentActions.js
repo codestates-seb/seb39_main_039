@@ -15,8 +15,8 @@ export const addComment = (wantedId, content) => {
         let add_comment = await addCommentAPI;
       } catch (error) {
         if (error.response.status === 400) {
-          // toast.error(error.response.data);
-          console.log(error.response.data);
+          toast.error(error.response.data);
+          // console.log(error.response.data);
         }
       }
     };

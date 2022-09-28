@@ -1,8 +1,8 @@
 import styled from "styled-components"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector} from "react-redux";
 import { addComment } from "../redux/actions/commentActions";
-
+import { getUserInfo } from "../redux/actions/userActions";
 
 const CommentEnter = ({wantedId}) => {
     const dispatch = useDispatch();
@@ -11,7 +11,10 @@ const CommentEnter = ({wantedId}) => {
     const changeHandler = (e) => {
         setContent(e.target.value)
     }
-
+    useEffect(()=>{
+        dispatch(getUserInfo());
+    },[])
+    
     return(
         <CommentForm>
             <strong>{userInfo.nickName}</strong>

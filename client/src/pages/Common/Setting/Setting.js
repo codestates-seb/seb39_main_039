@@ -212,7 +212,7 @@ const UserPhoto = styled.div`
 
 const List = styled.ul`
   margin: 10px 0;
-  padding-bottom: 10px;
+  padding-bottom: 120px;
   font-weight: 500;
 
   li {

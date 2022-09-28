@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Modal from '../Modal/Modal'
 
 const SelectWalkerButton = ({pickComment, isMtOpen, setIsMtOpen, text, btnText, cancel}) => {

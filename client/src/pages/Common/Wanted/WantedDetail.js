@@ -17,6 +17,8 @@ import {
 } from "../../../redux/actions/wantedActions";
 import { useEffect, useState, useRef } from "react";
 import { ToastContainer } from "react-toast";
+import { useCurrentUser } from "../../../hooks/useCurrentUser";
+
 
 const WantedDetailPage = () => {
   const { id } = useParams();
@@ -26,8 +28,9 @@ const WantedDetailPage = () => {
   const [isOn, setIsOn] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [onEdit, setOnEdit] = useState(false);
+  const [useCurrent] = useCurrentUser();
+  const currentUser = useCurrent(wantedDetail.walk?.owner?.ownerId);
   const navigate = useNavigate();
-
   let endTimeForm = useConvertTime(
     wantedDetail.walk?.endTime.toLocaleString().slice(0, -3).split("T")
   );
@@ -85,15 +88,18 @@ const WantedDetailPage = () => {
                 함께 산책할 강아지{" "}
                 <b>{wantedDetail.walk.petList?.length}마리</b>
               </SectLabel>
-              <OptionButton>
-                <i onClick={() => setIsOn(!isOn)}>
-                  <FontAwesomeIcon icon={faEllipsisVertical} />
-                </i>
-                <ul ref={optionBody} className={isOn ? "active" : ""}>
-                  <li onClick={onEditHandler}>수정</li>
-                  <li onClick={() => setIsOpen(true)}>삭제</li>
-                </ul>
-              </OptionButton>
+              {currentUser &&
+                <OptionButton>
+                  <i onClick={() => setIsOn(!isOn)}>
+                    <FontAwesomeIcon icon={faEllipsisVertical} />
+                  </i>
+                  <ul ref={optionBody} className={isOn ? "active" : ""}>
+                    <li onClick={onEditHandler}>수정</li>
+                    <li onClick={() => setIsOpen(true)}>삭제</li>
+                  </ul>
+                </OptionButton>
+              }
+              
               <DogsInfo>
                 {wantedDetail.walk.petList?.map((item) => (
                   <div>

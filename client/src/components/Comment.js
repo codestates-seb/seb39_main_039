@@ -19,7 +19,8 @@ export const ApplyComment = ({data, wantedId, writerId}) => {
     const [ onEdit, setOnEdit ] = useState(false); // 수정 폼 
     const [ content, setContent ] = useState(data.content);
     const [useCurrent] = useCurrentUser();
-    const currentUser = useCurrent(writerId);
+    const writerUser = useCurrent(writerId);
+    const applicantUser = useCurrent(data.walker?.walkerId);
 
     let creatDate =new Date(data.creationDate).toLocaleString();
 
@@ -65,11 +66,9 @@ export const ApplyComment = ({data, wantedId, writerId}) => {
        }
     };
 
-
     return(
         <>
-            {currentUser ? 
-             <Card>
+             <Card className={writerUser || applicantUser ? 'show':'blocked'}>
                 <Modal
                     isOpen={isOpen}
                     setIsOpen={setIsOpen}
@@ -83,20 +82,27 @@ export const ApplyComment = ({data, wantedId, writerId}) => {
                     </div>
                     <div className="user-name">
                         <strong>{data.walker?.walkerName}</strong>
-                        <GetContactButton 
-                            wantedId={wantedId} 
-                            commentId={data.commentId}
-                            walker={data.walker?.walkerName}
-                            photo={data.walker?.walkerPicture}
-                        />
-                        
-                        <OptionButton>
-                            <i onClick={()=>setIsOn(!isOn)}><FontAwesomeIcon icon={faEllipsisVertical}/></i>
-                            <ul ref={optionBody}className={isOn ? 'active' : ''}>
-                                <li onClick={onEditHandler}>수정</li>
-                                <li onClick={() => setIsOpen(true)}>삭제</li>
-                            </ul>
-                        </OptionButton>
+                        {writerUser ?
+                            <div className="user-contact">
+                                <GetContactButton 
+                                    wantedId={wantedId} 
+                                    commentId={data.commentId}
+                                    walker={data.walker?.walkerName}
+                                    photo={data.walker?.walkerPicture}
+                                />
+                            </div>
+                        :
+                            <div>산책 지원합니다!</div>
+                        }
+                        {applicantUser &&
+                            <OptionButton>
+                                <i onClick={()=>setIsOn(!isOn)}><FontAwesomeIcon icon={faEllipsisVertical}/></i>
+                                <ul ref={optionBody}className={isOn ? 'active' : ''}>
+                                    <li onClick={onEditHandler}>수정</li>
+                                    <li onClick={() => setIsOpen(true)}>삭제</li>
+                                </ul>
+                            </OptionButton>
+                        }
                     </div>
                 </div>
                 {!onEdit? 
@@ -114,36 +120,27 @@ export const ApplyComment = ({data, wantedId, writerId}) => {
                         
                     </div>
                 }
-            
-                {data.matched?
-                <SelectWalkerButton 
-                    pickComment={cancelPickComment} 
-                    isMtOpen={isMtOpen} 
-                    setIsMtOpen={setIsMtOpen}
-                    cancel={'cancel'}
-                    btnText={'매칭 취소'}
-                    text={"산책 매칭을 취소하시겠습니까?"}/>
-                :
-                <SelectWalkerButton 
-                    pickComment={pickComment} 
-                    isMtOpen={isMtOpen} 
-                    setIsMtOpen={setIsMtOpen} 
-                    btnText={'이 지원자와 함께 산책 보내기'}
-                    text={"이 지원자와 산책을 보내시겠습니까?"}/>
+                {writerUser && 
+                    <>
+                        {data.matched?
+                        <SelectWalkerButton 
+                            pickComment={cancelPickComment} 
+                            isMtOpen={isMtOpen} 
+                            setIsMtOpen={setIsMtOpen}
+                            cancel={'cancel'}
+                            btnText={'매칭 취소'}
+                            text={"산책 매칭을 취소하시겠습니까?"}/>
+                        :
+                        <SelectWalkerButton 
+                            pickComment={pickComment} 
+                            isMtOpen={isMtOpen} 
+                            setIsMtOpen={setIsMtOpen} 
+                            btnText={'이 지원자와 함께 산책 보내기'}
+                            text={"이 지원자와 산책을 보내시겠습니까?"}/>
+                        }
+                    </>
                 }
             </Card>
-            :
-            <Card className="blocked">
-                <div className="user-info">
-                    <div className="user-photo">
-                        <img src={'https://avatars.githubusercontent.com/u/9497404?v=4'} className="img-circle" alt="" />
-                    </div>
-                    <div className="user-name">
-                        <strong>산책 가자~</strong>
-                    </div>
-                </div>
-            </Card>
-            }
         </>
     )
 }
@@ -325,6 +322,9 @@ const Card= styled.div`
     }
 
     &.blocked{
+        .user-contact, .user-con{
+            display: none;
+        }
         background:var(--gray-200);
         box-shadow: none;
     }

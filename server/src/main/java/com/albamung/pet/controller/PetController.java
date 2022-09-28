@@ -56,7 +56,7 @@ public class PetController {
                                  @RequestBody @Valid PetDto.Put request,
                                  @PathVariable Long petId) {
         if (owner == null) owner = User.builder().id(1L).build();
-        Pet editedPet = petService.editPet(petMapper.putToPet(request), petId, owner.getId());
+        Pet editedPet = petService.editPet(request, petId, owner.getId());
         PetDto.DetailResponse response = petMapper.toDetailResponse(editedPet);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

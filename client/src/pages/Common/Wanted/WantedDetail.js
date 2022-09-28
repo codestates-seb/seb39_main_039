@@ -17,6 +17,7 @@ import {
 } from "../../../redux/actions/wantedActions";
 import { useEffect, useState, useRef } from "react";
 import { ToastContainer } from "react-toast";
+import { useCurrentUser } from "../../../hooks/useCurrentUser";
 
 const WantedDetailPage = () => {
   const { id } = useParams();
@@ -27,13 +28,16 @@ const WantedDetailPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [onEdit, setOnEdit] = useState(false);
   const navigate = useNavigate();
+  const [useCurrent] = useCurrentUser();
 
-  let endTimeForm = useConvertTime(
-    wantedDetail.walk?.endTime.toLocaleString().slice(0, -3).split("T")
-  );
-  let startTimeForm = useConvertTime(
-    wantedDetail.walk?.startTime.toLocaleString().slice(0, -3).split("T")
-  );
+  const writeWantedUser = useCurrent(wantedDetail.walk?.owner.ownerId);
+
+  let endTimeForm = new Date(wantedDetail.walk?.endTime + "z")
+    .toLocaleString()
+    .slice(0, -3);
+  let startTimeForm = new Date(wantedDetail.walk?.startTime + "z")
+    .toLocaleString()
+    .slice(0, -3);
 
   const onEditHandler = () => {
     setOnEdit(true);
@@ -75,7 +79,12 @@ const WantedDetailPage = () => {
                   <img width={10} src={wantedDetail.walk.owner?.profileImage} />{" "}
                   {wantedDetail.walk.owner?.nickName}
                 </li>
-                <li>작성일 {wantedDetail.creationDate?.split("T")[0]}</li>
+                <li>
+                  작성일{" "}
+                  {new Date(wantedDetail.creationDate + "z")
+                    .toLocaleString()
+                    .slice(0, -3)}
+                </li>{" "}
               </ul>
             </ConHeader>
           </Section>
@@ -85,15 +94,18 @@ const WantedDetailPage = () => {
                 함께 산책할 강아지{" "}
                 <b>{wantedDetail.walk.petList?.length}마리</b>
               </SectLabel>
-              <OptionButton>
-                <i onClick={() => setIsOn(!isOn)}>
-                  <FontAwesomeIcon icon={faEllipsisVertical} />
-                </i>
-                <ul ref={optionBody} className={isOn ? "active" : ""}>
-                  <li onClick={onEditHandler}>수정</li>
-                  <li onClick={() => setIsOpen(true)}>삭제</li>
-                </ul>
-              </OptionButton>
+              {writeWantedUser && (
+                <OptionButton>
+                  <i onClick={() => setIsOn(!isOn)}>
+                    <FontAwesomeIcon icon={faEllipsisVertical} />
+                  </i>
+                  <ul ref={optionBody} className={isOn ? "active" : ""}>
+                    <li onClick={onEditHandler}>수정</li>
+                    <li onClick={() => setIsOpen(true)}>삭제</li>
+                  </ul>
+                </OptionButton>
+              )}
+
               <DogsInfo>
                 {wantedDetail.walk.petList?.map((item) => (
                   <div>
@@ -120,11 +132,11 @@ const WantedDetailPage = () => {
                 <dd>
                   <span>
                     <small>시작 시간</small>
-                    {`${startTimeForm[0]}-${startTimeForm[1]}-${startTimeForm[2]} ${startTimeForm[3]}:${startTimeForm[4]}`}
+                    {startTimeForm}
                   </span>
                   <span>
                     <small>종료 시간</small>
-                    {`${endTimeForm[0]}-${endTimeForm[1]}-${endTimeForm[2]} ${endTimeForm[3]}:${endTimeForm[4]}`}
+                    {endTimeForm}
                   </span>
                 </dd>
               </dl>

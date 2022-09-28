@@ -7,48 +7,72 @@ import PlaceList from "../../components/PlaceList";
 import WalkerCard from "../../components/WalkerCard";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { getWalkerUser } from "../../redux/actions/userActions";
 import { getWalkerDetailInfo } from "../../redux/actions/walkerActions";
+import { useDispatch, useSelector } from "react-redux";
+import { ThreeDots } from "react-loader-spinner";
 
 const WalkerMain = () => {
-  const [walkerDetailInfo, setWalkerDetailInfo] = useState(null);
+  const { walkerUserInfo, loading } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  // const [walkerDetailInfo, setWalkerDetailInfo] = useState(null);
+
+  // useEffect(() => {
+  //   getWalkerDetailInfo(setWalkerDetailInfo);
+  // }, []);
+
   useEffect(() => {
-    getWalkerDetailInfo(setWalkerDetailInfo);
+    dispatch(getWalkerUser());
   }, []);
 
-  if (!walkerDetailInfo) return <div></div>;
+  console.log(walkerUserInfo);
+
+  // if (!walkerUserInfo) return <div></div>;
 
   return (
     <div className="container bg-gray">
-      <Header>
-        <LogoArea>
-          <Link to={"/"}>
-            <Logo />
-          </Link>
-        </LogoArea>
-        <Alert>
-          <FontAwesomeIcon icon={faBell} />
-        </Alert>
-      </Header>
-      <Section>
-        <UserSlide>
-          <WalkerCard data={walkerDetailInfo} />
-        </UserSlide>
-      </Section>
-      <Section>
-        <Weather>
-          <p>날씨API 대기쓰</p>
-        </Weather>
-      </Section>
-      <InfoSection>
-        <h3>
-          주변 강아지 동반 카페{" "}
-          <small>
-            <FontAwesomeIcon icon={faLocationDot} /> 강남구
-          </small>
-        </h3>
-        <PlaceList />
-      </InfoSection>
-      <Nav />
+      {loading ? (
+        <Loading>
+          <ThreeDots color="#3183f8" height={80} width={80} />
+        </Loading>
+      ) : (
+        <>
+          <Header>
+            <LogoArea>
+              <Link to={"/"}>
+                <Logo />
+              </Link>
+            </LogoArea>
+            <Alert>
+              <FontAwesomeIcon icon={faBell} />
+            </Alert>
+          </Header>
+          <Section>
+            <UserSlide>
+              {walkerUserInfo.walkerId ? (
+                <WalkerCard data={walkerUserInfo} />
+              ) : (
+                <ThreeDots color="#3183f8" height={80} width={80} />
+              )}
+            </UserSlide>
+          </Section>
+          <Section>
+            <Weather>
+              <p>날씨API 대기쓰</p>
+            </Weather>
+          </Section>
+          <InfoSection>
+            <h3>
+              주변 강아지 동반 카페{" "}
+              <small>
+                <FontAwesomeIcon icon={faLocationDot} /> 강남구
+              </small>
+            </h3>
+            <PlaceList />
+          </InfoSection>
+          <Nav />
+        </>
+      )}
     </div>
   );
 };
@@ -104,4 +128,11 @@ const InfoSection = styled.section`
       }
     }
   }
+`;
+
+const Loading = styled.div`
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
 `;

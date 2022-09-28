@@ -5,28 +5,24 @@ import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faPaw } from "@fortawesome/free-solid-svg-icons";
 import NavLink from "./NavLink";
-import { useState } from "react";
-import { useEffect } from "react";
 
 const Nav = () => {
   const navigate = useNavigate();
-  // const [isOwner, setIsOwner] = useState(localStorage.getItem("OwnerOrWalker"));
+
   function isActive(path) {
     return window.location.pathname.startsWith(path);
   }
+
+  let isOnState = localStorage.getItem("OwnerOrWalker");
 
   return (
     <FooterNav>
       <div>
         <NavLink
-          to={
-            Boolean(localStorage.getItem("OwnerOrWalker"))
-              ? "/ownerMain"
-              : "/walkerMain"
-          }
+          to={isOnState === "false" ? "/ownerMain" : "/walkerMain"}
           className="home-area active"
           active={
-            Boolean(localStorage.getItem("OwnerOrWalker"))
+            isOnState === "false"
               ? isActive("/ownerMain")
               : isActive("/walkerMain")
           }

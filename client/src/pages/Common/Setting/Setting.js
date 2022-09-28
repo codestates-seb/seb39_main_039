@@ -30,6 +30,7 @@ const Setting = () => {
     setIsOn(!isOn);
     // false 일 때 견주, True 일 때 알바
   };
+  console.log(isOn);
 
   useEffect(() => {
     dispatch(getUserInfo());
@@ -213,7 +214,7 @@ const UserPhoto = styled.div`
 
 const List = styled.ul`
   margin: 10px 0;
-  padding-bottom: 10px;
+  padding-bottom: 120px;
   font-weight: 500;
 
   li {

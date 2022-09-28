@@ -1,6 +1,7 @@
 import { COMMENT_SELECT_ERROR, GET_CONTACT_INFO_SUCCESS } from "../actions/commentActions";
 
   const initialstate = {
+    addError: null,
     selectError: null,
     contactInfo: ''
   };

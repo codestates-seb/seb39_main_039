@@ -11,6 +11,7 @@ import { StateCard } from "../../components/StateCard";
 import ModalEndWalk from "../../components/Modal/ModalEndWalk";
 import sampleImg from "../../assets/img/sample-img.png";
 import { getWalkDetailInfo } from "../../redux/actions/mappingAction";
+import { closeWalk } from "../../redux/actions/mappingAction";
 
 const Walking = () => {
   const walkId = useParams();
@@ -23,7 +24,7 @@ const Walking = () => {
   };
 
   const confirmHandler = () => {
-    console.log("종료 함수");
+    dispatch(closeWalk(walkId.id));
   };
 
   useEffect(() => {
@@ -31,7 +32,6 @@ const Walking = () => {
   }, []);
 
   console.log(WalkInfo);
-
   return (
     <div className="container pa0">
       <ModalEndWalk
@@ -64,12 +64,12 @@ const Walking = () => {
             </dd>
           </dl>
           <dl className="walk-con v2">
-            <dt>산책자</dt>
+            <dt>의뢰인</dt>
             <dd>
               <DogNameLabel
                 size={"xs"}
-                picture={WalkInfo.walker?.walkerPicture}
-                name={WalkInfo.walker?.walkerName}
+                picture={WalkInfo.owner?.profileImage}
+                name={WalkInfo.owner?.nickName}
               />
             </dd>
           </dl>
@@ -167,7 +167,7 @@ const Section = styled.section`
         min-width: 60px;
         font-weight: 600;
         padding-right: 18px;
-        line-height: 35px;
+        line-height: 30px;
       }
       > dt:before {
         content: "";
@@ -186,7 +186,7 @@ const Section = styled.section`
           margin-right: 5px;
         }
         p {
-          line-height: 35px;
+          line-height: 30px;
         }
       }
     }

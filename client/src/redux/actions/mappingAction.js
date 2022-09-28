@@ -4,6 +4,7 @@ import customAxios from "../axiosAPI";
 export const GET_LOCATION_SUCCESS = "GET_LOCATION_SUCCESS";
 export const GET_WALK_STATE_SUCCESS = "GET_WALK_STATE_SUCCESS";
 export const GET_WALK_DETAIL_INFO_SUCCESS = "GET_WALK_DETAIL_INFO_SUCCESS";
+export const CLOSE_WALK_SUCCESS = "CLOSE_WALK_SUCCESS";
 
 //로딩 관련/////////////////////////////////////////////////////
 export const GET_LOCATION_REQUEST = "GET_LOCATION_REQUEST";
@@ -35,12 +36,34 @@ export const getWalkDetailInfo = (walkerId) => {
           walkDetailInfo: get_WalkDetailInfoApi.data
         }
       });
+      return getWalkDetailInfoApi;
     } catch (error) {
       //에러 핸들링 하는 곳
       console.log(error);
     }
   };
 };
+
+export const closeWalk = (walkerId) => {
+  return async (dispatch) => {
+    try {
+      const getCloseWalkApi = customAxios
+        .put(`/walk/${walkerId}/end`)
+        .then((res) => window.location.replace("/walkerMain"));
+      let get_closeWalkApi = await getCloseWalkApi;
+      dispatch({
+        type: "CLOSE_WALK_SUCCESS",
+        payload: {
+          closeWalklInfo: get_closeWalkApi.data
+        }
+      });
+    } catch (error) {
+      //에러 핸들링 하는 곳
+      console.log(error);
+    }
+  };
+};
+
 
 export const sendLocation = (lat, lon, distance) => {
   return async () => {
@@ -94,3 +117,4 @@ export const actualWalkTime = (walkId, walkTime) => {
     }
   };
 };
+

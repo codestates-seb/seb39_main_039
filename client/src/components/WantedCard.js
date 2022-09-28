@@ -10,7 +10,7 @@ import useConvertTime from "../hooks/useConvertTime";
 import { useDispatch, useSelector } from "react-redux";
 import { getWantedDetail } from "../redux/actions/wantedActions";
 import moment from "moment";
-import { useEffect } from "react";
+import gradationImg from "../assets/img/gdt.png";
 
 const WantedCard = ({ item }) => {
   const navigate = useNavigate();
@@ -49,6 +49,7 @@ const WantedCard = ({ item }) => {
             key={item.petId}
           />
         ))}
+        <i className="gradation"></i>
       </div>
       <div className="title">
         <p className={item.matched ? "con-title" : "con-title no-matched"}>
@@ -64,8 +65,6 @@ const WantedCard = ({ item }) => {
             </dt>
             <dd>{item?.location}</dd>
           </dl>
-        </li>
-        <li>
           <dl>
             <dt>
               <FontAwesomeIcon icon={faSackDollar} /> 보수
@@ -79,10 +78,7 @@ const WantedCard = ({ item }) => {
               <FontAwesomeIcon icon={faDog} /> 시간
             </dt>
             <dd>
-              {/* {`${startTimeForm[0]}-${startTimeForm[1]}-${startTimeForm[2]} ${startTimeForm[3]}:${startTimeForm[4]}`}{" "} */}
-              {startTimeForm}~{" "}
-              {/* {`${endTimeForm[0]}-${endTimeForm[1]} ${endTimeForm[2]} ${endTimeForm[3]}:${endTimeForm[4]}`} */}
-              {endTimeForm}
+              {startTimeForm}~ {endTimeForm}
             </dd>
             <dt>
               <em>{ago} </em>
@@ -107,23 +103,32 @@ const Card = styled.div`
   cursor: pointer;
 
   .con-dogs {
+    position: relative;
     gap: 5px;
-    display: flex;
-    > * {
-      margin-right: 5px;
+    overflow: auto;
+    white-space: nowrap;
+    > span {
+      margin-right: 3px;
+    }
+
+    dl {
+      font-size: 12px;
     }
   }
 
+  .title {
+    margin: 3px 0;
+  }
   .con-title {
     font-weight: 800;
-    margin: 10px 0;
+    margin: 0 0 2px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 
     em {
       display: inline-block;
-      padding: 6px 6px;
+      padding: 5px 5px 4px;
       font-size: 0.75em;
       border-radius: 5px;
       background: var(--primary);
@@ -141,15 +146,22 @@ const Card = styled.div`
   }
 
   .con-info {
+    li {
+      position: relative;
+      display: flex;
+      dl {
+        flex: 1;
+      }
+    }
     dl {
       display: flex;
       font-size: 11px;
-      margin: 7px 0;
+      margin: 4px 0;
       align-items: flex-end;
     }
     dt {
       color: var(--gray-500);
-      margin-right: 10px;
+      margin-right: 5px;
       font-weight: 500;
 
       svg {
@@ -160,7 +172,12 @@ const Card = styled.div`
 
     dt:nth-child(3) {
       position: absolute;
-      right: 20px;
+      right: 0;
+    }
+
+    em {
+      margin-right: 3px;
+      letter-spacing: 0;
     }
 
     em {
@@ -172,7 +189,7 @@ const Card = styled.div`
     display: flex;
     align-items: center;
     span {
-      margin-left: 5px;
+      margin-left: 3px;
       font-weight: 600;
     }
     > em {

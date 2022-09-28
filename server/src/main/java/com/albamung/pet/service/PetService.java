@@ -2,6 +2,7 @@ package com.albamung.pet.service;
 
 import com.albamung.exception.CustomException;
 import com.albamung.helper.fileUpload.S3fileService;
+import com.albamung.pet.dto.PetDto;
 import com.albamung.pet.entity.Pet;
 import com.albamung.pet.repository.PetRepository;
 import com.albamung.user.entity.User;
@@ -46,17 +47,14 @@ public class PetService {
         return s3fileService.save(UUIDFileName);
     }
 
-    public Pet editPet(Pet pet, Long petId, Long ownerId) {
+    public Pet editPet(PetDto.Put request, Long petId, Long ownerId) {
         Pet targetPet = verifyPet(petId);
         verifyPetOwner(targetPet, ownerId);
-        Optional.ofNullable(pet.getBirthday()).ifPresent(targetPet::setBirthday);
-        Optional.ofNullable(pet.getSex()).ifPresent(sex -> {
-            if(sex.equals("암컷")) targetPet.setSex(true);
-            else if(sex.equals("수컷")) targetPet.setSex(false);
-        });
-        Optional.ofNullable(pet.getSpecies()).ifPresent(targetPet::setSpecies);
-        Optional.ofNullable(pet.getName()).ifPresent(targetPet::setName);
-        Optional.ofNullable(pet.getAboutPet()).ifPresent(targetPet::setAboutPet);
+        Optional.ofNullable(request.getBirthday()).ifPresent(targetPet::setBirthday);
+        Optional.ofNullable(request.getSex()).ifPresent(targetPet::setSex);
+        Optional.ofNullable(request.getSpecies()).ifPresent(targetPet::setSpecies);
+        Optional.ofNullable(request.getName()).ifPresent(targetPet::setName);
+        Optional.ofNullable(request.getAboutPet()).ifPresent(targetPet::setAboutPet);
 
         return targetPet;
     }
@@ -68,6 +66,7 @@ public class PetService {
     public void deletePet(Long petId, Long ownerId) {
         Pet targetPet = verifyPet(petId);
         verifyPetOwner(targetPet, ownerId);
+        petRepository.deleteWalkPet(petId);
         petRepository.deleteById(petId);
     }
 

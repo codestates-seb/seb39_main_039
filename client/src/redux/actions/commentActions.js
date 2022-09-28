@@ -1,6 +1,7 @@
 import customAxios from "../axiosAPI";
 import { toast } from "react-toast";
 
+
 export const COMMENT_SELECT_ERROR = "COMMENT_SELECT_ERROR";
 export const GET_CONTACT_INFO_SUCCESS = "GET_CONTACT_INFO_SUCCESS";
 
@@ -13,8 +14,10 @@ export const addComment = (wantedId, content) => {
           .then((res) => window.location.reload());
         let add_comment = await addCommentAPI;
       } catch (error) {
-        //에러 핸들링 하는 곳
-        console.log("에러", error);
+        if (error.response.status === 400) {
+          // toast.error(error.response.data);
+          console.log(error.response.data);
+        }
       }
     };
   };

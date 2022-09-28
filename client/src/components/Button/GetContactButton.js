@@ -18,6 +18,8 @@ const GetContactButton = ({wantedId, commentId, walker, photo}) => {
         setIsOpen(false)
     }
 
+    console.log(contactInfo);
+
     return(
         <>
             <ModalContact

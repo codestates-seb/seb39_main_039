@@ -23,7 +23,8 @@ export const ApplyComment = ({ data, wantedId, writerId }) => {
   const [onEdit, setOnEdit] = useState(false); // 수정 폼
   const [content, setContent] = useState(data.content);
   const [useCurrent] = useCurrentUser();
-  const currentUser = useCurrent(writerId);
+  const writerUser = useCurrent(writerId);
+  const applicantUser = useCurrent(data.walker?.walkerId);
 
   let creatDate = new Date(data.creationDate + "z").toLocaleString();
 
@@ -71,38 +72,43 @@ export const ApplyComment = ({ data, wantedId, writerId }) => {
 
   return (
     <>
-      {currentUser ? (
-        <Card>
-          <Modal
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            confirmHandler={deleteComment}
-            text={"지원 댓글을 삭제하시겠습니까?"}
-          />
-          <div className="user-info">
-            <div className="user-photo">
-              <img
-                src={data.walker?.walkerPicture}
-                className="img-circle"
-                alt=""
-              />
-              {data.matched ? (
-                <i>
-                  <FontAwesomeIcon icon={faCheck} />
-                </i>
-              ) : (
-                ""
-              )}
-            </div>
-            <div className="user-name">
-              <strong>{data.walker?.walkerName}</strong>
-              <GetContactButton
-                wantedId={wantedId}
-                commentId={data.commentId}
-                walker={data.walker?.walkerName}
-                photo={data.walker?.walkerPicture}
-              />
-
+      <Card className={writerUser || applicantUser ? "show" : "blocked"}>
+        <Modal
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          confirmHandler={deleteComment}
+          text={"지원 댓글을 삭제하시겠습니까?"}
+        />
+        <div className="user-info">
+          <div className="user-photo">
+            <img
+              src={data.walker?.walkerPicture}
+              className="img-circle"
+              alt=""
+            />
+            {data.matched ? (
+              <i>
+                <FontAwesomeIcon icon={faCheck} />
+              </i>
+            ) : (
+              ""
+            )}
+          </div>
+          <div className="user-name">
+            <strong>{data.walker?.walkerName}</strong>
+            {writerUser ? (
+              <div className="user-contact">
+                <GetContactButton
+                  wantedId={wantedId}
+                  commentId={data.commentId}
+                  walker={data.walker?.walkerName}
+                  photo={data.walker?.walkerPicture}
+                />
+              </div>
+            ) : (
+              <div>산책 지원합니다!</div>
+            )}
+            {applicantUser && (
               <OptionButton>
                 <i onClick={() => setIsOn(!isOn)}>
                   <FontAwesomeIcon icon={faEllipsisVertical} />
@@ -112,68 +118,56 @@ export const ApplyComment = ({ data, wantedId, writerId }) => {
                   <li onClick={() => setIsOpen(true)}>삭제</li>
                 </ul>
               </OptionButton>
+            )}
+          </div>
+        </div>
+        {!onEdit ? (
+          <div className="user-con">
+            <p>{content}</p>
+            <small>
+              {creatDate}{" "}
+              {data.lastActivityDate !== data.creationDate && "수정됨"}
+            </small>
+          </div>
+        ) : (
+          <div className="user-con edit">
+            <textarea
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
+            <div className="btn-area">
+              <button className="btn-cancel" onClick={cancelEditComment}>
+                취소
+              </button>
+              <button className="btn-enter" onClick={updateComment}>
+                수정하기
+              </button>
             </div>
           </div>
-          {!onEdit ? (
-            <div className="user-con">
-              <p>{content}</p>
-              <small>
-                {creatDate}{" "}
-                {data.lastActivityDate !== data.creationDate && "수정됨"}
-              </small>
-            </div>
-          ) : (
-            <div className="user-con edit">
-              <textarea
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
+        )}
+        {writerUser && (
+          <>
+            {data.matched ? (
+              <SelectWalkerButton
+                pickComment={cancelPickComment}
+                isMtOpen={isMtOpen}
+                setIsMtOpen={setIsMtOpen}
+                cancel={"cancel"}
+                btnText={"매칭 취소"}
+                text={"산책 매칭을 취소하시겠습니까?"}
               />
-              <div className="btn-area">
-                <button className="btn-cancel" onClick={cancelEditComment}>
-                  취소
-                </button>
-                <button className="btn-enter" onClick={updateComment}>
-                  수정하기
-                </button>
-              </div>
-            </div>
-          )}
-
-          {data.matched ? (
-            <SelectWalkerButton
-              pickComment={cancelPickComment}
-              isMtOpen={isMtOpen}
-              setIsMtOpen={setIsMtOpen}
-              cancel={"cancel"}
-              btnText={"매칭 취소"}
-              text={"산책 매칭을 취소하시겠습니까?"}
-            />
-          ) : (
-            <SelectWalkerButton
-              pickComment={pickComment}
-              isMtOpen={isMtOpen}
-              setIsMtOpen={setIsMtOpen}
-              btnText={"이 지원자와 함께 산책 보내기"}
-              text={"이 지원자와 산책을 보내시겠습니까?"}
-            />
-          )}
-        </Card>
-      ) : (
-        <Card className="blocked">
-          <div className="user-info">
-            <div className="user-photo">
-              <img
-                src={"https://avatars.githubusercontent.com/u/9497404?v=4"}
-                className="img-circle"
-                alt=""
+            ) : (
+              <SelectWalkerButton
+                pickComment={pickComment}
+                isMtOpen={isMtOpen}
+                setIsMtOpen={setIsMtOpen}
+                btnText={"이 지원자와 함께 산책 보내기"}
+                text={"이 지원자와 산책을 보내시겠습니까?"}
               />
-            </div>
-            <div className="user-name">
-              <strong>산책 가자~</strong>
-            </div>
-          </div>
-        </Card>
-      )}
+            )}
+          </>
+        )}
+      </Card>
     </>
   );
 };
@@ -355,6 +349,10 @@ const Card = styled.div`
   }
 
   &.blocked {
+    .user-contact,
+    .user-con {
+      display: none;
+    }
     background: var(--gray-200);
     box-shadow: none;
   }

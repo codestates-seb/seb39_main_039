@@ -20,24 +20,24 @@ const WalkerHistory = () =>{
     return(
         <div className="container bg-gray">
             <Header pageTitle={`대기중인 산책 내역`} />
-            {petWalkPendingInfo.items?.length !== 0 ?
+            {petWalkPendingInfo.items !== null ? (
                 <List>
-                {petWalkPendingInfo.items?.map((el) => {
+                {petWalkPendingInfo.items?.map((el, idx) => {
                   return (
                     <li>
-                        <PendingCard el={el}/>
+                        <PendingCard el={el} key={idx}/>
                     </li>
                   );
                 })}
-              </List>
-            :
+              </List>)
+            :(
                 <div className="pg-info">
                     <div>
                         <i><Lottie animationData={Loadinglottie} /></i>
                         <h4>대기중인 산책 내역이 없습니다.</h4>
                         <p>대기중인 산책 내역을<br />이곳에서 확인 하실 수 있습니다.</p>
                     </div>
-                </div>
+                </div>)
             } 
         </div>
     )

@@ -77,7 +77,7 @@ const CitySelect = ({isOpen, setIsOpen, setRegion, setRegionName, confirmHandler
                        <h3>지역 선택</h3>
                        <div className="region-list">
                             <div className="i1">
-                                <ul className="item-ul">    
+                                <ul className="item-ul">  
                                     {cityData.map((el, idx)=>{
                                         return(
                                             <li 

@@ -144,8 +144,8 @@ const MainIntro = styled.div`
     transform: translate(0, -96%);
     right: 0;
     z-index: 99;
-    width: 250px;
-    height: 360px;
+    width: 230px;
+    height: 335px;
   }
 
   h2 {
@@ -178,7 +178,7 @@ const BottomArea = styled.div`
   bottom: 0;
   left: 0;
   background: var(--white-000);
-  padding: 40px 30px 25px;
+  padding: 35px 27px 25px;
   border-top-left-radius: 30px;
 `;
 

@@ -52,7 +52,6 @@ const WantedEdit = () => {
     setIsOpen(true);
     document.body.style.overflow = "hidden";
   };
-
   const regionConfirmHandler = () => {
     //지역정보 받아오기
     setRegionNamePick(regionName);

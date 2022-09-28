@@ -133,7 +133,8 @@ export const postWanted = (
   pay,
   petId,
   startTime,
-  title
+  title,
+  id
 ) => {
   return async (dispatch) => {
     try {
@@ -144,7 +145,7 @@ export const postWanted = (
         }
       });
       await customAxios
-        .post(`/wanted/create`, {
+        .post(`/wanted/${id}/create`, {
           caution: caution,
           checkList: [],
           checkListContent: checkListContent,

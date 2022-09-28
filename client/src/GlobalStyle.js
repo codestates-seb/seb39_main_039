@@ -61,7 +61,7 @@ const GlobalStyle = createGlobalStyle`
    // util
    .img-circle{border-radius: 100px;}
    .img-circle.xxs{width:20px;height:20px !important}
-   .img-circle.xs{width:25px;}
+   .img-circle.xs{width:23px;}
    .img-circle.sm{ width:35px;}
    .pa0{padding:0 !important}
    .pb20{padding-bottom:20px !important}

@@ -64,11 +64,11 @@ const Label = styled.span`
     display: inline-block;
     margin-right: 0.3em;
     img {
-      height: 25px;
+      height: 23px;
       vertical-align: bottom;
       background-repeat: no-repeat;
       background-position: 50% 50%;
-      background-size: 25px 25px;
+      background-size: 23px 23px;
     }
   }
 

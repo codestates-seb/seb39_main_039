@@ -10,7 +10,7 @@ import useConvertTime from "../hooks/useConvertTime";
 import { useDispatch, useSelector } from "react-redux";
 import { getWantedDetail } from "../redux/actions/wantedActions";
 import moment from "moment";
-import { useEffect } from "react";
+import gradationImg from "../assets/img/gdt.png";
 
 const WantedCard = ({ item }) => {
   const navigate = useNavigate();
@@ -49,6 +49,7 @@ const WantedCard = ({ item }) => {
             key={item.petId}
           />
         ))}
+        <i className="gradation"></i>
       </div>
       <div className="title">
         <p className={item.matched ? "con-title" : "con-title no-matched"}>
@@ -104,16 +105,25 @@ const Card = styled.div`
   cursor: pointer;
 
   .con-dogs {
+    position: relative;
     gap: 5px;
-    display: flex;
-    > * {
-      margin-right: 0px;
+    overflow: auto;
+    white-space: nowrap;
+    > span {
+      margin-right: 3px;
+    }
+
+    dl {
+      font-size: 12px;
     }
   }
 
+  .title{
+    margin:3px 0;
+  }
   .con-title {
     font-weight: 800;
-    margin: 3px 0 7px;
+    margin: 0 0 2px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

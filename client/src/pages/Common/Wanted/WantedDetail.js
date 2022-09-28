@@ -113,6 +113,7 @@ const WantedDetailPage = () => {
                       name={item.petName}
                       key={item.petId}
                       species={item.species}
+                      picture={item.petPicture}
                     />
                   </div>
                 ))}

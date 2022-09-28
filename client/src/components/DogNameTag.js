@@ -2,13 +2,14 @@ import styled from "styled-components";
 import sexIconMale from "../assets/img/sexIcon-male.svg";
 import sexIconFemale from "../assets/img/sexIcon-female.svg";
 
-const DogNameTag = ({ size, name, species }) => {
+const DogNameTag = ({ size, name, species, picture}) => {
+
   return (
     // 성별 내용 Tag class에 넣기  [M, F]
     <Tag className="M">
       <span className="dog-photo">
         <img
-          src={"https://avatars.githubusercontent.com/u/9497404?v=4"}
+          style={{ backgroundImage: `url(${picture})` }}
           className="img-circle"
           alt=""
         />
@@ -16,7 +17,6 @@ const DogNameTag = ({ size, name, species }) => {
       <div className="dog-info">
         <span>{species}</span>
         <strong>{name}</strong>
-        <small>1세</small>
       </div>
     </Tag>
   );
@@ -50,6 +50,10 @@ const Tag = styled.div`
     img {
       width: 55px;
       height: 55px;
+      vertical-align: bottom;
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+      background-size: 55px 55px;
     }
   }
 

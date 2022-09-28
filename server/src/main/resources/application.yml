@@ -29,7 +29,7 @@ logging:
     org:
       springframework:
         orm:
-          jpa: DEBUG
+          jpa: ERROR
     web: DEBUG
 server:
   error:

@@ -45,8 +45,9 @@ public class WalkController {
 
     @ApiOperation(value = "산책 세부내역 불러오기", notes = "진행중 산책, 지난 산책 세부내역 등")
     @GetMapping("/{walkId}")
-    public ResponseEntity getDetailWalk(@PathVariable @Positive Long walkId) {
-        Walk walk = walkService.getWalk(walkId);
+    public ResponseEntity getDetailWalk(@AuthenticationPrincipal @ApiIgnore User user, @PathVariable @Positive Long walkId) {
+        if(user == null) user = User.builder().id(1L).build();
+        Walk walk = walkService.getWalk(walkId, user.getId());
         WalkDto.DetailResponse response = walkMapper.toDetailResponse(walk);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

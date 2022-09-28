@@ -7,12 +7,24 @@ export const PET_LOADING = "PET_LOADING";
 export const getMyPetInfo = () => {
   return async (dispatch) => {
     try {
+      dispatch({
+        type: "PET_LOADING",
+        payload: {
+          loading: true
+        }
+      });
       const getMyPetInfoAPI = customAxios.get(`/pet/detailList`);
       let get_myPetInfo = await getMyPetInfoAPI;
       dispatch({
         type: "GET_PET_INFO_SUCCESS",
         payload: {
           myPetInfo: get_myPetInfo.data
+        }
+      });
+      dispatch({
+        type: "PET_LOADING",
+        payload: {
+          loading: false
         }
       });
     } catch (error) {
@@ -81,7 +93,7 @@ export const editMyPetInfo = (petId, name, species, birth, sex, about) => {
 export const deleteMyPetInfo = (petId) => {
   return async () => {
     try {
-      const deleteMyPetInfoAPI = await customAxios
+      return await customAxios
         .delete(`/pet/${petId}/delete`)
         .then((res) => window.location.reload());
       // let delete_mypet = await deleteMyPetInfoAPI;

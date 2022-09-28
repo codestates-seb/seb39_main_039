@@ -22,23 +22,21 @@ const Setting = () => {
   const { userInfo } = useSelector((state) => state.user);
   const { myPetInfo } = useSelector((state) => state.pet);
 
-  const [isOn, setIsOn] = useState(
-    Boolean(localStorage.getItem("OwnerOrWalker"))
-  );
-  const [isOpen, setIsOpen] = useState(false);
+  let isOnState = localStorage.getItem("OwnerOrWalker");
 
   const toggleHandler = () => {
+    localStorage.setItem("OwnerOrWalker", !isOn);
     setIsOn(!isOn);
-    // true:견주 false:알바
-    Boolean(localStorage.setItem("OwnerOrWalker", isOn));
+    // false 일 때 견주, True 일 때 알바
   };
-  console.log(isOn);
 
   useEffect(() => {
     dispatch(getUserInfo());
     dispatch(getMyPetInfo());
   }, []);
 
+  const [isOn, setIsOn] = useState();
+  const [isOpen, setIsOpen] = useState(false);
   const logout = () => {
     dispatch(logoutSuccess());
   };
@@ -46,6 +44,8 @@ const Setting = () => {
   const deleteUser = () => {
     dispatch(delUser());
   };
+
+  console.log(isOnState, isOn);
 
   return (
     <div className="container">
@@ -77,7 +77,7 @@ const Setting = () => {
         <li>
           <p>화면모드</p>
           <div className="opt-info v2">
-            <SwitchMode isOn={isOn} toggleHandler={toggleHandler} />
+            <SwitchMode isOn={isOnState} toggleHandler={toggleHandler} />
           </div>
         </li>
         <li
@@ -90,7 +90,7 @@ const Setting = () => {
         </li>
         <li
           onClick={() => {
-            navigate("/DogEdit?tap=0");
+            navigate("/DogEdit?tab=0");
           }}
         >
           <p>강아지 정보 수정</p>

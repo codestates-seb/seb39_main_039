@@ -13,10 +13,10 @@ import { useSelector } from "react-redux";
 
 export const DogCard = (props) => {
   const navigate = useNavigate();
-  const walklInfo = useSelector((state) => state.mapping.walkDetailInfo);
-  const endDate = new Date(props.props.currentWalk?.endTime)
+  const endDate = new Date(props.props.currentWalk?.endTime + "z")
     .toLocaleString()
     .slice(0, -3);
+
   let ago = moment(props.props.birthday).fromNow();
   let age;
   if (!ago.includes("years")) {

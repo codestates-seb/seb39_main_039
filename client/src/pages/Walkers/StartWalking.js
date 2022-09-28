@@ -13,7 +13,7 @@ import {
   changeCheckListState,
   countPoo
 } from "../../redux/actions/mappingAction";
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const StartWalking = () => {
   const { id } = useParams();
@@ -27,22 +27,20 @@ const StartWalking = () => {
 
   const CountHandlerPlus = (walkId, toDo, count) => {
     dispatch(countPoo(walkId, toDo, count)).then((res) => {
-      if(toDo === "poo") setPooCount(res.data);
-      if(toDo === "walk") setWalkCount(res.data);
-      if(toDo === "snack") setSnackCount(res.data);
-      if(toDo === "meal") setMealCount(res.data);
-        }
-    );
+      if (toDo === "poo") setPooCount(res.data);
+      if (toDo === "walk") setWalkCount(res.data);
+      if (toDo === "snack") setSnackCount(res.data);
+      if (toDo === "meal") setMealCount(res.data);
+    });
   };
 
   const CountHandlerMinus = (walkId, toDo, count) => {
     dispatch(countPoo(walkId, toDo, count)).then((res) => {
-      if(toDo === "poo") setPooCount(res.data);
-      if(toDo === "walk") setWalkCount(res.data);
-      if(toDo === "snack") setSnackCount(res.data);
-      if(toDo === "meal") setMealCount(res.data);
-        }
-    );
+      if (toDo === "poo") setPooCount(res.data);
+      if (toDo === "walk") setWalkCount(res.data);
+      if (toDo === "snack") setSnackCount(res.data);
+      if (toDo === "meal") setMealCount(res.data);
+    });
   };
 
   const change = (curState, checkList_id) => {
@@ -50,13 +48,6 @@ const StartWalking = () => {
       setProgress(res.data.progress)
     );
   };
-
-  let walkTime = walkDetailInfo.endTime;
-  let date = new Date(walkTime);
-  let month = ("0" + (date.getMonth() + 1)).slice(-2);
-  let day = ("0" + date.getDate()).slice(-2);
-  let hour = ("0" + date.getHours()).slice(-2);
-  let minute = ("0" + date.getMinutes()).slice(-2);
 
   useEffect(() => {
     dispatch(getWalkDetailInfo(id)).then((res) => {
@@ -68,7 +59,6 @@ const StartWalking = () => {
       console.log(res);
     });
   }, []);
-
 
   return (
     <div className="container pa0">
@@ -91,7 +81,13 @@ const StartWalking = () => {
           </dl>
           <dl className="walk-con">
             <dt>산책 예정시간</dt>
-            <dd><p>~ {`${month}월 ${day}일  ${hour}:${minute}시 까지`}</p></dd>
+            <dd>
+              ~{" "}
+              {new Date(walkDetailInfo.endTime + "z")
+                .toLocaleString()
+                .slice(0, -3)}{" "}
+              까지
+            </dd>
           </dl>
         </div>
       </Section>
@@ -240,7 +236,7 @@ const Section = styled.section`
         span {
           margin-right: 5px;
         }
-        p{
+        p {
           line-height: 30px;
         }
       }

@@ -16,13 +16,13 @@ const WantedCard = ({ item }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  let endTimeForm = useConvertTime(
-    item.walk.endTime.toLocaleString().slice(0, -3).split("T")
-  );
+  let endTimeForm = new Date(item.walk?.startTime + "z")
+    .toLocaleString()
+    .slice(0, -3);
 
-  let startTimeForm = useConvertTime(
-    item.walk.startTime.toLocaleString().slice(0, -3).split("T")
-  );
+  let startTimeForm = new Date(item.walk?.endTime + "z")
+    .toLocaleString()
+    .slice(0, -3);
 
   let timeZone = moment(item.creationDate).add(9, "hours").fromNow();
   let ago;
@@ -78,9 +78,7 @@ const WantedCard = ({ item }) => {
               <FontAwesomeIcon icon={faDog} /> 시간
             </dt>
             <dd>
-              {`${startTimeForm[0]}-${startTimeForm[1]}-${startTimeForm[2]} ${startTimeForm[3]}:${startTimeForm[4]}`}{" "}
-              ~{" "}
-              {`${endTimeForm[0]}-${endTimeForm[1]} ${endTimeForm[2]} ${endTimeForm[3]}:${endTimeForm[4]}`}
+              {startTimeForm}~ {endTimeForm}
             </dd>
             <dt>
               <em>{ago} </em>
@@ -118,8 +116,8 @@ const Card = styled.div`
     }
   }
 
-  .title{
-    margin:3px 0;
+  .title {
+    margin: 3px 0;
   }
   .con-title {
     font-weight: 800;
@@ -148,11 +146,11 @@ const Card = styled.div`
   }
 
   .con-info {
-    li{
+    li {
       position: relative;
       display: flex;
-      dl{
-        flex:1;
+      dl {
+        flex: 1;
       }
     }
     dl {
@@ -180,6 +178,10 @@ const Card = styled.div`
     em {
       margin-right: 3px;
       letter-spacing: 0;
+    }
+
+    em {
+      margin-right: 5px;
     }
   }
 

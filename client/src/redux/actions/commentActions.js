@@ -4,10 +4,10 @@ import { toast } from "react-toast";
 
 export const COMMENT_SELECT_ERROR = "COMMENT_SELECT_ERROR";
 export const GET_CONTACT_INFO_SUCCESS = "GET_CONTACT_INFO_SUCCESS";
-
+export const COMMENT_ADD_ERROR = "COMMENT_ADD_ERROR";
 
 export const addComment = (wantedId, content) => {
-    return async () => {
+    return async (dispatch) => {
       try {
         const addCommentAPI = customAxios
           .post(`/wanted/${wantedId}/comment`, `${content}`)
@@ -15,8 +15,11 @@ export const addComment = (wantedId, content) => {
         let add_comment = await addCommentAPI;
       } catch (error) {
         if (error.response.status === 400) {
-          toast.error(error.response.data);
-          // console.log(error.response.data);
+          // toast.error(error.response.data);
+          dispatch({
+            type: "COMMENT_ADD_ERROR",
+            payload: '글자수를 10자 이상 입력해주세요.'
+          });
         }
       }
     };

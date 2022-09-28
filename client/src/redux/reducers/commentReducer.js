@@ -1,9 +1,9 @@
-import { COMMENT_SELECT_ERROR, GET_CONTACT_INFO_SUCCESS } from "../actions/commentActions";
+import { COMMENT_SELECT_ERROR, GET_CONTACT_INFO_SUCCESS, COMMENT_ADD_ERROR } from "../actions/commentActions";
 
   const initialstate = {
-    addError: null,
     selectError: null,
-    contactInfo: ''
+    contactInfo: '',
+    addError: null,
   };
   
   const commentReducers = (state = initialstate, action) => {
@@ -17,6 +17,11 @@ import { COMMENT_SELECT_ERROR, GET_CONTACT_INFO_SUCCESS } from "../actions/comme
         return {
           ...state,
           contactInfo: action.payload
+      };
+      case COMMENT_ADD_ERROR:
+        return {
+          ...state,
+          addError: action.payload
       };
       default:
         return state;

@@ -64,8 +64,6 @@ const WantedCard = ({ item }) => {
             </dt>
             <dd>{item?.location}</dd>
           </dl>
-        </li>
-        <li>
           <dl>
             <dt>
               <FontAwesomeIcon icon={faSackDollar} /> 보수
@@ -109,20 +107,20 @@ const Card = styled.div`
     gap: 5px;
     display: flex;
     > * {
-      margin-right: 5px;
+      margin-right: 0px;
     }
   }
 
   .con-title {
     font-weight: 800;
-    margin: 10px 0;
+    margin: 3px 0 7px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 
     em {
       display: inline-block;
-      padding: 6px 6px;
+      padding: 5px 5px 4px;
       font-size: 0.75em;
       border-radius: 5px;
       background: var(--primary);
@@ -140,15 +138,22 @@ const Card = styled.div`
   }
 
   .con-info {
+    li{
+      position: relative;
+      display: flex;
+      dl{
+        flex:1;
+      }
+    }
     dl {
       display: flex;
       font-size: 11px;
-      margin: 7px 0;
+      margin: 4px 0;
       align-items: flex-end;
     }
     dt {
       color: var(--gray-500);
-      margin-right: 10px;
+      margin-right: 5px;
       font-weight: 500;
 
       svg {
@@ -159,11 +164,12 @@ const Card = styled.div`
 
     dt:nth-child(3) {
       position: absolute;
-      right: 20px;
+      right: 0;
     }
 
     em {
-      margin-right: 5px;
+      margin-right: 3px;
+      letter-spacing: 0;
     }
   }
 
@@ -171,7 +177,7 @@ const Card = styled.div`
     display: flex;
     align-items: center;
     span {
-      margin-left: 5px;
+      margin-left: 3px;
       font-weight: 600;
     }
     > em {

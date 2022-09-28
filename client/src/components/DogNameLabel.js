@@ -57,7 +57,7 @@ const Label = styled.span`
   background: var(--white-000);
   border: 1px solid var(--gray-200);
   border-radius: 50px;
-  padding: 0.2em 0.7em 0.2em 0.2em;
+  padding: 0.13em 0.7em 0.13em 0.13em;
   margin-bottom: 0.3em;
 
   .dog-photo {
@@ -76,6 +76,7 @@ const Label = styled.span`
     display: flex;
     align-items: center;
     font-weight: 500;
+    margin-top:2px;
 
     dt {
       color: var(--gray-600);

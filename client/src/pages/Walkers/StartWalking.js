@@ -203,7 +203,7 @@ const Section = styled.section`
         min-width: 60px;
         font-weight: 600;
         padding-right: 18px;
-        line-height: 35px;
+        line-height: 30px;
       }
       > dt:before {
         content: "";
@@ -222,7 +222,7 @@ const Section = styled.section`
           margin-right: 5px;
         }
         p{
-          line-height: 35px;
+          line-height: 30px;
         }
       }
     }

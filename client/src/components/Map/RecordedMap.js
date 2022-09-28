@@ -8,10 +8,10 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { faLocationArrow, faRotate } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import WalkResultInfo from "../../components/WalkResultInfo";
 
 const { kakao } = window;
-
-const TrackingMap = () => {
+const TrackingMap = ({walkId}) => {
   const [myMap, setMyMap] = useState(null);
   const [recordedLine, setRecordedLine] = useState([]);
   const dispatch = useDispatch();
@@ -77,7 +77,7 @@ const TrackingMap = () => {
 
   useEffect(() => {
     getGeolocation();
-    dispatch(getWalkDetailInfo(1));
+    dispatch(getWalkDetailInfo(walkId));
     makeRecordObj();
     if (lat > 0 && lon > 0) {
       drawMap();
@@ -87,6 +87,7 @@ const TrackingMap = () => {
   return (
     <>
       <Map id="myMap" style={{ width: "100%", height: "300px" }}></Map>
+      <WalkResultInfo walkDetailInfo={walkDetailInfo} />
       {recordedLine ? (
         <Handler>
           <MapGPSBtn
@@ -98,7 +99,7 @@ const TrackingMap = () => {
           </MapGPSBtn>
           <MapRefreshBtn
             onClick={() => {
-              dispatch(getWalkDetailInfo(38));
+              dispatch(getWalkDetailInfo(walkId));
             }}
           >
             <FontAwesomeIcon color="#ffff" icon={faRotate} size="2x" />

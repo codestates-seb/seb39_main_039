@@ -1,14 +1,22 @@
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../../assets/img/logo.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell } from "@fortawesome/free-solid-svg-icons";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import Nav from "../../components/Layout/Nav";
+import { faBell, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import PlaceList from "../../components/PlaceList";
 import WalkerCard from "../../components/WalkerCard";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getWalkerDetailInfo } from "../../redux/actions/walkerActions";
 
 const WalkerMain = () => {
+  const [walkerDetailInfo, setWalkerDetailInfo] = useState(null);
+  useEffect(() => {
+    getWalkerDetailInfo(setWalkerDetailInfo);
+  }, []);
+
+  if (!walkerDetailInfo) return <div></div>;
+
   return (
     <div className="container bg-gray">
       <Header>
@@ -23,7 +31,7 @@ const WalkerMain = () => {
       </Header>
       <Section>
         <UserSlide>
-          <WalkerCard />
+          <WalkerCard data={walkerDetailInfo} />
         </UserSlide>
       </Section>
       <Section>

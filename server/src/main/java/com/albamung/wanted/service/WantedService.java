@@ -6,7 +6,6 @@ import com.albamung.pet.service.PetService;
 import com.albamung.user.entity.User;
 import com.albamung.user.service.UserService;
 import com.albamung.walk.entity.Walk;
-import com.albamung.walk.entity.WalkCheck;
 import com.albamung.walk.service.CheckListService;
 import com.albamung.wanted.dto.WantedDto;
 import com.albamung.wanted.entity.SortBy;
@@ -20,7 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,7 +62,7 @@ public class WantedService {
         walk.setCheckListByContents(request.getCheckListContent());
 
 //        wanted.setLocation(cityRepository.findByNameAndRegionName(request.getCity(), request.getRegion()));
-        wanted.setLocation(cityRepository.findById(request.getCityId()).orElseThrow());
+        wanted.setCity(cityRepository.findById(request.getCityId()).orElseThrow());
         wanted.setWalk(walk);
         return wantedRepository.save(wanted);
     }
@@ -84,9 +82,9 @@ public class WantedService {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by(sortBy.getValue()).descending());
         if (cityId == 0 && matched) return wantedRepository.findAllByMatched(false, pageRequest);
         else if (cityId > 0 && matched)
-            return wantedRepository.findAllByMatchedAndLocation_CityId(false, cityId, pageRequest);
+            return wantedRepository.findAllByMatchedAndCity_CityId(false, cityId, pageRequest);
         else if (cityId > 0)
-            return wantedRepository.findAllByLocation_CityId(cityId, pageRequest);
+            return wantedRepository.findAllByCity_CityId(cityId, pageRequest);
 
         else return wantedRepository.findAll(pageRequest);
     }
@@ -101,7 +99,7 @@ public class WantedService {
 
         targetWanted.setPay(request.getPay());
 //        targetWanted.setLocation(cityRepository.findByNameAndRegionName(request.getCity(), request.getRegion()));
-        targetWanted.setLocation(cityRepository.findById(request.getCityId()).orElseThrow());
+        targetWanted.setCity(cityRepository.findById(request.getCityId()).orElseThrow());
         targetWanted.setTitle(request.getTitle());
         targetWalk.setStartTime(request.getStartTime());
         targetWalk.setEndTime(request.getEndTime());
@@ -110,15 +108,15 @@ public class WantedService {
         List<Pet> petList = request.getPetId().stream().map(petService::verifyPet).collect(Collectors.toList());
         targetWalk.setPetList(petList);
 
-        List<WalkCheck> checkListToDelete = new ArrayList<>(List.copyOf(targetWalk.getCheckList()));
-
-        request.getCheckList().forEach(editingCheck -> {
-            WalkCheck targetCheck = targetWalk.getCheckList().stream().filter(s -> s.getWalkCheckId().equals(editingCheck.getCheckListId())).findFirst().orElseThrow();
-            targetCheck.setContent(editingCheck.getContent());
-            checkListToDelete.remove(targetCheck);
-        });
-        checkListToDelete.forEach(s -> targetWalk.getCheckList().remove(s));
-
+//        List<WalkCheck> checkListToDelete = new ArrayList<>(List.copyOf(targetWalk.getCheckList()));
+//
+////        request.getCheckList().forEach(editingCheck -> {
+////            WalkCheck targetCheck = targetWalk.getCheckList().stream().filter(s -> s.getWalkCheckId().equals(editingCheck.getCheckListId())).findFirst().orElseThrow();
+////            targetCheck.setContent(editingCheck.getContent());
+////            checkListToDelete.remove(targetCheck);
+////        });
+//        checkListToDelete.forEach(s -> targetWalk.getCheckList().remove(s));
+        targetWalk.getCheckList().clear();
         targetWalk.setCheckListByContents(request.getCheckListContent());
         return targetWanted;
     }

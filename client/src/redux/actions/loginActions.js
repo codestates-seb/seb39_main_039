@@ -23,7 +23,7 @@ export const loginSuccess = (email, password) => {
             expires: 7
           });
         })
-        .then(() => {
+        .then((response) => {
           dispatch({
             type: "LOGIN_SUCCESS"
           });

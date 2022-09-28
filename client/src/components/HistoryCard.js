@@ -33,7 +33,7 @@ const HistoryCard = ({startTime, endTime, distance, walker}) => {
             <div className="history-info">
                 <div className="i1">
                     <p>{new Date(startTime).toISOString().split('T')[0]} {days}</p>
-                    <i><FontAwesomeIcon icon={faPaw} />{walker}</i>
+                    <i><FontAwesomeIcon icon={faPaw} />{walker?.walkerName}</i>
                 </div>
                 <div className="i2">
                     <em className="label">산책</em>

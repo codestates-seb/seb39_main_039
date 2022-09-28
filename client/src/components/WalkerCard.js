@@ -7,7 +7,8 @@ import { getWalkerUser, getUserInfo } from "../redux/actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
-const WalkerCard = () => {
+const WalkerCard = (data) => {
+  const walkerInfo = data.data;
   const navigate = useNavigate();
   const { walkerUserInfo, userInfo } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -19,6 +20,9 @@ const WalkerCard = () => {
 
   console.log(walkerUserInfo);
 
+  let startTime = new Date(walkerInfo.currentWalk.startTime.toString());
+
+  //Asia/Seoul
   return (
     <div>
       <WalkerProfile>
@@ -37,21 +41,31 @@ const WalkerCard = () => {
         </div>
       </WalkerProfile>
       <WalkState>
-        <NotWalk>
-          <div>
-            <p>산책 할 강아지가 없어요 🐶</p>
-          </div>
-        </NotWalk>
-        <Walking
-          onClick={() => {
-            navigate("/walk/1/walking");
-          }}
-        >
-          <div>
-            <p>춘식 외 2마리와 산책 하기</p>
-            <small>09.15 오후 4:00 부터 시작</small>
-          </div>
-        </Walking>
+        {walkerInfo.currentWalk === null ? (
+          <NotWalk>
+            <div>
+              <p>산책 할 강아지가 없어요 🐶</p>
+            </div>
+          </NotWalk>
+        ) : (
+          <Walking
+            onClick={() => {
+              navigate(`/walk/${walkerInfo.currentWalk.walkId}/walking`);
+            }}
+          >
+            <div>
+              <p>
+                {walkerInfo.currentWalk.petList[0].petName} 외{" "}
+                {Object.keys(walkerInfo.currentWalk.petList).length}마리와 산책
+                하기
+              </p>
+              <small>
+                {startTime.getMonth() + 1}월 {startTime.getDate()}일{" "}
+                {startTime.getHours()}시 {startTime.getMinutes()}분 부터 시작
+              </small>
+            </div>
+          </Walking>
+        )}
         <WalkBanner
           onClick={() => {
             navigate("/walk/1/wantedHistory");
@@ -71,7 +85,7 @@ const WalkerCard = () => {
         >
           <div>
             <p>지난 산책 내역</p>
-            <small>총 {walkerUserInfo.walkDistance} km</small>
+            <small>총 {walkerUserInfo.walkDistance} m</small>
           </div>
           <div>
             <b>{walkerUserInfo.walkHistoryCount}</b>건

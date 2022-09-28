@@ -1,4 +1,9 @@
 import customAxios from "../axiosAPI";
+import { toast } from "react-toast";
+
+export const COMMENT_SELECT_ERROR = "COMMENT_SELECT_ERROR";
+export const GET_CONTACT_INFO_SUCCESS = "GET_CONTACT_INFO_SUCCESS";
+
 
 export const addComment = (wantedId, content) => {
     return async () => {
@@ -45,14 +50,37 @@ export const delComment = (wantedId, commentId) => {
 
 
 export const selectComment = (wantedId, commentId, pick) => {
-  return async () => {
+  return async (dispatch) => {
     try {
       const selectCommentAPI = customAxios
         .put(`/wanted/${wantedId}/comment/${commentId}/match`, `${pick}`)
       let select_comment = await selectCommentAPI;
     } catch (error) {
-      //에러 핸들링 하는 곳
-      console.log("에러", error);
+      if (error.response.status === 400 || error.response.status === 403) {
+        toast.error(error.response.data);
+        dispatch({
+          type: "COMMENT_SELECT_ERROR",
+          payload: error.response.data
+        });
+      }
+    }
+  };
+};
+
+
+export const getContactInfo = (wantedId, commentId) => {
+  return async (dispatch) => {
+    try {
+      const getContactInfoAPI = customAxios.get(`/wanted/${wantedId}/comment/${commentId}/viewPhoneNumber`);
+      let get_contactInfo = await getContactInfoAPI;
+      dispatch({
+        type: "GET_CONTACT_INFO_SUCCESS",
+        payload: {
+          contactInfo: get_contactInfo.data
+        }
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 };

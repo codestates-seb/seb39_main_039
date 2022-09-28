@@ -27,6 +27,7 @@ public class WantedDto {
         private LocalDateTime lastActivityDate;
         private boolean matched;
         private List<CommentDto.Response> commentList;
+        private Long cityId;
     }
 
     @Builder
@@ -41,6 +42,8 @@ public class WantedDto {
         private LocalDateTime creationDate;
         private LocalDateTime lastActivityDate;
         private boolean matched;
+        private Long cityId;
+        private int commentCount;
     }
 
     @Builder
@@ -68,7 +71,7 @@ public class WantedDto {
     @ApiModel("구인글 수정")
     public static class Put {
         private List<String> checkListContent;
-        private List<WalkCheckListDto.Put> checkList;
+//        private List<WalkCheckListDto.Put> checkList;
         private List<Long> petId;
         @Positive
         private Long cityId;

@@ -105,6 +105,7 @@ const Conpanel = styled.div`
         padding:10px 0;
         color:var(--primary);
         font-weight: 600;
+        text-align: center;
     }
     
 `

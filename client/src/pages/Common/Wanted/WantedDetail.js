@@ -3,13 +3,11 @@ import { Header } from "../../../components/Layout/Header";
 import checkedIcon from "../../../assets/img/checkedIcon.svg";
 import DogNameTag from "../../../components/DogNameTag";
 import CommentEnter from "../../../components/CommentEnter";
-import { ApplyComment, ApplyCommentBlocked } from "../../../components/Comment";
+import { ApplyComment } from "../../../components/Comment";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import useConvertTime from "../../../hooks/useConvertTime";
-import { useEffect, useRef } from "react";
-import { useState } from "react";
 import Modal from "../../../components/Modal/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
@@ -17,6 +15,8 @@ import {
   deleteWanted,
   getWantedDetail
 } from "../../../redux/actions/wantedActions";
+import { useEffect, useState, useRef } from "react";
+import { ToastContainer } from "react-toast";
 
 const WantedDetailPage = () => {
   const { id } = useParams();
@@ -26,7 +26,6 @@ const WantedDetailPage = () => {
   const [isOn, setIsOn] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [onEdit, setOnEdit] = useState(false);
-
   const navigate = useNavigate();
 
   let endTimeForm = useConvertTime(
@@ -154,25 +153,25 @@ const WantedDetailPage = () => {
           <CommentApply>
             <SectLabel>지원하기</SectLabel>
             <CommentEnter wantedId={wantedDetail.wantedId} />
-            <SectLabel>산책 지원하기 3명</SectLabel>
+            <SectLabel>
+              산책 지원하기 {wantedDetail.commentList?.length}명
+            </SectLabel>
             <div className="comment-list">
               {wantedDetail.commentList?.reverse().map((data, key) => {
                 return (
                   <ApplyComment
                     data={data}
                     wantedId={wantedDetail.wantedId}
+                    writerId={wantedDetail.walk?.owner.ownerId}
                     key={key}
                   />
                 );
               })}
-
-              {/* 글 작성자가 아닌 경우 코멘트 내용 가려짐*/}
-              <ApplyCommentBlocked />
-              <ApplyCommentBlocked />
             </div>
           </CommentApply>
         </>
       )}
+      <ToastContainer position="top-right" delay={3000} />
     </div>
   );
 };
@@ -183,6 +182,10 @@ const Section = styled.section`
   border-bottom: 9px solid var(--gray-100);
   padding: 20px;
   background: var(--white-000);
+
+  &:first-child {
+    padding-top: 0;
+  }
 
   .p-area {
     padding: 13px 0 20px;
@@ -258,6 +261,7 @@ const ConHeader = styled.div`
   h3 {
     font-size: 19px;
     font-weight: 500;
+    padding-top: 15px;
     padding-bottom: 16px;
   }
 

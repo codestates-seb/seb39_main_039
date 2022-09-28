@@ -64,13 +64,9 @@ const Walking = () => {
             </dd>
           </dl>
           <dl className="walk-con v2">
-            <dt>의뢰인</dt>
+            <dt>산책자</dt>
             <dd>
-              <DogNameLabel
-                size={"xs"}
-                picture={WalkInfo.owner?.profileImage}
-                name={WalkInfo.owner?.nickName}
-              />
+              <DogNameLabel size={"xs"} picture={WalkInfo.walker?.walkerPicture} name={WalkInfo.walker?.walkerName} />
             </dd>
           </dl>
           <dl className="walk-con mb0">

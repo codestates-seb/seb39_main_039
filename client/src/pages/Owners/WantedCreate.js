@@ -166,7 +166,7 @@ const WantedCreate = () => {
                     }}
                   />
                   <span>
-                    <img width={50} src={el.petPicture} />
+                    <img width={35} src={el.petPicture} />
                     <span>{el.petName}</span>
                   </span>
                 </DogCheckBoxLabel>
@@ -318,7 +318,7 @@ const DogSelect = styled.ul`
   padding: 2px 0 5px;
   li {
     display: inline-block;
-    margin-right: 9px;
+    margin: 0px 10px 9px 0 ;
   }
 
   .active {
@@ -344,6 +344,7 @@ const ConCheckList = styled.ul`
     font-size: 15px;
     line-height: 1.3em;
     padding: 2px 0 5px;
+
     > label {
       display: flex;
       align-items: center;
@@ -359,7 +360,7 @@ const ConCheckList = styled.ul`
     }
   }
   li + li {
-    margin: 20px 0;
+    margin: 6px 0;
   }
   li:before {
     content: "";
@@ -420,12 +421,14 @@ const DogCheckBoxLabel = styled.label`
     display: flex;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.13);
     padding: 4px 14px 4px 5px;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     border: 1px solid var(--gray-200);
     border-radius: 50px;
+    min-width:110px;
     > img {
       border-radius: 30px;
+      height:35px;
       margin-right: 5px;
     }
   }

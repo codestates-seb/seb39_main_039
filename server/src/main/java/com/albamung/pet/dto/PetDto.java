@@ -73,5 +73,10 @@ public class PetDto {
         @Size(max = 20, message = "Species must be under 20 letters")
         private String species;
         private String aboutPet;
+        public boolean getSex() {
+            if(this.sex.equals("암컷")) return true;
+            else if (this.sex.equals("수컷")) return false;
+            else throw new CustomException("성별은 암컷 / 수컷을 입력해주세요", HttpStatus.BAD_REQUEST);
+        }
     }
 }

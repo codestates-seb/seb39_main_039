@@ -47,8 +47,11 @@ public class WalkService {
     }
 
     @Transactional(readOnly = true)
-    public Walk getWalk(Long walkId) {
-        return verifyWalk(walkId);
+    public Walk getWalk(Long walkId, Long userId) {
+        Walk targetWalk = verifyWalk(walkId);
+        //견주와 산책자만이 산책 세부사항을 확인 할 수 있음
+        verifyWalkUser(targetWalk, userId);
+        return targetWalk;
     }
 
 
@@ -189,7 +192,7 @@ public class WalkService {
     public void verifyWalkUser(Walk walk, Long userId) {
         if (walk.getOwner().getId().equals(userId)) return;
         if (walk.getWalker() != null && walk.getWalker().getId().equals(userId)) return;
-        throw new CustomException("알바나 견주만이 수정 가능합니다", HttpStatus.FORBIDDEN);
+        throw new CustomException("알바나 견주만이 조회 및 수정 가능합니다", HttpStatus.FORBIDDEN);
     }
 
     /**

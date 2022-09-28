@@ -3,44 +3,69 @@ import noImage from "../assets/img/noImage.svg";
 import Arrows from "../assets/img/arrows.svg";
 import ArrowsWh from "../assets/img/arrows-wh.svg";
 import { useNavigate } from "react-router-dom";
+import { getWalkerUser, getUserInfo } from "../redux/actions/userActions";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const WalkerCard = (data) => {
   const walkerInfo = data.data;
   const navigate = useNavigate();
+  const { walkerUserInfo, userInfo } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getWalkerUser());
+    dispatch(getUserInfo());
+  }, []);
+
+  console.log(walkerUserInfo);
+
   let startTime = new Date(walkerInfo.currentWalk.startTime.toString());
+
   //Asia/Seoul
   return (
     <div>
       <WalkerProfile>
         <span className="photo-ring">
-          <img src={walkerInfo.profileImage} className={`img-circle`} alt={noImage} />
+          <img
+            src={walkerUserInfo.profileImage}
+            className={`img-circle`}
+            alt=""
+          />
         </span>
         <div className="dog-info">
           <div>
-            <strong>{walkerInfo.nickName}</strong>
-            <em>{walkerInfo.phone}</em>
+            <strong>{userInfo.fullName}</strong>
+            <em>{walkerUserInfo.phone}</em>
           </div>
         </div>
       </WalkerProfile>
       <WalkState>
         {walkerInfo.currentWalk === null ? (
-        <NotWalk>
-          <div>
-            <p>산책 할 강아지가 없어요 🐶</p>
-          </div>
-        </NotWalk>
-            ) : (
-        <Walking
-          onClick={() => {
-            navigate(`/walk/${walkerInfo.currentWalk.walkId}/walking`);
-          }}
-        >
-          <div>
-            <p>{walkerInfo.currentWalk.petList[0].petName} 외 {Object.keys(walkerInfo.currentWalk.petList).length}마리와 산책 하기</p>
-            <small>{startTime.getMonth() +1 }월 {startTime.getDate()}일 {startTime.getHours()}시 {startTime.getMinutes()}분 부터 시작</small>
-          </div>
-        </Walking>
-            )}
+          <NotWalk>
+            <div>
+              <p>산책 할 강아지가 없어요 🐶</p>
+            </div>
+          </NotWalk>
+        ) : (
+          <Walking
+            onClick={() => {
+              navigate(`/walk/${walkerInfo.currentWalk.walkId}/walking`);
+            }}
+          >
+            <div>
+              <p>
+                {walkerInfo.currentWalk.petList[0].petName} 외{" "}
+                {Object.keys(walkerInfo.currentWalk.petList).length}마리와 산책
+                하기
+              </p>
+              <small>
+                {startTime.getMonth() + 1}월 {startTime.getDate()}일{" "}
+                {startTime.getHours()}시 {startTime.getMinutes()}분 부터 시작
+              </small>
+            </div>
+          </Walking>
+        )}
         <WalkBanner
           onClick={() => {
             navigate("/walk/1/wantedHistory");
@@ -50,7 +75,7 @@ const WalkerCard = (data) => {
             <p>대기중인 산책</p>
           </div>
           <div>
-            <b>{walkerInfo.walkWaitingCount}</b>건
+            <b>{walkerUserInfo.walkWaitingCount}</b>건
           </div>
         </WalkBanner>
         <WalkBanner
@@ -60,10 +85,10 @@ const WalkerCard = (data) => {
         >
           <div>
             <p>지난 산책 내역</p>
-            <small>총 {walkerInfo.walkDistance} m</small>
+            <small>총 {walkerUserInfo.walkDistance} m</small>
           </div>
           <div>
-            <b>{walkerInfo.walkHistoryCount}</b>건
+            <b>{walkerUserInfo.walkHistoryCount}</b>건
           </div>
         </WalkBanner>
       </WalkState>
@@ -176,8 +201,8 @@ const Walking = styled.div`
 
 const NotWalk = styled.div`
   background-color: var(--gray-200);
-  div{
-    width:100%
+  div {
+    width: 100%;
   }
   p {
     text-align: center;

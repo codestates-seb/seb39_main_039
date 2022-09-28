@@ -40,7 +40,7 @@ const WantedCard = ({ item }) => {
       }}
     >
       <div className="con-dogs">
-        {item.petList?.map((item) => (
+        {item.walk.petList?.map((item) => (
           <DogNameLabel
             species={item.species}
             name={item.petName}
@@ -84,7 +84,10 @@ const WantedCard = ({ item }) => {
               {`${endTimeForm[0]}-${endTimeForm[1]} ${endTimeForm[2]} ${endTimeForm[3]}:${endTimeForm[4]}`}
             </dd>
             <dt>
-              <em>{ago}</em> <FontAwesomeIcon icon={faComment} /> {}
+              <em>{ago} </em>
+              <FontAwesomeIcon icon={faComment} />
+              {"   "}
+              {item.commentCount}
             </dt>
           </dl>
         </li>
@@ -104,6 +107,7 @@ const Card = styled.div`
 
   .con-dogs {
     gap: 5px;
+    display: flex;
     > * {
       margin-right: 5px;
     }
@@ -156,6 +160,10 @@ const Card = styled.div`
     dt:nth-child(3) {
       position: absolute;
       right: 20px;
+    }
+
+    em {
+      margin-right: 5px;
     }
   }
 

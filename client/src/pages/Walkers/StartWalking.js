@@ -72,7 +72,7 @@ const StartWalking = () => {
           </dl>
           <dl className="walk-con">
             <dt>산책 예정시간</dt>
-            <dd>~ {`${month}월 ${day}일  ${hour}:${minute}시 까지`}</dd>
+            <dd><p>~ {`${month}월 ${day}일  ${hour}:${minute}시 까지`}</p></dd>
           </dl>
         </div>
       </Section>
@@ -187,7 +187,7 @@ export default StartWalking;
 
 const Section = styled.section`
   border-bottom: 9px solid var(--gray-100);
-  padding: 20px;
+  padding: 0 20px 0 20px;
   background: var(--white-000);
 
   .walk-team {
@@ -195,13 +195,15 @@ const Section = styled.section`
 
     .walk-con {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       margin-bottom: 15px;
 
       > dt {
         position: relative;
+        min-width: 60px;
         font-weight: 600;
         padding-right: 18px;
+        line-height: 35px;
       }
       > dt:before {
         content: "";
@@ -218,6 +220,9 @@ const Section = styled.section`
       > dd {
         span {
           margin-right: 5px;
+        }
+        p{
+          line-height: 35px;
         }
       }
     }

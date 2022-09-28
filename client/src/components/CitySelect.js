@@ -64,7 +64,6 @@ const CitySelect = ({isOpen, setIsOpen, setRegion, setRegionName, confirmHandler
         const siblings = test.filter((node)=> node.dataset.id !== regionRef.current[idx].dataset.id);
         siblings.map((el)=>{return el.className = "off"})
         e.target.className = "on";
-        console.log('엥', regionRef.current);
     };
 
     return(

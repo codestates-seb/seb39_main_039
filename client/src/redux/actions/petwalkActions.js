@@ -24,7 +24,7 @@ export const getPetWalkInfo = (petId) => {
 export const getPetWalkPendingInfo = (petId) => {
   return async (dispatch) => {
     try {
-      const getPetWalkInfoPendingApi = customAxios.get(`/walk/walkHistory?petId=${petId}&page=1`);
+      const getPetWalkInfoPendingApi = customAxios.get(`/walk/walkWaiting?petId=${petId}&page=1`);
       let get_PetWalkPendingInfo = await getPetWalkInfoPendingApi;
       dispatch({
         type: "GET_PET_WALK_PENDING_SUCCESS",

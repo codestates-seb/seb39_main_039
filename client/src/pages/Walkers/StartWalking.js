@@ -13,30 +13,41 @@ import {
   changeCheckListState,
   countPoo
 } from "../../redux/actions/mappingAction";
+import {useParams} from "react-router-dom";
 
 const StartWalking = () => {
+  const { id } = useParams();
   const dispatch = useDispatch();
   const { walkDetailInfo } = useSelector((state) => state.mapping);
-  const [checkCount, setCheckCount] = useState();
-  const [changeCheckList, setChangeCheckList] = useState({
-    progress: ""
-  });
+  const [walkCount, setWalkCount] = useState();
+  const [pooCount, setPooCount] = useState();
+  const [mealCount, setMealCount] = useState();
+  const [snackCount, setSnackCount] = useState();
+  const [progress, setProgress] = useState();
 
   const CountHandlerPlus = (walkId, toDo, count) => {
-    dispatch(countPoo(walkId, toDo, count)).then((res) =>
-      setCheckCount(res.data)
+    dispatch(countPoo(walkId, toDo, count)).then((res) => {
+      if(toDo === "poo") setPooCount(res.data);
+      if(toDo === "walk") setWalkCount(res.data);
+      if(toDo === "snack") setSnackCount(res.data);
+      if(toDo === "meal") setMealCount(res.data);
+        }
     );
   };
 
   const CountHandlerMinus = (walkId, toDo, count) => {
-    dispatch(countPoo(walkId, toDo, count)).then((res) =>
-      setCheckCount(res.data)
+    dispatch(countPoo(walkId, toDo, count)).then((res) => {
+      if(toDo === "poo") setPooCount(res.data);
+      if(toDo === "walk") setWalkCount(res.data);
+      if(toDo === "snack") setSnackCount(res.data);
+      if(toDo === "meal") setMealCount(res.data);
+        }
     );
   };
 
   const change = (curState, checkList_id) => {
-    dispatch(changeCheckListState(1, checkList_id, curState)).then((res) =>
-      setChangeCheckList(res.data)
+    dispatch(changeCheckListState(id, checkList_id, curState)).then((res) =>
+      setProgress(res.data.progress)
     );
   };
 
@@ -48,8 +59,16 @@ const StartWalking = () => {
   let minute = ("0" + date.getMinutes()).slice(-2);
 
   useEffect(() => {
-    dispatch(getWalkDetailInfo(1));
-  }, [checkCount, changeCheckList]);
+    dispatch(getWalkDetailInfo(id)).then((res) => {
+      setPooCount(res.data.pooCount);
+      setSnackCount(res.data.snackCount);
+      setWalkCount(res.data.walkCount);
+      setMealCount(res.data.mealCount);
+      setProgress(res.data.progress);
+      console.log(res);
+    });
+  }, []);
+
 
   return (
     <div className="container pa0">
@@ -84,7 +103,7 @@ const StartWalking = () => {
               <StateCheckCard
                 type={"i1"}
                 name={"산책"}
-                count={walkDetailInfo.walkCount}
+                count={walkCount}
                 CountHandlerPlus={() => {
                   CountHandlerPlus(walkDetailInfo.walkId, "walk", 1);
                 }}
@@ -97,7 +116,7 @@ const StartWalking = () => {
               <StateCheckCard
                 type={"i2"}
                 name={"배변"}
-                count={walkDetailInfo.pooCount}
+                count={pooCount}
                 CountHandlerPlus={() => {
                   CountHandlerPlus(walkDetailInfo.walkId, "poo", 1);
                 }}
@@ -112,7 +131,7 @@ const StartWalking = () => {
               <StateCheckCard
                 type={"i3"}
                 name={"식사"}
-                count={walkDetailInfo.mealCount}
+                count={mealCount}
                 CountHandlerPlus={() => {
                   CountHandlerPlus(walkDetailInfo.walkId, "meal", 1);
                 }}
@@ -125,7 +144,7 @@ const StartWalking = () => {
               <StateCheckCard
                 type={"i4"}
                 name={"간식"}
-                count={walkDetailInfo.snackCount}
+                count={snackCount}
                 CountHandlerPlus={() => {
                   CountHandlerPlus(walkDetailInfo.walkId, "snack", 1);
                 }}
@@ -142,7 +161,7 @@ const StartWalking = () => {
           <label htmlFor="" className="ipt-label">
             체크리스트
           </label>
-          <em>수행률 {changeCheckList?.progress}%</em>
+          <em>수행률 {progress}%</em>
         </div>
         <CheckingList>
           {walkDetailInfo.checkList?.map((el) => (

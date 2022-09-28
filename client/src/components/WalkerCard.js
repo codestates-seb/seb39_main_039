@@ -10,17 +10,15 @@ import { useEffect } from "react";
 const WalkerCard = (data) => {
   const walkerInfo = data.data;
   const navigate = useNavigate();
-  const { walkerUserInfo, userInfo } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  // const { walkerUserInfo, userInfo } = useSelector((state) => state.user);
+  // const dispatch = useDispatch();
+  //
+  // useEffect(() => {
+  //   dispatch(getWalkerUser());
+  //   dispatch(getUserInfo());
+  // }, []);
 
-  useEffect(() => {
-    dispatch(getWalkerUser());
-    dispatch(getUserInfo());
-  }, []);
-
-  console.log(walkerUserInfo);
-
-  let startTime = new Date(walkerInfo.currentWalk.startTime.toString());
+  let startTime = new Date(walkerInfo.currentWalk?.startTime.toString() +"z");
 
   //Asia/Seoul
   return (
@@ -28,15 +26,15 @@ const WalkerCard = (data) => {
       <WalkerProfile>
         <span className="photo-ring">
           <img
-            src={walkerUserInfo.profileImage}
+            src={walkerInfo.profileImage}
             className={`img-circle`}
             alt=""
           />
         </span>
         <div className="dog-info">
           <div>
-            <strong>{userInfo.fullName}</strong>
-            <em>{walkerUserInfo.phone}</em>
+            <strong>{walkerInfo.nickName}</strong>
+            <em>{walkerInfo.phone}</em>
           </div>
         </div>
       </WalkerProfile>
@@ -68,27 +66,27 @@ const WalkerCard = (data) => {
         )}
         <WalkBanner
           onClick={() => {
-            navigate("/walk/1/wantedHistory");
+            navigate("/walkerWalkWaiting");
           }}
         >
           <div>
             <p>대기중인 산책</p>
           </div>
           <div>
-            <b>{walkerUserInfo.walkWaitingCount}</b>건
+            <b>{walkerInfo.walkWaitingCount}</b>건
           </div>
         </WalkBanner>
         <WalkBanner
           onClick={() => {
-            navigate("/walk/1/wantedHistory");
+            navigate("/walkerWalkHistory");
           }}
         >
           <div>
             <p>지난 산책 내역</p>
-            <small>총 {walkerUserInfo.walkDistance} m</small>
+            <small>총 {walkerInfo.walkDistance} m</small>
           </div>
           <div>
-            <b>{walkerUserInfo.walkHistoryCount}</b>건
+            <b>{walkerInfo.walkHistoryCount}</b>건
           </div>
         </WalkBanner>
       </WalkState>

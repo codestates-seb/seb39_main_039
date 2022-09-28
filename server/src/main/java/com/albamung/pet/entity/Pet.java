@@ -14,7 +14,6 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -52,21 +51,23 @@ public class Pet {
     @JoinColumn(name = "OWNER_ID", nullable = false)
     private User owner;
 
-    public String getSex(){
-        if(sex) return "암컷";
+    public String getSex() {
+        if (sex) return "암컷";
         else return "수컷";
     }
+
     public void addWalkList(Walk walk) {
         this.walkList.add(walk);
     }
 
     public int getWalkHistoryCount() {
         if (this.walkList == null) return 0;
-        return (int)this.walkList.stream().filter(s->s.getEndTime().isBefore(LocalDateTime.now())).count();
+        return (int) this.walkList.stream().filter(s -> s.getEndTime().isBefore(LocalDateTime.now())).count();
     }
+
     public int getWalkWaitingCount() {
-        if(this.walkList == null) return 0;
-        return (int)this.walkList.stream().filter(s->s.getStartTime().isAfter(LocalDateTime.now())).count();
+        if (this.walkList == null) return 0;
+        return (int) this.walkList.stream().filter(s -> s.getStartTime().isAfter(LocalDateTime.now())).count();
     }
 
     public int getWalkDistance() {
@@ -76,6 +77,6 @@ public class Pet {
 
     public Walk getCurrentWalk() {
         LocalDateTime now = LocalDateTime.now();
-        return this.walkList.stream().filter(s -> (s.getEndTime().isAfter(now) && s.getStartTime().isBefore(now))).findFirst().orElse(null);
+        return this.walkList.stream().filter(s -> (s.getEndTime().isAfter(now) && s.getStartTime().isBefore(now) && s.getWalker() != null)).findFirst().orElse(null);
     }
 }

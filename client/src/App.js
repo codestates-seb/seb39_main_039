@@ -22,8 +22,10 @@ import {
   WalkerEdit,
   WorkHistory,
   PendingWalk,
-  WantedEdit
+  WantedEdit,
+  WalkerWalkHistory,
 } from "./pages";
+import WalkerWalkWaiting from "./pages/Walkers/WalkerWalkWaiting";
 
 function App() {
   const isLogin = Cookies.get("access");
@@ -152,6 +154,19 @@ function App() {
             <PrivateRoute authenticated={isLogin} component={<WantedEdit />} />
           }
         ></Route>
+        <Route
+            path="/walkerWalkHistory"
+            element={
+            <PrivateRoute authenticated={isLogin} component={<WalkerWalkHistory />} />
+        }
+        ></Route>
+        <Route
+            path="/walkerWalkWaiting"
+            element={
+            <PrivateRoute authenticated={isLogin} component={<WalkerWalkWaiting />} />
+        }
+        ></Route>
+
       </Routes>
     </>
   );

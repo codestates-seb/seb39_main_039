@@ -36,6 +36,7 @@ export const getWalkDetailInfo = (walkerId) => {
           walkDetailInfo: get_WalkDetailInfoApi.data
         }
       });
+      return getWalkDetailInfoApi;
     } catch (error) {
       //에러 핸들링 하는 곳
       console.log(error);

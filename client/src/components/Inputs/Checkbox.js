@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import { useEffect } from "react";
 import styled, { css } from "styled-components";
 
 // 약관 전체동의

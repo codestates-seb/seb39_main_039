@@ -210,7 +210,7 @@ export const deleteWanted = (wantedId) => {
       return await customAxios
         .delete(`/wanted/${wantedId}/delete`)
         .then((res) => window.location.replace(`/wantedList`))
-        .then(() => toast.success("수정이 완료 되었어요"));
+        .then(() => toast.success("삭제가 완료 되었어요"));
     } catch (error) {
       //에러 핸들링 하는 곳
       console.log(error);

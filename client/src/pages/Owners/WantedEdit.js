@@ -29,25 +29,30 @@ const WantedEdit = () => {
   );
   const [wantedReward, setWantedReward] = useState(wantedDetail.pay);
   const [putError, setPutError] = useState("");
-  const dispatch = useDispatch();
-  const { id } = useParams();
-  const selectPetRef = useRef();
-
-  const regionRef = useRef(); //선택 후 지역 인풋 포커싱
   const [isOpen, setIsOpen] = useState(false); // 지역 모달창 여닫기
-  const cityModal = () => {
-    //모달창 여닫기
-    setIsOpen(true);
-    document.body.style.overflow = "hidden";
-  };
-  const [checklistData, setCheckListData] = useState([
-    ...wantedDetail.walk.checkList?.map((el) => el.content)
-  ]);
   const [checkedList, setCheckedList] = useState([]);
   const [petChecked, setPetChecked] = useState([]);
   const [region, setRegion] = useState(wantedDetail.cityId); //지역 id받아오는 state
   const [regionName, setRegionName] = useState(""); // 지역 이름 담기
   const [regionNamePick, setRegionNamePick] = useState(wantedDetail.location); //지역이름 선택 하면! input값으로 넣기
+  const [checklistData, setCheckListData] = useState([
+    ...wantedDetail.walk.checkList?.map((el) => el.content)
+  ]);
+  const [startDate, setStartDate] = useState(
+    new Date(wantedDetail.walk.startTime)
+  );
+  const [endDate, setEndDate] = useState(new Date(wantedDetail.walk.endTime));
+
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const regionRef = useRef(); //선택 후 지역 인풋 포커싱
+
+  const cityModal = () => {
+    //모달창 여닫기
+    setIsOpen(true);
+    document.body.style.overflow = "hidden";
+  };
+
   const regionConfirmHandler = () => {
     //지역정보 받아오기
     setRegionNamePick(regionName);
@@ -73,23 +78,12 @@ const WantedEdit = () => {
     }
   };
 
-  console.log(petChecked.length);
-  // console.log(putError);
-  // console.log(selectPetRef.current);
-
   const [
     checkItemContent,
     lineHeight,
     checkItemChangeHandler,
     checkItemEnterHandler
   ] = useInputAutoHeight("");
-
-  const [startDate, setStartDate] = useState(
-    new Date(wantedDetail.walk.startTime)
-  );
-
-  console.log(region);
-  const [endDate, setEndDate] = useState(new Date(wantedDetail.walk.endTime));
 
   const putWanted = () => {
     dispatch(

@@ -6,9 +6,8 @@ import { faBell, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import PlaceList from "../../components/PlaceList";
 import WalkerCard from "../../components/WalkerCard";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getWalkerUser } from "../../redux/actions/userActions";
-import { getWalkerDetailInfo } from "../../redux/actions/walkerActions";
 import { useDispatch, useSelector } from "react-redux";
 import { ThreeDots } from "react-loader-spinner";
 

@@ -20,12 +20,12 @@ const WantedList = () => {
     (state) => state.wanted
   );
   const dispatch = useDispatch();
+  const regionRef = useRef(); //선택 후 지역 인풋 포커싱
 
   const [isOn, setIsOn] = useState(false);
   const [selectedSort, setSelectedSort] = useState("최신순");
   const [page, setPage] = useState(1);
   const [option, setOption] = useState(false);
-  const regionRef = useRef(); //선택 후 지역 인풋 포커싱
   const [isOpen, setIsOpen] = useState(false); // 지역 모달창 여닫기
   const [region, setRegion] = useState(""); //지역 id받아오는 state
   const [regionName, setRegionName] = useState(""); // 지역 이름 담기

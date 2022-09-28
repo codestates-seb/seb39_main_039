@@ -1,15 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Header } from "../../components/Layout/Header";
-import { DogNameLabelType2 } from "../../components/DogNameLabel";
 import {
   ButtonPrimary,
   ButtonPrimaryXS
 } from "../../components/Button/Buttons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
-import checkedIcon from "../../assets/img/checkedIcon.svg";
 import DatePicker from "react-datepicker";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
@@ -20,7 +18,6 @@ import { postWanted } from "../../redux/actions/wantedActions";
 import { getMyPetInfo } from "../../redux/actions/petActions";
 import { nanoid } from "nanoid";
 import CitySelect from "../../components/CitySelect";
-import { id } from "date-fns/locale";
 
 const WantedCreate = () => {
   const { myPetInfo } = useSelector((state) => state.pet);
@@ -28,26 +25,35 @@ const WantedCreate = () => {
   const [wantedCaution, setWantedCaution] = useState();
   const [wantedReward, setWantedReward] = useState();
   const [createError, setCreateError] = useState();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const regionRef = useRef(); //선택 후 지역 인풋 포커싱
   const [isOpen, setIsOpen] = useState(false); // 지역 모달창 여닫기
-  const cityModal = () => {
-    //모달창 여닫기
-    setIsOpen(true);
-    document.body.style.overflow = "hidden";
-  };
-  const [checklistData, setCheckListData] = useState([
-    { id: nanoid(), title: "간식 먹이기 전에 훈련을 해주세요." },
-    { id: nanoid(), title: "올림픽공원 산책을 해주세요." },
-    { id: nanoid(), title: "가방에 있는 영양제 1포를 먹여주세요." }
-  ]);
   const [checkedList, setCheckedList] = useState([]);
   const [petChecked, setPetChecked] = useState([]);
   const [region, setRegion] = useState(""); //지역 id받아오는 state
   const [regionName, setRegionName] = useState(""); // 지역 이름 담기
   const [regionNamePick, setRegionNamePick] = useState("지역을 선택해주세요."); //지역이름 선택 하면! input값으로 넣기
+  const [startDate, setStartDate] = useState(
+    setHours(setMinutes(new Date(), 30), 17)
+  );
+  const [endDate, setEndDate] = useState(
+    setHours(setMinutes(new Date(), 30), 17)
+  );
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const regionRef = useRef(); //선택 후 지역 인풋 포커싱
+
+  const cityModal = () => {
+    //모달창 여닫기
+    setIsOpen(true);
+    document.body.style.overflow = "hidden";
+  };
+
+  const [checklistData, setCheckListData] = useState([
+    { id: nanoid(), title: "간식 먹이기 전에 훈련을 해주세요." },
+    { id: nanoid(), title: "올림픽공원 산책을 해주세요." },
+    { id: nanoid(), title: "가방에 있는 영양제 1포를 먹여주세요." }
+  ]);
+
   const regionConfirmHandler = () => {
     //지역정보 받아오기
     setRegionNamePick(regionName);
@@ -79,15 +85,15 @@ const WantedCreate = () => {
     checkItemEnterHandler
   ] = useInputAutoHeight("");
 
-  const [startDate, setStartDate] = useState(
-    setHours(setMinutes(new Date(), 30), 17)
-  );
+  let checkNum = /^[0-9]*$/;
 
-  const [endDate, setEndDate] = useState(
-    setHours(setMinutes(new Date(), 30), 17)
-  );
+  const addCheckList = (title) => {
+    setCheckListData([...checklistData, { id: nanoid(), title: title }]);
+  };
 
-  let checkNum = /[0-9]/;
+  const deleteCheckList = (id) => {
+    setCheckListData(checklistData.filter((el) => el.id !== id));
+  };
 
   const addWanted = () => {
     dispatch(
@@ -108,14 +114,6 @@ const WantedCreate = () => {
         setCreateError(res);
       }
     });
-  };
-
-  const addCheckList = (title) => {
-    setCheckListData([...checklistData, { id: nanoid(), title: title }]);
-  };
-
-  const deleteCheckList = (id) => {
-    setCheckListData(checklistData.filter((el) => el.id !== id));
   };
 
   useEffect(() => {
@@ -292,7 +290,6 @@ const WantedCreate = () => {
             value={wantedCaution}
           ></textarea>
         </Section>
-
         <ButtonPrimary onClick={addWanted}>등록하기</ButtonPrimary>
       </Form>
     </div>

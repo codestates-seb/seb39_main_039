@@ -36,15 +36,12 @@ const WalkerHistory = () => {
     if (!inView) {
       return;
     }
-    console.log("끝");
     fetchMoreData();
   }, [inView]);
 
   useEffect(() => {
     dispatch(getPetWalkPendingInfo(id, 1));
   }, []);
-
-  useEffect(() => {}, []);
 
   return (
     <div className="container bg-gray">

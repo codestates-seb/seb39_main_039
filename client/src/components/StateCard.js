@@ -6,10 +6,6 @@ import iconi1 from "../assets/img/icon-i1.svg";
 import iconi2 from "../assets/img/icon-i2.svg";
 import iconi3 from "../assets/img/icon-i3.svg";
 import iconi4 from "../assets/img/icon-i4.svg";
-import { useState } from "react";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { getWalkDetailInfo } from "../redux/actions/mappingAction";
 
 export const StateCard = ({ type, name, count }) => {
   return (

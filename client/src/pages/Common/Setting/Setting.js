@@ -17,6 +17,8 @@ import Modal from "../../../components/Modal/Modal";
 const Setting = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isOn, setIsOn] = useState();
+  const [isOpen, setIsOpen] = useState(false);
   const { userInfo } = useSelector((state) => state.user);
   const { myPetInfo } = useSelector((state) => state.pet);
 
@@ -28,13 +30,6 @@ const Setting = () => {
     // false 일 때 견주, True 일 때 알바
   };
 
-  useEffect(() => {
-    dispatch(getUserInfo());
-    dispatch(getMyPetInfo());
-  }, []);
-
-  const [isOn, setIsOn] = useState();
-  const [isOpen, setIsOpen] = useState(false);
   const logout = () => {
     dispatch(logoutSuccess());
   };
@@ -42,6 +37,11 @@ const Setting = () => {
   const deleteUser = () => {
     dispatch(delUser());
   };
+
+  useEffect(() => {
+    dispatch(getUserInfo());
+    dispatch(getMyPetInfo());
+  }, []);
 
   return (
     <div className="container">

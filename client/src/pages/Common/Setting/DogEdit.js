@@ -55,6 +55,25 @@ const DogEdit = () => {
 
   // GMT로 변환하기 위해서 2022-11-04 -> 2022,11,04로 만들었다.
 
+  const menuArr = myPetInfo.map((el) => el);
+
+  const selectMenuHandler = (tab) => {
+    navigate(`/dogEdit?tab=${tab}`);
+  };
+
+  const birthPick = (data) => {
+    let year = new Date(data).getFullYear();
+    let month = new Date(data).getMonth() + 1;
+    let day = new Date(data).getDate();
+    if (month < 10) {
+      month = `0` + String(month);
+    }
+    if (day < 10) {
+      day = `0` + String(day);
+    }
+    setConvertMyPetBirth(`${year}-${month}-${day}`);
+  };
+
   const ClickHandler = () => {
     dispatch(
       editMyPetInfo(
@@ -70,28 +89,6 @@ const DogEdit = () => {
 
   const deletePet = () => {
     dispatch(deleteMyPetInfo(myPetInfo[tab].petId));
-  };
-
-  const menuArr = myPetInfo.map((el) => el);
-
-  const selectMenuHandler = (tab) => {
-    navigate(`/dogEdit?tab=${tab}`);
-  };
-
-  const birthPick = (data) => {
-    let year = new Date(data).getFullYear();
-    let month = new Date(data).getMonth() + 1;
-    let day = new Date(data).getDate();
-
-    if (month < 10) {
-      month = `0` + String(month);
-    }
-
-    if (day < 10) {
-      day = `0` + String(day);
-    }
-
-    setConvertMyPetBirth(`${year}-${month}-${day}`);
   };
 
   useEffect(() => {

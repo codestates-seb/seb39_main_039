@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 import anonymousDog from "../assets/img/anonymousDog.svg";
 
@@ -76,7 +75,7 @@ const Label = styled.span`
     display: flex;
     align-items: center;
     font-weight: 500;
-    margin-top:2px;
+    margin-top: 2px;
 
     dt {
       color: var(--gray-600);

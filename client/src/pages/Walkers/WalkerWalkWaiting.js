@@ -1,55 +1,61 @@
 import styled from "styled-components";
 import Lottie from "lottie-react";
-import {Header} from "../../components/Layout/Header";
-import {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {Loadinglottie} from "../..";
-import {getWalkerWalkHistory, getWalkerWalkWaiting} from "../../redux/actions/walkerActions";
+import { Header } from "../../components/Layout/Header";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Loadinglottie } from "../..";
+import { getWalkerWalkWaiting } from "../../redux/actions/walkerActions";
 import WalkerWalkListCard from "../../components/WalkerWalkListCard";
-
+import { useDispatch } from "react-redux";
 
 const WalkerWalkWaiting = () => {
-    const navigate = useNavigate();
-    const [walkHistory, setWalkHistory] = useState(null);
-    // const userName = walkHistory.items[0]?.walker?.walkerName;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [walkHistory, setWalkHistory] = useState(null);
 
+  useEffect(() => {
+    dispatch(getWalkerWalkWaiting(setWalkHistory, 1));
+  }, []);
 
-    useEffect(() => {
-        getWalkerWalkWaiting(setWalkHistory, 1);
-    }, []);
+  if (!walkHistory) return <div></div>;
 
-    console.log(walkHistory);
-
-    if (!walkHistory) return <div></div>;
-    return (<div className="container bg-gray">
-        <Header pageTitle={`${walkHistory.items[0]?.walker?.walkerName}님의 지난 산책 내역`} link={'/ownerMain'}/>
-        {walkHistory.items !== null ?
-            (<List>
-                {walkHistory.items?.map((el, idx) => {
-                    return (
-                        <li onClick={() => {
-                            navigate(`/walking/${el.walkId}`);
-                        }}>
-                            <WalkerWalkListCard
-                                el={el}
-                            />
-                        </li>
-                    );
-                })}
-            </List>) : (<div className="pg-info">
-                <div>
-                    <i>
-                        <Lottie animationData={Loadinglottie}/>
-                    </i>
-                    <h4>지난 산책 내역이 없습니다.</h4>
-                    <p>
-                        완료된 산책 내역을
-                        <br/>
-                        이곳에서 확인 하실 수 있습니다.
-                    </p>
-                </div>
-            </div>)}
-    </div>);
+  return (
+    <div className="container bg-gray">
+      <Header
+        pageTitle={`${walkHistory.items[0]?.walker?.walkerName}님의 지난 산책 내역`}
+        link={"/ownerMain"}
+      />
+      {walkHistory.items !== null ? (
+        <List>
+          {walkHistory.items?.map((el, idx) => {
+            return (
+              <li
+                onClick={() => {
+                  navigate(`/walking/${el.walkId}`);
+                }}
+              >
+                <WalkerWalkListCard el={el} />
+              </li>
+            );
+          })}
+        </List>
+      ) : (
+        <div className="pg-info">
+          <div>
+            <i>
+              <Lottie animationData={Loadinglottie} />
+            </i>
+            <h4>지난 산책 내역이 없습니다.</h4>
+            <p>
+              완료된 산책 내역을
+              <br />
+              이곳에서 확인 하실 수 있습니다.
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 export default WalkerWalkWaiting;
 

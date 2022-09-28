@@ -19,12 +19,13 @@ const PendingCard = ({ el }) => {
       <div className="i1">{diffDayData()}</div>
       <div className="i2">
         <p>
-          {el.petList.map((el) => {
+          {el.petList.map((el, idx) => {
             return (
               <DogNameLabel
                 size={"xxs"}
                 name={el.petName}
                 picture={el.petPicture}
+                key={idx}
               />
             );
           })}

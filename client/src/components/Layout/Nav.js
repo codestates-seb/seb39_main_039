@@ -5,8 +5,6 @@ import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faPaw } from "@fortawesome/free-solid-svg-icons";
 import NavLink from "./NavLink";
-import { useState } from "react";
-import { useEffect } from "react";
 
 const Nav = () => {
   const navigate = useNavigate();

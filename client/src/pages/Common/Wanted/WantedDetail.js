@@ -7,7 +7,6 @@ import { ApplyComment } from "../../../components/Comment";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
-import useConvertTime from "../../../hooks/useConvertTime";
 import Modal from "../../../components/Modal/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";

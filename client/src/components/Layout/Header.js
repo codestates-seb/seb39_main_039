@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { ReactComponent as IconBack } from '../../assets/img/hdIcon-back.svg';
 import { ReactComponent as IconSearch } from '../../assets/img/hdIcon-search.svg';

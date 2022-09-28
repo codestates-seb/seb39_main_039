@@ -11,18 +11,19 @@ import { ToastContainer } from "react-toast";
 import noImage from "../../../assets/img/noImage.svg";
 
 const UserEdit = () => {
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
   const { userInfo, loading } = useSelector((state) => state.user);
-  const [ fullName, setFullName ] = useState(userInfo.fullName);
-  const [ phone, setPhone ] = useState(userInfo.phone);
-  const [ nickName, setNickName ] = useState(userInfo.nickName);
-  useEffect(() => {
-    dispatch(getUserInfo());
-  }, [loading]);
+  const [fullName, setFullName] = useState(userInfo.fullName);
+  const [phone, setPhone] = useState(userInfo.phone);
+  const [nickName, setNickName] = useState(userInfo.nickName);
 
   const ClickHandler = () => {
     dispatch(editUserInfo(fullName, phone, nickName));
   };
+
+  useEffect(() => {
+    dispatch(getUserInfo());
+  }, [loading]);
 
   return (
     <div className="container">
@@ -47,7 +48,7 @@ const UserEdit = () => {
             className="ipt-form"
             name="fullName"
             value={fullName}
-            onChange={(e)=>setFullName(e.target.value)}
+            onChange={(e) => setFullName(e.target.value)}
             placeholder="이름을 입력해주세요."
           />
         </div>
@@ -60,7 +61,7 @@ const UserEdit = () => {
             name="phone"
             className="ipt-form"
             value={phone}
-            onChange={(e)=>setPhone(e.target.value)}
+            onChange={(e) => setPhone(e.target.value)}
             placeholder="연락처를 입력해주세요."
           />
         </div>
@@ -85,7 +86,7 @@ const UserEdit = () => {
             name="nickName"
             className="ipt-form"
             value={nickName}
-            onChange={(e)=>setNickName(e.target.value)}
+            onChange={(e) => setNickName(e.target.value)}
             placeholder="닉네임을 입력해주세요."
           />
         </div>

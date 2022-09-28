@@ -89,9 +89,6 @@ const WantedCreate = () => {
 
   let checkNum = /[0-9]/;
 
-  console.log(createError && (checkedList?.length === 0 || !checkedList));
-  console.log(checkedList);
-
   const addWanted = () => {
     dispatch(
       postWanted(
@@ -318,7 +315,7 @@ const DogSelect = styled.ul`
   padding: 2px 0 5px;
   li {
     display: inline-block;
-    margin: 0px 10px 9px 0 ;
+    margin: 0px 10px 9px 0;
   }
 
   .active {
@@ -425,10 +422,10 @@ const DogCheckBoxLabel = styled.label`
     align-items: center;
     border: 1px solid var(--gray-200);
     border-radius: 50px;
-    min-width:110px;
+    min-width: 110px;
     > img {
       border-radius: 30px;
-      height:35px;
+      height: 35px;
       margin-right: 5px;
     }
   }

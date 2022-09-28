@@ -8,9 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import DropDown from "../../../components/DropDown";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
 import {
-  getAllWantedList,
   getScrollAllWantedList,
   resetScrollAllWantedList
 } from "../../../redux/actions/wantedActions";
@@ -18,17 +16,34 @@ import { useInView } from "react-intersection-observer";
 import CitySelect from "../../../components/CitySelect";
 
 const WantedList = () => {
-  const { scrollAllWantedList, totalPage, wantedDetail } = useSelector(
+  const { scrollAllWantedList, totalPage } = useSelector(
     (state) => state.wanted
   );
   const dispatch = useDispatch();
-  const search = useLocation();
 
   const [isOn, setIsOn] = useState(false);
   const [selectedSort, setSelectedSort] = useState("최신순");
-  const [selectedLocation, setSelectedLocation] = useState("경기도 수원시");
   const [page, setPage] = useState(1);
   const [option, setOption] = useState(false);
+  const regionRef = useRef(); //선택 후 지역 인풋 포커싱
+  const [isOpen, setIsOpen] = useState(false); // 지역 모달창 여닫기
+  const [region, setRegion] = useState(""); //지역 id받아오는 state
+  const [regionName, setRegionName] = useState(""); // 지역 이름 담기
+  const [regionNamePick, setRegionNamePick] = useState("동네 설정"); //지역이름 선택 하면! input값으로 넣기
+
+  const cityModal = () => {
+    //모달창 여닫기
+    setIsOpen(true);
+    document.body.style.overflow = "hidden";
+  };
+
+  const regionConfirmHandler = () => {
+    //지역정보 받아오기
+    setRegionNamePick(regionName);
+    setIsOpen(false);
+    document.body.style.overflow = "unset";
+    regionRef.current.focus();
+  };
 
   const { ref, inView } = useInView({
     threshold: 0.7
@@ -47,24 +62,6 @@ const WantedList = () => {
   } else {
     sortOption = "pay";
   }
-
-  const regionRef = useRef(); //선택 후 지역 인풋 포커싱
-  const [isOpen, setIsOpen] = useState(false); // 지역 모달창 여닫기
-  const cityModal = () => {
-    //모달창 여닫기
-    setIsOpen(true);
-    document.body.style.overflow = "hidden";
-  };
-  const [region, setRegion] = useState(""); //지역 id받아오는 state
-  const [regionName, setRegionName] = useState(""); // 지역 이름 담기
-  const [regionNamePick, setRegionNamePick] = useState("동네 설정"); //지역이름 선택 하면! input값으로 넣기
-  const regionConfirmHandler = () => {
-    //지역정보 받아오기
-    setRegionNamePick(regionName);
-    setIsOpen(false);
-    document.body.style.overflow = "unset";
-    regionRef.current.focus();
-  };
 
   const fakeFetch = (delay = 300) =>
     new Promise((res) => setTimeout(res, delay));
@@ -114,7 +111,10 @@ const WantedList = () => {
       <ListFilter>
         <ul className="sort-group">
           <li>
-            <span className="cate" onClick={cityModal}><FontAwesomeIcon icon={faLocationDot}/> {regionNamePick} <i className="ico-caret"></i></span>
+            <span className="cate" onClick={cityModal}>
+              <FontAwesomeIcon icon={faLocationDot} /> {regionNamePick}{" "}
+              <i className="ico-caret"></i>
+            </span>
           </li>
           <li>
             <DropDown
@@ -164,13 +164,13 @@ const ListFilter = styled.div`
     display: flex;
     gap: 10px;
 
-    .cate{
+    .cate {
       position: relative;
-      padding-right:13px;
+      padding-right: 13px;
 
-      svg{
-        font-size:14px;
-        color:var(--gray-600)
+      svg {
+        font-size: 14px;
+        color: var(--gray-600);
       }
 
       .ico-caret {

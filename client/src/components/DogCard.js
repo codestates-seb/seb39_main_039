@@ -9,7 +9,6 @@ import { ButtonPrimaryXS } from "./Button/Buttons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCakeCandles } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
-import { useSelector } from "react-redux";
 
 export const DogCard = (props) => {
   const navigate = useNavigate();
@@ -66,7 +65,7 @@ export const DogCard = (props) => {
         )}
         <WalkBanner
           onClick={() => {
-            navigate(`/pendingWalk/${props.props.petId}`);
+            window.location.replace(`/pendingWalk/${props.props.petId}`);
           }}
         >
           <div>
@@ -78,7 +77,7 @@ export const DogCard = (props) => {
         </WalkBanner>
         <WalkBanner
           onClick={() => {
-            navigate(`/walkerHistory/${props.props.petId}`);
+            window.location.replace(`/walkerHistory/${props.props.petId}`);
           }}
         >
           <div>

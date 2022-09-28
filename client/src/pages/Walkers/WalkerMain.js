@@ -15,19 +15,10 @@ import { ThreeDots } from "react-loader-spinner";
 const WalkerMain = () => {
   const { walkerUserInfo, loading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  // const [walkerDetailInfo, setWalkerDetailInfo] = useState(null);
-
-  // useEffect(() => {
-  //   getWalkerDetailInfo(setWalkerDetailInfo);
-  // }, []);
 
   useEffect(() => {
     dispatch(getWalkerUser());
   }, []);
-
-  console.log(walkerUserInfo);
-
-  // if (!walkerUserInfo) return <div></div>;
 
   return (
     <div className="container bg-gray">

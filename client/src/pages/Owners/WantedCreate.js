@@ -27,6 +27,7 @@ const WantedCreate = () => {
   const [wantedTitle, setWantedTitle] = useState();
   const [wantedCaution, setWantedCaution] = useState();
   const [wantedReward, setWantedReward] = useState();
+  const [createError, setCreateError] = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -86,6 +87,11 @@ const WantedCreate = () => {
     setHours(setMinutes(new Date(), 30), 17)
   );
 
+  let checkNum = /[0-9]/;
+
+  console.log(createError && (checkedList?.length === 0 || !checkedList));
+  console.log(checkedList);
+
   const addWanted = () => {
     dispatch(
       postWanted(
@@ -98,7 +104,13 @@ const WantedCreate = () => {
         startDate,
         wantedTitle
       )
-    ).then((res) => navigate(`/wantedDetail/${res.data}`));
+    ).then((res) => {
+      if (res.data) {
+        navigate(`/wantedDetail/${res.data}`);
+      } else {
+        setCreateError(res);
+      }
+    });
   };
 
   const addCheckList = (title) => {
@@ -137,6 +149,9 @@ const WantedCreate = () => {
               name="username"
               placeholder="제목을 입력해주세요."
             />
+            {createError && (wantedTitle?.length === 0 || !wantedTitle) && (
+              <Error>제목을 입력해주세요</Error>
+            )}
           </div>
           <label className="ipt-label">산책할 강아지 선택</label>
           <DogSelect>
@@ -158,6 +173,9 @@ const WantedCreate = () => {
               </li>
             ))}
           </DogSelect>
+          {createError && (petChecked?.length === 0 || !petChecked) && (
+            <Error>강아지를 선택해주세요</Error>
+          )}
         </Section>
         <Section className="pb20">
           <div className="ipt-group">
@@ -173,6 +191,9 @@ const WantedCreate = () => {
               onClick={cityModal}
             />
           </div>
+          {createError && (region?.length === 0 || !region) && (
+            <Error>지역을 선택해주세요</Error>
+          )}
 
           <div className="ipt-group">
             <label htmlFor="" className="ipt-label">
@@ -217,6 +238,10 @@ const WantedCreate = () => {
               />
               <span>원</span>
             </div>
+            {createError &&
+              (wantedReward?.length === 0 || !checkNum.test(wantedReward)) && (
+                <Error>보수를 올바르게 입력해주세요</Error>
+              )}
           </div>
         </Section>
         <Section>
@@ -257,6 +282,9 @@ const WantedCreate = () => {
               <FontAwesomeIcon icon={faCirclePlus} /> 추가
             </small>
           </ChackEntryInput>
+          {createError && (checkedList?.length === 0 || !checkedList) && (
+            <Error>체크리스트를 1개 이상 선택해주세요</Error>
+          )}
         </Section>
         <Section className="bb0 pb0">
           <label className="ipt-label">기타 주의사항</label>
@@ -401,4 +429,12 @@ const DogCheckBoxLabel = styled.label`
       margin-right: 5px;
     }
   }
+`;
+
+const Error = styled.div`
+  font-size: 12px;
+  color: var(--err-danger);
+  margin-top: 7px;
+  margin-right: 20px;
+  text-align: end;
 `;

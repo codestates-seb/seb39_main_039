@@ -13,16 +13,21 @@ const WalkerHistory = () => {
   const petId = useParams();
   const dispatch = useDispatch();
   const petWalkInfo = useSelector((state) => state.petwalk.petWalkInfo);
-  const myPetInfo = useSelector((state)=>state.pet.myPetInfo);
+  const myPetInfo = useSelector((state) => state.pet.myPetInfo);
   useEffect(() => {
     dispatch(getPetWalkInfo(Number(petId.id)));
-    dispatch(getMyPetInfo())
+    dispatch(getMyPetInfo());
   }, []);
-  const petName = myPetInfo.filter((el)=> el.petId === Number(petId.id))
+  const petName = myPetInfo.filter((el) => el.petId === Number(petId.id));
+
+  console.log(petWalkInfo);
 
   return (
     <div className="container bg-gray">
-      <Header pageTitle={`${petName[0].petName} 지난 산책 내역`} link={'/ownerMain'} />
+      <Header
+        pageTitle={`${petName[0]?.petName} 지난 산책 내역`}
+        link={"/ownerMain"}
+      />
       {petWalkInfo.items?.length !== 0 ? (
         <List>
           {petWalkInfo.items?.map((el, idx) => {

@@ -1,8 +1,6 @@
 import styled from "styled-components";
-import { useState } from "react";
 
 const SwitchMode = ({ isOn, toggleHandler }) => {
-  console.log("모드", isOn);
   return (
     <ToggleContainer onClick={toggleHandler}>
       <div

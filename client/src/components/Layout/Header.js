@@ -71,7 +71,7 @@ const HeaderCon = styled.div`
     right:0;
     left:0;
     padding:0 20px;
-    z-index: 999;
+    z-index: 99;
 
     &.scroll{
         background:var(--white-000)

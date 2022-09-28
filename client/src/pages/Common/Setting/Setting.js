@@ -15,7 +15,6 @@ import { getUserInfo } from "../../../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
 import { getMyPetInfo } from "../../../redux/actions/petActions";
 import Modal from "../../../components/Modal/Modal";
-import { parseJSON } from "date-fns";
 
 const Setting = () => {
   const dispatch = useDispatch();
@@ -30,7 +29,6 @@ const Setting = () => {
     setIsOn(!isOn);
     // false 일 때 견주, True 일 때 알바
   };
-  console.log(isOn);
 
   useEffect(() => {
     dispatch(getUserInfo());

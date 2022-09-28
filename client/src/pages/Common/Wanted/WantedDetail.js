@@ -5,17 +5,17 @@ import DogNameTag from "../../../components/DogNameTag";
 import CommentEnter from "../../../components/CommentEnter";
 import { ApplyComment } from "../../../components/Comment";
 import { useDispatch, useSelector } from "react-redux";
-import { startOfYesterday } from "date-fns";
 import { useNavigate, useParams } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import useConvertTime from "../../../hooks/useConvertTime";
-import { useLayoutEffect, useEffect, useState, useRef } from "react";
-import { getWantedDetail } from "../../../redux/actions/wantedActions";
-import { ButtonCancel } from "../../../components/Button/Buttons";
 import Modal from "../../../components/Modal/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
-import { deleteWanted } from "../../../redux/actions/wantedActions";
+import {
+  deleteWanted,
+  getWantedDetail
+} from "../../../redux/actions/wantedActions";
+import { useEffect, useState, useRef } from "react";
 import { ToastContainer } from "react-toast";
 import { useCurrentUser } from "../../../hooks/useCurrentUser";
 
@@ -30,17 +30,13 @@ const WantedDetailPage = () => {
   const [onEdit, setOnEdit] = useState(false);
   const [useCurrent] = useCurrentUser();
   const currentUser = useCurrent(wantedDetail.walk?.owner?.ownerId);
-
   const navigate = useNavigate();
-
   let endTimeForm = useConvertTime(
     wantedDetail.walk?.endTime.toLocaleString().slice(0, -3).split("T")
   );
   let startTimeForm = useConvertTime(
     wantedDetail.walk?.startTime.toLocaleString().slice(0, -3).split("T")
   );
-
-  console.log(typeof id);
 
   const onEditHandler = () => {
     setOnEdit(true);
@@ -54,9 +50,10 @@ const WantedDetailPage = () => {
   };
 
   useEffect(() => {
-    dispatch(getWantedDetail(Number(id)));
-  }, []);
+    dispatch(getWantedDetail(id));
+  }, [isOn]);
 
+  if (!wantedDetail.walk) return <div></div>;
 
   return (
     <div className="container bg-gray pa0">
@@ -81,7 +78,7 @@ const WantedDetailPage = () => {
                   <img width={10} src={wantedDetail.walk.owner?.profileImage} />{" "}
                   {wantedDetail.walk.owner?.nickName}
                 </li>
-                <li>{wantedDetail.creationDate?.split("T")[0]}</li>
+                <li>작성일 {wantedDetail.creationDate?.split("T")[0]}</li>
               </ul>
             </ConHeader>
           </Section>
@@ -162,7 +159,9 @@ const WantedDetailPage = () => {
           <CommentApply>
             <SectLabel>지원하기</SectLabel>
             <CommentEnter wantedId={wantedDetail.wantedId} />
-            <SectLabel>산책 지원하기 {wantedDetail.commentList?.length}명</SectLabel>
+            <SectLabel>
+              산책 지원하기 {wantedDetail.commentList?.length}명
+            </SectLabel>
             <div className="comment-list">
               {wantedDetail.commentList?.reverse().map((data, key) => {
                 return (
@@ -189,9 +188,9 @@ const Section = styled.section`
   border-bottom: 9px solid var(--gray-100);
   padding: 20px;
   background: var(--white-000);
-  
-  &:first-child{
-    padding-top:0
+
+  &:first-child {
+    padding-top: 0;
   }
 
   .p-area {
@@ -268,7 +267,7 @@ const ConHeader = styled.div`
   h3 {
     font-size: 19px;
     font-weight: 500;
-    padding-top:15px;
+    padding-top: 15px;
     padding-bottom: 16px;
   }
 

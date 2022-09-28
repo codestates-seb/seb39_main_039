@@ -92,8 +92,7 @@ const DogEdit = () => {
     dispatch(getMyPetInfo());
     navigate(`/dogEdit?tap=${tapList}`);
     setCurrentTab(tapList);
-    console.log(myPetName, myPetAbout);
-  }, [loading]);
+  }, []);
 
   useEffect(() => {
     dispatch(getMyPetInfo());

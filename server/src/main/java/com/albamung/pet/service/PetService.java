@@ -68,6 +68,7 @@ public class PetService {
     public void deletePet(Long petId, Long ownerId) {
         Pet targetPet = verifyPet(petId);
         verifyPetOwner(targetPet, ownerId);
+        petRepository.deleteWalkPet(petId);
         petRepository.deleteById(petId);
     }
 

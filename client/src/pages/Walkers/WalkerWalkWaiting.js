@@ -4,18 +4,18 @@ import {Header} from "../../components/Layout/Header";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Loadinglottie} from "../..";
-import {getWalkerWalkHistory} from "../../redux/actions/walkerActions";
+import {getWalkerWalkHistory, getWalkerWalkWaiting} from "../../redux/actions/walkerActions";
 import WalkerWalkListCard from "../../components/WalkerWalkListCard";
 
 
-const WalkerWalkHistory = () => {
+const WalkerWalkWaiting = () => {
     const navigate = useNavigate();
     const [walkHistory, setWalkHistory] = useState(null);
     // const userName = walkHistory.items[0]?.walker?.walkerName;
 
 
     useEffect(() => {
-        getWalkerWalkHistory(setWalkHistory, 1);
+        getWalkerWalkWaiting(setWalkHistory, 1);
     }, []);
 
     console.log(walkHistory);
@@ -51,7 +51,7 @@ const WalkerWalkHistory = () => {
             </div>)}
     </div>);
 };
-export default WalkerWalkHistory;
+export default WalkerWalkWaiting;
 
 const List = styled.ul`
   padding: 5px 0 40px;

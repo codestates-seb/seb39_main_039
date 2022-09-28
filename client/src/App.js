@@ -25,6 +25,7 @@ import {
   WantedEdit,
   WalkerWalkHistory,
 } from "./pages";
+import WalkerWalkWaiting from "./pages/Walkers/WalkerWalkWaiting";
 
 function App() {
   const isLogin = Cookies.get("access");
@@ -157,6 +158,12 @@ function App() {
             path="/walkerWalkHistory"
             element={
             <PrivateRoute authenticated={isLogin} component={<WalkerWalkHistory />} />
+        }
+        ></Route>
+        <Route
+            path="/walkerWalkWaiting"
+            element={
+            <PrivateRoute authenticated={isLogin} component={<WalkerWalkWaiting />} />
         }
         ></Route>
 

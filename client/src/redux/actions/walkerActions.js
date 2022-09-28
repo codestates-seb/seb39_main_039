@@ -24,3 +24,13 @@ export async function getWalkerWalkHistory(setWalkHistory, page) {
         console.log(error);
     }
 }
+export async function getWalkerWalkWaiting(setWalkHistory, page) {
+    try {
+        let getWalkerWalkWaiting = await customAxios.get(`/walk/walkWaiting?page=${page}`);
+        setWalkHistory(getWalkerWalkWaiting.data);
+        console.log(getWalkerWalkWaiting)
+        return getWalkerWalkWaiting.data;
+    } catch (error) {
+        console.log(error);
+    }
+}

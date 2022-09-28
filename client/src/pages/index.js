@@ -19,7 +19,7 @@ import {
   PendingWalk,
   WantedEdit
 } from "./Owners";
-import { WalkerMain, StartWalking, WorkHistory, WalkerWalkHistory } from "./Walkers";
+import { WalkerMain, StartWalking, WorkHistory, WalkerWalkHistory, WalkerWalkWaiting } from "./Walkers";
 
 export {
   Login,
@@ -43,5 +43,6 @@ export {
   WorkHistory,
   PendingWalk,
   WantedEdit,
-  WalkerWalkHistory
+  WalkerWalkHistory,
+  WalkerWalkWaiting
 };

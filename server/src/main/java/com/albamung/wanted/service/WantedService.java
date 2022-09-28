@@ -59,7 +59,6 @@ public class WantedService {
                 .startTime(request.getStartTime())
                 .endTime(request.getEndTime())
                 .caution(request.getCaution())
-                .coord("0")
                 .build();
         walk.setCheckListByContents(request.getCheckListContent());
 

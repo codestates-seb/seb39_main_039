@@ -173,7 +173,7 @@ const WantedEdit = () => {
                 </DogCheckBoxLabel>
               </li>
             ))}
-            {(petChecked?.length < 0 || !petChecked) && (
+            {(petChecked?.length === 0 || !petChecked) && (
               <Error className="select-pet">산책할 강아지를 선택해주세요</Error>
             )}
           </DogSelect>

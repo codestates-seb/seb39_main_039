@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,6 +51,7 @@ public class WantedService {
         if (request.getPetId().size() == 0)
             throw new CustomException("산책 시킬 강아지를 하나 이상 선택해야 합니다.", HttpStatus.BAD_REQUEST);
         List<Pet> petList = request.getPetId().stream().map(petService::verifyPet).collect(Collectors.toList());
+        verifyStartEndTime(request.getStartTime(), request.getEndTime());
 
         Walk walk = Walk.builder()
                 .owner(owner)
@@ -61,7 +63,6 @@ public class WantedService {
                 .build();
         walk.setCheckListByContents(request.getCheckListContent());
 
-//        wanted.setLocation(cityRepository.findByNameAndRegionName(request.getCity(), request.getRegion()));
         wanted.setCity(cityRepository.findById(request.getCityId()).orElseThrow());
         wanted.setWalk(walk);
         return wantedRepository.save(wanted);
@@ -97,8 +98,9 @@ public class WantedService {
         Walk targetWalk = targetWanted.getWalk();
         verifyWantedUser(targetWanted, ownerId);
 
+        verifyStartEndTime(request.getStartTime(), request.getEndTime());
+
         targetWanted.setPay(request.getPay());
-//        targetWanted.setLocation(cityRepository.findByNameAndRegionName(request.getCity(), request.getRegion()));
         targetWanted.setCity(cityRepository.findById(request.getCityId()).orElseThrow());
         targetWanted.setTitle(request.getTitle());
         targetWalk.setStartTime(request.getStartTime());
@@ -121,7 +123,7 @@ public class WantedService {
         return targetWanted;
     }
 
-    public void deleteWanted(Long wantedId, Long ownerId){
+    public void deleteWanted(Long wantedId, Long ownerId) {
         Wanted targetWanted = verifyWanted(wantedId);
         verifyWantedUser(targetWanted, ownerId);
         wantedRepository.deleteById(wantedId);
@@ -139,6 +141,10 @@ public class WantedService {
     public void verifyWantedUser(Wanted wanted, Long ownerId) {
         if (!wanted.getWalk().getOwner().getId().equals(ownerId))
             throw new CustomException("해당 글의 작성자가 아닙니다", HttpStatus.FORBIDDEN);
+    }
+
+    public void verifyStartEndTime(LocalDateTime startTime, LocalDateTime endTime) {
+        if (startTime.isAfter(endTime)) throw new CustomException("시작 시간은 종료 시간보다 빨라야 합니다", HttpStatus.BAD_REQUEST);
     }
 }
 

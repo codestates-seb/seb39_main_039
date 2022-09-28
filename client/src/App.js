@@ -22,7 +22,8 @@ import {
   WalkerEdit,
   WorkHistory,
   PendingWalk,
-  WantedEdit
+  WantedEdit,
+  WalkerWalkHistory,
 } from "./pages";
 
 function App() {
@@ -152,6 +153,13 @@ function App() {
             <PrivateRoute authenticated={isLogin} component={<WantedEdit />} />
           }
         ></Route>
+        <Route
+            path="/walkerWalkHistory"
+            element={
+            <PrivateRoute authenticated={isLogin} component={<WalkerWalkHistory />} />
+        }
+        ></Route>
+
       </Routes>
     </>
   );

@@ -20,7 +20,7 @@ const WalkerCard = (data) => {
 
   console.log(walkerUserInfo);
 
-  let startTime = new Date(walkerInfo.currentWalk.startTime.toString());
+  let startTime = new Date(walkerInfo.currentWalk?.startTime.toString() +"z");
 
   //Asia/Seoul
   return (
@@ -68,7 +68,7 @@ const WalkerCard = (data) => {
         )}
         <WalkBanner
           onClick={() => {
-            navigate("/walk/1/wantedHistory");
+            navigate("/walkerWalkWaiting");
           }}
         >
           <div>
@@ -80,7 +80,7 @@ const WalkerCard = (data) => {
         </WalkBanner>
         <WalkBanner
           onClick={() => {
-            navigate("/walk/1/wantedHistory");
+            navigate("/walkerWalkHistory");
           }}
         >
           <div>

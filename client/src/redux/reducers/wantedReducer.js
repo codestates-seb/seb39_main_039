@@ -34,7 +34,6 @@ const wantedReducer = (state = initialstate, action) => {
       return {
         ...state,
         scrollAllWantedList: [
-          // ...state.scrollAllWantedList,
           ...state.scrollAllWantedList,
           ...payload.scrollAllWantedList
         ],

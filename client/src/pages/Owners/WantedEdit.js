@@ -1,33 +1,34 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Header } from "../../components/Layout/Header";
-import { DogNameLabelType2 } from "../../components/DogNameLabel";
 import {
   ButtonPrimary,
   ButtonPrimaryXS
 } from "../../components/Button/Buttons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
-import checkedIcon from "../../assets/img/checkedIcon.svg";
 import DatePicker from "react-datepicker";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 import { ko } from "date-fns/esm/locale";
 import { useInputAutoHeight } from "../../hooks/useInput";
 import { useDispatch, useSelector } from "react-redux";
-import { getWantedDetail, postWanted } from "../../redux/actions/wantedActions";
+import { getWantedDetail } from "../../redux/actions/wantedActions";
 import { getMyPetInfo } from "../../redux/actions/petActions";
 import { modifyWanted } from "../../redux/actions/wantedActions";
-import { nanoid } from "nanoid";
 import CitySelect from "../../components/CitySelect";
+import { ToastContainer } from "react-toast";
 
 const WantedEdit = () => {
   const { myPetInfo } = useSelector((state) => state.pet);
   const { wantedDetail } = useSelector((state) => state.wanted);
   const [wantedTitle, setWantedTitle] = useState(wantedDetail.title);
-  const [wantedCaution, setWantedCaution] = useState(wantedDetail.walk.caution);
+  const [wantedCaution, setWantedCaution] = useState(
+    wantedDetail.walk?.caution
+  );
   const [wantedReward, setWantedReward] = useState(wantedDetail.pay);
+  const [putError, setPutError] = useState("");
   const dispatch = useDispatch();
   const { id } = useParams();
   const selectPetRef = useRef();
@@ -40,11 +41,11 @@ const WantedEdit = () => {
     document.body.style.overflow = "hidden";
   };
   const [checklistData, setCheckListData] = useState([
-    ...wantedDetail.walk.checkList?.map((el) => el)
+    ...wantedDetail.walk.checkList?.map((el) => el.content)
   ]);
   const [checkedList, setCheckedList] = useState([]);
   const [petChecked, setPetChecked] = useState([]);
-  const [region, setRegion] = useState(""); //지역 id받아오는 state
+  const [region, setRegion] = useState(wantedDetail.cityId); //지역 id받아오는 state
   const [regionName, setRegionName] = useState(""); // 지역 이름 담기
   const [regionNamePick, setRegionNamePick] = useState(wantedDetail.location); //지역이름 선택 하면! input값으로 넣기
   const regionConfirmHandler = () => {
@@ -55,8 +56,6 @@ const WantedEdit = () => {
     regionRef.current.focus();
   };
 
-  console.log(wantedDetail.location);
-
   const onCheckPetElement = (checked, item) => {
     if (checked) {
       setPetChecked([...petChecked, item]);
@@ -65,9 +64,8 @@ const WantedEdit = () => {
     }
   };
 
-  console.log("myPetInfo", myPetInfo);
-
   const onCheckListElement = (checked, value) => {
+    console.log(checked, value);
     if (checked) {
       setCheckedList([...checkedList, value]);
     } else {
@@ -75,9 +73,9 @@ const WantedEdit = () => {
     }
   };
 
-  console.log(petChecked);
-  console.log(checkedList);
-  console.log(selectPetRef.current);
+  console.log(petChecked.length);
+  // console.log(putError);
+  // console.log(selectPetRef.current);
 
   const [
     checkItemContent,
@@ -90,6 +88,7 @@ const WantedEdit = () => {
     new Date(wantedDetail.walk.startTime)
   );
 
+  console.log(region);
   const [endDate, setEndDate] = useState(new Date(wantedDetail.walk.endTime));
 
   const putWanted = () => {
@@ -105,14 +104,11 @@ const WantedEdit = () => {
         wantedTitle,
         id
       )
-    );
+    ).then((res) => setPutError(res));
   };
 
   const addCheckList = (title) => {
-    setCheckListData([
-      ...checklistData,
-      { checkListId: nanoid(), content: title }
-    ]);
+    setCheckListData([...checklistData, title]);
   };
 
   const deleteCheckList = (id) => {
@@ -141,6 +137,9 @@ const WantedEdit = () => {
             <label htmlFor="" className="ipt-label">
               제목
             </label>
+            {putError && (wantedTitle?.length === 0 || !wantedTitle) && (
+              <Error>제목을 입력해주세요</Error>
+            )}
             <input
               onChange={(e) => setWantedTitle(e.target.value)}
               value={wantedTitle}
@@ -150,17 +149,17 @@ const WantedEdit = () => {
               placeholder="제목을 입력해주세요."
             />
           </div>
-          <label className="ipt-label">산책할 강아지 선택</label>
+          <label className="ipt-label">산책할 강아지 선택</label> (기존 강아지 :{" "}
+          {wantedDetail.walk.petList.map((el) => {
+            return <span>{el.petName} </span>;
+          })}
+          )
           <DogSelect>
             {myPetInfo?.map((el, idx) => (
               <li>
                 <DogCheckBoxLabel key={el.petId} htmlFor={el.petName}>
                   <DogCheckBox
-                    defaultChecked={
-                      wantedDetail.walk.petList[idx]?.petName
-                        ? true ?? setPetChecked(el.petId)
-                        : false
-                    }
+                    defaultChecked={false}
                     type="checkbox"
                     name={el.petName}
                     onChange={(e) => {
@@ -174,6 +173,9 @@ const WantedEdit = () => {
                 </DogCheckBoxLabel>
               </li>
             ))}
+            {(petChecked?.length === 0 || !petChecked) && (
+              <Error className="select-pet">산책할 강아지를 선택해주세요</Error>
+            )}
           </DogSelect>
         </Section>
         <Section className="pb20">
@@ -186,7 +188,7 @@ const WantedEdit = () => {
               className="ipt-form"
               value={regionNamePick} // 선택한 지역명 값에 담기
               ref={regionRef}
-              onChange={() => console.log()} // value써서 임시로 넣은 기능없는 onChange
+              onChange={(data) => console.log(data)} // value써서 임시로 넣은 기능없는 onChange
               onClick={cityModal}
             />
           </div>
@@ -195,6 +197,11 @@ const WantedEdit = () => {
             <label htmlFor="" className="ipt-label">
               산책 희망 시간
             </label>
+            {putError && (
+              <Error className="select-pet">
+                현재 날짜보다 이후 날짜를 선택해주세요
+              </Error>
+            )}
             <small className="ipt-label-sm pt10">시작 시간</small>
             <DatePicker
               locale={ko}
@@ -251,7 +258,7 @@ const WantedEdit = () => {
                         onCheckListElement(e.target.checked, e.target.name);
                       }}
                     />
-                    <span>{el.content}</span>
+                    <span>{el}</span>
                   </span>
                   <span>
                     <ButtonPrimaryXS
@@ -290,6 +297,7 @@ const WantedEdit = () => {
 
         <ButtonPrimary onClick={putWanted}>수정하기</ButtonPrimary>
       </Form>
+      <ToastContainer position="top-right" delay={3000} />
     </div>
   );
 };
@@ -421,4 +429,11 @@ const DogCheckBoxLabel = styled.label`
       margin-right: 5px;
     }
   }
+`;
+
+const Error = styled.span`
+  font-size: 12px;
+  color: var(--err-danger);
+  text-align: start;
+  margin-left: 10px;
 `;

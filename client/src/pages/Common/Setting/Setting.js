@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import noImage from "../../../assets/img/noImage.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import Nav from "../../../components/Layout/Nav";
 import UserGrade from "../../../components/UserGrade";
 import Arrows from "../../../assets/img/arrows.svg";
 import SwitchMode from "../../../components/SwitchMode";
-import { delUser } from "../../../redux/actions/userActions";
+import { delUser, getUserInfo } from "../../../redux/actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutSuccess } from "../../../redux/actions/loginActions";
-import { getUserInfo } from "../../../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
 import { getMyPetInfo } from "../../../redux/actions/petActions";
 import Modal from "../../../components/Modal/Modal";
@@ -44,8 +42,6 @@ const Setting = () => {
   const deleteUser = () => {
     dispatch(delUser());
   };
-
-  console.log(isOnState, isOn);
 
   return (
     <div className="container">

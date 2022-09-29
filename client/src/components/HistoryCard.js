@@ -2,8 +2,10 @@ import styled from "styled-components";
 import sampleMap from "../assets/img/sample-map.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaw } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
-const HistoryCard = ({ startTime, endTime, distance, walker }) => {
+const HistoryCard = ({ startTime, endTime, distance, walker, walkId }) => {
+  const navigate = useNavigate();
   let days = getDayOfWeek(new Date(startTime));
   let total = totalTime(new Date(startTime), new Date(endTime));
   let MakeTime = MakeDateForm(total);
@@ -40,7 +42,7 @@ const HistoryCard = ({ startTime, endTime, distance, walker }) => {
   }
 
   return (
-    <Card>
+    <Card onClick={()=>navigate(`/walking/${walkId}`)}>
       <span className="history-img">
         <img src={sampleMap} alt="" />
       </span>

@@ -58,7 +58,7 @@ export const selectComment = (wantedId, commentId, pick) => {
       const selectCommentAPI = customAxios.put(
         `/wanted/${wantedId}/comment/${commentId}/match`,
         `${pick}`
-      ).then((res) => window.location.reload());
+      );
       let select_comment = await selectCommentAPI;
     } catch (error) {
       if (error.response.status === 400 || error.response.status === 403) {

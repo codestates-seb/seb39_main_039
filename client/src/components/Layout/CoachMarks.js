@@ -3,12 +3,22 @@ import noticeIcon from '../../assets/img/dog-notice.png';
 import dogHead from '../../assets/img/dog-head.png';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaw } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const CoachMarks = () => {
     const [isOn, setIsOn] = useState(true);
+
+    useEffect(()=>{
+        document.body.style.overflow = "hidden";
+    },[])
+
+    const skipHandler = () => {
+        setIsOn(false)
+        document.body.style.overflow = "unset";
+    }
+        
     return(
-        <Mark className={isOn ? '' : 'checked'} onClick={()=>setIsOn(false)}>
+        <Mark className={isOn ? '' : 'checked'} onClick={()=>skipHandler()}>
             <MainButton>
                 <div className="icon-area">
                     <div className="item"><p>아래 버튼을 눌러서<br />산책을 기다리는<br />강아지를 만날 수 있어!</p></div>
@@ -37,6 +47,7 @@ const Mark = styled.section`
     left:0;
     background:rgba(0,0,0, .75);
     z-index: 999;
+    cursor: pointer;
 
     &.checked{
         display:none;

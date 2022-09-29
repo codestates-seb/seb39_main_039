@@ -33,7 +33,7 @@ const CommentEnter = ({wantedId}) => {
             <textarea 
                 value={content}
                 onChange={changeHandler}
-                placeholder="상세 지원글을 남겨주세요."></textarea>
+                placeholder="상세 지원글을 남겨주세요. 내용은 의뢰자에게만 공개됩니다."></textarea>
             <button onClick={addHandler}>등록</button>
         </CommentForm>
     )
@@ -70,7 +70,7 @@ const CommentForm = styled.div`
         border:0;
         font-size:16px;
         width:100%;
-        height:20px;
+        height:60px;
         transition:all .5s;
     }
     textarea:focus{

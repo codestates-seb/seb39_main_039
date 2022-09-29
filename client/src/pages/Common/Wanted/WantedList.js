@@ -35,13 +35,11 @@ const WantedList = () => {
   const [regionNamePick, setRegionNamePick] = useState("동네 설정"); //지역이름 선택 하면! input값으로 넣기
 
   const cityModal = () => {
-    //모달창 여닫기
     setIsOpen(true);
     document.body.style.overflow = "hidden";
   };
 
   const regionConfirmHandler = () => {
-    //지역정보 받아오기
     setRegionNamePick(regionName);
     setIsOpen(false);
     document.body.style.overflow = "unset";
@@ -74,14 +72,7 @@ const WantedList = () => {
     await fakeFetch();
     if (scrollAllWantedList.length < totalPage) {
       if (scrollAllWantedList.length > 9)
-        dispatch(
-          getScrollAllWantedList(
-            sortOption,
-            regionName === "전체" ? 0 : region,
-            isOn,
-            page
-          )
-        );
+        dispatch(getScrollAllWantedList(sortOption, region, isOn, page));
     }
   };
   useEffect(() => {
@@ -94,14 +85,7 @@ const WantedList = () => {
   useEffect(() => {
     if (sortOption || isOn || region || !sortOption || !isOn || !region)
       dispatch(resetScrollAllWantedList());
-    dispatch(
-      getScrollAllWantedList(
-        sortOption,
-        regionName === "전체" ? 0 : region,
-        isOn,
-        1
-      )
-    );
+    dispatch(getScrollAllWantedList(sortOption, region, isOn, 1));
     setPage(1);
   }, [sortOption, isOn, region]);
 
@@ -112,7 +96,7 @@ const WantedList = () => {
     dispatch(getMyPetInfo());
   }, []);
 
-  console.log(scrollAllWantedList, page, totalPage, regionName);
+  console.log(scrollAllWantedList, page, totalPage);
 
   return (
     <div className="container bg-gray v2">

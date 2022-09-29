@@ -52,7 +52,6 @@ const WalkerHistory = () => {
     if (petWalkInfo || !petWalkInfo) dispatch(resetPetWalk());
     dispatch(getPetWalkInfo(id, 1));
     dispatch(getMyPetInfo(id));
-    if (inView || !inView) fetchMoreData();
   }, []);
 
   return (

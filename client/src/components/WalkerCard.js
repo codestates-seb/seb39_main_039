@@ -14,6 +14,7 @@ const WalkerCard = ({ data }) => {
     dispatch(getUserInfo());
   }, []);
 
+  console.log(data);
   return (
     <div>
       <WalkerProfile>
@@ -22,7 +23,7 @@ const WalkerCard = ({ data }) => {
         </span>
         <div className="dog-info">
           <div>
-            <strong>{userInfo?.fullName}</strong>
+            <strong>{userInfo?.nickName}</strong>
             <em>{data?.phone}</em>
           </div>
         </div>
@@ -74,7 +75,7 @@ const WalkerCard = ({ data }) => {
         )}
         <WalkBanner
           onClick={() => {
-            window.location.replace(`/walkerWalkWaiting`);
+            window.location.replace(`/walkerWalkWaiting/${data.walkerId}`);
           }}
         >
           <div>
@@ -86,7 +87,7 @@ const WalkerCard = ({ data }) => {
         </WalkBanner>
         <WalkBanner
           onClick={() => {
-            window.location.replace(`/walkerWalkHistory`);
+            window.location.replace(`/walkerWalkHistory/${data.walkerId}`);
           }}
         >
           <div>
@@ -124,7 +125,6 @@ const WalkerProfile = styled.div`
     align-items: top;
     padding-top: 8px;
     justify-content: center;
-    height: 100px;
 
     > div > * {
       display: block;

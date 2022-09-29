@@ -57,6 +57,7 @@ const WantedDetailPage = () => {
 
   if (!wantedDetail.walk) return <div></div>;
 
+
   return (
     <div className="container pa0 v2">
       {loading ? (
@@ -115,6 +116,7 @@ const WantedDetailPage = () => {
                       key={item.petId}
                       species={item.species}
                       picture={item.petPicture}
+                      sex={item.sex}
                     />
                   </div>
                 ))}

@@ -51,7 +51,7 @@ const WalkerHistory = () => {
   return (
     <div className="container bg-gray v2">
       <Header
-        pageTitle={`${petName[0]?.petName} 지난 산책 내역`}
+        pageTitle={`${petName[0]?.petName !== undefined ? petName[0]?.petName : '' } 지난 산책 내역`}
         link={"/ownerMain"}
       />
       {petWalkInfo?.length !== 0 ? (

@@ -8,6 +8,7 @@ import {
   UserEdit,
   DogEdit,
   DogAdd,
+  DogEditAdd,
   WalkerEdit
 } from "./Common";
 import { Login, SignUp, Terms } from "./Register";
@@ -37,6 +38,7 @@ export {
   Walking,
   DogEdit,
   DogAdd,
+  DogEditAdd,
   WalkerEdit,
   WalkingLists,
   StartWalking,

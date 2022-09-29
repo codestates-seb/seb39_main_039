@@ -48,7 +48,7 @@ public class WantedService {
         User owner = userService.verifyUser(ownerId);
 
         //반려견 목록 생성
-        if (request.getPetId().size() == 0)
+        if (request.getPetId().size() == 0 )
             throw new CustomException("산책 시킬 강아지를 하나 이상 선택해야 합니다.", HttpStatus.BAD_REQUEST);
         List<Pet> petList = request.getPetId().stream().map(petService::verifyPet).collect(Collectors.toList());
         verifyStartEndTime(request.getStartTime(), request.getEndTime());
@@ -59,7 +59,6 @@ public class WantedService {
                 .startTime(request.getStartTime())
                 .endTime(request.getEndTime())
                 .caution(request.getCaution())
-                .coord("0")
                 .build();
         walk.setCheckListByContents(request.getCheckListContent());
 
@@ -94,6 +93,8 @@ public class WantedService {
      * 구인글 수정
      */
     public Wanted editWanted(Long wantedId, WantedDto.Put request, Long ownerId) {
+        if (request.getPetId().size() == 0)
+            throw new CustomException("산책 시킬 강아지를 하나 이상 선택해야 합니다.", HttpStatus.BAD_REQUEST);
         Wanted targetWanted = verifyWanted(wantedId);
         Walk targetWalk = targetWanted.getWalk();
         verifyWantedUser(targetWanted, ownerId);

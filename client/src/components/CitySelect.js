@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as Close } from "../assets/img/close.svg";
 import { getCityInfo } from "../redux/actions/cityActions";
@@ -14,8 +14,10 @@ const CitySelect = ({
 }) => {
   const dispatch = useDispatch();
   const { cityInfo } = useSelector((state) => state.city);
+  const [ all, setAll ] = useState(true);
 
   const cityData = [
+    { city: "전체" },
     { city: "서울" },
     { city: "경기" },
     { city: "인천" },
@@ -58,6 +60,13 @@ const CitySelect = ({
   const iptRef = useRef([]);
   const regionRef = useRef([]);
   const handleClick = (e, idx) => {
+    if(iptRef.current[idx].innerText==='전체'){
+      setAll(true);
+      setRegion(Number(0));
+      setRegionName('동네 설정');
+    }else{
+      setAll(false);
+    }
     const siblings = iptRef.current.filter(
       (node) => node.innerText !== iptRef.current[idx].innerText
     );
@@ -98,40 +107,47 @@ const CitySelect = ({
               <div className="modal-body">
                 <h3>지역 선택</h3>
                 <div className="region-list">
-                  <div className="i1">
-                    <ul className="item-ul">
-                      {cityData.map((el, idx) => {
-                        return (
-                          <li
-                            onClick={(e) => citySelectHandler(e, el, idx)}
-                            className={idx === 0 && "default"}
-                            key={idx}
-                            ref={(inputEl) => (iptRef.current[idx] = inputEl)}
-                          >
-                            {el.city}
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                  <div className="i2">
-                    <ul className="item-ul">
-                      {cityInfo?.map((el, idx) => {
-                        return (
-                          <li
-                            data-id={el.cityId}
-                            data-name={`${el.regionName} ${el.name}`}
-                            onClick={(e) => regionHandler(e, idx)}
-                            ref={(inputEl) =>
-                              (regionRef.current[idx] = inputEl)
-                            }
-                            key={idx}
-                          >
-                            {el.name}
-                          </li>
-                        );
-                      })}
-                    </ul>
+                  {/* <div>전체</div> */}
+                  <div>
+                    <div className="i1">
+                      <ul className="item-ul">
+                        {cityData.map((el, idx) => {
+                          return (
+                            <li
+                              onClick={(e) => citySelectHandler(e, el, idx)}
+                              className={idx === 0 ? "default": ''}
+                              key={idx}
+                              ref={(inputEl) => (iptRef.current[idx] = inputEl)}
+                            >
+                              {el.city}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                    <div className="i2">
+                      <ul className="item-ul">
+                        {all ?
+                          <li className="on">전체</li>
+                        :
+                          cityInfo?.map((el, idx) => {
+                            return (
+                              <li
+                                data-id={el.cityId}
+                                data-name={`${el.regionName} ${el.name}`}
+                                onClick={(e) => regionHandler(e, idx)}
+                                ref={(inputEl) =>
+                                  (regionRef.current[idx] = inputEl)
+                                }
+                                key={idx}
+                              >
+                                {el.name}
+                              </li>
+                            );
+                          })
+                        }
+                      </ul>
+                    </div>
                   </div>
                 </div>
                 <ButtonPrimary
@@ -197,9 +213,10 @@ const StyledModalCon = styled.div`
       border-bottom: 1px solid var(--gray-200);
     }
     .region-list {
-      display: flex;
-      text-align: left;
-
+      > div{
+        display: flex;
+        text-align: left;
+      }
       .i1 {
         flex: 1;
         border-right: 1px solid var(--gray-300);

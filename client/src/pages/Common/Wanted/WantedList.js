@@ -40,7 +40,6 @@ const WantedList = () => {
   };
 
   const regionConfirmHandler = () => {
-    //지역정보 받아오기
     setRegionNamePick(regionName);
     setIsOpen(false);
     document.body.style.overflow = "unset";

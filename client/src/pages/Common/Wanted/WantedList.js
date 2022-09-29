@@ -74,7 +74,14 @@ const WantedList = () => {
     await fakeFetch();
     if (scrollAllWantedList.length < totalPage) {
       if (scrollAllWantedList.length > 9)
-        dispatch(getScrollAllWantedList(sortOption, region, isOn, page));
+        dispatch(
+          getScrollAllWantedList(
+            sortOption,
+            regionName === "전체" ? 0 : region,
+            isOn,
+            page
+          )
+        );
     }
   };
   useEffect(() => {
@@ -87,7 +94,14 @@ const WantedList = () => {
   useEffect(() => {
     if (sortOption || isOn || region || !sortOption || !isOn || !region)
       dispatch(resetScrollAllWantedList());
-    dispatch(getScrollAllWantedList(sortOption, region, isOn, 1));
+    dispatch(
+      getScrollAllWantedList(
+        sortOption,
+        regionName === "전체" ? 0 : region,
+        isOn,
+        1
+      )
+    );
     setPage(1);
   }, [sortOption, isOn, region]);
 
@@ -98,7 +112,7 @@ const WantedList = () => {
     dispatch(getMyPetInfo());
   }, []);
 
-  console.log(scrollAllWantedList, page, totalPage);
+  console.log(scrollAllWantedList, page, totalPage, regionName);
 
   return (
     <div className="container bg-gray v2">

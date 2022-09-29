@@ -16,6 +16,7 @@ const CitySelect = ({
   const { cityInfo } = useSelector((state) => state.city);
 
   const cityData = [
+    { city: "전체" },
     { city: "서울" },
     { city: "경기" },
     { city: "인천" },

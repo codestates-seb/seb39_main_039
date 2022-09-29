@@ -25,7 +25,8 @@ const WalkerHistory = () => {
   const petName = myPetInfo.filter((el) => el.petId === Number(id));
 
   const { ref, inView } = useInView({
-    threshold: 0.7
+    threshold: 0,
+    triggerOnce: true
   });
 
   const fakeFetch = (delay = 300) =>
@@ -44,18 +45,22 @@ const WalkerHistory = () => {
       return;
     }
     fetchMoreData();
+    console.log("ㅎㅎㅎ");
   }, [inView]);
 
   useEffect(() => {
     if (petWalkInfo || !petWalkInfo) dispatch(resetPetWalk());
     dispatch(getPetWalkInfo(id, 1));
     dispatch(getMyPetInfo(id));
+    if (inView || !inView) fetchMoreData();
   }, []);
 
   return (
     <div className="container bg-gray v2">
       <Header
-        pageTitle={`${petName[0]?.petName !== undefined ? petName[0]?.petName : '' } 지난 산책 내역`}
+        pageTitle={`${
+          petName[0]?.petName !== undefined ? petName[0]?.petName : ""
+        } 지난 산책 내역`}
         link={"/ownerMain"}
       />
       {petWalkInfo?.length !== 0 ? (
@@ -98,5 +103,5 @@ const List = styled.ul`
 `;
 
 const Scroll = styled.div`
-  height: 200px;
+  height: 100px;
 `;

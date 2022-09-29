@@ -202,7 +202,7 @@ public class WalkService {
         Pet targetPet = petService.verifyPet(petId);
         petService.verifyPetOwner(targetPet, ownerId);
 
-        int size = 5;
+        int size = 10;
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("creationDate").descending());
 
         Page<Walk> walkList = null;
@@ -216,7 +216,7 @@ public class WalkService {
     }
     public Page<Walk> getWalkHistoryListByWalkerId(Long walkerId, int page, String when) {
 
-        int size = 5;
+        int size = 10;
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("creationDate").descending());
 
         Page<Walk> walkList = null;

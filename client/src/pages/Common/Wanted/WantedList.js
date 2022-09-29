@@ -35,7 +35,6 @@ const WantedList = () => {
   const [regionNamePick, setRegionNamePick] = useState("동네 설정"); //지역이름 선택 하면! input값으로 넣기
 
   const cityModal = () => {
-    //모달창 여닫기
     setIsOpen(true);
     document.body.style.overflow = "hidden";
   };

@@ -59,11 +59,15 @@ const CitySelect = ({
 
   const iptRef = useRef([]);
   const regionRef = useRef([]);
+
+  const allRegionHandler = () =>{
+    setRegionName('동네 설정');
+  }
   const handleClick = (e, idx) => {
-    if(iptRef.current[idx].innerText==='전체'){
+    if(iptRef.current[idx].innerText ==='전체'){
+      setRegionName('동네 설정');
       setAll(true);
       setRegion(Number(0));
-      setRegionName('동네 설정');
     }else{
       setAll(false);
     }
@@ -74,9 +78,9 @@ const CitySelect = ({
       return (el.className = "off");
     });
     e.target.className = "on";
-    regionRef.current.map((el) => {
-      return (el.className = "off");
-    });
+    regionRef.current.filter((node) => node !== null).map((el) => {
+        return (el.className = "off");
+      });
     setRegionName();
   };
 
@@ -107,7 +111,6 @@ const CitySelect = ({
               <div className="modal-body">
                 <h3>지역 선택</h3>
                 <div className="region-list">
-                  {/* <div>전체</div> */}
                   <div>
                     <div className="i1">
                       <ul className="item-ul">
@@ -128,7 +131,7 @@ const CitySelect = ({
                     <div className="i2">
                       <ul className="item-ul">
                         {all ?
-                          <li className="on">전체</li>
+                          <li className="on" onClick={()=>allRegionHandler()}>전체</li>
                         :
                           cityInfo?.map((el, idx) => {
                             return (
@@ -245,6 +248,7 @@ const StyledModalCon = styled.div`
           padding: 18px 18px;
           font-weight: 500;
           font-size: 17px;
+          cursor: pointer;
         }
       }
     }

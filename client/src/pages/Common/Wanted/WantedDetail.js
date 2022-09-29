@@ -10,6 +10,7 @@ import { ThreeDots } from "react-loader-spinner";
 import Modal from "../../../components/Modal/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+import godWait from "../../../assets/img/dog_wait.png";
 import {
   deleteWanted,
   getWantedDetail
@@ -169,16 +170,28 @@ const WantedDetailPage = () => {
               산책 지원하기 {wantedDetail.commentList?.length}명
             </SectLabel>
             <div className="comment-list">
-              {wantedDetail.commentList?.reverse().map((data, key) => {
-                return (
-                  <ApplyComment
-                    data={data}
-                    wantedId={wantedDetail.wantedId}
-                    writerId={wantedDetail.walk?.owner.ownerId}
-                    key={key}
-                  />
-                );
-              })}
+              {
+              wantedDetail.commentList?.length !== 0 ? 
+              <>
+                {wantedDetail.commentList?.reverse().map((data, key) => {
+                  return (
+                    <ApplyComment
+                      data={data}
+                      wantedId={wantedDetail.wantedId}
+                      writerId={wantedDetail.walk?.owner.ownerId}
+                      key={key}
+                    />
+                  );
+                })}
+              </>
+              :
+              <>
+              <div className="no-apply">
+                <i></i>
+                아직 지원자가 없습니다.<br/>댓글로 지원해 보세요!
+              </div>
+              </>
+              }
             </div>
           </CommentApply>
         </>
@@ -290,7 +303,7 @@ const ConHeader = styled.div`
 `;
 
 const CommentApply = styled.div`
-  padding: 20px 20px;
+  padding: 20px 20px 60px;
 
   .comment-list {
     > * {
@@ -300,6 +313,31 @@ const CommentApply = styled.div`
 
   .comment-form {
     margin-bottom: 20px;
+  }
+
+  .no-apply{
+    position: relative;
+    text-align: center;
+    border-radius: 15px;
+    background-color: var(--gray-100);
+    padding:30px;
+    line-height: 1.3em;
+    font-size: 14px;
+    margin-top:50px;
+    color: var(--gray-500);
+
+    i{
+      display: inline-block;
+      position: absolute;
+      top:-65px;
+      left:50%;
+      width:70px;
+      height:85px;
+      background-image: url("${godWait}"); 
+      background-repeat: no-repeat;
+      background-size:100% auto;
+      transform: translate(-50%, 0);
+    }
   }
 `;
 

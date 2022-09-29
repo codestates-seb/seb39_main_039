@@ -17,6 +17,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        default_batch_fetch_size: 100
   sql:
     init:
       data-locations: classpath*:db/h2/data.sql

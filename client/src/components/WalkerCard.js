@@ -22,7 +22,7 @@ const WalkerCard = ({ data }) => {
         </span>
         <div className="dog-info">
           <div>
-            <strong>{userInfo?.fullName}</strong>
+            <strong>{userInfo?.nickName}</strong>
             <em>{data?.phone}</em>
           </div>
         </div>
@@ -124,7 +124,6 @@ const WalkerProfile = styled.div`
     align-items: top;
     padding-top: 8px;
     justify-content: center;
-    height: 100px;
 
     > div > * {
       display: block;

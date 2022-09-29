@@ -102,7 +102,7 @@ const WantedCreate = () => {
         checkedList,
         region,
         endDate,
-        wantedReward,
+        wantedReward.split(",").reduce((curr, acc) => curr + acc, ""),
         petChecked,
         startDate,
         wantedTitle
@@ -120,8 +120,20 @@ const WantedCreate = () => {
     dispatch(getMyPetInfo());
   }, []);
 
+  const inputPriceFormat = (str) => {
+    const comma = (str) => {
+      str = String(str);
+      return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,");
+    };
+    const uncomma = (str) => {
+      str = String(str);
+      return str.replace(/[^\d]+/g, "");
+    };
+    return comma(uncomma(str));
+  };
+
   return (
-    <div className="container">
+    <div className="container v2">
       <Header pageTitle={"구인 글 작성"} />
       <CitySelect
         isOpen={isOpen} //모달 여닫기
@@ -228,13 +240,13 @@ const WantedCreate = () => {
                 className="ipt-form"
                 name="username"
                 placeholder="예)100,000"
-                onChange={(e) => setWantedReward(e.target.value)}
+                onChange={(e) => setWantedReward(inputPriceFormat(e.target.value))}
                 value={wantedReward}
               />
               <span>원</span>
             </div>
             {createError &&
-              (wantedReward?.length === 0 || !checkNum.test(wantedReward)) && (
+              (wantedReward?.length === 0 || !checkNum.test(wantedReward.split(",").reduce((curr, acc) => curr + acc, ""))) && (
                 <Error>보수를 올바르게 입력해주세요</Error>
               )}
           </div>

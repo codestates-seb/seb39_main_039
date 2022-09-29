@@ -111,6 +111,7 @@ export default Login;
 const LoginPanel = styled.div`
   display: flex;
   min-height: 100vh;
+  padding-top:30px;
   padding-bottom: 4vh;
   flex-direction: column;
   justify-content: space-between;

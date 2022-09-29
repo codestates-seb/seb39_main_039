@@ -32,7 +32,7 @@ const Walking = () => {
 
   console.log(WalkInfo);
   return (
-    <div className="container pa0">
+    <div className="container pa0 v2">
       <ModalEndWalk
         isOpen={isOpen}
         setIsOpen={setIsOpen}

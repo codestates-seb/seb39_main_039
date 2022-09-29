@@ -87,6 +87,10 @@ const GlobalStyle = createGlobalStyle`
       background:var(--white-000);
    }
 
+   .container.v2{
+      padding-top:50px !important;
+   }
+
    .container.bg-gray{
       background:var(--gray-100);
    }

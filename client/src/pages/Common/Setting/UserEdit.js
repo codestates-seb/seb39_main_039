@@ -26,7 +26,7 @@ const UserEdit = () => {
   }, [loading]);
 
   return (
-    <div className="container">
+    <div className="container v2">
       <Header pageTitle={"나의 기본정보 수정"} />
       <UserInfo>
         <div className="user-con">

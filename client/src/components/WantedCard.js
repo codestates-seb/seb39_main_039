@@ -68,7 +68,7 @@ const WantedCard = ({ item }) => {
             <dt>
               <FontAwesomeIcon icon={faSackDollar} /> 보수
             </dt>
-            <dd>{item?.pay}원</dd>
+            <dd>{item?.pay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</dd>
           </dl>
         </li>
         <li>

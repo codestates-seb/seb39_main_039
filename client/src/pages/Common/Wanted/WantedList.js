@@ -67,12 +67,11 @@ const WantedList = () => {
     new Promise((res) => setTimeout(res, delay));
 
   const fetchMoreData = async () => {
+    setPage(page + 1);
     setOption(false);
     await fakeFetch();
     if (scrollAllWantedList.length < totalPage) {
-      dispatch(getScrollAllWantedList(sortOption, region, isOn, page)).then(
-        setPage(page + 1)
-      );
+      dispatch(getScrollAllWantedList(sortOption, region, isOn, page));
     }
   };
 
@@ -84,17 +83,19 @@ const WantedList = () => {
   }, [inView]);
 
   useEffect(() => {
-    dispatch(resetScrollAllWantedList());
+    dispatch(resetScrollAllWantedList()).then(() =>
+      dispatch(getScrollAllWantedList(sortOption, region, isOn, page))
+    );
     // if (region > 0)
     // dispatch(getScrollAllWantedList(sortOption, region, isOn, 1));
     setOption(true);
     setPage(1);
   }, [sortOption, isOn, regionNamePick]);
 
-  useEffect(() => {
-    // dispatch(resetScrollAllWantedList());
-    dispatch(getScrollAllWantedList(sortOption, "", isOn, page));
-  }, []);
+  // useEffect(() => {
+  //   // dispatch(resetScrollAllWantedList());
+  //   dispatch(getScrollAllWantedList(sortOption, "", isOn, page));
+  // }, []);
 
   //region있을때에는 리셋되면 안됨
 

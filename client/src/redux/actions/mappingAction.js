@@ -64,10 +64,10 @@ export const closeWalk = (walkerId) => {
   };
 };
 
-export const sendLocation = (lat, lon, distance) => {
+export const sendLocation = (lat, lon, distance, id) => {
   return async () => {
     try {
-      const sendLocationAPI = customAxios.put(`/walk/1/coord`, {
+      const sendLocationAPI = customAxios.put(`/walk/${id}nnp/coord`, {
         coord: `${lat} ${lon}`,
         distance: `${distance}`
       });

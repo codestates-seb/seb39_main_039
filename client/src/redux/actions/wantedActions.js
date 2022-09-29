@@ -133,8 +133,7 @@ export const postWanted = (
   pay,
   petId,
   startTime,
-  title,
-  id
+  title
 ) => {
   return async (dispatch) => {
     try {

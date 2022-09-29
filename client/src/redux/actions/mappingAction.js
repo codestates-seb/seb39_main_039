@@ -1,4 +1,4 @@
-import { customAxios } from "../axiosAPI";
+import customAxios from "../axiosAPI";
 
 // 로그인이 성공했을 때 행동 (액션타입)
 export const GET_LOCATION_SUCCESS = "GET_LOCATION_SUCCESS";

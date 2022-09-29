@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
 
-export const customAxios = axios.create({
+const customAxios = axios.create({
   baseURL: BASE_URL
 });
 
@@ -39,3 +39,5 @@ customAxios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+export default customAxios;

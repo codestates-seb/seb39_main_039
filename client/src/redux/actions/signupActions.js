@@ -1,4 +1,4 @@
-import { customAxios } from "../axiosAPI";
+import customAxios from "../axiosAPI";
 
 export const JOIN_SUCCESS = "JOIN_SUCCESS";
 export const JOIN_ERROR = "JOIN_ERROR";

@@ -1,4 +1,4 @@
-import { customAxios } from "../axiosAPI";
+import customAxios from "../axiosAPI";
 export const GET_WALKER_WALK_HISTORY_SUCCESS =
   "GET_WALKER_WALK_HISTORY_SUCCESS";
 export const GET_WALKER_WALK_WAITING_SUCCESS =

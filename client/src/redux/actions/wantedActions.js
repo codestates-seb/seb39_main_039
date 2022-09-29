@@ -1,4 +1,4 @@
-import { customAxios } from "../axiosAPI";
+import customAxios from "../axiosAPI";
 import { toast } from "react-toast";
 
 export const GET_ALL_WANTED_LIST_SUCCESS = "GET_ALL_WANTED_LIST_SUCCESS";

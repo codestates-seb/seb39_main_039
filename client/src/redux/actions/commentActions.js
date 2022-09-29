@@ -1,4 +1,4 @@
-import { customAxios } from "../axiosAPI";
+import customAxios from "../axiosAPI";
 import { toast } from "react-toast";
 
 export const COMMENT_SELECT_ERROR = "COMMENT_SELECT_ERROR";

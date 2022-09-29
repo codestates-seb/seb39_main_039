@@ -2,11 +2,11 @@ import styled from "styled-components";
 import sexIconMale from "../assets/img/sexIcon-male.svg";
 import sexIconFemale from "../assets/img/sexIcon-female.svg";
 
-const DogNameTag = ({ size, name, species, picture}) => {
+const DogNameTag = ({ sex, name, species, picture}) => {
 
   return (
     // 성별 내용 Tag class에 넣기  [M, F]
-    <Tag className="M">
+    <Tag className={sex}>
       <span className="dog-photo">
         <img
           style={{ backgroundImage: `url(${picture})` }}
@@ -36,11 +36,11 @@ const Tag = styled.div`
   background-position: 93% 10px;
   background-size: 19px auto;
 
-  &.M {
+  &.수컷 {
     background-image: url("${sexIconMale}");
   }
 
-  &.F {
+  &.암컷 {
     background-image: url("${sexIconFemale}");
   }
 

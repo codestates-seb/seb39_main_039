@@ -61,7 +61,7 @@ public class WalkService {
     public Walk checkCheckList(Long walkId, Long checkListId, boolean check, Long walkerId) {
         Walk targetWalk = verifyWalk(walkId);
         if (targetWalk.isEnded()) throw new CustomException("이미 종료된 산책입니다", HttpStatus.FORBIDDEN);
-        verifyWalkUser(targetWalk, walkerId);
+        verifyWalkWalker(targetWalk, walkerId);
 //        WalkCheckList targetCheckList = checkListRepository.findById(checkListId).orElseThrow(() -> new CustomException("존재하지 않는 체크리스트 입니다", HttpStatus.NO_CONTENT));
         //체크리스트 아이디가 해당 산책에 속하지 않을 때 에러
         targetWalk.getCheckList()
@@ -79,7 +79,7 @@ public class WalkService {
     public Time putActualWalkTime(Long walkId, Time actualWalkTime, Long walkerId) {
         Walk targetWalk = verifyWalk(walkId);
         if (targetWalk.isEnded()) throw new CustomException("이미 종료된 산책입니다", HttpStatus.FORBIDDEN);
-        verifyWalkUser(targetWalk, walkerId);
+        verifyWalkWalker(targetWalk, walkerId);
         targetWalk.setActualWalkTime(actualWalkTime);
         return actualWalkTime;
     }
@@ -104,7 +104,7 @@ public class WalkService {
     public boolean endWalk(Long walkId, Long ownerId) {
         Walk targetWalk = verifyWalk(walkId);
         if (targetWalk.isEnded()) throw new CustomException("이미 종료된 산책입니다", HttpStatus.FORBIDDEN);
-        verifyWalkUser(targetWalk, ownerId);
+        verifyWalkOwner(targetWalk, ownerId);
         targetWalk.setEnded(true);
         return true;
     }
@@ -116,7 +116,7 @@ public class WalkService {
     public void putCoord(Long walkId, String coord, int distance, Long loginId) throws ParseException {
         Walk targetWalk = verifyWalk(walkId);
         if (targetWalk.isEnded()) throw new CustomException("이미 종료된 산책입니다", HttpStatus.FORBIDDEN);
-        verifyWalkUser(targetWalk, loginId);
+        verifyWalkWalker(targetWalk, loginId);
 
         walkRepository.increaseDistance(walkId, distance);
         String pointWKT = String.format("POINT(%s)", coord);
@@ -132,7 +132,7 @@ public class WalkService {
     public int putBasic(Long walkId, String basic, int count, Long loginId) {
         Walk targetWalk = verifyWalk(walkId);
         if (targetWalk.isEnded()) throw new CustomException("이미 종료된 산책입니다", HttpStatus.FORBIDDEN);
-        verifyWalkUser(targetWalk, loginId);
+        verifyWalkWalker(targetWalk, loginId);
         switch (basic) {
             case "poo":
                 targetWalk.increasePoo(count);
@@ -157,7 +157,7 @@ public class WalkService {
     public String saveWalkPicture(Long walkId, Long walkerId) {
         final String dirName = "image/walk/" + walkId.toString() + "/";
         Walk targetWalk = verifyWalk(walkId);
-        verifyWalkUser(targetWalk, walkerId);
+        verifyWalkWalker(targetWalk, walkerId);
         String UUIDFileName = s3fileService.createUUIDFileName(walkerId.toString(), dirName);
         WalkPicture walkPicture = WalkPicture.builder().walk(targetWalk).link(clientUrl + "/" + UUIDFileName).build();
         walkPictureRepository.save(walkPicture);
@@ -167,7 +167,6 @@ public class WalkService {
     public void deleteWalkPicture(Long walkId, String link, Long walkerId) {
         Walk targetWalk = verifyWalk(walkId);
         verifyWalkUser(targetWalk, walkerId);
-
         String fileName = link.replace(clientUrl + "/", "");
         try {
             s3fileService.delete(fileName);
@@ -175,6 +174,13 @@ public class WalkService {
             throw new CustomException("삭제에 실패했습니다. 링크를 확인해주세요", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         walkPictureRepository.deleteByLink(link);
+    }
+
+    public void deleteWalk(Long walkId, Long ownerId){
+        Walk targetWalk = verifyWalk(walkId);
+        verifyWalkOwner(targetWalk, ownerId);
+
+        walkRepository.deleteById(walkId);
     }
 
     /**
@@ -189,6 +195,15 @@ public class WalkService {
      * 산책 수정권한 확인(산책알바 혹은 견주)
      */
     @Transactional(readOnly = true)
+    public void verifyWalkWalker(Walk walk, Long walkerId) {
+        if (walk.getWalker() != null && walk.getWalker().getId().equals(walkerId)) return;
+        throw new CustomException("산책자만이 접근 가능합니다", HttpStatus.FORBIDDEN);
+    }
+
+    @Transactional(readOnly = true)
+    public void verifyWalkOwner(Walk walk, Long ownerId) {
+        if(!walk.getOwner().getId().equals(ownerId)) throw new CustomException("견주만이 접근 가능 합니다.", HttpStatus.FORBIDDEN);
+    }
     public void verifyWalkUser(Walk walk, Long userId) {
         if (walk.getOwner().getId().equals(userId)) return;
         if (walk.getWalker() != null && walk.getWalker().getId().equals(userId)) return;

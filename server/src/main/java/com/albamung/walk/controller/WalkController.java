@@ -101,6 +101,13 @@ public class WalkController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @ApiOperation(value = "산책 삭제", notes = "견주만 가능!")
+    @DeleteMapping("/{walkId}/delete")
+    public ResponseEntity deleteWalk(@AuthenticationPrincipal @ApiIgnore User owner,
+                                     @PathVariable @Positive Long walkId){
+        walkService.deleteWalk(walkId, owner.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     /**
      * 산책 등록 -> 구인글 등록으로 이관

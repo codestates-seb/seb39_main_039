@@ -4,7 +4,7 @@ import { getLocation, sendLocation } from "../../redux/actions/mappingAction";
 import styled from "styled-components";
 import { useInterval } from "../../hooks/useInterval";
 import TimeCount from "../Time";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import WalkResultInfo from "../WalkResultInfo";
 
 const { kakao } = window;
@@ -24,6 +24,7 @@ const TrackingMap = () => {
 
   const mapImage = useRef();
   const distance = 10;
+  const { id } = useParams();
 
   function getGeolocation() {
     let geolocation = navigator.geolocation.watchPosition(
@@ -143,9 +144,11 @@ const TrackingMap = () => {
       );
     }
     if (!isPauseWalk && isWalk && dis >= 10) {
-      dispatch(sendLocation(lat, lon, distance));
+      dispatch(sendLocation(lat, lon, distance, id));
     }
   }, [lat, lon]);
+
+  console.log(isPauseWalk, isWalk, dis, lat, lon);
 
   useEffect(() => {
     drawMap();

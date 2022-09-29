@@ -1,7 +1,9 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import { DogNameLabel } from "./DogNameLabel";
 
 const PendingCard = ({ el }) => {
+  const navigate = useNavigate();
   const startDay = new Date(el.startTime);
   const toDay = new Date();
   const diff = startDay - toDay;
@@ -14,8 +16,9 @@ const PendingCard = ({ el }) => {
     return `D-${diffDay}`;
   }
 
+
   return (
-    <Card>
+    <Card onClick={() => {navigate(`/walking/${el.walkId}`);}}>
       <div className="i1">{diffDayData()}</div>
       <div className="i2">
         <p>

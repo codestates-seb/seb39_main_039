@@ -30,7 +30,6 @@ const Walking = () => {
     dispatch(getWalkDetailInfo(Number(walkId.id)));
   }, []);
 
-  console.log(WalkInfo);
   return (
     <div className="container pa0 v2">
       <ModalEndWalk
@@ -41,9 +40,8 @@ const Walking = () => {
       <Section>
         <HeaderConfirm
           pageTitle={"진행중인 산책"}
-          ConfirmName={"종료"}
+          ConfirmName={WalkInfo.ended?'':`종료`}
           ClickHandler={ClickHandler}
-          link={"/ownerMain"}
         />
         <div className="walk-team">
           <dl className="walk-con">

@@ -61,7 +61,7 @@ const StartWalking = () => {
   }, []);
 
   return (
-    <div className="container pa0">
+    <div className="container pa0 v2">
       <Section>
         <HeaderConfirm pageTitle={"진행중인 산책"} />
         <div className="walk-team">

@@ -56,7 +56,7 @@ const WantedDetailPage = () => {
   if (!wantedDetail.walk) return <div></div>;
 
   return (
-    <div className="container bg-gray pa0">
+    <div className="container pa0 v2">
       {loading ? (
         <Loading>
           <ThreeDots color="#3183f8" height={80} width={80} />
@@ -112,6 +112,7 @@ const WantedDetailPage = () => {
                       name={item.petName}
                       key={item.petId}
                       species={item.species}
+                      picture={item.petPicture}
                     />
                   </div>
                 ))}
@@ -143,7 +144,7 @@ const WantedDetailPage = () => {
                 <dt>
                   <SectLabel>산책 보수</SectLabel>
                 </dt>
-                <dd>{wantedDetail.pay}원</dd>
+                <dd>{wantedDetail.pay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</dd>
               </dl>
             </ConInfo>
           </Section>

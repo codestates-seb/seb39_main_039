@@ -18,7 +18,7 @@ const WalkerEdit = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="container v2">
       <Header pageTitle={"알바 정보 수정"} />
       <Form>
         <div className="ipt-group">

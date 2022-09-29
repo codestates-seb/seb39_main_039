@@ -145,7 +145,7 @@ export const postWanted = (
         }
       });
       await customAxios
-        .post(`/wanted/${id}/create`, {
+        .post(`/wanted/create`, {
           caution: caution,
           checkList: [],
           checkListContent: checkListContent,

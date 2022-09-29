@@ -6,28 +6,54 @@ import { useNavigate } from "react-router-dom";
 import { Loadinglottie } from "../..";
 import { getWalkerWalkWaiting } from "../../redux/actions/walkerActions";
 import WalkerWalkListCard from "../../components/WalkerWalkListCard";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useInView } from "react-intersection-observer";
 
 const WalkerWalkWaiting = () => {
+  const [page, setPage] = useState(1);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [walkHistory, setWalkHistory] = useState(null);
+  const { walkerWalkWaiting, totalPage_waiting } = useSelector(
+    (state) => state.walker
+  );
+
+  const { ref, inView } = useInView({
+    threshold: 0.7
+  });
+
+  const fakeFetch = (delay = 300) =>
+    new Promise((res) => setTimeout(res, delay));
+
+  const fetchMoreData = async () => {
+    setPage(page + 1);
+    await fakeFetch();
+    if (walkerWalkWaiting.length < totalPage_waiting) {
+      dispatch(getWalkerWalkWaiting(page)).then();
+    }
+  };
 
   useEffect(() => {
-    dispatch(getWalkerWalkWaiting(setWalkHistory, 1));
+    if (!inView) {
+      return;
+    }
+    fetchMoreData();
+  }, [inView]);
+
+  useEffect(() => {
+    dispatch(getWalkerWalkWaiting(1));
   }, []);
 
-  if (!walkHistory) return <div></div>;
+  if (!walkerWalkWaiting) return <div></div>;
 
   return (
     <div className="container bg-gray">
       <Header
-        pageTitle={`${walkHistory.items[0]?.walker?.walkerName}님의 지난 산책 내역`}
+        pageTitle={`${walkerWalkWaiting[0]?.walker?.walkerName}님의 지난 산책 내역`}
         link={"/ownerMain"}
       />
-      {walkHistory.items !== null ? (
+      {walkerWalkWaiting.length !== 0 ? (
         <List>
-          {walkHistory.items?.map((el, idx) => {
+          {walkerWalkWaiting?.map((el, idx) => {
             return (
               <li
                 onClick={() => {
@@ -54,6 +80,7 @@ const WalkerWalkWaiting = () => {
           </div>
         </div>
       )}
+      <Scroll ref={ref}></Scroll>
     </div>
   );
 };
@@ -64,4 +91,8 @@ const List = styled.ul`
   li + li {
     margin-top: 20px;
   }
+`;
+
+const Scroll = styled.div`
+  height: 200px;
 `;

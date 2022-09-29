@@ -1,35 +1,35 @@
-import customAxios from "../axiosAPI";
+import { customAxios } from "../axiosAPI";
 import { toast } from "react-toast";
-
 
 export const COMMENT_SELECT_ERROR = "COMMENT_SELECT_ERROR";
 export const GET_CONTACT_INFO_SUCCESS = "GET_CONTACT_INFO_SUCCESS";
 export const COMMENT_ADD_ERROR = "COMMENT_ADD_ERROR";
 
 export const addComment = (wantedId, content) => {
-    return async (dispatch) => {
-      try {
-        const addCommentAPI = customAxios
-          .post(`/wanted/${wantedId}/comment`, `${content}`)
-          .then((res) => window.location.reload());
-        let add_comment = await addCommentAPI;
-      } catch (error) {
-        if (error.response.status === 400) {
-          dispatch({
-            type: "COMMENT_ADD_ERROR",
-            payload: '글자수를 10자 이상 입력해주세요.'
-          });
-        }
+  return async (dispatch) => {
+    try {
+      const addCommentAPI = customAxios
+        .post(`/wanted/${wantedId}/comment`, `${content}`)
+        .then((res) => window.location.reload());
+      let add_comment = await addCommentAPI;
+    } catch (error) {
+      if (error.response.status === 400) {
+        dispatch({
+          type: "COMMENT_ADD_ERROR",
+          payload: "글자수를 10자 이상 입력해주세요."
+        });
       }
-    };
+    }
   };
-
+};
 
 export const editComment = (wantedId, commentId, content) => {
   return async () => {
     try {
-      const editCommentAPI = customAxios
-        .put(`/wanted/${wantedId}/comment/${commentId}/edit`, `${content}`)
+      const editCommentAPI = customAxios.put(
+        `/wanted/${wantedId}/comment/${commentId}/edit`,
+        `${content}`
+      );
       let edit_comment = await editCommentAPI;
     } catch (error) {
       //에러 핸들링 하는 곳
@@ -37,7 +37,6 @@ export const editComment = (wantedId, commentId, content) => {
     }
   };
 };
-
 
 export const delComment = (wantedId, commentId) => {
   return async () => {
@@ -53,12 +52,13 @@ export const delComment = (wantedId, commentId) => {
   };
 };
 
-
 export const selectComment = (wantedId, commentId, pick) => {
   return async (dispatch) => {
     try {
-      const selectCommentAPI = customAxios
-        .put(`/wanted/${wantedId}/comment/${commentId}/match`, `${pick}`)
+      const selectCommentAPI = customAxios.put(
+        `/wanted/${wantedId}/comment/${commentId}/match`,
+        `${pick}`
+      );
       let select_comment = await selectCommentAPI;
     } catch (error) {
       if (error.response.status === 400 || error.response.status === 403) {
@@ -72,11 +72,12 @@ export const selectComment = (wantedId, commentId, pick) => {
   };
 };
 
-
 export const getContactInfo = (wantedId, commentId) => {
   return async (dispatch) => {
     try {
-      const getContactInfoAPI = customAxios.get(`/wanted/${wantedId}/comment/${commentId}/viewPhoneNumber`);
+      const getContactInfoAPI = customAxios.get(
+        `/wanted/${wantedId}/comment/${commentId}/viewPhoneNumber`
+      );
       let get_contactInfo = await getContactInfoAPI;
       dispatch({
         type: "GET_CONTACT_INFO_SUCCESS",

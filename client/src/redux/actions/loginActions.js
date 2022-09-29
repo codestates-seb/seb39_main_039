@@ -1,4 +1,4 @@
-import customAxios from "../axiosAPI";
+import { customAxios } from "../axiosAPI";
 import Cookies from "js-cookie";
 
 // 로그인이 성공했을 때 행동 (액션타입)
@@ -46,7 +46,7 @@ export const logoutSuccess = () => {
     try {
       Cookies.remove("access");
       Cookies.remove("refresh");
-      localStorage.removeItem('user')
+      localStorage.removeItem("user");
       dispatch({
         type: "LOGOUT_SUCCESS"
       });

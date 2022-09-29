@@ -6,27 +6,54 @@ import { useNavigate } from "react-router-dom";
 import { Loadinglottie } from "../..";
 import { getWalkerWalkHistory } from "../../redux/actions/walkerActions";
 import WalkerWalkListCard from "../../components/WalkerWalkListCard";
+import { useDispatch, useSelector } from "react-redux";
+import { useInView } from "react-intersection-observer";
 
 const WalkerWalkHistory = () => {
+  const [page, setPage] = useState(1);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [walkHistory, setWalkHistory] = useState(null);
+  const { walkerWalkHistory, totalPage_history } = useSelector(
+    (state) => state.walker
+  );
+
+  const { ref, inView } = useInView({
+    threshold: 0.7
+  });
+
+  const fakeFetch = (delay = 300) =>
+    new Promise((res) => setTimeout(res, delay));
+
+  const fetchMoreData = async () => {
+    setPage(page + 1);
+    await fakeFetch();
+    if (walkerWalkHistory.length < totalPage_history) {
+      dispatch(getWalkerWalkHistory(page)).then();
+    }
+  };
 
   useEffect(() => {
-    getWalkerWalkHistory(setWalkHistory, 1);
+    if (!inView) {
+      return;
+    }
+    fetchMoreData();
+  }, [inView]);
+
+  useEffect(() => {
+    dispatch(getWalkerWalkHistory(1));
   }, []);
 
-  console.log(walkHistory);
+  if (!walkerWalkHistory) return <div></div>;
 
-  if (!walkHistory) return <div></div>;
   return (
     <div className="container bg-gray">
       <Header
-        pageTitle={`${walkHistory.items[0]?.walker?.walkerName}님의 지난 산책 내역`}
+        pageTitle={`${walkerWalkHistory[0]?.walker?.walkerName}님의 지난 산책 내역`}
         link={"/ownerMain"}
       />
-      {walkHistory.items !== null ? (
+      {walkerWalkHistory.length !== 0 ? (
         <List>
-          {walkHistory.items?.map((el, idx) => {
+          {walkerWalkHistory?.map((el, idx) => {
             return (
               <li
                 onClick={() => {
@@ -53,6 +80,7 @@ const WalkerWalkHistory = () => {
           </div>
         </div>
       )}
+      <Scroll ref={ref}></Scroll>
     </div>
   );
 };
@@ -63,4 +91,8 @@ const List = styled.ul`
   li + li {
     margin-top: 20px;
   }
+`;
+
+const Scroll = styled.div`
+  height: 200px;
 `;

@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { getWalkerUser } from "../../redux/actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import { ThreeDots } from "react-loader-spinner";
+import WeatherCard from "../../components/WeatherCard";
 
 const WalkerMain = () => {
   const { walkerUserInfo, loading } = useSelector((state) => state.user);
@@ -47,9 +48,7 @@ const WalkerMain = () => {
             </UserSlide>
           </Section>
           <Section>
-            <Weather>
-              <p>날씨API 대기쓰</p>
-            </Weather>
+            <Weather>{/* <WeatherCard /> */}</Weather>
           </Section>
           <InfoSection>
             <h3>

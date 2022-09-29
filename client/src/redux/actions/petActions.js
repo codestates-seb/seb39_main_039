@@ -1,4 +1,4 @@
-import customAxios from "../axiosAPI";
+import { customAxios }  from "../axiosAPI";
 import { toast } from "react-toast";
 
 export const GET_PET_INFO_SUCCESS = "GET_PET_INFO_SUCCESS";

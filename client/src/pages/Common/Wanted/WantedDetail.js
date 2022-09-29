@@ -52,6 +52,7 @@ const WantedDetailPage = () => {
 
   useEffect(() => {
     dispatch(getWantedDetail(id));
+    if (window) window.scrollTo(0, 0);
   }, [isOn]);
 
   if (!wantedDetail.walk) return <div></div>;

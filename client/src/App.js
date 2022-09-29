@@ -19,6 +19,7 @@ import {
   Walking,
   DogEdit,
   DogAdd,
+  DogEditAdd,
   WalkerEdit,
   WorkHistory,
   PendingWalk,
@@ -155,15 +156,24 @@ function App() {
           }
         ></Route>
         <Route
-            path="/walkerWalkHistory"
+            path="/walkerWalkHistory/:id"
             element={
             <PrivateRoute authenticated={isLogin} component={<WalkerWalkHistory />} />
         }
         ></Route>
         <Route
-            path="/walkerWalkWaiting"
+            path="/walkerWalkWaiting/:id"
             element={
             <PrivateRoute authenticated={isLogin} component={<WalkerWalkWaiting />} />
+        }
+        ></Route>
+
+
+
+        <Route
+            path="/dogEditAdd"
+            element={
+            <PrivateRoute authenticated={isLogin} component={<DogEditAdd />} />
         }
         ></Route>
 

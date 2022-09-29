@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getLocation, sendLocation } from "../../redux/actions/mappingAction";
 import styled from "styled-components";
 import { useInterval } from "../../hooks/useInterval";
 import TimeCount from "../Time";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import WalkResultInfo from "../WalkResultInfo";
 
 const { kakao } = window;
@@ -15,15 +15,13 @@ const TrackingMap = () => {
   const [isPauseWalk, setIsPauseWalk] = useState(false);
   const [lineForDistance, setLineForDistance] = useState([]);
   const [dis, setDis] = useState(0);
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
   const dispatch = useDispatch();
   const { lat, lon, walkDetailInfo, isWalk } = useSelector(
     (state) => state.mapping
   );
-  const [mapImgUrl, setMapImgUrl] = useState("");
-  const [mapImg, setMapImg] = useState(null);
 
-  const mapImage = useRef();
-  const distance = 10;
   const { id } = useParams();
 
   function getGeolocation() {
@@ -44,7 +42,7 @@ const TrackingMap = () => {
     );
   }
 
-  let container, options, container1, options1;
+  let container, options;
 
   const drawMap = async () => {
     options = {
@@ -54,17 +52,6 @@ const TrackingMap = () => {
     };
     container = document.getElementById("myMap");
     setMyMap(new kakao.maps.Map(container, options));
-  };
-
-  const makeMapImage = () => {
-    options1 = {
-      center: new kakao.maps.LatLng(lat, lon), //지도의 중심좌표.
-      level: 3 //지도의 레벨(확대, 축소 정도)
-    };
-
-    container1 = document.getElementById("staticMap");
-
-    setMapImg(new kakao.maps.Map(container1, options1));
   };
 
   const drawLine = () => {
@@ -79,24 +66,11 @@ const TrackingMap = () => {
     polyline.setMap(myMap);
   };
 
-  const drawLineImg = () => {
-    let polyline = new kakao.maps.Polyline({
-      map: mapImg,
-      path: line,
-      strokeWeight: 10,
-      strokeColor: "#3183f8",
-      strokeOpacity: 1,
-      strokeStyle: "solid"
-    });
-    polyline.setMap(mapImg);
-  };
-
   setTimeout(() => {
     myMap.panTo(new kakao.maps.LatLng(lat, lon));
   }, 3000);
 
   useInterval(() => {
-    // dispatch(getWalkDetailInfo(1));
     getGeolocation();
     if (lat && lon) {
       if (!isPauseWalk && isWalk) {
@@ -104,10 +78,6 @@ const TrackingMap = () => {
         drawLine();
       }
     }
-
-    // drawLineImg();
-    // setMapImgUrl(mapImage.current.style.background.slice(5, -2));
-    // console.log(mapImg);
   }, 5000);
 
   function getDistance(lat1, lon1, lat2, lon2) {
@@ -133,7 +103,7 @@ const TrackingMap = () => {
 
   useEffect(() => {
     setLineForDistance([...lineForDistance, [lat, lon]]);
-
+    console.log(lineForDistance);
     if (lineForDistance.length > 1) {
       setLineForDistance([lineForDistance[1], [lat, lon]]);
       getDistance(
@@ -143,41 +113,34 @@ const TrackingMap = () => {
         lineForDistance[1][1]
       );
     }
-    if (!isPauseWalk && isWalk && dis >= 10) {
-      dispatch(sendLocation(lat, lon, distance, id));
+    if (!isPauseWalk && isWalk && dis >= 10 && dis < 1000) {
+      dispatch(sendLocation(lat, lon, dis, id));
     }
   }, [lat, lon]);
 
   useEffect(() => {
     drawMap();
-    // panTo();
   }, []);
-
-  useEffect(() => {
-    // if (lat > 0 && lon > 0) makeMapImage();
-  }, [lat, lon]);
 
   return (
     <MapBox>
-      {/* <div
-        id="staticMap"
-        style={{ width: "100%", height: "300px" }}
-        ref={mapImage}
-      ></div> */}
-      {/* <Map
-        id="staticMap"
-        style={{ width: "100%", height: "300px" }}
-        ref={mapImage}
-      ></Map> */}
-      <Map
-        id="myMap"
-        style={{ width: "100%", height: "300px" }}
-        // ref={mapImage}
-      ></Map>
+      <Map id="myMap" style={{ width: "100%", height: "300px" }}></Map>
 
       <div className="control-area">
-        <TimeCount setIsPauseWalk={setIsPauseWalk} isPauseWalk={isPauseWalk} />
-        <WalkResultInfo walkDetailInfo={walkDetailInfo} />
+        <TimeCount
+          setIsPauseWalk={setIsPauseWalk}
+          isPauseWalk={isPauseWalk}
+          setHours={setHours}
+          setMinutes={setMinutes}
+        />
+        <WalkResultInfo
+          walkDetailInfo={walkDetailInfo}
+          distance={dis}
+          lat={lat}
+          lon={lon}
+          hours={hours}
+          minutes={minutes}
+        />
       </div>
     </MapBox>
   );

@@ -1,6 +1,7 @@
 import {
   GET_WALKER_WALK_HISTORY_SUCCESS,
   GET_WALKER_WALK_WAITING_SUCCESS,
+  RESET_WALKER_SUCCESS,
   WALKER_LOADING
 } from "../actions/walkerActions";
 //초기값
@@ -31,6 +32,12 @@ const walkerReducers = (state = initialstate, action) => {
           ...payload.walkerWalkWaiting
         ],
         totalPage_waiting: payload.totalPage_waiting
+      };
+    case RESET_WALKER_SUCCESS:
+      return {
+        ...state,
+        walkerWalkHistory: payload.walkerWalkHistory,
+        walkerWalkWaiting: payload.walkerWalkWaiting
       };
     default:
       return state;

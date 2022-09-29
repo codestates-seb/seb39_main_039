@@ -4,7 +4,10 @@ import { Header } from "../../components/Layout/Header";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Loadinglottie } from "../..";
-import { getWalkerWalkHistory } from "../../redux/actions/walkerActions";
+import {
+  getWalkerWalkHistory,
+  resetWalkerWalk
+} from "../../redux/actions/walkerActions";
 import WalkerWalkListCard from "../../components/WalkerWalkListCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
@@ -28,7 +31,7 @@ const WalkerWalkHistory = () => {
     setPage(page + 1);
     await fakeFetch();
     if (walkerWalkHistory.length < totalPage_history) {
-      dispatch(getWalkerWalkHistory(page)).then();
+      if (walkerWalkHistory.length >= 5) dispatch(getWalkerWalkHistory(page));
     }
   };
 
@@ -40,6 +43,7 @@ const WalkerWalkHistory = () => {
   }, [inView]);
 
   useEffect(() => {
+    if (walkerWalkHistory || !walkerWalkHistory) dispatch(resetWalkerWalk());
     dispatch(getWalkerWalkHistory(1));
   }, []);
 
@@ -47,8 +51,8 @@ const WalkerWalkHistory = () => {
 
   return (
     <div className="container bg-gray v2">
-      <Header
-        pageTitle={`${walkerWalkHistory[0]?.walker?.walkerName}님의 지난 산책 내역`}
+      <Header   //${petName[0]?.petName !== undefined ? petName[0]?.petName : '' }
+        pageTitle={`${walkerWalkHistory[0]?.walker?.walkerName !== undefined ? walkerWalkHistory[0]?.walker?.walkerName : ''} 지난 산책 내역`}
         link={"/walkerMain"}
       />
       {walkerWalkHistory.length !== 0 ? (

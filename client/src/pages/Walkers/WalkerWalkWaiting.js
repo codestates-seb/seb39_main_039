@@ -4,7 +4,10 @@ import { Header } from "../../components/Layout/Header";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Loadinglottie } from "../..";
-import { getWalkerWalkWaiting } from "../../redux/actions/walkerActions";
+import {
+  getWalkerWalkWaiting,
+  resetWalkerWalk
+} from "../../redux/actions/walkerActions";
 import WalkerWalkListCard from "../../components/WalkerWalkListCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
@@ -28,7 +31,9 @@ const WalkerWalkWaiting = () => {
     setPage(page + 1);
     await fakeFetch();
     if (walkerWalkWaiting.length < totalPage_waiting) {
-      dispatch(getWalkerWalkWaiting(page)).then();
+      if (walkerWalkWaiting.length > 5) {
+        dispatch(getWalkerWalkWaiting(page));
+      }
     }
   };
 
@@ -40,16 +45,17 @@ const WalkerWalkWaiting = () => {
   }, [inView]);
 
   useEffect(() => {
+    if (walkerWalkWaiting || !walkerWalkWaiting) dispatch(resetWalkerWalk());
     dispatch(getWalkerWalkWaiting(1));
   }, []);
+
+  console.log(walkerWalkWaiting, totalPage_waiting);
 
   if (!walkerWalkWaiting) return <div></div>;
 
   return (
     <div className="container bg-gray v2">
-      <Header
-        pageTitle={`대기중인 산책 내역`}
-      />
+      <Header pageTitle={`대기중인 산책 내역`} link={`/walkerMain`} />
       {walkerWalkWaiting.length !== 0 ? (
         <List>
           {walkerWalkWaiting?.map((el, idx) => {

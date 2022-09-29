@@ -113,6 +113,19 @@ const WantedCreate = () => {
     dispatch(getMyPetInfo());
   }, []);
 
+  const inputPriceFormat = (str) => {
+    console.log("s", str);
+    const comma = (str) => {
+      str = String(str);
+      return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,");
+    };
+    const uncomma = (str) => {
+      str = String(str);
+      return str.replace(/[^\d]+/g, "");
+    };
+    return comma(uncomma(str));
+  };
+
   return (
     <div className="container v2">
       <Header pageTitle={"구인 글 작성"} />
@@ -212,7 +225,7 @@ const WantedCreate = () => {
                 className="ipt-form"
                 name="username"
                 placeholder="예)100,000"
-                onChange={(e) => setWantedReward(e.target.value)}
+                onChange={(e) => setWantedReward(inputPriceFormat(e.target.value))}
                 value={wantedReward}
               />
               <span>원</span>

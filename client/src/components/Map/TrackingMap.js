@@ -148,8 +148,6 @@ const TrackingMap = () => {
     }
   }, [lat, lon]);
 
-  console.log(isPauseWalk, isWalk, dis, lat, lon);
-
   useEffect(() => {
     drawMap();
     // panTo();

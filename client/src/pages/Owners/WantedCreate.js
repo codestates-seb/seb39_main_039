@@ -179,10 +179,10 @@ const WantedCreate = () => {
                 </DogCheckBoxLabel>
               </li>
             ))}
+            {createError && (petChecked?.length === 0 || !petChecked) && (
+              <Error>강아지를 선택해주세요</Error>
+            )}
           </DogSelect>
-          {createError && (petChecked?.length === 0 || !petChecked) && (
-            <Error>강아지를 선택해주세요</Error>
-          )}
         </Section>
         <Section className="pb20">
           <div className="ipt-group">
@@ -197,10 +197,10 @@ const WantedCreate = () => {
               onChange={() => console.log()} // value써서 임시로 넣은 기능없는 onChange
               onClick={cityModal}
             />
+            {createError && (region?.length === 0 || !region) && (
+              <Error>지역을 선택해주세요</Error>
+            )}
           </div>
-          {createError && (region?.length === 0 || !region) && (
-            <Error>지역을 선택해주세요</Error>
-          )}
 
           <div className="ipt-group">
             <label htmlFor="" className="ipt-label">
@@ -240,15 +240,18 @@ const WantedCreate = () => {
                 className="ipt-form"
                 name="username"
                 placeholder="예)100,000"
-                onChange={(e) => setWantedReward(inputPriceFormat(e.target.value))}
+                onChange={(e) =>
+                  setWantedReward(inputPriceFormat(e.target.value))
+                }
                 value={wantedReward}
               />
               <span>원</span>
             </div>
             {createError &&
-              (wantedReward?.length === 0 || !checkNum.test(wantedReward.split(",").reduce((curr, acc) => curr + acc, ""))) && (
-                <Error>보수를 올바르게 입력해주세요</Error>
-              )}
+              (wantedReward?.length === 0 ||
+                !checkNum.test(
+                  wantedReward.split(",").reduce((curr, acc) => curr + acc, "")
+                )) && <Error>보수를 올바르게 입력해주세요</Error>}
           </div>
         </Section>
         <Section>

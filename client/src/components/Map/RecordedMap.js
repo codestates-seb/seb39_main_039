@@ -126,15 +126,13 @@ const Map = styled.div`
 `;
 
 const Handler = styled.div`
-  display: flex;
   position: absolute;
-  top: 370px;
-  right: 30%;
+  top: 30%;
+  right: 0%;
   text-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+    rgba(0, 0, 0, 1) 0px 30px 60px -30px;
   span {
     margin: 10px;
-
     > svg {
       stroke-width: 5px;
       color: #ffff;

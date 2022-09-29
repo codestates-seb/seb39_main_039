@@ -57,7 +57,7 @@ const WalkerWalkWaiting = () => {
             return (
               <li
                 onClick={() => {
-                  navigate(`/walking/${el.walkId}`);
+                  navigate(`/wantedDetail/${el.walkId}`);
                 }}
               >
                 <WalkerWalkListCard el={el} />

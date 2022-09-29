@@ -46,7 +46,7 @@ const WantedList = () => {
   };
 
   const { ref, inView } = useInView({
-    threshold: 0.7
+    threshold: 1
   });
 
   let sortOption;
@@ -79,25 +79,37 @@ const WantedList = () => {
     if (!inView) {
       return;
     }
+    console.log("ggg");
     fetchMoreData();
   }, [inView]);
 
   useEffect(() => {
-    dispatch(resetScrollAllWantedList()).then(() =>
-      dispatch(getScrollAllWantedList(sortOption, region, isOn, page))
-    );
+    // (async () =>
+    //   dispatch(resetScrollAllWantedList()).then(() =>
+    //     dispatch(getScrollAllWantedList(sortOption, region, isOn, 1))
+    //   ))();
     // if (region > 0)
     // dispatch(getScrollAllWantedList(sortOption, region, isOn, 1));
-    setOption(true);
     setPage(1);
+    setOption(true);
+
+    if (page === 1 && scrollAllWantedList.length === 0) {
+      fetchMoreData();
+      setPage(1);
+    } else {
+      (async () => dispatch(resetScrollAllWantedList()))();
+      dispatch(getScrollAllWantedList(sortOption, region, isOn, page));
+    }
   }, [sortOption, isOn, regionNamePick]);
 
-  // useEffect(() => {
-  //   // dispatch(resetScrollAllWantedList());
-  //   dispatch(getScrollAllWantedList(sortOption, "", isOn, page));
-  // }, []);
+  useEffect(() => {
+    // dispatch(resetScrollAllWantedList());
+    dispatch(getScrollAllWantedList(sortOption, "", isOn, 1));
+  }, []);
 
   //region있을때에는 리셋되면 안됨
+
+  console.log(scrollAllWantedList, page);
 
   return (
     <div className="container bg-gray v2">
@@ -137,7 +149,6 @@ const WantedList = () => {
             <WantedCard key={idx} item={item} />
           ))}
           <FloatingBtnAdd mid={"wantedCreate"} />
-          <Scroll ref={ref}></Scroll>
         </WantedCardList>
       ) : (
         <WantedCardList>
@@ -145,9 +156,10 @@ const WantedList = () => {
             <WantedCard key={idx} item={item} />
           ))}
           <FloatingBtnAdd mid={"wantedCreate"} />
-          <Scroll ref={ref}></Scroll>
         </WantedCardList>
       )}
+
+      <Scroll ref={ref}></Scroll>
     </div>
   );
 };

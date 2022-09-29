@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useStopwatch } from "react-timer-hook";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
@@ -11,7 +11,7 @@ import takeAPicture from "../assets/img/takeAPicture.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { actualWalkTime } from "../redux/actions/mappingAction";
 
-const TimeCount = ({ setIsPauseWalk, isPauseWalk }) => {
+const TimeCount = ({ setIsPauseWalk, isPauseWalk, setHours, setMinutes }) => {
   const dispatch = useDispatch();
   const { seconds, minutes, hours, start, pause } = useStopwatch({
     autoStart: false
@@ -21,6 +21,11 @@ const TimeCount = ({ setIsPauseWalk, isPauseWalk }) => {
   const { id } = useParams();
 
   console.log();
+
+  useEffect(() => {
+    setHours(hours);
+    setMinutes(minutes);
+  }, [seconds]);
 
   return (
     <>

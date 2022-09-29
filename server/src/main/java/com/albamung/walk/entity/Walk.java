@@ -32,9 +32,6 @@ public class Walk extends BaseEntityDate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(columnDefinition = "LONGTEXT")
-    private String coord;
-
     private LocalDateTime startTime;
 
     private LocalDateTime endTime;

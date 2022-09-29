@@ -1,13 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getLocation,
-  sendLocation,
-  getWalkDetailInfo
-} from "../../redux/actions/mappingAction";
+import { getLocation, sendLocation } from "../../redux/actions/mappingAction";
 import styled from "styled-components";
 import { useInterval } from "../../hooks/useInterval";
-
 import TimeCount from "../Time";
 import { useNavigate } from "react-router-dom";
 import WalkResultInfo from "../WalkResultInfo";
@@ -29,8 +24,6 @@ const TrackingMap = () => {
 
   const mapImage = useRef();
   const distance = 10;
-
-  const navigate = useNavigate();
 
   function getGeolocation() {
     let geolocation = navigator.geolocation.watchPosition(
@@ -192,7 +185,6 @@ const TrackingMap = () => {
 const MapBox = styled.div`
   position: relative;
   background-color: white;
-  /* height: 100vh; */
   height: auto;
   display: flex;
   flex-direction: column;
@@ -229,6 +221,5 @@ const Map = styled.div`
     content: "";
   }
 `;
-
 
 export default TrackingMap;

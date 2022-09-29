@@ -34,7 +34,6 @@ const SignUp = () => {
     }
   };
 
-  console.log(err);
   const handleButtomValid = () => {
     !isValidInput
       ? setUsernameError("3자 이상 입력해주세요.")

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import noImage from "../assets/img/noImage.svg";
 import Arrows from "../assets/img/arrows.svg";
 import ArrowsWh from "../assets/img/arrows-wh.svg";
 import { useNavigate } from "react-router-dom";
@@ -75,7 +74,7 @@ const WalkerCard = ({ data }) => {
         )}
         <WalkBanner
           onClick={() => {
-            navigate("/walkerWalkWaiting");
+            window.location.replace(`/walkerWalkWaiting`);
           }}
         >
           <div>
@@ -87,7 +86,7 @@ const WalkerCard = ({ data }) => {
         </WalkBanner>
         <WalkBanner
           onClick={() => {
-            navigate("/walkerWalkHistory");
+            window.location.replace(`/walkerWalkHistory`);
           }}
         >
           <div>

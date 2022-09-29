@@ -18,16 +18,15 @@ import jwt_decode from "jwt-decode";
 const Main = () => {
   const isLogin = Cookies.get("access");
   const { userInfo } = useSelector((state) => state.user);
-  
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getUserInfo());
 
-    if (isLogin){
-      const token = Cookies.get('access');
+    if (isLogin) {
+      const token = Cookies.get("access");
       const deToken = jwt_decode(token);
-      localStorage.setItem('user', deToken.id)
+      localStorage.setItem("user", deToken.id);
     }
   }, []);
 

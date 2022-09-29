@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import noImage from "../../../assets/img/noImage.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import Nav from "../../../components/Layout/Nav";
 import UserGrade from "../../../components/UserGrade";
 import Arrows from "../../../assets/img/arrows.svg";
 import SwitchMode from "../../../components/SwitchMode";
-import { delUser } from "../../../redux/actions/userActions";
+import { delUser, getUserInfo } from "../../../redux/actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutSuccess } from "../../../redux/actions/loginActions";
-import { getUserInfo } from "../../../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
 import { getMyPetInfo } from "../../../redux/actions/petActions";
 import Modal from "../../../components/Modal/Modal";
@@ -19,6 +17,8 @@ import Modal from "../../../components/Modal/Modal";
 const Setting = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isOn, setIsOn] = useState();
+  const [isOpen, setIsOpen] = useState(false);
   const { userInfo } = useSelector((state) => state.user);
   const { myPetInfo } = useSelector((state) => state.pet);
 
@@ -30,13 +30,6 @@ const Setting = () => {
     // false 일 때 견주, True 일 때 알바
   };
 
-  useEffect(() => {
-    dispatch(getUserInfo());
-    dispatch(getMyPetInfo());
-  }, []);
-
-  const [isOn, setIsOn] = useState();
-  const [isOpen, setIsOpen] = useState(false);
   const logout = () => {
     dispatch(logoutSuccess());
   };
@@ -45,7 +38,10 @@ const Setting = () => {
     dispatch(delUser());
   };
 
-  console.log(isOnState, isOn);
+  useEffect(() => {
+    dispatch(getUserInfo());
+    dispatch(getMyPetInfo());
+  }, []);
 
   return (
     <div className="container">

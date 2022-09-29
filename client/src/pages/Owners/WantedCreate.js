@@ -1,15 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Header } from "../../components/Layout/Header";
-import { DogNameLabelType2 } from "../../components/DogNameLabel";
 import {
   ButtonPrimary,
   ButtonPrimaryXS
 } from "../../components/Button/Buttons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
-import checkedIcon from "../../assets/img/checkedIcon.svg";
 import DatePicker from "react-datepicker";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
@@ -20,33 +18,42 @@ import { postWanted } from "../../redux/actions/wantedActions";
 import { getMyPetInfo } from "../../redux/actions/petActions";
 import { nanoid } from "nanoid";
 import CitySelect from "../../components/CitySelect";
-import { id } from "date-fns/locale";
 
 const WantedCreate = () => {
   const { myPetInfo } = useSelector((state) => state.pet);
   const [wantedTitle, setWantedTitle] = useState();
   const [wantedCaution, setWantedCaution] = useState();
   const [wantedReward, setWantedReward] = useState();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const regionRef = useRef(); //선택 후 지역 인풋 포커싱
+  const [createError, setCreateError] = useState();
   const [isOpen, setIsOpen] = useState(false); // 지역 모달창 여닫기
-  const cityModal = () => {
-    //모달창 여닫기
-    setIsOpen(true);
-    document.body.style.overflow = "hidden";
-  };
-  const [checklistData, setCheckListData] = useState([
-    { id: nanoid(), title: "간식 먹이기 전에 훈련을 해주세요." },
-    { id: nanoid(), title: "올림픽공원 산책을 해주세요." },
-    { id: nanoid(), title: "가방에 있는 영양제 1포를 먹여주세요." }
-  ]);
   const [checkedList, setCheckedList] = useState([]);
   const [petChecked, setPetChecked] = useState([]);
   const [region, setRegion] = useState(""); //지역 id받아오는 state
   const [regionName, setRegionName] = useState(""); // 지역 이름 담기
   const [regionNamePick, setRegionNamePick] = useState("지역을 선택해주세요."); //지역이름 선택 하면! input값으로 넣기
+  const [startDate, setStartDate] = useState(
+    setHours(setMinutes(new Date(), 30), 17)
+  );
+  const [endDate, setEndDate] = useState(
+    setHours(setMinutes(new Date(), 30), 17)
+  );
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const regionRef = useRef(); //선택 후 지역 인풋 포커싱
+
+  const cityModal = () => {
+    //모달창 여닫기
+    setIsOpen(true);
+    document.body.style.overflow = "hidden";
+  };
+
+  const [checklistData, setCheckListData] = useState([
+    { id: nanoid(), title: "간식 먹이기 전에 훈련을 해주세요." },
+    { id: nanoid(), title: "올림픽공원 산책을 해주세요." },
+    { id: nanoid(), title: "가방에 있는 영양제 1포를 먹여주세요." }
+  ]);
+
   const regionConfirmHandler = () => {
     //지역정보 받아오기
     setRegionNamePick(regionName);
@@ -78,28 +85,7 @@ const WantedCreate = () => {
     checkItemEnterHandler
   ] = useInputAutoHeight("");
 
-  const [startDate, setStartDate] = useState(
-    setHours(setMinutes(new Date(), 30), 17)
-  );
-
-  const [endDate, setEndDate] = useState(
-    setHours(setMinutes(new Date(), 30), 17)
-  );
-
-  const addWanted = () => {
-    dispatch(
-      postWanted(
-        wantedCaution,
-        checkedList,
-        region,
-        endDate,
-        wantedReward,
-        petChecked,
-        startDate,
-        wantedTitle
-      )
-    ).then((res) => navigate(`/wantedDetail/${res.data}`));
-  };
+  let checkNum = /^[0-9]*$/;
 
   const addCheckList = (title) => {
     setCheckListData([...checklistData, { id: nanoid(), title: title }]);
@@ -109,12 +95,32 @@ const WantedCreate = () => {
     setCheckListData(checklistData.filter((el) => el.id !== id));
   };
 
+  const addWanted = () => {
+    dispatch(
+      postWanted(
+        wantedCaution,
+        checkedList,
+        region,
+        endDate,
+        wantedReward.split(",").reduce((curr, acc) => curr + acc, ""),
+        petChecked,
+        startDate,
+        wantedTitle
+      )
+    ).then((res) => {
+      if (res.data) {
+        navigate(`/wantedDetail/${res.data}`);
+      } else {
+        setCreateError(res);
+      }
+    });
+  };
+
   useEffect(() => {
     dispatch(getMyPetInfo());
   }, []);
 
   const inputPriceFormat = (str) => {
-    console.log("s", str);
     const comma = (str) => {
       str = String(str);
       return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,");
@@ -150,6 +156,9 @@ const WantedCreate = () => {
               name="username"
               placeholder="제목을 입력해주세요."
             />
+            {createError && (wantedTitle?.length === 0 || !wantedTitle) && (
+              <Error>제목을 입력해주세요</Error>
+            )}
           </div>
           <label className="ipt-label">산책할 강아지 선택</label>
           <DogSelect>
@@ -171,6 +180,9 @@ const WantedCreate = () => {
               </li>
             ))}
           </DogSelect>
+          {createError && (petChecked?.length === 0 || !petChecked) && (
+            <Error>강아지를 선택해주세요</Error>
+          )}
         </Section>
         <Section className="pb20">
           <div className="ipt-group">
@@ -186,6 +198,9 @@ const WantedCreate = () => {
               onClick={cityModal}
             />
           </div>
+          {createError && (region?.length === 0 || !region) && (
+            <Error>지역을 선택해주세요</Error>
+          )}
 
           <div className="ipt-group">
             <label htmlFor="" className="ipt-label">
@@ -230,6 +245,10 @@ const WantedCreate = () => {
               />
               <span>원</span>
             </div>
+            {createError &&
+              (wantedReward?.length === 0 || !checkNum.test(wantedReward.split(",").reduce((curr, acc) => curr + acc, ""))) && (
+                <Error>보수를 올바르게 입력해주세요</Error>
+              )}
           </div>
         </Section>
         <Section>
@@ -270,6 +289,9 @@ const WantedCreate = () => {
               <FontAwesomeIcon icon={faCirclePlus} /> 추가
             </small>
           </ChackEntryInput>
+          {createError && (checkedList?.length === 0 || !checkedList) && (
+            <Error>체크리스트를 1개 이상 선택해주세요</Error>
+          )}
         </Section>
         <Section className="bb0 pb0">
           <label className="ipt-label">기타 주의사항</label>
@@ -280,7 +302,6 @@ const WantedCreate = () => {
             value={wantedCaution}
           ></textarea>
         </Section>
-
         <ButtonPrimary onClick={addWanted}>등록하기</ButtonPrimary>
       </Form>
     </div>
@@ -303,7 +324,7 @@ const DogSelect = styled.ul`
   padding: 2px 0 5px;
   li {
     display: inline-block;
-    margin: 0px 10px 9px 0 ;
+    margin: 0px 10px 9px 0;
   }
 
   .active {
@@ -410,11 +431,19 @@ const DogCheckBoxLabel = styled.label`
     align-items: center;
     border: 1px solid var(--gray-200);
     border-radius: 50px;
-    min-width:110px;
+    min-width: 110px;
     > img {
       border-radius: 30px;
-      height:35px;
+      height: 35px;
       margin-right: 5px;
     }
   }
+`;
+
+const Error = styled.div`
+  font-size: 12px;
+  color: var(--err-danger);
+  margin-top: 7px;
+  margin-right: 20px;
+  text-align: end;
 `;

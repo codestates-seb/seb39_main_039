@@ -5,19 +5,18 @@ import {
   getWalkDetailInfo
 } from "../../redux/actions/mappingAction";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 import { faLocationArrow, faRotate } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import WalkResultInfo from "../../components/WalkResultInfo";
 
 const { kakao } = window;
-const TrackingMap = ({walkId}) => {
+
+const TrackingMap = ({ walkId }) => {
   const [myMap, setMyMap] = useState(null);
   const [recordedLine, setRecordedLine] = useState([]);
   const dispatch = useDispatch();
   const { lat, lon, walkDetailInfo } = useSelector((state) => state.mapping);
 
-  const navigate = useNavigate();
   function getGeolocation() {
     let geolocation = navigator.geolocation.watchPosition(
       function (position) {
@@ -111,7 +110,6 @@ const TrackingMap = ({walkId}) => {
     </>
   );
 };
-
 
 const Map = styled.div`
   opacity: 0.6;

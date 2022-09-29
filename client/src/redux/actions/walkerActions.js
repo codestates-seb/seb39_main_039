@@ -1,36 +1,46 @@
 import customAxios from "../axiosAPI";
-
-export const GET_WALKER_INFO_SUCCESS = "GET_WALKER_INFO_SUCCESS";
+export const GET_WALKER_WALK_HISTORY_SUCCESS =
+  "GET_WALKER_WALK_HISTORY_SUCCESS";
+export const GET_WALKER_WALK_WAITING_SUCCESS =
+  "GET_WALKER_WALK_WAITING_SUCCESS";
 export const WALKER_LOADING = "WALKER_LOADING";
 
-export async function getWalkerDetailInfo(setWalkerDetailInfo) {
+export const getWalkerWalkHistory = (page) => {
+  return async (dispatch) => {
     try {
-        let getWalkerInfo = await customAxios.get(`/walker`);
-        setWalkerDetailInfo(getWalkerInfo.data)
-        return getWalkerInfo.data;
+      const getWalkerWalkHistory = await customAxios.get(
+        `/walk/walkHistory?page=${page}`
+      );
+      dispatch({
+        type: "GET_WALKER_WALK_HISTORY_SUCCESS",
+        payload: {
+          walkerWalkHistory: getWalkerWalkHistory.data.items,
+          totalPage_history: getWalkerWalkHistory.data.page.totalElements
+        }
+      }).then(() => window.location.reload());
     } catch (error) {
-        //에러 핸들링 하는 곳
-        console.log(error);
+      //에러 핸들링 하는 곳
+      console.log(error);
     }
-}
+  };
+};
 
-export async function getWalkerWalkHistory(setWalkHistory, page) {
+export const getWalkerWalkWaiting = (page) => {
+  return async (dispatch) => {
     try {
-        let getWalkerWalkHistory = await customAxios.get(`/walk/walkHistory?page=${page}`);
-        setWalkHistory(getWalkerWalkHistory.data);
-        console.log(getWalkerWalkHistory)
-        return getWalkerWalkHistory.data;
+      const getWalkerWalkWaiting = await customAxios.get(
+        `/walk/walkWaiting?page=${page}`
+      );
+      dispatch({
+        type: "GET_WALKER_WALK_WAITING_SUCCESS",
+        payload: {
+          walkerWalkWaiting: getWalkerWalkWaiting.data.items,
+          totalPage_waiting: getWalkerWalkWaiting.data.page.totalElements
+        }
+      }).then(() => window.location.reload());
     } catch (error) {
-        console.log(error);
+      //에러 핸들링 하는 곳
+      console.log(error);
     }
-}
-export async function getWalkerWalkWaiting(setWalkHistory, page) {
-    try {
-        let getWalkerWalkWaiting = await customAxios.get(`/walk/walkWaiting?page=${page}`);
-        setWalkHistory(getWalkerWalkWaiting.data);
-        console.log(getWalkerWalkWaiting)
-        return getWalkerWalkWaiting.data;
-    } catch (error) {
-        console.log(error);
-    }
-}
+  };
+};

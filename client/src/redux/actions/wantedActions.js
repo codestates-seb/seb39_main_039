@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom";
 import customAxios from "../axiosAPI";
+import { toast } from "react-toast";
 
 export const GET_ALL_WANTED_LIST_SUCCESS = "GET_ALL_WANTED_LIST_SUCCESS";
 export const GET_SCROLL_ALL_WANTED_LIST_SUCCESS =
@@ -133,7 +133,8 @@ export const postWanted = (
   pay,
   petId,
   startTime,
-  title
+  title,
+  id
 ) => {
   return async (dispatch) => {
     try {
@@ -165,7 +166,7 @@ export const postWanted = (
       });
     } catch (error) {
       //에러 핸들링 하는 곳
-      console.log(error);
+      return error;
     }
   };
 };
@@ -194,10 +195,12 @@ export const modifyWanted = (
           startTime: startTime,
           title: title
         })
-        .then((res) => window.location.replace(`/wantedDetail/${wantedId}`));
+        .then((res) => window.location.replace(`/wantedDetail/${wantedId}`))
+        .then(() => toast.success("수정이 완료 되었어요"));
     } catch (error) {
       //에러 핸들링 하는 곳
-      console.log(error);
+      toast.error("에러메시지를 확인해주세요");
+      return error;
     }
   };
 };
@@ -207,7 +210,8 @@ export const deleteWanted = (wantedId) => {
     try {
       return await customAxios
         .delete(`/wanted/${wantedId}/delete`)
-        .then((res) => window.location.replace(`/wantedList`));
+        .then((res) => window.location.replace(`/wantedList`))
+        .then(() => toast.success("삭제가 완료 되었어요"));
     } catch (error) {
       //에러 핸들링 하는 곳
       console.log(error);

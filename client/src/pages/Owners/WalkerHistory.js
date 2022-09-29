@@ -6,26 +6,57 @@ import { getPetWalkInfo } from "../../redux/actions/petwalkActions";
 import { getMyPetInfo } from "../../redux/actions/petActions";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Loadinglottie } from "../..";
+import { useInView } from "react-intersection-observer";
 
 const WalkerHistory = () => {
-  const petId = useParams();
+  const [page, setPage] = useState(1);
+  const { id } = useParams();
   const dispatch = useDispatch();
-  const petWalkInfo = useSelector((state) => state.petwalk.petWalkInfo);
-  const myPetInfo = useSelector((state)=>state.pet.myPetInfo);
+  const { petWalkInfo, totalPage_history } = useSelector(
+    (state) => state.petwalk
+  );
+
+  const { myPetInfo } = useSelector((state) => state.pet);
+  const petName = myPetInfo.filter((el) => el.petId === Number(id));
+
+  const { ref, inView } = useInView({
+    threshold: 0.7
+  });
+
+  const fakeFetch = (delay = 300) =>
+    new Promise((res) => setTimeout(res, delay));
+
+  const fetchMoreData = async () => {
+    setPage(page + 1);
+    await fakeFetch();
+    if (petWalkInfo.length < totalPage_history) {
+      dispatch(getPetWalkInfo(id, page)).then();
+    }
+  };
+
   useEffect(() => {
-    dispatch(getPetWalkInfo(Number(petId.id)));
-    dispatch(getMyPetInfo())
+    if (!inView) {
+      return;
+    }
+    fetchMoreData();
+  }, [inView]);
+
+  useEffect(() => {
+    dispatch(getPetWalkInfo(id, 1));
+    dispatch(getMyPetInfo());
   }, []);
-  const petName = myPetInfo.filter((el)=> el.petId === Number(petId.id))
 
   return (
     <div className="container bg-gray v2">
-      <Header pageTitle={`${petName[0].petName} 지난 산책 내역`} link={'/ownerMain'} />
-      {petWalkInfo.items?.length !== 0 ? (
+      <Header
+        pageTitle={`${petName[0]?.petName} 지난 산책 내역`}
+        link={"/ownerMain"}
+      />
+      {petWalkInfo?.length !== 0 ? (
         <List>
-          {petWalkInfo.items?.map((el, idx) => {
+          {petWalkInfo?.map((el, idx) => {
             return (
               <li>
                 <HistoryCard
@@ -54,6 +85,7 @@ const WalkerHistory = () => {
           </div>
         </div>
       )}
+      <Scroll ref={ref}></Scroll>
     </div>
   );
 };
@@ -65,4 +97,8 @@ const List = styled.ul`
   li + li {
     margin-top: 20px;
   }
+`;
+
+const Scroll = styled.div`
+  height: 200px;
 `;

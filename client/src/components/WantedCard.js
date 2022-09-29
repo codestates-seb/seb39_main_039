@@ -6,8 +6,7 @@ import { faSackDollar } from "@fortawesome/free-solid-svg-icons";
 import { faDog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from "@fortawesome/free-solid-svg-icons";
-import useConvertTime from "../hooks/useConvertTime";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getWantedDetail } from "../redux/actions/wantedActions";
 import moment from "moment";
 import gradationImg from "../assets/img/gdt.png";
@@ -16,11 +15,11 @@ const WantedCard = ({ item }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  let endTimeForm = new Date(item.walk?.startTime + "z")
+  let endTimeForm = new Date(item.walk?.endTime + "z")
     .toLocaleString()
     .slice(0, -3);
 
-  let startTimeForm = new Date(item.walk?.endTime + "z")
+  let startTimeForm = new Date(item.walk?.startTime + "z")
     .toLocaleString()
     .slice(0, -3);
 
@@ -69,7 +68,7 @@ const WantedCard = ({ item }) => {
             <dt>
               <FontAwesomeIcon icon={faSackDollar} /> 보수
             </dt>
-            <dd>{item?.pay}원</dd>
+            <dd>{item?.pay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</dd>
           </dl>
         </li>
         <li>

@@ -15,7 +15,6 @@ import { loginSuccess } from "../../../redux/actions/loginActions";
 
 const Login = () => {
   const dispatch = useDispatch();
-  const isLogin = useSelector((state) => state.login.isLogin);
   const err = useSelector((state) => state.login.err);
 
   const [state, setState] = useInput({

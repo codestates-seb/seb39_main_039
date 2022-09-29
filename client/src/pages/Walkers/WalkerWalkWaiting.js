@@ -1,55 +1,88 @@
 import styled from "styled-components";
 import Lottie from "lottie-react";
-import {Header} from "../../components/Layout/Header";
-import {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {Loadinglottie} from "../..";
-import {getWalkerWalkHistory, getWalkerWalkWaiting} from "../../redux/actions/walkerActions";
+import { Header } from "../../components/Layout/Header";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Loadinglottie } from "../..";
+import { getWalkerWalkWaiting } from "../../redux/actions/walkerActions";
 import WalkerWalkListCard from "../../components/WalkerWalkListCard";
-
+import { useDispatch, useSelector } from "react-redux";
+import { useInView } from "react-intersection-observer";
 
 const WalkerWalkWaiting = () => {
-    const navigate = useNavigate();
-    const [walkHistory, setWalkHistory] = useState(null);
-    // const userName = walkHistory.items[0]?.walker?.walkerName;
+  const [page, setPage] = useState(1);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { walkerWalkWaiting, totalPage_waiting } = useSelector(
+    (state) => state.walker
+  );
 
+  const { ref, inView } = useInView({
+    threshold: 0.7
+  });
 
-    useEffect(() => {
-        getWalkerWalkWaiting(setWalkHistory, 1);
-    }, []);
+  const fakeFetch = (delay = 300) =>
+    new Promise((res) => setTimeout(res, delay));
 
-    console.log(walkHistory);
+  const fetchMoreData = async () => {
+    setPage(page + 1);
+    await fakeFetch();
+    if (walkerWalkWaiting.length < totalPage_waiting) {
+      dispatch(getWalkerWalkWaiting(page)).then();
+    }
+  };
 
-    if (!walkHistory) return <div></div>;
-    return (<div className="container bg-gray v2">
-        <Header pageTitle={`${walkHistory.items[0]?.walker?.walkerName}님의 지난 산책 내역`} link={'/ownerMain'}/>
-        {walkHistory.items !== null ?
-            (<List>
-                {walkHistory.items?.map((el, idx) => {
-                    return (
-                        <li onClick={() => {
-                            navigate(`/walking/${el.walkId}`);
-                        }}>
-                            <WalkerWalkListCard
-                                el={el}
-                            />
-                        </li>
-                    );
-                })}
-            </List>) : (<div className="pg-info">
-                <div>
-                    <i>
-                        <Lottie animationData={Loadinglottie}/>
-                    </i>
-                    <h4>지난 산책 내역이 없습니다.</h4>
-                    <p>
-                        완료된 산책 내역을
-                        <br/>
-                        이곳에서 확인 하실 수 있습니다.
-                    </p>
-                </div>
-            </div>)}
-    </div>);
+  useEffect(() => {
+    if (!inView) {
+      return;
+    }
+    fetchMoreData();
+  }, [inView]);
+
+  useEffect(() => {
+    dispatch(getWalkerWalkWaiting(1));
+  }, []);
+
+  if (!walkerWalkWaiting) return <div></div>;
+
+  return (
+    <div className="container bg-gray v2">
+      <Header
+        pageTitle={`${walkerWalkWaiting[0]?.walker?.walkerName}님의 지난 산책 내역`}
+        link={"/ownerMain"}
+      />
+      {walkerWalkWaiting.length !== 0 ? (
+        <List>
+          {walkerWalkWaiting?.map((el, idx) => {
+            return (
+              <li
+                onClick={() => {
+                  navigate(`/walking/${el.walkId}`);
+                }}
+              >
+                <WalkerWalkListCard el={el} />
+              </li>
+            );
+          })}
+        </List>
+      ) : (
+        <div className="pg-info">
+          <div>
+            <i>
+              <Lottie animationData={Loadinglottie} />
+            </i>
+            <h4>지난 산책 내역이 없습니다.</h4>
+            <p>
+              완료된 산책 내역을
+              <br />
+              이곳에서 확인 하실 수 있습니다.
+            </p>
+          </div>
+        </div>
+      )}
+      <Scroll ref={ref}></Scroll>
+    </div>
+  );
 };
 export default WalkerWalkWaiting;
 
@@ -58,4 +91,8 @@ const List = styled.ul`
   li + li {
     margin-top: 20px;
   }
+`;
+
+const Scroll = styled.div`
+  height: 200px;
 `;

@@ -48,7 +48,7 @@ const WalkerWalkWaiting = () => {
   return (
     <div className="container bg-gray v2">
       <Header
-        pageTitle={`${walkerWalkWaiting[0]?.walker?.walkerName}님의 지난 산책 내역`}
+        pageTitle={`대기중인 산책 내역`}
         link={"/walkerMain"}
       />
       {walkerWalkWaiting.length !== 0 ? (
@@ -71,9 +71,9 @@ const WalkerWalkWaiting = () => {
             <i>
               <Lottie animationData={Loadinglottie} />
             </i>
-            <h4>지난 산책 내역이 없습니다.</h4>
+            <h4>대기중인 산책 내역이 없습니다.</h4>
             <p>
-              완료된 산책 내역을
+              대기중인 산책 내역을
               <br />
               이곳에서 확인 하실 수 있습니다.
             </p>

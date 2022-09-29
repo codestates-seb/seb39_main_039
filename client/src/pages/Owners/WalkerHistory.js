@@ -48,7 +48,6 @@ const WalkerHistory = () => {
     dispatch(getMyPetInfo());
   }, []);
 
-  console.log(petWalkInfo);
   return (
     <div className="container bg-gray v2">
       <Header

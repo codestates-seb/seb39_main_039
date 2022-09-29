@@ -71,12 +71,22 @@ const Main = () => {
             )}
             <ButtonGroup>
               <Link to={isLogin ? "/OwnerMain" : "/login"}>
-                <ButtonPrimary className="icon-type">
+                <ButtonPrimary
+                  className="icon-type"
+                  onClick={() => {
+                    localStorage.setItem("OwnerOrWalker", false);
+                  }}
+                >
                   산책 맡길래요
                 </ButtonPrimary>
               </Link>
               <Link to={isLogin ? "/WalkerMain" : "/login"}>
-                <ButtonPrimaryLine className="icon-type v2">
+                <ButtonPrimaryLine
+                  className="icon-type v2"
+                  onClick={() => {
+                    localStorage.setItem("OwnerOrWalker", true);
+                  }}
+                >
                   산책 시킬래요
                 </ButtonPrimaryLine>
               </Link>

@@ -14,18 +14,21 @@ import {
 } from "../../../redux/actions/wantedActions";
 import { useInView } from "react-intersection-observer";
 import CitySelect from "../../../components/CitySelect";
+import { useNavigate } from "react-router-dom";
+import { getMyPetInfo } from "../../../redux/actions/petActions";
 
 const WantedList = () => {
+  const { myPetInfo } = useSelector((state) => state.pet);
   const { scrollAllWantedList, totalPage } = useSelector(
     (state) => state.wanted
   );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const regionRef = useRef(); //선택 후 지역 인풋 포커싱
 
   const [isOn, setIsOn] = useState(false);
   const [selectedSort, setSelectedSort] = useState("최신순");
   const [page, setPage] = useState(1);
-  const [option, setOption] = useState(false);
   const [isOpen, setIsOpen] = useState(false); // 지역 모달창 여닫기
   const [region, setRegion] = useState(""); //지역 id받아오는 state
   const [regionName, setRegionName] = useState(""); // 지역 이름 담기
@@ -68,13 +71,12 @@ const WantedList = () => {
 
   const fetchMoreData = async () => {
     setPage(page + 1);
-    setOption(false);
     await fakeFetch();
     if (scrollAllWantedList.length < totalPage) {
-      dispatch(getScrollAllWantedList(sortOption, region, isOn, page));
+      if (scrollAllWantedList.length > 9)
+        dispatch(getScrollAllWantedList(sortOption, region, isOn, page));
     }
   };
-
   useEffect(() => {
     if (!inView) {
       return;
@@ -83,21 +85,20 @@ const WantedList = () => {
   }, [inView]);
 
   useEffect(() => {
-    dispatch(resetScrollAllWantedList()).then(() =>
-      dispatch(getScrollAllWantedList(sortOption, region, isOn, page))
-    );
-    // if (region > 0)
-    // dispatch(getScrollAllWantedList(sortOption, region, isOn, 1));
-    setOption(true);
+    if (sortOption || isOn || region || !sortOption || !isOn || !region)
+      dispatch(resetScrollAllWantedList());
+    dispatch(getScrollAllWantedList(sortOption, region, isOn, 1));
     setPage(1);
-  }, [sortOption, isOn, regionNamePick]);
+  }, [sortOption, isOn, region]);
 
-  // useEffect(() => {
-  //   // dispatch(resetScrollAllWantedList());
-  //   dispatch(getScrollAllWantedList(sortOption, "", isOn, page));
-  // }, []);
+  useEffect(() => {
+    if (scrollAllWantedList || !scrollAllWantedList)
+      dispatch(resetScrollAllWantedList());
+    // dispatch(getScrollAllWantedList("", "", "", 1));
+    dispatch(getMyPetInfo());
+  }, []);
 
-  //region있을때에는 리셋되면 안됨
+  console.log(scrollAllWantedList, page, totalPage);
 
   return (
     <div className="container bg-gray v2">
@@ -131,23 +132,24 @@ const WantedList = () => {
           <SwitchButton isOn={isOn} toggleHandler={toggleHandler} />
         </SwitchGroup>
       </ListFilter>
-      {option ? (
-        <WantedCardList>
-          {scrollAllWantedList?.map((item, idx) => (
-            <WantedCard key={idx} item={item} />
-          ))}
-          <FloatingBtnAdd mid={"wantedCreate"} />
-          <Scroll ref={ref}></Scroll>
-        </WantedCardList>
-      ) : (
-        <WantedCardList>
-          {scrollAllWantedList?.map((item, idx) => (
-            <WantedCard key={idx} item={item} />
-          ))}
-          <FloatingBtnAdd mid={"wantedCreate"} />
-          <Scroll ref={ref}></Scroll>
-        </WantedCardList>
-      )}
+
+      <WantedCardList>
+        {scrollAllWantedList?.map((item, idx) => (
+          <WantedCard key={idx} item={item} />
+        ))}
+
+        <span
+          onClick={() =>
+            myPetInfo.length === 0 ? navigate(`/dogEditAdd`) : ""
+          }
+        >
+          <FloatingBtnAdd
+            mid={myPetInfo.length === 0 ? "wantedList" : "wantedCreate"}
+          />
+        </span>
+      </WantedCardList>
+
+      <Scroll ref={ref}></Scroll>
     </div>
   );
 };

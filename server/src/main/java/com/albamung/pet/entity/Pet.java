@@ -62,12 +62,12 @@ public class Pet {
 
     public int getWalkHistoryCount() {
         if (this.walkList == null) return 0;
-        return (int) this.walkList.stream().filter(s -> s.getEndTime().isBefore(LocalDateTime.now())).count();
+        return (int) this.walkList.stream().filter(s -> s.getEndTime().isBefore(LocalDateTime.now()) || s.isEnded()).count();
     }
 
     public int getWalkWaitingCount() {
         if (this.walkList == null) return 0;
-        return (int) this.walkList.stream().filter(s -> s.getStartTime().isAfter(LocalDateTime.now())).count();
+        return (int) this.walkList.stream().filter(s -> s.getStartTime().isAfter(LocalDateTime.now()) && !s.isEnded()).count();
     }
 
     public int getWalkDistance() {
@@ -77,6 +77,6 @@ public class Pet {
 
     public Walk getCurrentWalk() {
         LocalDateTime now = LocalDateTime.now();
-        return this.walkList.stream().filter(s -> (s.getEndTime().isAfter(now) && s.getStartTime().isBefore(now) && s.getWalker() != null)).findFirst().orElse(null);
+        return this.walkList.stream().filter(s -> (s.getEndTime().isAfter(now) && s.getStartTime().isBefore(now) && s.getWalker() != null) &&!s.isEnded()).findFirst().orElse(null);
     }
 }

@@ -207,7 +207,7 @@ public class WalkService {
 
         Page<Walk> walkList = null;
         if (when.equals("history"))
-            walkList = walkRepository.findAllByPetListIdAndEndTimeIsBefore(petId, LocalDateTime.now(), pageRequest);
+            walkList = walkRepository.findPetWalkHistory(petId, LocalDateTime.now(), pageRequest);
         if (when.equals("waiting"))
             walkList = walkRepository.findAllByPetListIdAndStartTimeIsAfter(petId, LocalDateTime.now(), pageRequest);
 
@@ -221,7 +221,7 @@ public class WalkService {
 
         Page<Walk> walkList = null;
         if (when.equals("history"))
-            walkList = walkRepository.findAllByWalkerIdAndEndTimeIsBefore(walkerId, LocalDateTime.now(), pageRequest);
+            walkList = walkRepository.findWalkerWalkHistory(walkerId, LocalDateTime.now(), pageRequest);
         if (when.equals("waiting"))
             walkList = walkRepository.findAllByWalkerIdAndStartTimeIsAfter(walkerId, LocalDateTime.now(), pageRequest);
 

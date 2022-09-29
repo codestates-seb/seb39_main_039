@@ -20,6 +20,7 @@ public class PetDto {
         private String petPicture;
         private String petName;
         private String species;
+        private String sex;
     }
 
     @Builder

@@ -56,6 +56,7 @@ public class WalkDto {
         private int distance;
         private boolean ended;
         private int progress;
+        private Time actualWalkTime;
         private WalkerDto.SimpleWalkerResponse walker;
     }
     @Getter

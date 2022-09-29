@@ -14,6 +14,7 @@ const WalkerCard = ({ data }) => {
     dispatch(getUserInfo());
   }, []);
 
+  console.log(data);
   return (
     <div>
       <WalkerProfile>
@@ -74,7 +75,7 @@ const WalkerCard = ({ data }) => {
         )}
         <WalkBanner
           onClick={() => {
-            window.location.replace(`/walkerWalkWaiting`);
+            window.location.replace(`/walkerWalkWaiting/${data.walkerId}`);
           }}
         >
           <div>
@@ -86,7 +87,7 @@ const WalkerCard = ({ data }) => {
         </WalkBanner>
         <WalkBanner
           onClick={() => {
-            window.location.replace(`/walkerWalkHistory`);
+            window.location.replace(`/walkerWalkHistory/${data.walkerId}`);
           }}
         >
           <div>

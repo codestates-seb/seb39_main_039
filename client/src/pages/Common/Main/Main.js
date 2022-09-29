@@ -194,7 +194,7 @@ const BottomArea = styled.div`
 const OptLink = styled.ul`
   display: flex;
   justify-content: center;
-  margin: 20px 0 30px;
+  margin: 15px 0 30px;
   li {
     position: relative;
     font-size: 12px;

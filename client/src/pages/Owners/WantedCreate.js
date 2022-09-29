@@ -24,6 +24,7 @@ const WantedCreate = () => {
   const [wantedTitle, setWantedTitle] = useState();
   const [wantedCaution, setWantedCaution] = useState();
   const [wantedReward, setWantedReward] = useState();
+  const [wantedRewardComma, setWantedRewardComma] = useState();
   const [createError, setCreateError] = useState();
   const [isOpen, setIsOpen] = useState(false); // 지역 모달창 여닫기
   const [checkedList, setCheckedList] = useState([]);
@@ -95,14 +96,20 @@ const WantedCreate = () => {
     setCheckListData(checklistData.filter((el) => el.id !== id));
   };
 
+
   const addWanted = () => {
+    if(wantedReward === undefined){
+      setWantedRewardComma()
+    }else{
+      setWantedRewardComma(wantedReward.split(",").reduce((curr, acc) => curr + acc, ""))
+    }
     dispatch(
       postWanted(
         wantedCaution,
         checkedList,
         region,
         endDate,
-        wantedReward.split(",").reduce((curr, acc) => curr + acc, ""),
+        wantedRewardComma,
         petChecked,
         startDate,
         wantedTitle
@@ -132,15 +139,16 @@ const WantedCreate = () => {
     return comma(uncomma(str));
   };
 
+
   return (
     <div className="container v2">
       <Header pageTitle={"구인 글 작성"} />
       <CitySelect
-        isOpen={isOpen} //모달 여닫기
-        setIsOpen={setIsOpen} //모달 여닫기
-        setRegion={setRegion} // 지역 id값 담기
-        setRegionName={setRegionName} // 지역 명 담기
-        confirmHandler={regionConfirmHandler} //지역 정보 받아오며 모달 닫기
+        isOpen={isOpen} 
+        setIsOpen={setIsOpen} 
+        setRegion={setRegion} 
+        setRegionName={setRegionName} 
+        confirmHandler={regionConfirmHandler} 
       />
       <Form>
         <Section className="pt0 pb20">
@@ -248,10 +256,10 @@ const WantedCreate = () => {
               <span>원</span>
             </div>
             {createError &&
-              (wantedReward?.length === 0 ||
-                !checkNum.test(
-                  wantedReward.split(",").reduce((curr, acc) => curr + acc, "")
-                )) && <Error>보수를 올바르게 입력해주세요</Error>}
+              <>
+              {(wantedReward?.length === 0) || (wantedReward?.length === undefined ) ? <Error>보수를 올바르게 입력해주세요</Error> :''}
+              </>
+            }
           </div>
         </Section>
         <Section>

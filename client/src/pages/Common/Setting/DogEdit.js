@@ -126,7 +126,7 @@ const DogEdit = () => {
     <div className="container v2">
       <Header pageTitle={"강아지 정보 수정"} link={"/setting"} />
       {myPetInfo.length === 0 ? (
-        <div>강아지가 없떠요. 등록해주세요</div>
+        navigate(`/dogEditAdd`)
       ) : (
         <>
           <TabMenu>

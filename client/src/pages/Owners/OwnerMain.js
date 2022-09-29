@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getMyPetInfo } from "../../redux/actions/petActions";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import CoachMarks from "../../components/Layout/CoachMarks";
 
 const OwnerMain = () => {
   const dispatch = useDispatch();
@@ -76,6 +77,7 @@ const OwnerMain = () => {
       </InfoSection>
 
       <Nav />
+      <CoachMarks />
     </div>
   );
 };

@@ -14,8 +14,8 @@ import {
 } from "../../../redux/actions/wantedActions";
 import { useInView } from "react-intersection-observer";
 import CitySelect from "../../../components/CitySelect";
+import { useNavigate } from "react-router-dom";
 import { getMyPetInfo } from "../../../redux/actions/petActions";
-import { ToastContainer, toast } from "react-toast";
 
 const WantedList = () => {
   const { myPetInfo } = useSelector((state) => state.pet);
@@ -23,6 +23,7 @@ const WantedList = () => {
     (state) => state.wanted
   );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const regionRef = useRef(); //선택 후 지역 인풋 포커싱
 
   const [isOn, setIsOn] = useState(false);
@@ -32,8 +33,6 @@ const WantedList = () => {
   const [region, setRegion] = useState(""); //지역 id받아오는 state
   const [regionName, setRegionName] = useState(""); // 지역 이름 담기
   const [regionNamePick, setRegionNamePick] = useState("동네 설정"); //지역이름 선택 하면! input값으로 넣기
-
-  let error = () => toast("산책 할 강아지가 없어요. 등록해주세요");
 
   const cityModal = () => {
     //모달창 여닫기
@@ -95,7 +94,8 @@ const WantedList = () => {
   useEffect(() => {
     if (scrollAllWantedList || !scrollAllWantedList)
       dispatch(resetScrollAllWantedList());
-    dispatch(getScrollAllWantedList("", "", "", 1));
+    // dispatch(getScrollAllWantedList("", "", "", 1));
+    dispatch(getMyPetInfo());
   }, []);
 
   console.log(scrollAllWantedList, page, totalPage);
@@ -138,7 +138,11 @@ const WantedList = () => {
           <WantedCard key={idx} item={item} />
         ))}
 
-        <span onClick={myPetInfo.length === 0 ? error : ""}>
+        <span
+          onClick={() =>
+            myPetInfo.length === 0 ? navigate(`/dogEditAdd`) : ""
+          }
+        >
           <FloatingBtnAdd
             mid={myPetInfo.length === 0 ? "wantedList" : "wantedCreate"}
           />
@@ -146,7 +150,6 @@ const WantedList = () => {
       </WantedCardList>
 
       <Scroll ref={ref}></Scroll>
-      <ToastContainer position="bottom-center" delay={3000} />
     </div>
   );
 };

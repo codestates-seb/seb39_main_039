@@ -55,7 +55,7 @@ const WalkerWalkWaiting = () => {
 
   return (
     <div className="container bg-gray v2">
-      <Header pageTitle={`대기중인 산책 내역`} />
+      <Header pageTitle={`대기중인 산책 내역`} link={`/walkerMain`} />
       {walkerWalkWaiting.length !== 0 ? (
         <List>
           {walkerWalkWaiting?.map((el, idx) => {

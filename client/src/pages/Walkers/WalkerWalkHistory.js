@@ -51,8 +51,8 @@ const WalkerWalkHistory = () => {
 
   return (
     <div className="container bg-gray v2">
-      <Header
-        pageTitle={`${walkerWalkHistory[0]?.walker?.walkerName}님의 지난 산책 내역`}
+      <Header   //${petName[0]?.petName !== undefined ? petName[0]?.petName : '' }
+        pageTitle={`${walkerWalkHistory[0]?.walker?.walkerName !== undefined ? walkerWalkHistory[0]?.walker?.walkerName : ''} 지난 산책 내역`}
         link={"/walkerMain"}
       />
       {walkerWalkHistory.length !== 0 ? (

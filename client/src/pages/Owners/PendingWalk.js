@@ -5,7 +5,10 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Loadinglottie } from "../..";
-import { getPetWalkPendingInfo } from "../../redux/actions/petwalkActions";
+import {
+  getPetWalkPendingInfo,
+  resetPetWalk
+} from "../../redux/actions/petwalkActions";
 import PendingCard from "../../components/PendingCard";
 import { useInView } from "react-intersection-observer";
 
@@ -28,7 +31,8 @@ const WalkerHistory = () => {
     setPage(page + 1);
     await fakeFetch();
     if (petWalkPendingInfo.length < totalPage_pending) {
-      dispatch(getPetWalkPendingInfo(id, page)).then();
+      if (petWalkPendingInfo.length >= 5)
+        dispatch(getPetWalkPendingInfo(id, page));
     }
   };
 
@@ -40,12 +44,13 @@ const WalkerHistory = () => {
   }, [inView]);
 
   useEffect(() => {
+    if (petWalkPendingInfo || !petWalkPendingInfo) dispatch(resetPetWalk());
     dispatch(getPetWalkPendingInfo(id, 1));
   }, []);
 
   return (
     <div className="container bg-gray v2">
-      <Header pageTitle={`대기중인 산책 내역`} />
+      <Header pageTitle={`대기중인 산책 내역`} link={"/ownerMain"} />
       {petWalkPendingInfo?.length !== 0 ? (
         <List>
           {petWalkPendingInfo?.map((el, idx) => {

@@ -4,7 +4,10 @@ import { Header } from "../../components/Layout/Header";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Loadinglottie } from "../..";
-import { getWalkerWalkWaiting } from "../../redux/actions/walkerActions";
+import {
+  getWalkerWalkWaiting,
+  resetWalkerWalk
+} from "../../redux/actions/walkerActions";
 import WalkerWalkListCard from "../../components/WalkerWalkListCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
@@ -28,7 +31,9 @@ const WalkerWalkWaiting = () => {
     setPage(page + 1);
     await fakeFetch();
     if (walkerWalkWaiting.length < totalPage_waiting) {
-      dispatch(getWalkerWalkWaiting(page)).then();
+      if (walkerWalkWaiting.length > 5) {
+        dispatch(getWalkerWalkWaiting(page));
+      }
     }
   };
 
@@ -40,24 +45,24 @@ const WalkerWalkWaiting = () => {
   }, [inView]);
 
   useEffect(() => {
+    if (walkerWalkWaiting || !walkerWalkWaiting) dispatch(resetWalkerWalk());
     dispatch(getWalkerWalkWaiting(1));
   }, []);
+
+  console.log(walkerWalkWaiting, totalPage_waiting);
 
   if (!walkerWalkWaiting) return <div></div>;
 
   return (
     <div className="container bg-gray v2">
-      <Header
-        pageTitle={`${walkerWalkWaiting[0]?.walker?.walkerName}님의 지난 산책 내역`}
-        link={"/ownerMain"}
-      />
+      <Header pageTitle={`대기중인 산책 내역`} />
       {walkerWalkWaiting.length !== 0 ? (
         <List>
           {walkerWalkWaiting?.map((el, idx) => {
             return (
               <li
                 onClick={() => {
-                  navigate(`/walking/${el.walkId}`);
+                  navigate(`/wantedDetail/${el.walkId}`);
                 }}
               >
                 <WalkerWalkListCard el={el} />
@@ -71,9 +76,9 @@ const WalkerWalkWaiting = () => {
             <i>
               <Lottie animationData={Loadinglottie} />
             </i>
-            <h4>지난 산책 내역이 없습니다.</h4>
+            <h4>대기중인 산책 내역이 없습니다.</h4>
             <p>
-              완료된 산책 내역을
+              대기중인 산책 내역을
               <br />
               이곳에서 확인 하실 수 있습니다.
             </p>

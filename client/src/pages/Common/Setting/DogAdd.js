@@ -42,7 +42,7 @@ const DogAdd = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container v2">
       <Header pageTitle={"강아지 등록"} />
       <UserInfo>
         <div className="user-con">

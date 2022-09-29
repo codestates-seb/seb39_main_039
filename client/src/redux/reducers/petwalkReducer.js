@@ -1,7 +1,8 @@
 import {
   GET_PET_WALK_HISTORY_SUCCESS,
   GET_PET_WALK_PENDING_SUCCESS,
-  PET_WALK_LOADING
+  PET_WALK_LOADING,
+  RESET_PET_WALK_SUCCESS
 } from "../actions/petwalkActions";
 
 const initialstate = {
@@ -25,6 +26,12 @@ const petwalkReducer = (state = initialstate, action) => {
         ...state,
         petWalkInfo: [...state.petWalkInfo, ...payload.petWalkInfo],
         totalPage_history: payload.totalPage_history
+      };
+    case RESET_PET_WALK_SUCCESS:
+      return {
+        ...state,
+        petWalkPendingInfo: payload.petWalkPendingInfo,
+        petWalkInfo: payload.petWalkInfo
       };
     case GET_PET_WALK_PENDING_SUCCESS:
       return {

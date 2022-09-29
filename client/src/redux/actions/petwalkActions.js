@@ -2,6 +2,7 @@ import customAxios from "../axiosAPI";
 
 export const GET_PET_WALK_HISTORY_SUCCESS = "GET_PET_WALK_HISTORY_SUCCESS";
 export const GET_PET_WALK_PENDING_SUCCESS = "GET_PET_WALK_PENDING_SUCCESS";
+export const RESET_PET_WALK_SUCCESS = "RESET_PET_WALK_SUCCESS";
 export const PET_WALK_LOADING = "PET_WALK_LOADING";
 
 export const getPetWalkInfo = (petId, page) => {
@@ -47,6 +48,23 @@ export const getPetWalkPendingInfo = (petId, page) => {
         payload: {
           petWalkPendingInfo: getPetWalkInfoPendingApi.data.items,
           totalPage_pending: getPetWalkInfoPendingApi.data.totalElements
+        }
+      });
+    } catch (error) {
+      //에러 핸들링 하는 곳
+      console.log(error);
+    }
+  };
+};
+
+export const resetPetWalk = () => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: "RESET_PET_WALK_SUCCESS",
+        payload: {
+          petWalkPendingInfo: [],
+          petWalkInfo: []
         }
       });
     } catch (error) {

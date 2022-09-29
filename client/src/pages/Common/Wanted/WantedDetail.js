@@ -10,16 +10,19 @@ import { ThreeDots } from "react-loader-spinner";
 import Modal from "../../../components/Modal/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+import godWait from "../../../assets/img/dog_wait.png";
 import {
   deleteWanted,
   getWantedDetail
 } from "../../../redux/actions/wantedActions";
 import { useEffect, useState, useRef } from "react";
-import { ToastContainer } from "react-toast";
+import { ToastContainer, toast } from "react-toast";
 import { useCurrentUser } from "../../../hooks/useCurrentUser";
+import { getMyPetInfo } from "../../../redux/actions/petActions";
 
 const WantedDetailPage = () => {
   const { id } = useParams();
+  const { myPetInfo } = useSelector((state) => state.pet);
   const { wantedDetail, loading } = useSelector((state) => state.wanted);
   const dispatch = useDispatch();
   const optionBody = useRef();
@@ -28,8 +31,9 @@ const WantedDetailPage = () => {
   const [onEdit, setOnEdit] = useState(false);
   const navigate = useNavigate();
   const [useCurrent] = useCurrentUser();
-
   const writeWantedUser = useCurrent(wantedDetail.walk?.owner.ownerId);
+
+  let error = () => toast("산책 할 강아지가 없어요. 등록해주세요");
 
   let endTimeForm = new Date(wantedDetail.walk?.endTime + "z")
     .toLocaleString()
@@ -51,7 +55,12 @@ const WantedDetailPage = () => {
 
   useEffect(() => {
     dispatch(getWantedDetail(id));
+    if (window) window.scrollTo(0, 0);
   }, [isOn]);
+
+  useEffect(() => {
+    dispatch(getMyPetInfo());
+  }, []);
 
   if (!wantedDetail.walk) return <div></div>;
 
@@ -99,7 +108,11 @@ const WantedDetailPage = () => {
                     <FontAwesomeIcon icon={faEllipsisVertical} />
                   </i>
                   <ul ref={optionBody} className={isOn ? "active" : ""}>
-                    <li onClick={onEditHandler}>수정</li>
+                    <li
+                      onClick={myPetInfo.length === 0 ? error : onEditHandler}
+                    >
+                      수정
+                    </li>
                     <li onClick={() => setIsOpen(true)}>삭제</li>
                   </ul>
                 </OptionButton>
@@ -144,7 +157,12 @@ const WantedDetailPage = () => {
                 <dt>
                   <SectLabel>산책 보수</SectLabel>
                 </dt>
-                <dd>{wantedDetail.pay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</dd>
+                <dd>
+                  {wantedDetail.pay
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  원
+                </dd>
               </dl>
             </ConInfo>
           </Section>
@@ -169,16 +187,29 @@ const WantedDetailPage = () => {
               산책 지원하기 {wantedDetail.commentList?.length}명
             </SectLabel>
             <div className="comment-list">
-              {wantedDetail.commentList?.reverse().map((data, key) => {
-                return (
-                  <ApplyComment
-                    data={data}
-                    wantedId={wantedDetail.wantedId}
-                    writerId={wantedDetail.walk?.owner.ownerId}
-                    key={key}
-                  />
-                );
-              })}
+              {wantedDetail.commentList?.length !== 0 ? (
+                <>
+                  {wantedDetail.commentList?.reverse().map((data, key) => {
+                    return (
+                      <ApplyComment
+                        data={data}
+                        wantedId={wantedDetail.wantedId}
+                        writerId={wantedDetail.walk?.owner.ownerId}
+                        key={key}
+                      />
+                    );
+                  })}
+                </>
+              ) : (
+                <>
+                  <div className="no-apply">
+                    <i></i>
+                    아직 지원자가 없습니다.
+                    <br />
+                    댓글로 지원해 보세요!
+                  </div>
+                </>
+              )}
             </div>
           </CommentApply>
         </>
@@ -290,7 +321,7 @@ const ConHeader = styled.div`
 `;
 
 const CommentApply = styled.div`
-  padding: 20px 20px;
+  padding: 20px 20px 60px;
 
   .comment-list {
     > * {
@@ -300,6 +331,31 @@ const CommentApply = styled.div`
 
   .comment-form {
     margin-bottom: 20px;
+  }
+
+  .no-apply {
+    position: relative;
+    text-align: center;
+    border-radius: 15px;
+    background-color: var(--gray-100);
+    padding: 30px;
+    line-height: 1.3em;
+    font-size: 14px;
+    margin-top: 50px;
+    color: var(--gray-500);
+
+    i {
+      display: inline-block;
+      position: absolute;
+      top: -65px;
+      left: 50%;
+      width: 70px;
+      height: 85px;
+      background-image: url("${godWait}");
+      background-repeat: no-repeat;
+      background-size: 100% auto;
+      transform: translate(-50%, 0);
+    }
   }
 `;
 

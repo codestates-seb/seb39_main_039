@@ -14,8 +14,11 @@ import {
 } from "../../../redux/actions/wantedActions";
 import { useInView } from "react-intersection-observer";
 import CitySelect from "../../../components/CitySelect";
+import { getMyPetInfo } from "../../../redux/actions/petActions";
+import { ToastContainer, toast } from "react-toast";
 
 const WantedList = () => {
+  const { myPetInfo } = useSelector((state) => state.pet);
   const { scrollAllWantedList, totalPage } = useSelector(
     (state) => state.wanted
   );
@@ -25,11 +28,12 @@ const WantedList = () => {
   const [isOn, setIsOn] = useState(false);
   const [selectedSort, setSelectedSort] = useState("최신순");
   const [page, setPage] = useState(1);
-  const [option, setOption] = useState(false);
   const [isOpen, setIsOpen] = useState(false); // 지역 모달창 여닫기
   const [region, setRegion] = useState(""); //지역 id받아오는 state
   const [regionName, setRegionName] = useState(""); // 지역 이름 담기
   const [regionNamePick, setRegionNamePick] = useState("동네 설정"); //지역이름 선택 하면! input값으로 넣기
+
+  let error = () => toast("산책 할 강아지가 없어요. 등록해주세요");
 
   const cityModal = () => {
     //모달창 여닫기
@@ -46,7 +50,7 @@ const WantedList = () => {
   };
 
   const { ref, inView } = useInView({
-    threshold: 1
+    threshold: 0.7
   });
 
   let sortOption;
@@ -68,48 +72,33 @@ const WantedList = () => {
 
   const fetchMoreData = async () => {
     setPage(page + 1);
-    setOption(false);
     await fakeFetch();
     if (scrollAllWantedList.length < totalPage) {
-      dispatch(getScrollAllWantedList(sortOption, region, isOn, page));
+      if (scrollAllWantedList.length > 9)
+        dispatch(getScrollAllWantedList(sortOption, region, isOn, page));
     }
   };
-
   useEffect(() => {
     if (!inView) {
       return;
     }
-    console.log("ggg");
     fetchMoreData();
   }, [inView]);
 
   useEffect(() => {
-    // (async () =>
-    //   dispatch(resetScrollAllWantedList()).then(() =>
-    //     dispatch(getScrollAllWantedList(sortOption, region, isOn, 1))
-    //   ))();
-    // if (region > 0)
-    // dispatch(getScrollAllWantedList(sortOption, region, isOn, 1));
+    if (sortOption || isOn || region || !sortOption || !isOn || !region)
+      dispatch(resetScrollAllWantedList());
+    dispatch(getScrollAllWantedList(sortOption, region, isOn, 1));
     setPage(1);
-    setOption(true);
-
-    if (page === 1 && scrollAllWantedList.length === 0) {
-      fetchMoreData();
-      setPage(1);
-    } else {
-      (async () => dispatch(resetScrollAllWantedList()))();
-      dispatch(getScrollAllWantedList(sortOption, region, isOn, page));
-    }
-  }, [sortOption, isOn, regionNamePick]);
+  }, [sortOption, isOn, region]);
 
   useEffect(() => {
-    // dispatch(resetScrollAllWantedList());
-    dispatch(getScrollAllWantedList(sortOption, "", isOn, 1));
+    if (scrollAllWantedList || !scrollAllWantedList)
+      dispatch(resetScrollAllWantedList());
+    dispatch(getScrollAllWantedList("", "", "", 1));
   }, []);
 
-  //region있을때에는 리셋되면 안됨
-
-  console.log(scrollAllWantedList, page);
+  console.log(scrollAllWantedList, page, totalPage);
 
   return (
     <div className="container bg-gray v2">
@@ -143,23 +132,21 @@ const WantedList = () => {
           <SwitchButton isOn={isOn} toggleHandler={toggleHandler} />
         </SwitchGroup>
       </ListFilter>
-      {option ? (
-        <WantedCardList>
-          {scrollAllWantedList?.map((item, idx) => (
-            <WantedCard key={idx} item={item} />
-          ))}
-          <FloatingBtnAdd mid={"wantedCreate"} />
-        </WantedCardList>
-      ) : (
-        <WantedCardList>
-          {scrollAllWantedList?.map((item, idx) => (
-            <WantedCard key={idx} item={item} />
-          ))}
-          <FloatingBtnAdd mid={"wantedCreate"} />
-        </WantedCardList>
-      )}
+
+      <WantedCardList>
+        {scrollAllWantedList?.map((item, idx) => (
+          <WantedCard key={idx} item={item} />
+        ))}
+
+        <span onClick={myPetInfo.length === 0 ? error : ""}>
+          <FloatingBtnAdd
+            mid={myPetInfo.length === 0 ? "wantedList" : "wantedCreate"}
+          />
+        </span>
+      </WantedCardList>
 
       <Scroll ref={ref}></Scroll>
+      <ToastContainer position="bottom-center" delay={3000} />
     </div>
   );
 };

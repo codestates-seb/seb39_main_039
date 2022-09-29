@@ -2,7 +2,10 @@ import styled from "styled-components";
 import Lottie from "lottie-react";
 import { Header } from "../../components/Layout/Header";
 import HistoryCard from "../../components/HistoryCard";
-import { getPetWalkInfo } from "../../redux/actions/petwalkActions";
+import {
+  getPetWalkInfo,
+  resetPetWalk
+} from "../../redux/actions/petwalkActions";
 import { getMyPetInfo } from "../../redux/actions/petActions";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,7 +35,7 @@ const WalkerHistory = () => {
     setPage(page + 1);
     await fakeFetch();
     if (petWalkInfo.length < totalPage_history) {
-      dispatch(getPetWalkInfo(id, page)).then();
+      if (petWalkInfo.length >= 5) dispatch(getPetWalkInfo(id, page));
     }
   };
 
@@ -44,8 +47,9 @@ const WalkerHistory = () => {
   }, [inView]);
 
   useEffect(() => {
+    if (petWalkInfo || !petWalkInfo) dispatch(resetPetWalk());
     dispatch(getPetWalkInfo(id, 1));
-    dispatch(getMyPetInfo());
+    dispatch(getMyPetInfo(id));
   }, []);
 
   return (
@@ -59,13 +63,7 @@ const WalkerHistory = () => {
           {petWalkInfo?.map((el, idx) => {
             return (
               <li>
-                <HistoryCard
-                  startTime={el.startTime}
-                  endTime={el.endTime}
-                  distance={el.distance}
-                  walker={el.walker}
-                  key={idx}
-                />
+                <HistoryCard data={el} key={idx} />
               </li>
             );
           })}

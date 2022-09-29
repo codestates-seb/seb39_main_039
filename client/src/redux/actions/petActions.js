@@ -24,7 +24,7 @@ export const getMyPetInfo = () => {
       dispatch({
         type: "PET_LOADING",
         payload: {
-          loading: true
+          loading: false
         }
       });
     } catch (error) {

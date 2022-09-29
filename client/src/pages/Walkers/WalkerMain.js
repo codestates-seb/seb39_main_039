@@ -47,9 +47,7 @@ const WalkerMain = () => {
             </UserSlide>
           </Section>
           <Section>
-            <Weather>
-              <p>날씨API 대기쓰</p>
-            </Weather>
+            <Weather></Weather>
           </Section>
           <InfoSection>
             <h3>

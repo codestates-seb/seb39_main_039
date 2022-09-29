@@ -74,7 +74,7 @@ const WalkerCard = ({ data }) => {
         )}
         <WalkBanner
           onClick={() => {
-            navigate("/walkerWalkWaiting");
+            window.location.replace(`/walkerWalkWaiting`);
           }}
         >
           <div>
@@ -86,7 +86,7 @@ const WalkerCard = ({ data }) => {
         </WalkBanner>
         <WalkBanner
           onClick={() => {
-            navigate("/walkerWalkHistory");
+            window.location.replace(`/walkerWalkHistory`);
           }}
         >
           <div>

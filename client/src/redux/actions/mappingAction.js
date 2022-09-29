@@ -64,7 +64,6 @@ export const closeWalk = (walkerId) => {
   };
 };
 
-
 export const sendLocation = (lat, lon, distance) => {
   return async () => {
     try {
@@ -117,4 +116,3 @@ export const actualWalkTime = (walkId, walkTime) => {
     }
   };
 };
-

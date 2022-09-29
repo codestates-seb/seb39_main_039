@@ -45,7 +45,7 @@ const WalkerHistory = () => {
 
   return (
     <div className="container bg-gray v2">
-      <Header pageTitle={`대기중인 산책 내역`} />
+      <Header pageTitle={`대기중인 산책 내역`} link={'/ownerMain'}/>
       {petWalkPendingInfo?.length !== 0 ? (
         <List>
           {petWalkPendingInfo?.map((el, idx) => {

@@ -24,6 +24,7 @@ const WantedCreate = () => {
   const [wantedTitle, setWantedTitle] = useState();
   const [wantedCaution, setWantedCaution] = useState();
   const [wantedReward, setWantedReward] = useState();
+  const [wantedRewardComma, setWantedRewardComma] = useState();
   const [createError, setCreateError] = useState();
   const [isOpen, setIsOpen] = useState(false); // 지역 모달창 여닫기
   const [checkedList, setCheckedList] = useState([]);
@@ -97,13 +98,18 @@ const WantedCreate = () => {
 
 
   const addWanted = () => {
+    if(wantedReward === undefined){
+      setWantedRewardComma()
+    }else{
+      setWantedRewardComma(wantedReward.split(",").reduce((curr, acc) => curr + acc, ""))
+    }
     dispatch(
       postWanted(
         wantedCaution,
         checkedList,
         region,
         endDate,
-        wantedReward,
+        wantedRewardComma,
         petChecked,
         startDate,
         wantedTitle

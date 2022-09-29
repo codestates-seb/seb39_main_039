@@ -61,11 +61,7 @@ const WalkerHistory = () => {
             return (
               <li>
                 <HistoryCard
-                  startTime={el.startTime}
-                  endTime={el.endTime}
-                  distance={el.distance}
-                  walker={el.walker}
-                  walkId={el.walkId}
+                  data={el}
                   key={idx}
                 />
               </li>

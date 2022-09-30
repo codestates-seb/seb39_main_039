@@ -41,7 +41,6 @@ public class WantedController {
     @PostMapping("/create")
     public ResponseEntity postWanted(@AuthenticationPrincipal @ApiIgnore User owner,
                                      @RequestBody @Valid WantedDto.Post request) {
-        if (owner == null) owner = User.builder().id(1L).build();
         Wanted wanted = wantedMapper.postToWanted(request);
         Wanted savedWanted = wantedService.saveWanted(wanted, request, owner.getId());
         return new ResponseEntity<>(savedWanted.getWantedId(), HttpStatus.CREATED);
@@ -59,7 +58,6 @@ public class WantedController {
     public ResponseEntity putWanted(@AuthenticationPrincipal @ApiIgnore User owner,
                                     @RequestBody @Valid WantedDto.Put request,
                                     @PathVariable Long wantedId) {
-        if (owner == null) owner = User.builder().id(1L).build();
         Wanted editedWanted = wantedService.editWanted(wantedId, request, owner.getId());
         return new ResponseEntity<>(wantedMapper.toDetailResponse(editedWanted), HttpStatus.OK);
     }
@@ -94,7 +92,6 @@ public class WantedController {
     @DeleteMapping("/{wantedId}/delete")
     public ResponseEntity deleteWanted(@AuthenticationPrincipal @ApiIgnore User owner,
                                        @PathVariable Long wantedId) {
-        if (owner == null) owner = User.builder().id(1L).build();
         wantedService.deleteWanted(wantedId, owner.getId());
 
         return new ResponseEntity<>(HttpStatus.OK);

@@ -37,7 +37,6 @@ public class CommentController {
     public ResponseEntity postComment(@AuthenticationPrincipal @ApiIgnore User walker,
                                       @PathVariable @Positive Long wantedId,
                                       @RequestBody @Valid CommentDto.Post request) {
-        if (walker == null) walker = User.builder().id(1L).build();
         Comment comment = commentMapper.postToComment(request);
         Comment savedComment = commentService.saveComment(comment, wantedId, walker.getId());
 
@@ -50,7 +49,6 @@ public class CommentController {
                                      @PathVariable Long wantedId,
                                      @PathVariable Long commentId,
                                      @RequestBody @Valid CommentDto.Put request) {
-        if (walker == null) walker = User.builder().id(1L).build();
         Comment comment = commentMapper.putToComment(request);
         Comment editedComment = commentService.editComment(comment, commentId, walker.getId());
 
@@ -61,7 +59,6 @@ public class CommentController {
     @GetMapping("/{commentId}/viewPhoneNumber")
     public ResponseEntity getPhoneNumber(@AuthenticationPrincipal @ApiIgnore User owner,
                                          @PathVariable Long commentId, @PathVariable Long wantedId) {
-        if (owner == null) owner = User.builder().id(1L).build();
         return new ResponseEntity<>(commentService.viewPhoneNumber(commentId, owner.getId()), HttpStatus.OK);
     }
 
@@ -70,7 +67,6 @@ public class CommentController {
     public ResponseEntity deleteComment(@AuthenticationPrincipal @ApiIgnore User walker,
                                         @PathVariable Long commentId,
                                         @PathVariable Long wantedId) {
-        if (walker == null) walker = User.builder().id(1L).build();
         commentService.deleteComment(commentId, walker.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -81,7 +77,6 @@ public class CommentController {
                                        @PathVariable Long commentId,
                                        @PathVariable Long wantedId,
                                        @RequestBody boolean match) {
-        if (owner == null) owner = User.builder().id(1L).build();
         Comment matchedComment = commentService.matchComment(commentId, wantedId, match, owner.getId());
 
         return new ResponseEntity<>(matchedComment.getWanted().getWantedId(), HttpStatus.OK);

@@ -126,6 +126,7 @@ const DogEdit = () => {
 
   useEffect(() => {
     tab && dispatch(getMyPetInfo());
+    if (window) window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {

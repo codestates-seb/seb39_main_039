@@ -10,11 +10,11 @@ const WalkerCard = ({ data }) => {
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getUserInfo());
   }, []);
 
-  console.log(data);
   return (
     <div>
       <WalkerProfile>

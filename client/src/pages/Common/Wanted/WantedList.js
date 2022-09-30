@@ -87,7 +87,7 @@ const WantedList = () => {
       dispatch(resetScrollAllWantedList());
     dispatch(getScrollAllWantedList(sortOption, region, isOn, 1));
     setPage(1);
-  }, [sortOption, isOn, region]);
+  }, [sortOption, isOn, regionNamePick]);
 
   useEffect(() => {
     if (scrollAllWantedList || !scrollAllWantedList)
@@ -95,8 +95,6 @@ const WantedList = () => {
     // dispatch(getScrollAllWantedList("", "", "", 1));
     dispatch(getMyPetInfo());
   }, []);
-
-  console.log(scrollAllWantedList, page, totalPage);
 
   return (
     <div className="container bg-gray v2">

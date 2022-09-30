@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { faLocationArrow, faRotate } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import WalkResultInfo from "../../components/WalkResultInfo";
+import { useInterval } from "../../hooks/useInterval";
 
 const { kakao } = window;
 
@@ -86,7 +87,6 @@ const TrackingMap = ({ walkId }) => {
   return (
     <>
       <Map id="myMap" style={{ width: "100%", height: "300px" }}></Map>
-      <WalkResultInfo walkDetailInfo={walkDetailInfo} />
       {recordedLine ? (
         <Handler>
           <MapGPSBtn

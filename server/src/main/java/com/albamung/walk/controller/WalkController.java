@@ -126,6 +126,15 @@ public class WalkController {
         return new ResponseEntity<>(targetWalk.getCoord(), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "산책 사진리스트 불러오기", notes = "해당 산책 Id의 사진 리스트만 반환하는 API입니다")
+    @GetMapping("/{walkId}/pictureList")
+    public ResponseEntity getPictureList(@AuthenticationPrincipal @ApiIgnore User user,
+                                   @PathVariable @Positive Long walkId) {
+        Walk targetWalk = walkService.verifyWalk(walkId);
+        walkService.verifyWalkUser(targetWalk, user.getId());
+        return new ResponseEntity<>(targetWalk.getPictureList(), HttpStatus.OK);
+    }
+
     @ApiOperation(value = "진행중인 산책에 좌표값 추가")
     @PutMapping("/{walkId}/coord")
     public ResponseEntity putCoord(@AuthenticationPrincipal @ApiIgnore User walker,

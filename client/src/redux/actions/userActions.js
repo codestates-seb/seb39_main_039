@@ -2,11 +2,13 @@ import customAxios from "../axiosAPI";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toast";
+import { tr } from "date-fns/locale";
 
 export const GET_USER_INFO_SUCCESS = "GET_USER_INFO_SUCCESS";
 export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
 export const USER_LOADING = "USER_LOADING";
 export const GET_WALKER_USER_INFO = "GET_WALKER_USER_INFO";
+export const USER_PICTURE_DELETE_SUCCESS = "USER_PICTURE_DELETE_SUCCESS";
 
 export const getUserInfo = () => {
   return async (dispatch) => {
@@ -65,6 +67,24 @@ export const saveUserPicture = (picture) => {
         return await customAxios
           .get(`user/saveProfileImage`)
           .then((res) => axios.put(res.data, picture));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const delUserPicture = () => {
+  return async (dispatch) => {
+    try {
+      return await customAxios.delete(`user/deleteProfileImage`)
+      .then(()=>{
+        dispatch({
+          type: "USER_PICTURE_DELETE_SUCCESS",
+          payload: {
+            sign: true
+          }
+        });
+      })
     } catch (error) {
       console.log(error);
     }

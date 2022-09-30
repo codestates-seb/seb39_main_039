@@ -2,14 +2,16 @@ import {
   GET_USER_INFO_SUCCESS,
   DELETE_USER_SUCCESS,
   USER_LOADING,
-  GET_WALKER_USER_INFO
+  GET_WALKER_USER_INFO,
+  USER_PICTURE_DELETE_SUCCESS
 } from "../actions/userActions";
 
 const initialstate = {
   isLogin: false,
   userInfo: [],
   walkerUserInfo: [],
-  loading: ""
+  loading: "",
+  sign: ''
 };
 
 const userReducer = (state = initialstate, action) => {
@@ -35,7 +37,11 @@ const userReducer = (state = initialstate, action) => {
         ...state,
         loading: payload.loading
       };
-
+    case USER_PICTURE_DELETE_SUCCESS:
+      return {
+        ...state,
+        sign: false
+      };
     default:
       return state;
   }

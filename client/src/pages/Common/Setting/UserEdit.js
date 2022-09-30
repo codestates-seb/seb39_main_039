@@ -1,40 +1,96 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import { Header } from "../../../components/Layout/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { ButtonPrimary } from "../../../components/Button/Buttons";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserInfo, editUserInfo } from "../../../redux/actions/userActions";
+import { saveUserPicture, delUserPicture } from "../../../redux/actions/userActions";
 import { ToastContainer } from "react-toast";
-import noImage from "../../../assets/img/noImage.svg";
+import ModalOption from "../../../components/Modal/ModalOption";
+import noImage from '../../../assets/img/noImage.svg'
 
 const UserEdit = () => {
   const dispatch = useDispatch();
+  const imgRef = useRef();
+
   const { userInfo, loading } = useSelector((state) => state.user);
   const [fullName, setFullName] = useState(userInfo.fullName);
   const [phone, setPhone] = useState(userInfo.phone);
   const [nickName, setNickName] = useState(userInfo.nickName);
+  const [myPetPicture, setMyPetPicture] = useState(userInfo.profileImage);
+  const [imageUrl, setImageUrl] = useState("");
+  const [imgFile, setImgFile] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModalHandler = () => {
+    setIsOpen(!isOpen);
+  };
 
   const ClickHandler = () => {
     dispatch(editUserInfo(fullName, phone, nickName));
+    dispatch(saveUserPicture(imgFile));
   };
 
   useEffect(() => {
     dispatch(getUserInfo());
   }, [loading]);
 
+  console.log(userInfo);
+  const onClickFileBtn = (e) => {
+    setIsOpen(true);
+  };
+
+  const uploadHandler =() =>{
+    imgRef.current.click();
+    setIsOpen(false);
+  }
+
+  const profileDeleteHandler =() =>{
+    dispatch(delUserPicture());
+    setMyPetPicture(noImage);
+    setIsOpen(false);
+  }
+  
+  const onChangeImage = () => {
+    setImgFile(imgRef.current.files[0]);
+    setImageUrl(URL.createObjectURL(imgRef.current.files[0]));
+    window.URL.revokeObjectURL(imgRef.current.files[0]);
+  };
+
   return (
     <div className="container v2">
+      <ModalOption 
+        isOpen={isOpen} 
+        uploadHandler={uploadHandler}
+        profileDeleteHandler={profileDeleteHandler}
+        openModalHandler={openModalHandler}
+      />
       <Header pageTitle={"나의 기본정보 수정"} />
       <UserInfo>
         <div className="user-con">
           <UserPhoto>
-            <img src={userInfo.profileImage} className="user-photo" alt="" />
-            <Link to="/" className="user-edit">
+            <img 
+              src={imageUrl ? imageUrl : myPetPicture || userInfo.profileImage}
+              className="user-photo" 
+              alt=""
+            />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={onChangeImage}
+              ref={imgRef}
+              style={{ display: "none" }}
+            />
+            <i 
+              className="user-edit"
+              onClick={() => {
+                onClickFileBtn();
+              }}
+            >
               <FontAwesomeIcon icon={faCamera} />
-            </Link>
+            </i>
           </UserPhoto>
         </div>
       </UserInfo>
@@ -47,7 +103,7 @@ const UserEdit = () => {
             type="text"
             className="ipt-form"
             name="fullName"
-            value={fullName}
+            value={fullName||userInfo.fullName}
             onChange={(e) => setFullName(e.target.value)}
             placeholder="이름을 입력해주세요."
           />
@@ -60,7 +116,7 @@ const UserEdit = () => {
             type="text"
             name="phone"
             className="ipt-form"
-            value={phone}
+            value={phone||userInfo.phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="연락처를 입력해주세요."
           />
@@ -85,7 +141,7 @@ const UserEdit = () => {
             type="text"
             name="nickName"
             className="ipt-form"
-            value={nickName}
+            value={nickName||userInfo.nickName}
             onChange={(e) => setNickName(e.target.value)}
             placeholder="닉네임을 입력해주세요."
           />

@@ -21,6 +21,8 @@ public class S3fileService {
 
     @Value("${s3.bucket.name}")
     private String s3BucketName;
+    @Value("${clientUri}")
+    private String clientUrl;
 
     public S3fileService(AmazonS3 amazonS3) {
         this.amazonS3 = amazonS3;
@@ -43,6 +45,11 @@ public class S3fileService {
     public String createUUIDFileName(String extension, String dirName){
         String fileName = dirName + UUID.randomUUID().toString() + extension;
         return fileName;
+    }
+
+    @Async
+    public void deleteByLink(String link) {
+        amazonS3.deleteObject(s3BucketName, link.replace(clientUrl + "/", ""));
     }
 
     @Async

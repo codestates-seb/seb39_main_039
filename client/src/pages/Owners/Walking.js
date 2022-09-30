@@ -40,7 +40,7 @@ const Walking = () => {
       <Section>
         <HeaderConfirm
           pageTitle={"진행중인 산책"}
-          ConfirmName={WalkInfo.ended?'':`종료`}
+          ConfirmName={WalkInfo.ended ? "" : `종료`}
           ClickHandler={ClickHandler}
         />
         <div className="walk-team">
@@ -65,8 +65,10 @@ const Walking = () => {
             <dd>
               <DogNameLabel
                 size={"xs"}
-                picture={WalkInfo.walker?.walkerPicture}
-                name={WalkInfo.walker?.walkerName}
+                picture={WalkInfo.walker && WalkInfo.walker?.walkerPicture}
+                name={
+                  WalkInfo.walker ? WalkInfo.walker?.walkerName : "anonymous"
+                }
               />
             </dd>
           </dl>

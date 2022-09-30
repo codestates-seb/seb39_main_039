@@ -15,7 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getMyPetInfo,
   editMyPetInfo,
-  deleteMyPetInfo
+  deleteMyPetInfo,
+  savePetPicture
 } from "../../../redux/actions/petActions";
 import { petSpecList } from "../../../constants/petSpecies";
 import {
@@ -26,6 +27,7 @@ import { ToastContainer } from "react-toast";
 import { ThreeDots } from "react-loader-spinner";
 
 const DogEdit = () => {
+  const imgRef = useRef();
   const sexRef = useRef();
   const specRef = useRef();
   const birthRef = useRef();
@@ -42,8 +44,6 @@ const DogEdit = () => {
   localStorage.setItem("tabList", tabList);
   let tab = localStorage.getItem("tabList");
 
-  console.log(myPetInfo);
-
   // 초기값 설정 및 달력에서 픽 하면 값 변경.. Wed Dec 09 2020 09:00:00 GMT+0900 (한국 표준시)
 
   const [myPetSex, setMyPetSex] = useState(myPetInfo[tab]?.sex);
@@ -54,9 +54,10 @@ const DogEdit = () => {
     new Date(myPetInfo[tab]?.birthday)
   );
   const [convertMyPetBirth, setConvertMyPetBirth] = useState("");
-  console.log(new Date(myPetInfo[tab]?.birthday).toLocaleString());
+  const [myPetPicture, setMyPetPicture] = useState(myPetInfo[tab]?.petPicture);
   // GMT로 변환하기 위해서 2022-11-04 -> 2022,11,04로 만들었다.
-
+  const [imageUrl, setImageUrl] = useState("");
+  const [imgFile, setImgFile] = useState(null);
   const menuArr = myPetInfo.map((el) => el);
 
   const preventClose = (e) => {
@@ -81,6 +82,16 @@ const DogEdit = () => {
     setConvertMyPetBirth(`${year}-${month}-${day}`);
   };
 
+  const onChangeImage = () => {
+    // const reader = new FileReader();
+    setImgFile(imgRef.current.files[0]); // -> put 요청
+    // reader.readAsDataURL(imgFile);
+    // reader.onloadend = () => {
+    setImageUrl(URL.createObjectURL(imgRef.current.files[0]));
+    // };
+    window.URL.revokeObjectURL(imgRef.current.files[0]);
+  };
+
   const ClickHandler = () => {
     dispatch(
       editMyPetInfo(
@@ -92,19 +103,25 @@ const DogEdit = () => {
         myPetAbout
       )
     );
+    dispatch(savePetPicture(myPetInfo[tab].petId, imgFile));
   };
 
   const deletePet = () => {
     dispatch(deleteMyPetInfo(myPetInfo[tab].petId));
   };
 
+  const onClickFileBtn = (e) => {
+    imgRef.current.click();
+  };
+
   useEffect(() => {
-    if (myPetInfo.length > 0) {
-      dispatch(getMyPetInfo());
-      setMyPetSpecies(myPetInfo[tab].species);
-      setMyPetBirth(new Date(myPetInfo[tab]?.birthday));
-      setMyPetSex(myPetInfo[tab]?.sex);
-    }
+    setMyPetSpecies(myPetInfo[tab].species);
+    setMyPetBirth(new Date(myPetInfo[tab]?.birthday));
+    setMyPetSex(myPetInfo[tab]?.sex);
+    setMyPetPicture(myPetInfo[tab]?.petPicture);
+    setImageUrl(null);
+    setImgFile(null);
+    imgRef.current.value = null;
   }, [tab]);
 
   useEffect(() => {
@@ -121,7 +138,6 @@ const DogEdit = () => {
     };
   }, []);
 
-  console.log(tab);
   return (
     <div className="container v2">
       <Header pageTitle={"강아지 정보 수정"} link={"/setting"} />
@@ -161,19 +177,30 @@ const DogEdit = () => {
             </Loading>
           ) : (
             <>
-              {" "}
               <Desc>
                 <UserInfo>
                   <div className="user-con">
                     <UserPhoto>
                       <img
-                        src={menuArr[tab]?.petPicture}
+                        src={imageUrl ? imageUrl : myPetPicture}
                         className="user-photo"
                         alt=""
                       />
-                      <Link to="/" className="user-edit">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={onChangeImage}
+                        ref={imgRef}
+                        style={{ display: "none" }}
+                      />
+                      <i
+                        className="user-edit"
+                        onClick={() => {
+                          onClickFileBtn();
+                        }}
+                      >
                         <FontAwesomeIcon icon={faCamera} />
-                      </Link>
+                      </i>
                     </UserPhoto>
                   </div>
                 </UserInfo>

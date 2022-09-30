@@ -17,12 +17,20 @@ const TrackingMap = () => {
   const [dis, setDis] = useState(0);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  const [infoDistance, setInfoDistance] = useState(0);
+  const [speed, setSpeed] = useState(0);
+  const [speedForHours, setSpeedForHours] = useState(0);
+  const [speedForMinutes, setSpeedForMinutes] = useState(1);
+  const [speedForSeconds, setSpeedForSeconds] = useState(1);
   const dispatch = useDispatch();
   const { lat, lon, walkDetailInfo, isWalk } = useSelector(
     (state) => state.mapping
   );
 
   const { id } = useParams();
+  const localLat = localStorage.getItem("lat");
+  const localLon = localStorage.getItem("lon");
 
   function getGeolocation() {
     let geolocation = navigator.geolocation.watchPosition(
@@ -46,7 +54,7 @@ const TrackingMap = () => {
 
   const drawMap = async () => {
     options = {
-      center: new kakao.maps.LatLng(lat, lon), //지도의 중심좌표.
+      center: new kakao.maps.LatLng(localLat, localLon), //지도의 중심좌표.
       level: 3, //지도의 레벨(확대, 축소 정도)
       isPanto: true
     };
@@ -67,18 +75,18 @@ const TrackingMap = () => {
   };
 
   setTimeout(() => {
-    myMap.panTo(new kakao.maps.LatLng(lat, lon));
+    myMap.panTo(new kakao.maps.LatLng(localLat, localLon));
   }, 3000);
 
   useInterval(() => {
     getGeolocation();
-    if (lat && lon) {
+    if (localLat && localLon) {
       if (!isPauseWalk && isWalk) {
         setLine([...line, new kakao.maps.LatLng(lat, lon)]);
         drawLine();
       }
     }
-  }, 5000);
+  }, 1000);
 
   function getDistance(lat1, lon1, lat2, lon2) {
     if (lat1 === lat2 && lon1 === lon2) return 0;
@@ -102,8 +110,25 @@ const TrackingMap = () => {
   }
 
   useEffect(() => {
+    if (dis < 1000) {
+      setInfoDistance(infoDistance + dis);
+    }
+  }, [dis]);
+
+  useInterval(() => {
+    setSpeedForHours(hours * 60);
+    setSpeedForMinutes(minutes);
+    if (dis < 1000)
+      setSpeed(
+        (dis === 0
+          ? 1
+          : dis / 1000 / (speedForMinutes + speedForHours)
+        ).toFixed(1)
+      );
+  }, 3000);
+
+  useEffect(() => {
     setLineForDistance([...lineForDistance, [lat, lon]]);
-    console.log(lineForDistance);
     if (lineForDistance.length > 1) {
       setLineForDistance([lineForDistance[1], [lat, lon]]);
       getDistance(
@@ -122,6 +147,7 @@ const TrackingMap = () => {
     drawMap();
   }, []);
 
+  console.log(lat, lon, speed, dis, lineForDistance, hours, minutes, seconds);
   return (
     <MapBox>
       <Map id="myMap" style={{ width: "100%", height: "300px" }}></Map>
@@ -132,14 +158,15 @@ const TrackingMap = () => {
           isPauseWalk={isPauseWalk}
           setHours={setHours}
           setMinutes={setMinutes}
+          setSeconds={setSeconds}
         />
         <WalkResultInfo
           walkDetailInfo={walkDetailInfo}
-          distance={dis}
-          lat={lat}
-          lon={lon}
-          hours={hours}
-          minutes={minutes}
+          speed={speed}
+          setSpeedForHours={setSpeedForHours}
+          setSpeedForMinutes={setSpeedForMinutes}
+          setSpeedForSeconds={setSpeedForSeconds}
+          distance={infoDistance}
         />
       </div>
     </MapBox>

@@ -62,8 +62,8 @@ const WantedDetailPage = () => {
     dispatch(getMyPetInfo());
   }, []);
 
-  if (!wantedDetail.walk) return <div></div>;
-  console.log(loading);
+  if (!wantedDetail.walk) return <></>;
+
   return (
     <div className="container pa0 v2">
       <Section>

@@ -35,6 +35,7 @@ const UserEdit = () => {
 
   useEffect(() => {
     dispatch(getUserInfo());
+    if (window) window.scrollTo(0, 0);
   }, [loading]);
 
   console.log(userInfo);

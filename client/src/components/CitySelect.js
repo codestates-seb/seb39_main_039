@@ -81,7 +81,7 @@ const CitySelect = ({
     regionRef.current.filter((node) => node !== null).map((el) => {
         return (el.className = "off");
       });
-    setRegionName();
+    // setRegionName();
   };
 
   const handleRegionClick = (e, idx) => {

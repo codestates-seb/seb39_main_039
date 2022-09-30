@@ -125,6 +125,7 @@ const WantedCreate = () => {
 
   useEffect(() => {
     dispatch(getMyPetInfo());
+    if (window) window.scrollTo(0, 0);
   }, []);
 
   const inputPriceFormat = (str) => {

@@ -3,11 +3,12 @@ package com.albamung.walk.dto;
 import com.albamung.pet.dto.PetDto;
 import com.albamung.user.dto.UserDto;
 import com.albamung.user.dto.WalkerDto;
-import com.albamung.walk.entity.Walk;
 import io.swagger.annotations.ApiModel;
 import lombok.Builder;
 import lombok.Getter;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Null;
 import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -47,6 +48,15 @@ public class WalkDto {
 
     @Getter
     @Builder
+    public static class pictureLink {
+        @Null
+        private Long id;
+        @NotBlank
+        private String link;
+    }
+
+    @Getter
+    @Builder
     public static class SimpleResponse {
         private Long walkId;
         private UserDto.SimpleOwnerResponse owner;
@@ -59,6 +69,7 @@ public class WalkDto {
         private Time actualWalkTime;
         private WalkerDto.SimpleWalkerResponse walker;
     }
+
     @Getter
     @Builder
     public static class WantedResponse {

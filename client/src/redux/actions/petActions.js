@@ -48,7 +48,7 @@ export const addMyPet = (name, species, birth, sex, about, picture) => {
           sex: `${sex}`,
           species: `${species}`
         })
-        .then((res)=>customAxios.get(`pet/${res.data}/savePicture`))
+        .then((res) => customAxios.get(`pet/${res.data}/savePicture`))
         .then((res) => axios.put(res.data, picture))
         .then((res) => window.location.replace("/ownerMain"));
       let add_myPet = await addMyPetAPI;

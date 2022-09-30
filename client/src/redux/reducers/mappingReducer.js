@@ -4,6 +4,7 @@ import {
   GET_LOCATION_REQUEST,
   GET_WALK_DETAIL_INFO_SUCCESS,
   CLOSE_WALK_SUCCESS,
+  GET_WALKING_PET_PICTURE
 } from "../actions/mappingAction";
 
 const initialstate = {
@@ -12,7 +13,8 @@ const initialstate = {
   lon: "",
   isWalk: false,
   walkDetailInfo: [],
-  closeWalklInfo : []
+  closeWalklInfo: [],
+  walkingPetPicture: []
 };
 
 const mappingReducer = (state = initialstate, action) => {
@@ -20,7 +22,6 @@ const mappingReducer = (state = initialstate, action) => {
   switch (type) {
     case GET_LOCATION_REQUEST:
       return { ...state, loading: true };
-
     case GET_LOCATION_SUCCESS:
       return {
         ...state,
@@ -39,10 +40,15 @@ const mappingReducer = (state = initialstate, action) => {
         walkDetailInfo: payload.walkDetailInfo
       };
     case CLOSE_WALK_SUCCESS:
-        return {
-          ...state,
-          closeWalklInfo: payload.closeWalklInfo
-    };
+      return {
+        ...state,
+        closeWalklInfo: payload.closeWalklInfo
+      };
+    case GET_WALKING_PET_PICTURE:
+      return {
+        ...state,
+        walkingPetPicture: payload.walkingPetPicture
+      };
     default:
       return { ...state };
   }

@@ -147,11 +147,10 @@ const TrackingMap = () => {
     drawMap();
   }, []);
 
-  console.log(lat, lon, speed, dis, lineForDistance, hours, minutes, seconds);
+  // console.log(lat, lon, speed, dis, lineForDistance, hours, minutes, seconds);
   return (
     <MapBox>
       <Map id="myMap" style={{ width: "100%", height: "300px" }}></Map>
-
       <div className="control-area">
         <TimeCount
           setIsPauseWalk={setIsPauseWalk}

@@ -26,7 +26,9 @@ const TimeCount = ({
   const timer = useRef();
   const { id } = useParams();
 
-  console.log();
+  const scrollBottom = () => {
+    window.scrollTo({ top: 1000, behavior: "smooth" });
+  };
 
   useEffect(() => {
     setHours(hours);
@@ -67,7 +69,7 @@ const TimeCount = ({
                 dispatch(actualWalkTime(id, `${hours}:${minutes}:${seconds}`));
               }}
             ></StopWalkingPet>
-            <TakePicturePet></TakePicturePet>
+            <TakePicturePet onClick={scrollBottom}></TakePicturePet>
           </>
         )}
       </FunctionBtn>

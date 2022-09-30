@@ -67,8 +67,8 @@ const StartWalking = () => {
     window.URL.revokeObjectURL(imgRef.current.files[0]);
   };
 
-  const forUpLoadPhoto = async (e) => {
-    await imgRef.current.click();
+  const forUpLoadPhoto = (e) => {
+    imgRef.current.click();
   };
 
   const uploadPicture = async () => {

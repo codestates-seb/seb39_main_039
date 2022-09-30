@@ -35,7 +35,7 @@ export const getMyPetInfo = () => {
   };
 };
 
-export const addMyPet = (name, species, birth, sex, about) => {
+export const addMyPet = (name, species, birth, sex, about, picture) => {
   return async () => {
     try {
       const addMyPetAPI = customAxios
@@ -48,8 +48,9 @@ export const addMyPet = (name, species, birth, sex, about) => {
           sex: `${sex}`,
           species: `${species}`
         })
+        .then((res)=>customAxios.get(`pet/${res.data}/savePicture`))
+        .then((res) => axios.put(res.data, picture))
         .then((res) => window.location.replace("/ownerMain"));
-
       let add_myPet = await addMyPetAPI;
     } catch (error) {
       //에러 핸들링 하는 곳

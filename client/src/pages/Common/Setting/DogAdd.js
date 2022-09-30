@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { Header } from "../../../components/Layout/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
@@ -9,17 +9,21 @@ import { ButtonPrimary } from "../../../components/Button/Buttons";
 import DatePicker from "react-datepicker";
 import { DATE_FORMAT_CALENDAR } from "../../../assets/style/dateFormat";
 import { ko } from "date-fns/esm/locale";
-import { useDispatch } from "react-redux";
 import { addMyPet } from "../../../redux/actions/petActions";
 import { petSpecList } from "../../../constants/petSpecies";
+import { savePetPicture } from "../../../redux/actions/petActions";
 
 const DogAdd = () => {
   const [startDate, setStartDate] = useState(new Date());
+  const [imageUrl, setImageUrl] = useState("");
+  const [imgFile, setImgFile] = useState(null);
+  const [myPetPicture, setMyPetPicture] = useState(anonymousDog);
 
   const name = useRef();
   const about = useRef();
   const sex = useRef();
   const spec = useRef();
+  const imgRef = useRef();
 
   const dispatch = useDispatch();
 
@@ -36,9 +40,20 @@ const DogAdd = () => {
         spec.current.value,
         birthOfPet,
         sex.current.value,
-        about.current.value
+        about.current.value,
+        imgFile
       )
     );
+  };
+
+  const onClickFileBtn = (e) => {
+    imgRef.current.click();
+  };
+
+  const onChangeImage = () => {
+    setImgFile(imgRef.current.files[0]); 
+    setImageUrl(URL.createObjectURL(imgRef.current.files[0]));
+    window.URL.revokeObjectURL(imgRef.current.files[0]);
   };
 
   return (
@@ -47,10 +62,26 @@ const DogAdd = () => {
       <UserInfo>
         <div className="user-con">
           <UserPhoto>
-            <img src={anonymousDog} className="user-photo" alt="" />
-            <Link to="/" className="user-edit">
+            <img 
+              src={imageUrl ? imageUrl : myPetPicture}
+              className="user-photo"
+              alt=""
+              />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={onChangeImage}
+              ref={imgRef}
+              style={{ display: "none" }}
+            />
+            <i 
+              className="user-edit"
+              onClick={() => {
+                onClickFileBtn();
+              }}
+            >
               <FontAwesomeIcon icon={faCamera} />
-            </Link>
+            </i>
           </UserPhoto>
         </div>
       </UserInfo>

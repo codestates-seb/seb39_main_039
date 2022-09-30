@@ -24,12 +24,42 @@ import {
   WorkHistory,
   PendingWalk,
   WantedEdit,
-  WalkerWalkHistory,
+  WalkerWalkHistory
 } from "./pages";
 import WalkerWalkWaiting from "./pages/Walkers/WalkerWalkWaiting";
+import { getLocation } from "./redux/actions/mappingAction";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 function App() {
   const isLogin = Cookies.get("access");
+  const { lat, lon } = useSelector((state) => state.mapping);
+
+  const dispatch = useDispatch();
+
+  const getGeolocation = () => {
+    let geolocation = navigator.geolocation.watchPosition(
+      function (position) {
+        dispatch(
+          getLocation(position.coords.latitude, position.coords.longitude)
+        );
+      },
+      function (error) {
+        console.log(error);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: Infinity,
+        maximumAge: 0
+      }
+    );
+  };
+
+  useEffect(() => {
+    getGeolocation();
+    localStorage.setItem("lat", lat);
+    localStorage.setItem("lon", lon);
+  }, [lat, lon]);
 
   return (
     <>
@@ -156,27 +186,30 @@ function App() {
           }
         ></Route>
         <Route
-            path="/walkerWalkHistory/:id"
-            element={
-            <PrivateRoute authenticated={isLogin} component={<WalkerWalkHistory />} />
-        }
+          path="/walkerWalkHistory/:id"
+          element={
+            <PrivateRoute
+              authenticated={isLogin}
+              component={<WalkerWalkHistory />}
+            />
+          }
         ></Route>
         <Route
-            path="/walkerWalkWaiting/:id"
-            element={
-            <PrivateRoute authenticated={isLogin} component={<WalkerWalkWaiting />} />
-        }
+          path="/walkerWalkWaiting/:id"
+          element={
+            <PrivateRoute
+              authenticated={isLogin}
+              component={<WalkerWalkWaiting />}
+            />
+          }
         ></Route>
 
-
-
         <Route
-            path="/dogEditAdd"
-            element={
+          path="/dogEditAdd"
+          element={
             <PrivateRoute authenticated={isLogin} component={<DogEditAdd />} />
-        }
+          }
         ></Route>
-
       </Routes>
     </>
   );

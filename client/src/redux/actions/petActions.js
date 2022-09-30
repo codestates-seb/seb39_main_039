@@ -1,4 +1,5 @@
 import customAxios from "../axiosAPI";
+import axios from "axios";
 import { toast } from "react-toast";
 
 export const GET_PET_INFO_SUCCESS = "GET_PET_INFO_SUCCESS";
@@ -68,11 +69,11 @@ export const editMyPetInfo = (petId, name, species, birth, sex, about) => {
       });
       return await customAxios
         .put(`/pet/${petId}/edit`, {
-          aboutPet: `${about}`,
-          birthday: `${birth}`,
-          name: `${name}`,
-          sex: `${sex}`,
-          species: `${species}`
+          aboutPet: about,
+          birthday: birth,
+          name: name,
+          sex: sex,
+          species: species
         })
         .then(() => {
           dispatch({
@@ -86,6 +87,19 @@ export const editMyPetInfo = (petId, name, species, birth, sex, about) => {
     } catch (error) {
       //에러 핸들링 하는 곳
       console.log("에러", error);
+    }
+  };
+};
+
+export const savePetPicture = (petId, picture) => {
+  return async () => {
+    try {
+      if (picture)
+        return await customAxios
+          .get(`pet/${petId}/savePicture`)
+          .then((res) => axios.put(res.data, picture));
+    } catch (error) {
+      console.log(error);
     }
   };
 };

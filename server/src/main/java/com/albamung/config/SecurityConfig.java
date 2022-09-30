@@ -9,6 +9,7 @@ import com.albamung.oauth.PrincipalOauth2UserService;
 import com.albamung.user.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -52,14 +53,15 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .oauth2Login().loginPage("https://www.albamung.tk/login").authorizationEndpoint().and().successHandler(customOauth2SuccessHandler).userInfoEndpoint().userService(principalOauth2UserService).and()
+                .oauth2Login().loginPage("https://www.albamung.tk/login").successHandler(customOauth2SuccessHandler).userInfoEndpoint().userService(principalOauth2UserService).and()
                 .and()
                 .authorizeRequests().requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers("/user/signup", "/user/login", "/user/refresh").permitAll()
+                .antMatchers("/user/signUp", "/user/login", "/user/refresh").permitAll()
+                .antMatchers(HttpMethod.GET, "/wanted").permitAll()
+                .anyRequest().hasAnyRole("USER", "ADMIN")
 //                .antMatchers(HttpMethod.DELETE).hasAnyRole("USER", "ADMIN")
 //                .antMatchers(HttpMethod.PUT).hasAnyRole("USER", "ADMIN")
 //                .antMatchers(HttpMethod.POST).hasAnyRole("USER", "ADMIN")
-                .anyRequest().permitAll()
                 .and()
                 .apply(new CustomDsl())
                 .and()

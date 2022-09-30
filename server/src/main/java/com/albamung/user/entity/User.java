@@ -86,7 +86,7 @@ public class User extends BaseEntityDate {
 
     public Walk getCurrentWalk(){
         LocalDateTime now = LocalDateTime.now();
-        return this.walkWalkerList.stream().filter(s->s.getStartTime().isBefore(now)&&s.getEndTime().isAfter(now)).findFirst().orElse(null);
+        return this.walkWalkerList.stream().filter(s->s.getStartTime().isBefore(now)&&s.getEndTime().isAfter(now) && !s.isEnded()).findFirst().orElse(null);
     }
 
     public static User of(ProviderType providerType, Map<String, Object> attributes) {

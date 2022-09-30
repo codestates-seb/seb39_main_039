@@ -37,7 +37,6 @@ public class PetController {
     @PostMapping("/create")
     public ResponseEntity postPet(@AuthenticationPrincipal @ApiIgnore User owner,
                                   @RequestBody @Valid PetDto.Post request) {
-        if (owner == null) owner = User.builder().id(1L).build();
         Pet savedPet = petService.savePet(petMapper.postToPet(request), owner.getId());
         return new ResponseEntity(savedPet.getId(),HttpStatus.CREATED);
     }
@@ -46,7 +45,6 @@ public class PetController {
     @GetMapping("/{petId}/savePicture")
     public ResponseEntity savePetPicture(@AuthenticationPrincipal @ApiIgnore User owner,
                                          @PathVariable Long petId){
-        if (owner == null) owner = User.builder().id(1L).build();
         return new ResponseEntity<>(petService.savePetPicture(petId, owner.getId()), HttpStatus.OK);
     }
 
@@ -55,7 +53,6 @@ public class PetController {
     public ResponseEntity putPet(@AuthenticationPrincipal @ApiIgnore User owner,
                                  @RequestBody @Valid PetDto.Put request,
                                  @PathVariable Long petId) {
-        if (owner == null) owner = User.builder().id(1L).build();
         Pet editedPet = petService.editPet(request, petId, owner.getId());
         PetDto.DetailResponse response = petMapper.toDetailResponse(editedPet);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -64,7 +61,6 @@ public class PetController {
     @ApiOperation(value = "반려견 간단 내역 조회", notes = "구인 글 작성 시 불러올 반려견 정보")
     @GetMapping("/simpleList")
     public ResponseEntity getSimplePetList(@AuthenticationPrincipal @ApiIgnore User owner) {
-        if (owner == null) owner = User.builder().id(1L).build();
         List<Pet> petList = petService.getPetList(owner.getId());
         List<PetDto.SimpleResponse> response = petList.stream().map(petMapper::toSimpleResponse).collect(Collectors.toList());
 
@@ -74,7 +70,6 @@ public class PetController {
     @ApiOperation(value = "반려견 상세 조회", notes = "견주 페이지 반려견 목록(모든 반려견 정보 및 산책 내역 포함)")
     @GetMapping("/detailList")
     public ResponseEntity getDetailPetList(@AuthenticationPrincipal @ApiIgnore User owner) {
-        if (owner == null) owner = User.builder().id(1L).build();
         List<Pet> petList = petService.getPetList(owner.getId());
         List<PetDto.DetailResponse> response = petList.stream().map(petMapper::toDetailResponse).collect(Collectors.toList());
 
@@ -85,7 +80,6 @@ public class PetController {
     @DeleteMapping("/{petId}/delete")
     public ResponseEntity deletePet(@AuthenticationPrincipal @ApiIgnore User owner,
                                     @PathVariable Long petId){
-        if (owner == null) owner = User.builder().id(1L).build();
         petService.deletePet(petId, owner.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }

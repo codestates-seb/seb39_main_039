@@ -28,6 +28,7 @@ const WalkerCard = ({ data }) => {
           </div>
         </div>
       </WalkerProfile>
+     
       <WalkState>
         {data?.currentWalk === null ? (
           <NotWalk>
@@ -118,12 +119,16 @@ const WalkerProfile = styled.div`
       border: 7px solid var(--white-000);
       vertical-align: bottom;
     }
+
+  .user-grad{
+    text-align: center;
+  }
   }
 
   .dog-info {
     display: flex;
     align-items: top;
-    padding-top: 8px;
+    padding: 8px 0;
     justify-content: center;
 
     > div > * {

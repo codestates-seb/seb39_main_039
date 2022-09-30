@@ -24,7 +24,6 @@ const WantedList = () => {
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const regionRef = useRef(); //선택 후 지역 인풋 포커싱
 
   const [isOn, setIsOn] = useState(false);
   const [selectedSort, setSelectedSort] = useState("최신순");
@@ -43,7 +42,6 @@ const WantedList = () => {
     setRegionNamePick(regionName);
     setIsOpen(false);
     document.body.style.overflow = "unset";
-    regionRef.current.focus();
   };
 
   const { ref, inView } = useInView({
@@ -95,6 +93,8 @@ const WantedList = () => {
     // dispatch(getScrollAllWantedList("", "", "", 1));
     dispatch(getMyPetInfo());
   }, []);
+
+  console.log(regionName);
 
   return (
     <div className="container bg-gray v2">

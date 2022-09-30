@@ -62,7 +62,7 @@ const WantedDetailPage = () => {
     dispatch(getMyPetInfo());
   }, []);
 
-  if (!wantedDetail.walk) return <div></div>;
+  if (!wantedDetail.walk) return <></>;
 
 
   return (

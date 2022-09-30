@@ -32,7 +32,7 @@ const Walking = () => {
 
   useEffect(() => {
     dispatch(getWalkDetailInfo(Number(walkId.id)));
-    // dispatch(getWalkingPetPicture(walkId.id));
+    dispatch(getWalkingPetPicture(walkId.id));
   }, []);
 
   return (

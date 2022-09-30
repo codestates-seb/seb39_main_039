@@ -38,12 +38,17 @@ public class PetService {
 
         return petRepository.save(pet);
     }
-    public String savePetPicture(Long petId, Long ownerId){
+
+    public String savePetPicture(Long petId, Long ownerId) {
         Pet targetPet = verifyPet(petId);
         verifyPetOwner(targetPet, ownerId);
-        String UUIDFileName = s3fileService.createUUIDFileName(petId.toString(), dirName);
-        targetPet.setPicture(clientUrl +"/"+ UUIDFileName);
+        String originalPicture = targetPet.getPicture();
 
+        if(originalPicture!=null && originalPicture.startsWith(clientUrl)) s3fileService.delete(originalPicture.replace(clientUrl +"/", ""));
+
+        String UUIDFileName = s3fileService.createUUIDFileName(petId.toString(), dirName);
+
+        targetPet.setPicture(clientUrl + "/" + UUIDFileName);
         return s3fileService.save(UUIDFileName);
     }
 
@@ -58,6 +63,7 @@ public class PetService {
 
         return targetPet;
     }
+
     public List<Pet> getPetList(Long ownerId) {
         User owner = userService.verifyUser(ownerId);
         return owner.getPetList();
@@ -76,6 +82,7 @@ public class PetService {
     }
 
     public void verifyPetOwner(Pet pet, Long ownerId) {
-        if(!pet.getOwner().getId().equals(ownerId)) throw new CustomException("해당 반려견의 주인이 아닙니다", HttpStatus.FORBIDDEN);
+        if (!pet.getOwner().getId().equals(ownerId))
+            throw new CustomException("해당 반려견의 주인이 아닙니다", HttpStatus.FORBIDDEN);
     }
 }

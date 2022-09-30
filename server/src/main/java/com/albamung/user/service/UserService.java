@@ -2,16 +2,13 @@ package com.albamung.user.service;
 
 
 import com.albamung.exception.CustomException;
+import com.albamung.helper.fileUpload.S3fileService;
 import com.albamung.helper.jwt.JwtTokenProvider;
 import com.albamung.user.entity.User;
 import com.albamung.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
-
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,14 +19,15 @@ import java.util.*;
 public class UserService {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
-    private final AuthenticationManager authenticationManager;
-    @Value("${clientUri}")
-    String uri;
+    private final S3fileService s3fileService;
 
-    public UserService(UserRepository userRepository, JwtTokenProvider jwtTokenProvider, AuthenticationManager authenticationManager) {
+    @Value("${clientUri}")
+    private String clientUrl;
+
+    public UserService(UserRepository userRepository, JwtTokenProvider jwtTokenProvider, S3fileService s3fileService) {
         this.userRepository = userRepository;
         this.jwtTokenProvider = jwtTokenProvider;
-        this.authenticationManager = authenticationManager;
+        this.s3fileService = s3fileService;
     }
 
     /**
@@ -45,8 +43,8 @@ public class UserService {
                 "https://www.gravatar.com/avatar/2dceea858ad8f1577bec6ddaa0485d15?s=256&d=identicon&r=PG",
                 "https://www.gravatar.com/avatar/e514b017977ebf742a418cac697d8996?s=256&d=identicon&r=PG",
                 "https://www.gravatar.com/avatar/ad240ed5cc406759f0fd72591dc8ca47?s=256&d=identicon&r=PG");
-        user.setProfileImage(profileImage.get(num%5));
-        user.setNickName(user.getNickName() + " #" + (userRepository.countAllByNickNameStartsWith(user.getNickName())+1));
+        user.setProfileImage(profileImage.get(num % 5));
+        user.setNickName(user.getNickName() + " #" + (userRepository.countAllByNickNameStartsWith(user.getNickName()) + 1));
         try {
             userRepository.save(user);
             return user.getNickName();
@@ -68,12 +66,43 @@ public class UserService {
      */
     public User putUserDefault(User user, long loginUserId) {
         User targetUser = verifyUser(loginUserId);
-        Optional.ofNullable(user.getNickName()).ifPresent(nickName->{
-            if(!nickName.equals(targetUser.getNickName())) targetUser.setNickName(nickName + " #" + (userRepository.countAllByNickNameStartsWith(nickName)+1));
+        Optional.ofNullable(user.getNickName()).ifPresent(nickName -> {
+            if (!nickName.equals(targetUser.getNickName()))
+                targetUser.setNickName(nickName + " #" + (userRepository.countAllByNickNameStartsWith(nickName) + 1));
         });
         Optional.ofNullable(user.getFullName()).ifPresent(targetUser::setFullName);
         Optional.ofNullable(user.getPhone()).ifPresent(targetUser::setPhone);
         return targetUser;
+    }
+
+    /**
+     * 유저 프로필 이미지 저장 S3 preSigningUrl 발급
+     */
+    public String saveProfileImage(Long userId) {
+        User targetUser = verifyUser(userId);
+        String originalPicture = targetUser.getProfileImage();
+        String dirName = "image/userProfile/";
+
+        if (originalPicture != null && originalPicture.startsWith(clientUrl))
+            s3fileService.deleteByLink(originalPicture);
+
+        String UUIDFileName = s3fileService.createUUIDFileName(userId.toString(), dirName);
+
+        targetUser.setProfileImage(clientUrl + "/" + UUIDFileName);
+        return s3fileService.save(UUIDFileName);
+    }
+
+    /**
+     * 유저 프로필 이미지 삭제
+     */
+    public void deleteProfileImage(Long userId) {
+        User targetUser = verifyUser(userId);
+        String originalPicture = targetUser.getProfileImage();
+
+        if (originalPicture != null && originalPicture.startsWith(clientUrl))
+            s3fileService.deleteByLink(originalPicture);
+
+        targetUser.setProfileImage(null);
     }
 
     /**
@@ -98,7 +127,7 @@ public class UserService {
             throw new AccessDeniedException("");
         String refresh = jwtTokenProvider.createRefreshToken(user.getId());
         Map<String, String> tokens = new HashMap<>();
-        tokens.put("access",jwtTokenProvider.createToken(user.getId(), user.getEmail(), user.getRoleList()));
+        tokens.put("access", jwtTokenProvider.createToken(user.getId(), user.getEmail(), user.getRoleList()));
         tokens.put("refresh", refresh);
         return tokens;
     }

@@ -74,6 +74,19 @@ public class UserController {
         return new ResponseEntity<>(editedUser.getId(), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "사용자 사진 등록 및 수정")
+    @GetMapping("/saveProfileImage")
+    public ResponseEntity saveProfileImage(@AuthenticationPrincipal User user){
+        return new ResponseEntity<>(userService.saveProfileImage(user.getId()),HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "사용자 사진 삭제")
+    @DeleteMapping("/deleteProfileImage")
+    public ResponseEntity deleteProfileImage(@AuthenticationPrincipal User user){
+        userService.deleteProfileImage(user.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @DeleteMapping("/delete")
     public ResponseEntity deleteUser(@AuthenticationPrincipal @ApiIgnore User user) {
         userService.deleteUser(user.getId());

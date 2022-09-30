@@ -92,7 +92,7 @@ const Section = styled.section`
 `;
 
 const UserSlide = styled.div`
-  padding-bottom: 20px;
+  padding-bottom: 5px;
 `;
 
 const Weather = styled.div`

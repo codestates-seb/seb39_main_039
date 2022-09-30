@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.sql.Time;
@@ -90,16 +89,15 @@ public class WalkController {
     @DeleteMapping("/{walkId}/deletePicture")
     public ResponseEntity deleteWalkPicture(@AuthenticationPrincipal @ApiIgnore User owner,
                                             @PathVariable @Positive Long walkId,
-                                            @RequestBody @NotBlank String link) {
-        walkService.deleteWalkPicture(walkId, link, owner.getId());
-
+                                            @RequestBody @Valid WalkDto.pictureLink request) {
+        walkService.deleteWalkPicture(walkId, request.getLink(), owner.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ApiOperation(value = "산책 삭제", notes = "견주만 가능!")
     @DeleteMapping("/{walkId}/delete")
     public ResponseEntity deleteWalk(@AuthenticationPrincipal @ApiIgnore User owner,
-                                     @PathVariable @Positive Long walkId){
+                                     @PathVariable @Positive Long walkId) {
         walkService.deleteWalk(walkId, owner.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -129,7 +127,7 @@ public class WalkController {
     @ApiOperation(value = "산책 사진리스트 불러오기", notes = "해당 산책 Id의 사진 리스트만 반환하는 API입니다")
     @GetMapping("/{walkId}/pictureList")
     public ResponseEntity getPictureList(@AuthenticationPrincipal @ApiIgnore User user,
-                                   @PathVariable @Positive Long walkId) {
+                                         @PathVariable @Positive Long walkId) {
         Walk targetWalk = walkService.verifyWalk(walkId);
         walkService.verifyWalkUser(targetWalk, user.getId());
         return new ResponseEntity<>(targetWalk.getPictureList(), HttpStatus.OK);
@@ -192,7 +190,7 @@ public class WalkController {
     @ApiOperation(value = "산책 종료")
     @PutMapping("/{walkId}/end")
     public ResponseEntity endWalk(@AuthenticationPrincipal @ApiIgnore User owner,
-                                  @PathVariable @Positive Long walkId) {;
+                                  @PathVariable @Positive Long walkId) {
         return new ResponseEntity<>(walkService.endWalk(walkId, owner.getId()), HttpStatus.OK);
     }
 }

@@ -66,9 +66,9 @@ public class UserController {
 
     @ApiOperation(value = "사용자 기본 정보 수정")
     @PutMapping("/editDefault")
-    public ResponseEntity putUserDefault(@RequestBody UserDto.PutDefault requestBody, @AuthenticationPrincipal @ApiIgnore User user) {
+    public ResponseEntity putUserDefault(@RequestBody @Valid UserDto.PutDefault request, @AuthenticationPrincipal @ApiIgnore User user) {
 
-        User putUser = mapper.putToUser(requestBody);
+        User putUser = mapper.putToUser(request);
         User editedUser = userService.putUserDefault(putUser, user.getId());
 
         return new ResponseEntity<>(editedUser.getId(), HttpStatus.OK);

@@ -56,13 +56,14 @@ const WantedDetailPage = () => {
   useEffect(() => {
     dispatch(getWantedDetail(id));
     if (window) window.scrollTo(0, 0);
-  }, [isOn]);
+  }, []);
 
   useEffect(() => {
     dispatch(getMyPetInfo());
   }, []);
 
-  if (!wantedDetail.walk) return <></>;
+  // if (!wantedDetail.walk) return <div></div>;
+
 
   return (
     <div className="container pa0 v2">
@@ -74,7 +75,7 @@ const WantedDetailPage = () => {
           text={"구인글을 삭제하시겠습니까?"}
         />
         <Header pageTitle={""} />
-        {loading ? (
+        {!wantedDetail.walk ? (
           <Loading>
             <ThreeDots color="#3183f8" height={80} width={80} />
           </Loading>

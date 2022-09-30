@@ -28,7 +28,6 @@ const UserEdit = () => {
     setIsOpen(!isOpen);
   };
 
-
   const ClickHandler = () => {
     dispatch(editUserInfo(fullName, phone, nickName));
     dispatch(saveUserPicture(imgFile));
@@ -38,6 +37,7 @@ const UserEdit = () => {
     dispatch(getUserInfo());
   }, [loading]);
 
+  console.log(userInfo);
   const onClickFileBtn = (e) => {
     setIsOpen(true);
   };
@@ -72,7 +72,7 @@ const UserEdit = () => {
         <div className="user-con">
           <UserPhoto>
             <img 
-              src={imageUrl ? imageUrl : myPetPicture}
+              src={imageUrl ? imageUrl : myPetPicture || userInfo.profileImage}
               className="user-photo" 
               alt=""
             />
@@ -103,7 +103,7 @@ const UserEdit = () => {
             type="text"
             className="ipt-form"
             name="fullName"
-            value={fullName}
+            value={fullName||userInfo.fullName}
             onChange={(e) => setFullName(e.target.value)}
             placeholder="이름을 입력해주세요."
           />
@@ -116,7 +116,7 @@ const UserEdit = () => {
             type="text"
             name="phone"
             className="ipt-form"
-            value={phone}
+            value={phone||userInfo.phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="연락처를 입력해주세요."
           />
@@ -141,7 +141,7 @@ const UserEdit = () => {
             type="text"
             name="nickName"
             className="ipt-form"
-            value={nickName}
+            value={nickName||userInfo.nickName}
             onChange={(e) => setNickName(e.target.value)}
             placeholder="닉네임을 입력해주세요."
           />

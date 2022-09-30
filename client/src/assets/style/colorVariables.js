@@ -21,5 +21,9 @@ const colorVariables = css`
     --err-danger : hsl(0, 81.8%, 50.4%);
     --info : hsl(222, 89.9%, 57.5%);
     --succes : hsl(144, 94.4%, 42.0%);
+
+&.ui-dark{
+    
+}
 `
 export default colorVariables;

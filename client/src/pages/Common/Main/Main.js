@@ -30,6 +30,9 @@ const Main = () => {
     }
   }, []);
 
+
+
+
   return (
     <div className="container pa0">
       <MainIntro>

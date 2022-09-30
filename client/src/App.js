@@ -61,6 +61,13 @@ function App() {
     localStorage.setItem("lon", lon);
   }, [lat, lon]);
 
+  useEffect(() => {
+    const bgMode = window.localStorage.getItem("bgMode");
+    if (bgMode === "dark") {
+      document.getElementsByTagName("html")[0].classList.add("ui-dark");
+    }
+  }, []);
+  
   return (
     <>
       <Routes>

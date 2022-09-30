@@ -44,7 +44,6 @@ public class UserController {
     @ApiOperation(value = "사용자 기본 정보 조회", notes = "사용자 기본 정보 수정 때 얹어놓을 정보나, 햄버거 등에서 쓸만한 간단한 정보(이름, 폰, 이멜, 사진, 닉넴)")
     @GetMapping("/myInfo")
     public ResponseEntity getMyInfo(@AuthenticationPrincipal @ApiIgnore User loginUser) {
-        if (loginUser == null) loginUser = User.builder().id(1L).build();
         if (loginUser == null) throw new CustomException("Please Login First", HttpStatus.FORBIDDEN);
         UserDto.DefaultResponse response = mapper.toDefaultResponse(userService.getUserInfo(loginUser.getId()));
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -68,7 +67,6 @@ public class UserController {
     @ApiOperation(value = "사용자 기본 정보 수정")
     @PutMapping("/editDefault")
     public ResponseEntity putUserDefault(@RequestBody UserDto.PutDefault requestBody, @AuthenticationPrincipal @ApiIgnore User user) {
-        if (user == null) user = User.builder().id(1L).build();
 
         User putUser = mapper.putToUser(requestBody);
         User editedUser = userService.putUserDefault(putUser, user.getId());

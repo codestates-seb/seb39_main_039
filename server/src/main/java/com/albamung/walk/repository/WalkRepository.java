@@ -14,9 +14,11 @@ public interface WalkRepository extends JpaRepository<Walk, Long> {
     @Query(value = "UPDATE walk SET distance = distance + ?2 WHERE id = ?1 ", nativeQuery = true)
     void increaseDistance(Long walkId, int distance);
 
-    Page<Walk> findAllByPetListIdAndEndTimeIsBefore(Long petId, LocalDateTime now, PageRequest pageRequest);
+    @Query(value = "Select u from Walk u join u.petList p where p.id = ?1 AND (u.endTime < ?2 OR u.ended = true)")
+    Page<Walk> findPetWalkHistory(Long petId, LocalDateTime now, PageRequest pageRequest);
     Page<Walk> findAllByPetListIdAndStartTimeIsAfter(Long petId, LocalDateTime now, PageRequest pageRequest);
 
-    Page<Walk> findAllByWalkerIdAndEndTimeIsBefore(Long walkerId, LocalDateTime now, PageRequest pageRequest);
+    @Query(value = "Select u from Walk u where u.walker.id = ?1 AND (u.endTime < ?2 OR u.ended = true)")
+    Page<Walk> findWalkerWalkHistory(Long walkerId, LocalDateTime now, PageRequest pageRequest);
     Page<Walk> findAllByWalkerIdAndStartTimeIsAfter(Long walkerId, LocalDateTime now, PageRequest pageRequest);
 }

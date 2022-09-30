@@ -31,8 +31,8 @@ public class WalkerService {
         List<Walk> walkList = walker.getWalkWalkerList();
         WalkerDto.DetailWalkerResponse walkerDto = userMapper.toDetailWalkerResponse(walker);
         walkerDto.setWalkDistance(walkList.stream().mapToInt(Walk::getDistance).sum());
-        walkerDto.setWalkHistoryCount((int) walkList.stream().filter(s -> s.getEndTime().isBefore(now)).count());
-        walkerDto.setWalkWaitingCount((int) walkList.stream().filter(s -> s.getStartTime().isAfter(now)).count());
+        walkerDto.setWalkHistoryCount((int) walkList.stream().filter(s -> s.getEndTime().isBefore(now) || s.isEnded()).count());
+        walkerDto.setWalkWaitingCount((int) walkList.stream().filter(s -> s.getStartTime().isAfter(now) && !s.isEnded()).count());
 
         return walkerDto;
     }

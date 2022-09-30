@@ -46,7 +46,6 @@ public class WalkController {
     @ApiOperation(value = "산책 세부내역 불러오기", notes = "진행중 산책, 지난 산책 세부내역 등")
     @GetMapping("/{walkId}")
     public ResponseEntity getDetailWalk(@AuthenticationPrincipal @ApiIgnore User user, @PathVariable @Positive Long walkId) {
-        if(user == null) user = User.builder().id(1L).build();
         Walk walk = walkService.getWalk(walkId, user.getId());
         WalkDto.DetailResponse response = walkMapper.toDetailResponse(walk);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -57,7 +56,6 @@ public class WalkController {
     public ResponseEntity getWalkHistoryListByPet(@AuthenticationPrincipal @ApiIgnore User user,
                                                   @RequestParam(required = false) @Positive Long petId,
                                                   @RequestParam int page) {
-        if (user == null) user = User.builder().id(1L).build();
         Page<Walk> walkList;
 
         if (petId != null) walkList = walkService.getWalkHistoryListByPetId(petId, page - 1, user.getId(), "history");
@@ -72,7 +70,6 @@ public class WalkController {
     public ResponseEntity getWalkWaitingListByPet(@AuthenticationPrincipal @ApiIgnore User user,
                                                   @RequestParam(required = false) Long petId,
                                                   @RequestParam int page) {
-        if (user == null) user = User.builder().id(1L).build();
         Page<Walk> walkList;
 
         if (petId != null) walkList = walkService.getWalkHistoryListByPetId(petId, page - 1, user.getId(), "waiting");
@@ -86,7 +83,6 @@ public class WalkController {
     @GetMapping("/{walkId}/savePicture")
     public ResponseEntity saveWalkPicture(@AuthenticationPrincipal @ApiIgnore User owner,
                                           @PathVariable @Positive Long walkId) {
-        if (owner == null) owner = User.builder().id(1L).build();
         return new ResponseEntity<>(walkService.saveWalkPicture(walkId, owner.getId()), HttpStatus.OK);
     }
 
@@ -95,12 +91,18 @@ public class WalkController {
     public ResponseEntity deleteWalkPicture(@AuthenticationPrincipal @ApiIgnore User owner,
                                             @PathVariable @Positive Long walkId,
                                             @RequestBody @NotBlank String link) {
-        if (owner == null) owner = User.builder().id(1L).build();
         walkService.deleteWalkPicture(walkId, link, owner.getId());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @ApiOperation(value = "산책 삭제", notes = "견주만 가능!")
+    @DeleteMapping("/{walkId}/delete")
+    public ResponseEntity deleteWalk(@AuthenticationPrincipal @ApiIgnore User owner,
+                                     @PathVariable @Positive Long walkId){
+        walkService.deleteWalk(walkId, owner.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     /**
      * 산책 등록 -> 구인글 등록으로 이관
@@ -119,9 +121,8 @@ public class WalkController {
     @GetMapping("/{walkId}/coord")
     public ResponseEntity getCoord(@AuthenticationPrincipal @ApiIgnore User user,
                                    @PathVariable @Positive Long walkId) {
-        if (user == null) user = User.builder().id(1L).build();
         Walk targetWalk = walkService.verifyWalk(walkId);
-//        walkService.verifyWalkUser(targetWalk, user.getId());
+        walkService.verifyWalkUser(targetWalk, user.getId());
         return new ResponseEntity<>(targetWalk.getCoord(), HttpStatus.OK);
     }
 
@@ -130,7 +131,6 @@ public class WalkController {
     public ResponseEntity putCoord(@AuthenticationPrincipal @ApiIgnore User walker,
                                    @PathVariable @Positive Long walkId,
                                    @RequestBody @Valid WalkDto.PutCoord request) throws ParseException {
-        if (walker == null) walker = User.builder().id(1L).build();
         walkService.putCoord(walkId, request.getCoord(), request.getDistance(), walker.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -140,7 +140,6 @@ public class WalkController {
     public ResponseEntity putActualWalkTime(@AuthenticationPrincipal @ApiIgnore User walker,
                                             @PathVariable @Positive Long walkId,
                                             @RequestBody Time actualWalkTime) {
-        if (walker == null) walker = User.builder().id(1L).build();
         Time response = walkService.putActualWalkTime(walkId, actualWalkTime, walker.getId());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -151,7 +150,6 @@ public class WalkController {
                                      @PathVariable @Positive Long walkId,
                                      @PathVariable("checklist_id") @Positive Long checkListId,
                                      @RequestBody @NotNull boolean check) {
-        if (walker == null) walker = User.builder().id(1L).build();
         Walk responseWalk = walkService.checkCheckList(walkId, checkListId, check, walker.getId());
         Map<String, Object> response = new HashMap<>();
         response.put("checked", check);
@@ -165,7 +163,6 @@ public class WalkController {
                                  @PathVariable @Positive Long walkId,
                                  @PathVariable String basic,
                                  @RequestBody @NotNull int count) {
-        if (walker == null) walker = User.builder().id(1L).build();
         int response = walkService.putBasic(walkId, basic, count, walker.getId());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -186,8 +183,7 @@ public class WalkController {
     @ApiOperation(value = "산책 종료")
     @PutMapping("/{walkId}/end")
     public ResponseEntity endWalk(@AuthenticationPrincipal @ApiIgnore User owner,
-                                  @PathVariable @Positive Long walkId) {
-        if (owner == null) owner = User.builder().id(1L).build();
+                                  @PathVariable @Positive Long walkId) {;
         return new ResponseEntity<>(walkService.endWalk(walkId, owner.getId()), HttpStatus.OK);
     }
 }

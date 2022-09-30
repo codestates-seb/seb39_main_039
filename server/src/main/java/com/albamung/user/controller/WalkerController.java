@@ -30,7 +30,6 @@ public class WalkerController {
     @ApiOperation(value = "알바메인 화면 구성을 위한 Walker 정보")
     @GetMapping
     public ResponseEntity getWalkerDetail(@AuthenticationPrincipal @ApiIgnore User walker){
-        if(walker==null) walker = User.builder().id(1L).build();
         return new ResponseEntity<>(walkerService.getWalkerDetails(walker.getId()), HttpStatus.OK);
     }
 

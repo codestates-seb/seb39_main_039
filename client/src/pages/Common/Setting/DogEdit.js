@@ -92,6 +92,7 @@ const DogEdit = () => {
     window.URL.revokeObjectURL(imgRef.current.files[0]);
   };
 
+  console.log(imgFile);
   const ClickHandler = () => {
     dispatch(
       editMyPetInfo(
@@ -103,6 +104,7 @@ const DogEdit = () => {
         myPetAbout
       )
     );
+    console.log(imgFile);
     dispatch(savePetPicture(myPetInfo[tab].petId, imgFile));
   };
 
@@ -126,6 +128,7 @@ const DogEdit = () => {
 
   useEffect(() => {
     tab && dispatch(getMyPetInfo());
+    if (window) window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
@@ -368,6 +371,7 @@ const UserPhoto = styled.div`
   }
 
   .user-edit {
+    cursor: pointer;
     position: absolute;
     right: -7px;
     bottom: -3px;

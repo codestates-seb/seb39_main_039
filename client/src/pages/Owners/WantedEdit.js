@@ -104,9 +104,8 @@ const WantedEdit = () => {
     setCheckListData([...checklistData, title]);
   };
 
-  const deleteCheckList = (id) => {
-    console.log(id);
-    setCheckListData(checklistData.filter((el) => el.checkListId !== id));
+  const deleteCheckList = (id, idx) => {
+    setCheckListData(checklistData.filter((el, idx2) => idx !== idx2));
   };
 
   useEffect(() => {
@@ -248,15 +247,13 @@ const WantedEdit = () => {
                       type="checkbox"
                       name={el.content}
                       onChange={(e) => {
-                        onCheckListElement(e.target.checked, e.target.name);
+                        onCheckListElement(e.target.checked, el);
                       }}
                     />
                     <span>{el}</span>
                   </span>
                   <span>
-                    <ButtonPrimaryXS
-                      onClick={() => deleteCheckList(el.checkListId)}
-                    >
+                    <ButtonPrimaryXS onClick={() => deleteCheckList(el, idx)}>
                       삭제
                     </ButtonPrimaryXS>
                   </span>
@@ -311,7 +308,7 @@ const DogSelect = styled.ul`
   padding: 2px 0 5px;
   li {
     display: inline-block;
-    margin-right: 9px;
+    margin: 0px 10px 9px 0;
   }
 
   .active {
@@ -352,7 +349,7 @@ const ConCheckList = styled.ul`
     }
   }
   li + li {
-    margin: 20px 0;
+    margin: 6px 0;
   }
   li:before {
     content: "";
@@ -413,20 +410,24 @@ const DogCheckBoxLabel = styled.label`
     display: flex;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.13);
     padding: 4px 14px 4px 5px;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     border: 1px solid var(--gray-200);
     border-radius: 50px;
+    min-width: 110px;
     > img {
       border-radius: 30px;
+      width: 35px;
+      height: 35px;
       margin-right: 5px;
     }
   }
 `;
 
 const Error = styled.span`
+  display: block;
   font-size: 12px;
   color: var(--err-danger);
-  text-align: start;
+  text-align: right;
   margin-left: 10px;
 `;

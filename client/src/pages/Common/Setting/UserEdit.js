@@ -15,7 +15,7 @@ const UserEdit = () => {
   const dispatch = useDispatch();
   const imgRef = useRef();
 
-  const { userInfo, loading, sign } = useSelector((state) => state.user);
+  const { userInfo, loading } = useSelector((state) => state.user);
   const [fullName, setFullName] = useState(userInfo.fullName);
   const [phone, setPhone] = useState(userInfo.phone);
   const [nickName, setNickName] = useState(userInfo.nickName);
@@ -23,6 +23,11 @@ const UserEdit = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [imgFile, setImgFile] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+
+  const openModalHandler = () => {
+    setIsOpen(!isOpen);
+  };
+
 
   const ClickHandler = () => {
     dispatch(editUserInfo(fullName, phone, nickName));
@@ -54,14 +59,13 @@ const UserEdit = () => {
     window.URL.revokeObjectURL(imgRef.current.files[0]);
   };
 
-  // console.log(imgRef.current.files[0] && imgRef.current.files[0])
-  
   return (
     <div className="container v2">
       <ModalOption 
         isOpen={isOpen} 
         uploadHandler={uploadHandler}
         profileDeleteHandler={profileDeleteHandler}
+        openModalHandler={openModalHandler}
       />
       <Header pageTitle={"나의 기본정보 수정"} />
       <UserInfo>

@@ -1,9 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-function ModalOption ( {isOpen, setIsOpen, uploadHandler, profileDeleteHandler} ) {
-    const openModalHandler = () => {
-        setIsOpen(!isOpen);
-    };
+function ModalOption ( {isOpen, setIsOpen, uploadHandler, profileDeleteHandler, openModalHandler} ) {
+    
 
     return(
     <>

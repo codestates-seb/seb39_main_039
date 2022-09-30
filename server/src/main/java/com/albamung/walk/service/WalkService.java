@@ -167,9 +167,8 @@ public class WalkService {
     public void deleteWalkPicture(Long walkId, String link, Long walkerId) {
         Walk targetWalk = verifyWalk(walkId);
         verifyWalkUser(targetWalk, walkerId);
-        String fileName = link.replace(clientUrl + "/", "");
         try {
-            s3fileService.delete(fileName);
+            s3fileService.deleteByLink(link);
         } catch (Exception e) {
             throw new CustomException("삭제에 실패했습니다. 링크를 확인해주세요", HttpStatus.INTERNAL_SERVER_ERROR);
         }

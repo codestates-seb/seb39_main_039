@@ -104,9 +104,8 @@ const WantedEdit = () => {
     setCheckListData([...checklistData, title]);
   };
 
-  const deleteCheckList = (id) => {
-    console.log(id);
-    setCheckListData(checklistData.filter((el) => el.checkListId !== id));
+  const deleteCheckList = (id, idx) => {
+    setCheckListData(checklistData.filter((el, idx2) => idx !== idx2));
   };
 
   useEffect(() => {
@@ -248,15 +247,13 @@ const WantedEdit = () => {
                       type="checkbox"
                       name={el.content}
                       onChange={(e) => {
-                        onCheckListElement(e.target.checked, e.target.name);
+                        onCheckListElement(e.target.checked, el);
                       }}
                     />
                     <span>{el}</span>
                   </span>
                   <span>
-                    <ButtonPrimaryXS
-                      onClick={() => deleteCheckList(el.checkListId)}
-                    >
+                    <ButtonPrimaryXS onClick={() => deleteCheckList(el, idx)}>
                       삭제
                     </ButtonPrimaryXS>
                   </span>

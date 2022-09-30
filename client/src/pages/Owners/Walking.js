@@ -9,14 +9,18 @@ import { CheckListView } from "../../components/CheckListView";
 import { StateCard } from "../../components/StateCard";
 import ModalEndWalk from "../../components/Modal/ModalEndWalk";
 import sampleImg from "../../assets/img/sample-img.png";
-import { getWalkDetailInfo } from "../../redux/actions/mappingAction";
-import { closeWalk } from "../../redux/actions/mappingAction";
+import {
+  getWalkDetailInfo,
+  closeWalk,
+  getWalkingPetPicture
+} from "../../redux/actions/mappingAction";
 
 const Walking = () => {
   const walkId = useParams();
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const WalkInfo = useSelector((state) => state.mapping.walkDetailInfo);
+  const { walkingPetPicture } = useSelector((state) => state.mapping);
   const time = new Date(WalkInfo.endTime + "z").toLocaleString().slice(0, -3);
   const ClickHandler = () => {
     setIsOpen(!isOpen);
@@ -28,6 +32,7 @@ const Walking = () => {
 
   useEffect(() => {
     dispatch(getWalkDetailInfo(Number(walkId.id)));
+    // dispatch(getWalkingPetPicture(walkId.id));
   }, []);
 
   return (
@@ -120,23 +125,17 @@ const Walking = () => {
         <label htmlFor="" className="ipt-label">
           사진 보관함
         </label>
-        <ul className="list-horizonscroll">
-          <li>
-            <img src={sampleImg} alt="" />
-          </li>
-          <li>
-            <img src={sampleImg} alt="" />
-          </li>
-          <li>
-            <img src={sampleImg} alt="" />
-          </li>
-          <li>
-            <img src={sampleImg} alt="" />
-          </li>
-          <li>
-            <img src={sampleImg} alt="" />
-          </li>
-        </ul>
+        {walkingPetPicture.length === 0 ? (
+          <div>등록된 사진이 없어요.</div>
+        ) : (
+          <ul className="list-horizonscroll">
+            {walkingPetPicture?.map((item) => (
+              <li>
+                <img src={item} alt="" className="user-photo" />
+              </li>
+            ))}
+          </ul>
+        )}
       </Sect>
     </div>
   );
@@ -204,6 +203,19 @@ const Sect = styled.section`
   &.map-area {
     padding-top: 0;
     margin: 0;
+  }
+
+  .user-photo {
+    cursor: pointer;
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+    margin-right: 10px;
+
+    :hover {
+      transition: 500ms;
+      transform: scale(1.03);
+    }
   }
 `;
 

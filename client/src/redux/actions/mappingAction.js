@@ -1,10 +1,12 @@
 import customAxios from "../axiosAPI";
+import axios from "axios";
 
 // 로그인이 성공했을 때 행동 (액션타입)
 export const GET_LOCATION_SUCCESS = "GET_LOCATION_SUCCESS";
 export const GET_WALK_STATE_SUCCESS = "GET_WALK_STATE_SUCCESS";
 export const GET_WALK_DETAIL_INFO_SUCCESS = "GET_WALK_DETAIL_INFO_SUCCESS";
 export const CLOSE_WALK_SUCCESS = "CLOSE_WALK_SUCCESS";
+export const GET_WALKING_PET_PICTURE = "GET_WALKING_PET_PICTURE";
 
 //로딩 관련/////////////////////////////////////////////////////
 export const GET_LOCATION_REQUEST = "GET_LOCATION_REQUEST";
@@ -112,6 +114,52 @@ export const actualWalkTime = (walkId, walkTime) => {
         .then((res) => window.location.replace("/walkerMain"));
     } catch (error) {
       //에러 핸들링 하는 곳
+      console.log(error);
+    }
+  };
+};
+
+export const addWalkingPetPicture = (walkId, picture) => {
+  return async () => {
+    try {
+      if (picture.length !== 0)
+        return await customAxios
+          .get(`walk/${walkId}/savePicture`)
+          .then((res) => axios.put(res.data, picture));
+    } catch (error) {
+      //에러 핸들링 하는 곳
+      console.log("에러", error);
+    }
+  };
+};
+
+export const getWalkingPetPicture = (walkId) => {
+  return async (dispatch) => {
+    try {
+      const getWalkingPetPictureApi = customAxios.get(
+        `/walk/${walkId}/pictureList`
+      );
+      let getWalkingPetPic = await getWalkingPetPictureApi;
+      dispatch({
+        type: "GET_WALKING_PET_PICTURE",
+        payload: {
+          walkingPetPicture: getWalkingPetPic.data
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const deleteWalkingPetPicture = (walkId, picture) => {
+  console.log(picture);
+  return async () => {
+    try {
+      return await customAxios.delete(`/walk/${walkId}/deletePicture`, {
+        data: { link: picture }
+      });
+    } catch (error) {
       console.log(error);
     }
   };

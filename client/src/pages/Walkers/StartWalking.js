@@ -7,23 +7,35 @@ import { StateCheckCard } from "../../components/StateCard";
 import sampleImg from "../../assets/img/sample-img.png";
 import { Checkbox } from "../../components/Inputs/Checkbox";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEraser } from "@fortawesome/free-solid-svg-icons";
+import uploadPhoto from "../../assets/img/uploadPhoto.svg";
+
 import {
   getWalkDetailInfo,
   changeCheckListState,
-  countPoo
+  countPoo,
+  getWalkingPetPicture,
+  addWalkingPetPicture,
+  deleteWalkingPetPicture
 } from "../../redux/actions/mappingAction";
 import { useParams } from "react-router-dom";
 
 const StartWalking = () => {
+  const imgRef = useRef();
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { walkDetailInfo } = useSelector((state) => state.mapping);
+  const { walkDetailInfo, walkingPetPicture } = useSelector(
+    (state) => state.mapping
+  );
   const [walkCount, setWalkCount] = useState();
   const [pooCount, setPooCount] = useState();
   const [mealCount, setMealCount] = useState();
   const [snackCount, setSnackCount] = useState();
   const [progress, setProgress] = useState();
+  const [imageUrl, setImageUrl] = useState([]);
+  const [imgFile, setImgFile] = useState([]);
 
   const CountHandlerPlus = (walkId, toDo, count) => {
     dispatch(countPoo(walkId, toDo, count)).then((res) => {
@@ -49,6 +61,32 @@ const StartWalking = () => {
     );
   };
 
+  const onChangeImage = () => {
+    setImgFile(imgRef.current.files[0]); // -> put 요청
+    setImageUrl(URL.createObjectURL(imgRef.current.files[0]));
+    window.URL.revokeObjectURL(imgRef.current.files[0]);
+  };
+
+  const forUpLoadPhoto = (e) => {
+    imgRef.current.click();
+  };
+
+  const uploadPicture = async () => {
+    await dispatch(addWalkingPetPicture(id, imgFile));
+    await dispatch(getWalkingPetPicture(id))
+      .then(() => setImageUrl([]))
+      .then(() => setImgFile([]));
+  };
+
+  const deletePicture = async (picture) => {
+    await dispatch(deleteWalkingPetPicture(id, picture));
+    await dispatch(getWalkingPetPicture(id));
+  };
+
+  useEffect(() => {
+    dispatch(getWalkingPetPicture(id));
+  }, []);
+
   useEffect(() => {
     dispatch(getWalkDetailInfo(id)).then((res) => {
       setPooCount(res.data.pooCount);
@@ -56,7 +94,6 @@ const StartWalking = () => {
       setWalkCount(res.data.walkCount);
       setMealCount(res.data.mealCount);
       setProgress(res.data.progress);
-      console.log(res);
     });
   }, []);
 
@@ -177,21 +214,42 @@ const StartWalking = () => {
           사진 보관함
         </label>
         <ul className="list-horizonscroll">
-          <li>
-            <img src={sampleImg} alt="" />
-          </li>
-          <li>
-            <img src={sampleImg} alt="" />
-          </li>
-          <li>
-            <img src={sampleImg} alt="" />
-          </li>
-          <li>
-            <img src={sampleImg} alt="" />
-          </li>
-          <li>
-            <img src={sampleImg} alt="" />
-          </li>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={onChangeImage}
+            ref={imgRef}
+            style={{ display: "none" }}
+            multiple
+          />
+          <UserPhoto>
+            <span className="upload-photo" onClick={uploadPicture}>
+              등록
+            </span>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={onChangeImage}
+              ref={imgRef}
+              style={{ display: "none" }}
+              multiple
+              className="user-photo"
+            />
+            <img
+              src={imageUrl.length !== 0 ? imageUrl : uploadPhoto}
+              className="user-photo"
+              onClick={forUpLoadPhoto}
+            />
+
+            {walkingPetPicture?.map((item) => (
+              <span>
+                <img src={item} className="user-photo" />
+                <i className="user-edit" onClick={() => deletePicture(item)}>
+                  <FontAwesomeIcon icon={faEraser} />
+                </i>
+              </span>
+            ))}
+          </UserPhoto>
         </ul>
       </Sect>
     </div>
@@ -274,5 +332,71 @@ const StateBoxArea = styled.div`
 
   > li {
     width: 50%;
+  }
+`;
+
+const UserPhoto = styled.li`
+  display: inline-block;
+  position: relative;
+  margin-bottom: 13px;
+
+  > span {
+    position: relative;
+  }
+
+  .upload-photo {
+    cursor: pointer;
+    position: absolute;
+    left: 70px;
+    bottom: -3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 35px;
+    background: var(--info);
+    border: 3px solid var(--white-000);
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 30%;
+    color: var(--white-000);
+    :hover {
+      transition: 400ms;
+      background: var(--white-000);
+      color: var(--info);
+    }
+    z-index: 99;
+  }
+
+  .user-photo {
+    cursor: pointer;
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+    margin-right: 10px;
+
+    :hover {
+      transition: 500ms;
+      transform: scale(1.03);
+    }
+  }
+
+  .user-edit {
+    cursor: pointer;
+    position: absolute;
+    right: -7px;
+    bottom: -3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+    background: var(--gray-100);
+    border: 3px solid var(--white-000);
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+
+    svg {
+      color: var(--gray-800);
+    }
   }
 `;

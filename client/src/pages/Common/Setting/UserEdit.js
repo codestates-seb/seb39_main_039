@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Header } from "../../../components/Layout/Header";
@@ -7,23 +7,39 @@ import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { ButtonPrimary } from "../../../components/Button/Buttons";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserInfo, editUserInfo } from "../../../redux/actions/userActions";
+import { saveUserPicture } from "../../../redux/actions/userActions";
 import { ToastContainer } from "react-toast";
-import noImage from "../../../assets/img/noImage.svg";
 
 const UserEdit = () => {
   const dispatch = useDispatch();
+  const imgRef = useRef();
+
   const { userInfo, loading } = useSelector((state) => state.user);
   const [fullName, setFullName] = useState(userInfo.fullName);
   const [phone, setPhone] = useState(userInfo.phone);
   const [nickName, setNickName] = useState(userInfo.nickName);
+  const [myPetPicture, setMyPetPicture] = useState(userInfo.profileImage);
+  const [imageUrl, setImageUrl] = useState("");
+  const [imgFile, setImgFile] = useState(null);
 
   const ClickHandler = () => {
     dispatch(editUserInfo(fullName, phone, nickName));
+    dispatch(saveUserPicture(imgFile));
   };
 
   useEffect(() => {
     dispatch(getUserInfo());
   }, [loading]);
+
+  const onClickFileBtn = (e) => {
+    imgRef.current.click();
+  };
+  
+  const onChangeImage = () => {
+    setImgFile(imgRef.current.files[0]);
+    setImageUrl(URL.createObjectURL(imgRef.current.files[0]));
+    window.URL.revokeObjectURL(imgRef.current.files[0]);
+  };
 
   return (
     <div className="container v2">
@@ -31,10 +47,26 @@ const UserEdit = () => {
       <UserInfo>
         <div className="user-con">
           <UserPhoto>
-            <img src={userInfo.profileImage} className="user-photo" alt="" />
-            <Link to="/" className="user-edit">
+            <img 
+              src={imageUrl ? imageUrl : myPetPicture}
+              className="user-photo" 
+              alt=""
+            />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={onChangeImage}
+              ref={imgRef}
+              style={{ display: "none" }}
+            />
+            <i 
+              className="user-edit"
+              onClick={() => {
+                onClickFileBtn();
+              }}
+            >
               <FontAwesomeIcon icon={faCamera} />
-            </Link>
+            </i>
           </UserPhoto>
         </div>
       </UserInfo>

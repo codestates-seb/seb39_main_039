@@ -1,4 +1,5 @@
 import customAxios from "../axiosAPI";
+import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toast";
 
@@ -52,6 +53,19 @@ export const editUserInfo = (fullName, phone, nickName) => {
       // .then((res) => window.location.reload());
     } catch (error) {
       //에러 핸들링 하는 곳
+      console.log(error);
+    }
+  };
+};
+
+export const saveUserPicture = (picture) => {
+  return async () => {
+    try {
+      if (picture)
+        return await customAxios
+          .get(`user/saveProfileImage`)
+          .then((res) => axios.put(res.data, picture));
+    } catch (error) {
       console.log(error);
     }
   };

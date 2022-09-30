@@ -1,10 +1,10 @@
 package com.albamung.config;
 
 
-import com.albamung.oauth.CustomOauth2SuccessHandler;
 import com.albamung.filter.JwtAuthenticationFilter;
 import com.albamung.filter.JwtAuthorizationFilter;
 import com.albamung.helper.jwt.JwtTokenProvider;
+import com.albamung.oauth.CustomOauth2SuccessHandler;
 import com.albamung.oauth.PrincipalOauth2UserService;
 import com.albamung.user.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
@@ -56,7 +56,7 @@ public class SecurityConfig {
                 .oauth2Login().loginPage("https://www.albamung.tk/login").successHandler(customOauth2SuccessHandler).userInfoEndpoint().userService(principalOauth2UserService).and()
                 .and()
                 .authorizeRequests().requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers(SWAGGER_URL_ARRAY).permitAll()
                 .antMatchers("/user/signUp", "/user/login", "/user/refresh").permitAll()
                 .antMatchers(HttpMethod.GET, "/wanted").permitAll()
                 .anyRequest().hasAnyRole("USER", "ADMIN")
@@ -105,4 +105,18 @@ public class SecurityConfig {
                     .addFilterBefore(new JwtAuthorizationFilter(authenticationManager, jwtTokenProvider), LogoutFilter.class);
         }
     }
+
+    private static final String[] SWAGGER_URL_ARRAY = {
+            /* swagger v2 */
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            /* swagger v3 */
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+    };
 }

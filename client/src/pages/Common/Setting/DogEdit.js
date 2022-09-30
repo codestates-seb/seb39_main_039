@@ -43,7 +43,7 @@ const DogEdit = () => {
   const [myPetSpecies, setMyPetSpecies] = useState();
   const [myPetName, setMyPetName] = useState();
   const [myPetAbout, setMyPetAbout] = useState();
-  const [myPetBirth, setMyPetBirth] = useState();
+  const [myPetBirth, setMyPetBirth] = useState(null);
   const [convertMyPetBirth, setConvertMyPetBirth] = useState("");
   const [myPetPicture, setMyPetPicture] = useState();
   // GMT로 변환하기 위해서 2022-11-04 -> 2022,11,04로 만들었다.
@@ -108,14 +108,16 @@ const DogEdit = () => {
   };
 
   useEffect(() => {
+    if(myPetInfo[tab] !=null) {
       setMyPetSpecies(myPetInfo[tab]?.species);
       setMyPetName(myPetInfo[tab]?.petName);
       setMyPetAbout(myPetInfo[tab]?.aboutPet);
       setMyPetBirth(moment(myPetInfo[tab]?.birthday).toDate());
       setMyPetSex(myPetInfo[tab]?.sex);
       setMyPetPicture(myPetInfo[tab]?.petPicture);
-      setImageUrl(null);
-      setImgFile(null);
+    }
+    setImageUrl(null);
+    setImgFile(null);
     if(imgRef.current) imgRef.current.value = null;
   }, [tab]);
 
@@ -244,7 +246,7 @@ const DogEdit = () => {
                       dropdownMode="select"
                       locale={ko}
                       dateFormat="yyyy년 MM월 dd일 생"
-                      setDate="today"
+                      setDate= "today"
                       selected={myPetBirth || moment(myPetInfo[tab]?.birthday).toDate()}
                       onChange={(date) => {
                         setMyPetBirth(date);

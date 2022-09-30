@@ -76,7 +76,10 @@ const GlobalStyle = createGlobalStyle`
    .list-horizonscroll{overflow: auto;white-space: nowrap;}
    .list-horizonscroll>li{display: inline-block;margin-right:6px}
    .ff-Roboto{font-family: 'Roboto', sans-serif !important}
-
+   .user-edit{cursor: pointer}
+   .user-edit:hover{
+      svg{color:var(--primary-active)}
+   }
 
    // layout
    .container{

@@ -10,14 +10,16 @@ function ModalOption ( {isOpen, setIsOpen, uploadHandler, profileDeleteHandler} 
     {isOpen ? 
     <StyledModal className="modal" onClick={openModalHandler}>
         <StyledModalCon onClick={(e) => e.stopPropagation()}>
-            <ul>
-              <li onClick={profileDeleteHandler}>현재 사진 삭제</li>
-              <li onClick={uploadHandler}>라이브러리에서 선택</li>
-            </ul>
-            <button>취소</button>
+            <div className="con">
+              <ul>
+                <li onClick={profileDeleteHandler}>현재 사진 삭제</li>
+                <li onClick={uploadHandler}>라이브러리에서 선택</li>
+              </ul>
+            </div>
+            <button onClick={openModalHandler}>취소</button>
         </StyledModalCon>
+        
     </StyledModal> : null}
-    {/* <button onClick={openModalHandler}>모달 여닫기</button> */}
     </>
     )
 }
@@ -41,48 +43,45 @@ const StyledModalCon= styled.div`
     position:relative;
     display: flex;
     flex-direction:column;
-    width: 80%;
-    margin:0 auto;
-    text-align: center;
-    background:var(--white-000);
-    box-shadow: 5px 5px 20px 0 rgba(0,0,0, .3);
-    border-radius:25px;
+    width:80%;
+    
+    .con{
+      overflow: hidden;
+      width: 100%;
+      margin:0 auto;
+      text-align: center;
+      background:var(--white-000);
+      box-shadow: 5px 5px 20px 0 rgba(0,0,0, .3);
+      border-radius:15px;
+    }
+    
     * {
     flex: 1 0;
     }
-    .btn-modal-cls{
-        position:absolute;
-        top:10px;
-        right:10px;
-        display: inline-block;
-        background:none;
-        border:0
+    li{
+      padding:23px 0;
+      cursor: pointer;
     }
-    .modal-body{
-        display: flex;
-        align-items: center;
-        min-height:150px;
-        b{display:block;margin-top:13px;font-size:18px;font-weight:600}
+    li+li{
+      border-top:1px solid var(--gray-200)
     }
-`
-const StyledModalFooter= styled.div`
-    overflow: hidden;
-    display:flex;
-    border-bottom-left-radius: 25px;
-    border-bottom-right-radius: 25px;
-    button {border:0;font-size:20px;font-weight:500}
-    .btn-modal{
-        background:var(--white-000);
-        border-top:1px solid var(--gray-200);
-        color:var(--gray-400);
-        padding:20px 0;
-        font-size:16px;
 
-        svg{
-            margin-right:2px;
-        }
+    li:hover{
+      background-color: var(--gray-050);
+      color:var(--primary);
+      font-weight: 600;
     }
-    .btn-modal.con{
-        color:var(--primary);
+
+    button{
+      margin-top:13px;
+      font-size:16px;
+      background:var(--white-000);
+      padding:17px 0;
+      border-radius: 15px;
+      border:0;
+      opacity: .8;
+    }
+    button:hover{
+      opacity: 1;
     }
 `

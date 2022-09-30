@@ -45,6 +45,7 @@ const UserEdit = () => {
   const profileDeleteHandler =() =>{
     dispatch(delUserPicture());
     setMyPetPicture(noImage);
+    setIsOpen(false);
   }
   
   const onChangeImage = () => {
@@ -53,6 +54,7 @@ const UserEdit = () => {
     window.URL.revokeObjectURL(imgRef.current.files[0]);
   };
 
+  // console.log(imgRef.current.files[0] && imgRef.current.files[0])
   
   return (
     <div className="container v2">

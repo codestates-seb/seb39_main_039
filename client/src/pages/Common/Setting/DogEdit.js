@@ -21,10 +21,13 @@ import {
 import { petSpecList } from "../../../constants/petSpecies";
 import {
   ButtonPrimary,
-  ButtonCancel
+  ButtonCancel, ButtonPrimaryXS
 } from "../../../components/Button/Buttons";
 import { ToastContainer } from "react-toast";
 import { ThreeDots } from "react-loader-spinner";
+import moment from "moment/moment";
+import dogIcon from "../../../assets/img/dog-detective.png";
+import dogItemIcon from "../../../assets/img/dog-detective-item.png";
 
 const DogEdit = () => {
   const imgRef = useRef();
@@ -33,32 +36,22 @@ const DogEdit = () => {
   const birthRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const { myPetInfo, loading } = useSelector((state) => state.pet);
-
-  const petSexList = ["수컷", "암컷"];
-
-  let tabListUrl = useLocation().search;
-  let tabList = tabListUrl.slice(-1);
-
-  localStorage.setItem("tabList", tabList);
-  let tab = localStorage.getItem("tabList");
-
   // 초기값 설정 및 달력에서 픽 하면 값 변경.. Wed Dec 09 2020 09:00:00 GMT+0900 (한국 표준시)
 
-  const [myPetSex, setMyPetSex] = useState(myPetInfo[tab]?.sex);
-  const [myPetSpecies, setMyPetSpecies] = useState(myPetInfo[tab]?.species);
-  const [myPetName, setMyPetName] = useState(myPetInfo[tab]?.petName);
-  const [myPetAbout, setMyPetAbout] = useState(myPetInfo[tab]?.aboutPet);
-  const [myPetBirth, setMyPetBirth] = useState(
-    new Date(myPetInfo[tab]?.birthday)
-  );
+  const [myPetSex, setMyPetSex] = useState();
+  const [myPetSpecies, setMyPetSpecies] = useState();
+  const [myPetName, setMyPetName] = useState();
+  const [myPetAbout, setMyPetAbout] = useState();
+  const [myPetBirth, setMyPetBirth] = useState();
   const [convertMyPetBirth, setConvertMyPetBirth] = useState("");
-  const [myPetPicture, setMyPetPicture] = useState(myPetInfo[tab]?.petPicture);
+  const [myPetPicture, setMyPetPicture] = useState();
   // GMT로 변환하기 위해서 2022-11-04 -> 2022,11,04로 만들었다.
   const [imageUrl, setImageUrl] = useState("");
   const [imgFile, setImgFile] = useState(null);
+  const [tab, setTab] = useState(0);
   const menuArr = myPetInfo.map((el) => el);
+  const petSexList = ["수컷", "암컷"];
 
   const preventClose = (e) => {
     e.preventDefault();
@@ -66,7 +59,7 @@ const DogEdit = () => {
   };
 
   const selectMenuHandler = (tab) => {
-    navigate(`/dogEdit?tab=${tab}`);
+    setTab(tab);
   };
 
   const birthPick = (data) => {
@@ -92,19 +85,17 @@ const DogEdit = () => {
     window.URL.revokeObjectURL(imgRef.current.files[0]);
   };
 
-  console.log(imgFile);
   const ClickHandler = () => {
     dispatch(
       editMyPetInfo(
         myPetInfo[tab].petId,
-        myPetName,
-        myPetSpecies,
-        convertMyPetBirth,
-        myPetSex,
-        myPetAbout
+        myPetName || myPetInfo[tab].petName,
+        myPetSpecies || myPetInfo[tab].species,
+        convertMyPetBirth || myPetInfo[tab].birthday,
+        myPetSex || myPetInfo[tab].sex,
+        myPetAbout || myPetInfo[tab].aboutPet
       )
     );
-    console.log(imgFile);
     dispatch(savePetPicture(myPetInfo[tab].petId, imgFile));
   };
 
@@ -117,17 +108,19 @@ const DogEdit = () => {
   };
 
   useEffect(() => {
-    setMyPetSpecies(myPetInfo[tab].species);
-    setMyPetBirth(new Date(myPetInfo[tab]?.birthday));
-    setMyPetSex(myPetInfo[tab]?.sex);
-    setMyPetPicture(myPetInfo[tab]?.petPicture);
-    setImageUrl(null);
-    setImgFile(null);
-    imgRef.current.value = null;
+      setMyPetSpecies(myPetInfo[tab]?.species);
+      setMyPetName(myPetInfo[tab]?.petName);
+      setMyPetAbout(myPetInfo[tab]?.aboutPet);
+      setMyPetBirth(moment(myPetInfo[tab]?.birthday).toDate());
+      setMyPetSex(myPetInfo[tab]?.sex);
+      setMyPetPicture(myPetInfo[tab]?.petPicture);
+      setImageUrl(null);
+      setImgFile(null);
+    if(imgRef.current) imgRef.current.value = null;
   }, [tab]);
 
   useEffect(() => {
-    tab && dispatch(getMyPetInfo());
+    dispatch(getMyPetInfo());
     if (window) window.scrollTo(0, 0);
   }, []);
 
@@ -144,19 +137,25 @@ const DogEdit = () => {
   return (
     <div className="container v2">
       <Header pageTitle={"강아지 정보 수정"} link={"/setting"} />
-      {myPetInfo.length === 0 ? (
-        navigate(`/dogEditAdd`)
-      ) : (
+      { myPetInfo.length===0? (
+          <div className="pg-info">
+          <EmptyDataPage>
+            <div className="icon-area">
+              <i className="swing"></i>
+            </div>
+            <p>등록된 강아지가 없습니다.</p>
+            <ButtonPrimaryXS >강아지 추가하러 가기</ButtonPrimaryXS>
+          </EmptyDataPage>
+          </div>
+          ) : (
         <>
           <TabMenu>
             {menuArr.map((el, index) => {
               return (
                 <li
-                  className={`${index == tab ? "submenu focused" : "submenu"}`}
+                  className={`${index === tab ? "submenu focused" : "submenu"}`}
                   onClick={() => {
                     selectMenuHandler(index);
-                    setMyPetName(el.petName);
-                    setMyPetAbout(el.aboutPet);
                   }}
                   key={index}
                 >
@@ -174,18 +173,13 @@ const DogEdit = () => {
               </Link>
             </li>
           </TabMenu>
-          {loading ? (
-            <Loading>
-              <ThreeDots color="#3183f8" height={80} width={80} />
-            </Loading>
-          ) : (
             <>
               <Desc>
                 <UserInfo>
                   <div className="user-con">
                     <UserPhoto>
                       <img
-                        src={imageUrl ? imageUrl : myPetPicture}
+                        src={imageUrl ? imageUrl : myPetPicture||myPetInfo[tab].petPicture}
                         className="user-photo"
                         alt=""
                       />
@@ -217,7 +211,7 @@ const DogEdit = () => {
                       name="name"
                       className="ipt-form"
                       onChange={(e) => setMyPetName(e.target.value)}
-                      value={tab && myPetName}
+                      value={myPetName || myPetInfo[tab].petName}
                     />
                   </div>
                   <div className="ipt-group">
@@ -228,7 +222,7 @@ const DogEdit = () => {
                       ref={specRef}
                       name={myPetInfo[tab]?.petId}
                       className="ipt-form"
-                      value={tab && myPetSpecies}
+                      value={myPetSpecies || myPetInfo[tab].species}
                       onChange={(value) => setMyPetSpecies(value.target.value)}
                     >
                       {petSpecList.map((el, idx) => (
@@ -251,7 +245,7 @@ const DogEdit = () => {
                       locale={ko}
                       dateFormat="yyyy년 MM월 dd일 생"
                       setDate="today"
-                      selected={myPetBirth}
+                      selected={myPetBirth || moment(myPetInfo[tab]?.birthday).toDate()}
                       onChange={(date) => {
                         setMyPetBirth(date);
                         birthPick(date);
@@ -268,7 +262,7 @@ const DogEdit = () => {
                       className="ipt-form"
                       name={myPetInfo[tab]?.petId}
                       ref={sexRef}
-                      value={tab && myPetSex}
+                      value={myPetSex || myPetInfo[tab].sex}
                       onChange={(value) => setMyPetSex(value.target.value)}
                     >
                       {petSexList.map((el, idx) => (
@@ -289,7 +283,7 @@ const DogEdit = () => {
                       onChange={(e) => {
                         setMyPetAbout(e.target.value);
                       }}
-                      value={myPetAbout}
+                      value={myPetAbout || myPetInfo[tab].aboutPet}
                     ></textarea>
                   </div>
 
@@ -302,7 +296,6 @@ const DogEdit = () => {
                 </Form>
               </Desc>
             </>
-          )}
         </>
       )}
 
@@ -397,3 +390,44 @@ const Loading = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+const EmptyDataPage = styled.div`
+    width:100%;
+    padding:0 40px;
+
+    p{
+        padding:0 0 15px;
+        font-size:16px;
+        margin-top:0;
+    }
+
+    .icon-area{
+        position: relative;
+        display:inline-block;
+        width:130px;
+        height:150px;
+        margin-top:-30px;
+        background-image: url('${dogIcon}');
+        background-size:100% auto;
+
+        i{
+            position: absolute;
+            bottom:18px;
+            left:-10px;
+            display: inline-block;
+            width:40px;
+            height:68px;
+            background-image: url('${dogItemIcon}');
+            background-size:100% auto;
+            background-repeat: no-repeat;
+        }
+    }
+    .swing {
+        animation: swing ease-in-out 1s infinite alternate;
+        transform-origin: center -20px;
+    }
+    @keyframes swing {
+        0% { transform: rotate(3deg); }
+        100% { transform: rotate(-3deg); }
+    }
+`

@@ -210,7 +210,7 @@ const Section = styled.section`
 
     .walk-con {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       margin-bottom: 15px;
 
       > dt {

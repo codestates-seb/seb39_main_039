@@ -48,7 +48,7 @@ public class JwtTokenProvider {
     public String createToken(Long id, String email, Collection<? extends GrantedAuthority> appUserRoles) {
         Claims claims = Jwts.claims().setSubject(email);
         claims.put("id", id);
-        claims.put("auth", appUserRoles.stream().map(s -> new SimpleGrantedAuthority(s.getAuthority())).filter(Objects::nonNull).collect(Collectors.toList()));
+        claims.put("auth", appUserRoles.stream().map(s -> new SimpleGrantedAuthority(s.getAuthority())).collect(Collectors.toList()));
 
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
@@ -77,19 +77,16 @@ public class JwtTokenProvider {
     public Authentication getAuthentication(String token) {
         String email = getUsername(token);
         Long id = getClaim(token).get("id", Long.class);
-        String roles = getClaim(token).get("auth").toString();
+        List<HashMap<String, String>> roles = getClaim(token).get("auth", ArrayList.class);
+
         User user = User.builder()
                 .id(id)
-                .roles(roles)
                 .email(email)
                 .build();
         Set<GrantedAuthority> roleSet = new HashSet<>();
-        String[] roleList = roles.split(",");
-        for (String s : roleList) {
-            roleSet.add(new SimpleGrantedAuthority(s));
-        }
-
-
+        roles.forEach(s -> roleSet.add(
+                new SimpleGrantedAuthority(s.get("authority"))
+        ));
         return new UsernamePasswordAuthenticationToken(user, "", roleSet);
 //        UserDetails userDetails = myUserDetails.loadUserByUsername(getUsername(token));
 //        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());

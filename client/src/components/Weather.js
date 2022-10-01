@@ -1,24 +1,33 @@
 import React from "react";
+import styled from "styled-components";
 
 const weather = ({ data, error, loading, getWeatherData }) => {
   return (
-    <div>
-      <div bordered title="Weather">
-        <div label="Area">
+    <WeatherArea>
+      <ul bordered title="Weather">
+        <li label="Area">
           {loading && '대기쓰'}
           {error ? 'Q대기쓰' : data.area}
-        </div>
-        <div label="Temp">
+        </li>
+        <li label="Temp">
           {loading && '대기쓰'}
           {error ? 'Q대기쓰' : data.temp}
-        </div>
-        <div label="Weather">
+        </li>
+        <li label="Weather">
           {loading && '대기쓰'}
           {error ? 'Q대기쓰' : data.weather}
-        </div>
-      </div>
-    </div>
+        </li>
+      </ul>
+    </WeatherArea>
   );
 };
 
 export default weather;
+
+const WeatherArea = styled.div`
+  ul{
+    display: flex;
+    gap: 30px;
+
+  }
+`

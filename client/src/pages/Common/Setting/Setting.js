@@ -43,7 +43,7 @@ const Setting = () => {
     dispatch(getMyPetInfo());
   }, []);
 
-  // 다크모드 class담는 함수
+  // 다크모드 class담는 함수 (구현 할 경우;;..쓸 것)
   const darkOnOff = () => {
     if (
       document.getElementsByTagName("html")[0].classList.contains("ui-dark")

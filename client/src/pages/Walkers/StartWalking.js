@@ -88,6 +88,10 @@ const StartWalking = () => {
   }, []);
 
   useEffect(() => {
+    uploadPicture();
+  }, [imageUrl.includes("blob")]);
+
+  useEffect(() => {
     dispatch(getWalkDetailInfo(id)).then((res) => {
       setPooCount(res.data.pooCount);
       setSnackCount(res.data.snackCount);
@@ -223,9 +227,9 @@ const StartWalking = () => {
             multiple
           />
           <UserPhoto>
-            <span className="upload-photo" onClick={uploadPicture}>
-              등록
-            </span>
+            {/* <span className="upload-photo" onClick={uploadPicture}>
+              +
+            </span> */}
             <input
               type="file"
               accept="image/*"
@@ -237,7 +241,7 @@ const StartWalking = () => {
             />
             <img
               src={imageUrl.length !== 0 ? imageUrl : uploadPhoto}
-              className="user-photo"
+              className="user-photo pre-load"
               onClick={forUpLoadPhoto}
             />
 
@@ -347,12 +351,12 @@ const UserPhoto = styled.li`
   .upload-photo {
     cursor: pointer;
     position: absolute;
-    left: 70px;
+    left: 85px;
     bottom: -3px;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50px;
+    width: 40px;
     height: 35px;
     background: var(--info);
     border: 3px solid var(--white-000);

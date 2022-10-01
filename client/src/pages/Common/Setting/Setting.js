@@ -43,6 +43,19 @@ const Setting = () => {
     dispatch(getMyPetInfo());
   }, []);
 
+  // 다크모드 class담는 함수 (구현 할 경우;;..쓸 것)
+  const darkOnOff = () => {
+    if (
+      document.getElementsByTagName("html")[0].classList.contains("ui-dark")
+    ) {
+      document.getElementsByTagName("html")[0].classList.remove("ui-dark");
+      window.localStorage.setItem("bgMode", "light");
+    } else {
+      document.getElementsByTagName("html")[0].classList.add("ui-dark");
+      window.localStorage.setItem("bgMode", "dark");
+    }
+  };
+
   return (
     <div className="container">
       <Modal

@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { getWalkerUser } from "../../redux/actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import { ThreeDots } from "react-loader-spinner";
+import WeatherContainer from "../../components/WeatherContainer";
 
 const WalkerMain = () => {
   const { walkerUserInfo, loading } = useSelector((state) => state.user);
@@ -47,7 +48,9 @@ const WalkerMain = () => {
             </UserSlide>
           </Section>
           <Section>
-            <Weather></Weather>
+            <Weather>
+              <WeatherContainer />
+            </Weather>
           </Section>
           <InfoSection>
             <h3>
@@ -92,7 +95,7 @@ const Section = styled.section`
 `;
 
 const UserSlide = styled.div`
-  padding-bottom: 20px;
+  padding-bottom: 0;
 `;
 
 const Weather = styled.div`

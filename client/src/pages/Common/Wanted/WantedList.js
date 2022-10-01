@@ -16,6 +16,7 @@ import { useInView } from "react-intersection-observer";
 import CitySelect from "../../../components/CitySelect";
 import { useNavigate } from "react-router-dom";
 import { getMyPetInfo } from "../../../redux/actions/petActions";
+import ModalLink from "../../../components/Modal/ModalLink";
 
 const WantedList = () => {
   const { myPetInfo } = useSelector((state) => state.pet);
@@ -28,6 +29,7 @@ const WantedList = () => {
   const [isOn, setIsOn] = useState(false);
   const [selectedSort, setSelectedSort] = useState("최신순");
   const [page, setPage] = useState(1);
+  const [isOpenModal, setIsOpenModal] = useState(false);
   const [isOpen, setIsOpen] = useState(false); // 지역 모달창 여닫기
   const [region, setRegion] = useState(""); //지역 id받아오는 state
   const [regionName, setRegionName] = useState(""); // 지역 이름 담기
@@ -94,6 +96,7 @@ const WantedList = () => {
     dispatch(getMyPetInfo());
   }, []);
 
+
   console.log(regionName);
 
   return (
@@ -136,7 +139,7 @@ const WantedList = () => {
 
         <span
           onClick={() =>
-            myPetInfo.length === 0 ? navigate(`/dogEditAdd`) : ""
+            myPetInfo.length === 0 ? setIsOpenModal(true) : ""
           }
         >
           <FloatingBtnAdd
@@ -146,6 +149,7 @@ const WantedList = () => {
       </WantedCardList>
 
       <Scroll ref={ref}></Scroll>
+      <ModalLink isOpen={isOpenModal} setIsOpen={setIsOpenModal}/>
     </div>
   );
 };

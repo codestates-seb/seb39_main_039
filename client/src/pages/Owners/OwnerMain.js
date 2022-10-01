@@ -16,6 +16,7 @@ import { getMyPetInfo } from "../../redux/actions/petActions";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import CoachMarks from "../../components/Layout/CoachMarks";
+import WeatherContainer from "../../components/WeatherContainer";
 
 const OwnerMain = () => {
   const dispatch = useDispatch();
@@ -39,6 +40,8 @@ const OwnerMain = () => {
   useEffect(() => {
     dispatch(getMyPetInfo());
   }, []);
+
+
   
   return (
     <div className="container bg-gray">
@@ -63,7 +66,7 @@ const OwnerMain = () => {
       </Section>
       <Section>
         <Weather>
-          <p>날씨API 대기쓰</p>
+          <WeatherContainer />
         </Weather>
       </Section>
       <InfoSection>

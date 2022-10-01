@@ -97,6 +97,8 @@ const WantedDetailPage = () => {
           </ConHeader>
         )}
       </Section>
+      {!wantedDetail.walk ? <></> : (
+      <>
       <Section>
         <div>
           <SectLabel>
@@ -210,6 +212,7 @@ const WantedDetailPage = () => {
           )}
         </div>
       </CommentApply>
+      </>)}
       <ToastContainer position="top-right" delay={3000} />
     </div>
   );

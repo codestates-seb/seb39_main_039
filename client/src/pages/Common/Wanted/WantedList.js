@@ -97,11 +97,11 @@ const WantedList = () => {
   }, []);
 
 
-  console.log(regionName);
+  console.log(scrollAllWantedList);
 
   return (
     <div className="container bg-gray v2">
-      <Header pageTitle={"구인글 리스트"} useRight="on" />
+      <Header pageTitle={"구인글 리스트"} />
       <CitySelect
         isOpen={isOpen} //모달 여닫기
         setIsOpen={setIsOpen} //모달 여닫기
@@ -134,7 +134,7 @@ const WantedList = () => {
 
       <WantedCardList>
         {scrollAllWantedList?.map((item, idx) => (
-          <WantedCard key={idx} item={item} />
+            <WantedCard key={idx} item={item} />
         ))}
 
         <span

@@ -19,7 +19,7 @@ const WeatherContainer = () => {
 
   const getWeatherData = () => {
     dispatch(getWeather());
-  };
+  }
 
   return (
     <Weather

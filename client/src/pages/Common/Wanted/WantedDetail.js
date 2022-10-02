@@ -222,11 +222,12 @@ export default WantedDetailPage;
 
 const Section = styled.section`
   border-bottom: 9px solid var(--gray-100);
-  padding: 20px;
+  padding:20px 20px 40px;
   background: var(--white-000);
 
   &:first-child {
     padding-top: 0;
+    padding-bottom:20px;
   }
 
   .p-area {

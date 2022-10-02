@@ -63,7 +63,7 @@ const OwnerMain = () => {
           </Slider>
         </DogSlide>
       </Section>
-      <Section>
+      <Section className="v2">
         <Weather>
           <WeatherContainer />
         </Weather>
@@ -108,6 +108,10 @@ const Section = styled.section`
   padding: 20px 0;
   border-radius: 25px;
   margin-bottom: 10px;
+
+  &.v2{
+    padding:5px 0 5px 10px;
+  }
 `;
 
 const DogSlide = styled.div`
@@ -141,9 +145,6 @@ const DogSlide = styled.div`
 
 const Weather = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 60px;
 `;
 
 const InfoSection = styled.section`

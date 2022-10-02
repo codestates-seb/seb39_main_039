@@ -8,6 +8,7 @@ const initialstate = {
     temp: 0,
     weather: "",
     icon:'',
+    weartherId:'',
   },
 }
 
@@ -29,6 +30,7 @@ const weatherReducer = (state = initialstate, action) => {
             temp: payload.main.temp,
             weather: payload.weather[0].main,
             icon: payload.weather[0].icon,
+            weartherId: payload.weather[0].id,
           },
         };
       case GET_WEATHER_FAILURE:

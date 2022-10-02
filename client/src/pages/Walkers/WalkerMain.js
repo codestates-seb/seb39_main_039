@@ -47,7 +47,7 @@ const WalkerMain = () => {
               )}
             </UserSlide>
           </Section>
-          <Section>
+          <Section className="v2">
             <Weather>
               <WeatherContainer />
             </Weather>
@@ -92,6 +92,10 @@ const Section = styled.section`
   padding: 20px;
   border-radius: 25px;
   margin-bottom: 10px;
+
+  &.v2{
+    padding:10px 0 10px 10px;
+  }
 `;
 
 const UserSlide = styled.div`

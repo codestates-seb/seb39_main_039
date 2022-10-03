@@ -31,8 +31,11 @@ const Walking = () => {
   };
 
   useEffect(() => {
-    dispatch(getWalkDetailInfo(Number(walkId.id)));
-    dispatch(getWalkingPetPicture(walkId.id));
+    async function fetch() {
+      await dispatch(await getWalkDetailInfo(Number(walkId.id)));
+      await dispatch(await getWalkingPetPicture(walkId.id));
+    }
+    fetch();
   }, []);
 
   return (
@@ -86,7 +89,11 @@ const Walking = () => {
         </div>
       </Section>
       <Sect className="map-area">
-        <RecordedMap walkId={walkId.id} />
+        {WalkInfo.walkId?
+            <RecordedMap walkId={walkId.id} walkDetailInfo={WalkInfo}/>
+            :
+            <></>
+        }
         <StateBoxArea className="pt25">
           <li>
             <StateCard type={"i1"} name={"산책"} count={WalkInfo.walkCount} />

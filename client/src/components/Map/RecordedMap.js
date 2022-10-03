@@ -12,11 +12,20 @@ import { useInterval } from "../../hooks/useInterval";
 
 const { kakao } = window;
 
-const TrackingMap = ({ walkId }) => {
+const TrackingMap = ({ walkId , walkDetailInfo }) => {
   const [myMap, setMyMap] = useState(null);
   const [recordedLine, setRecordedLine] = useState([]);
   const dispatch = useDispatch();
-  const { lat, lon, walkDetailInfo } = useSelector((state) => state.mapping);
+  const { lat, lon } = useSelector((state) => state.mapping);
+  let startLat = lat;
+  let startLon = lon;
+  console.log(lat);
+  if(walkDetailInfo.coord.length >0){
+    let latLon = walkDetailInfo.coord[0].split(" ");
+    startLat = latLon[0];
+    startLon = latLon[1];
+    console.log(startLat);
+  }
 
   function getGeolocation() {
     let geolocation = navigator.geolocation.watchPosition(
@@ -39,7 +48,7 @@ const TrackingMap = ({ walkId }) => {
   const drawMap = async () => {
     let container = document.getElementById("myMap");
     let options = {
-      center: new kakao.maps.LatLng(lat, lon), //지도의 중심좌표.
+      center: new kakao.maps.LatLng(startLat, startLon), //지도의 중심좌표.
       level: 3 //지도의 레벨(확대, 축소 정도)
     };
     setMyMap(new kakao.maps.Map(container, options));
@@ -77,7 +86,6 @@ const TrackingMap = ({ walkId }) => {
 
   useEffect(() => {
     getGeolocation();
-    dispatch(getWalkDetailInfo(walkId));
     makeRecordObj();
     if (lat > 0 && lon > 0) {
       drawMap();

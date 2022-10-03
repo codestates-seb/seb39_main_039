@@ -4,6 +4,7 @@ package com.albamung.config;
 import com.albamung.filter.JwtAuthenticationFilter;
 import com.albamung.filter.JwtAuthorizationFilter;
 import com.albamung.helper.jwt.JwtTokenProvider;
+import com.albamung.oauth.CustomAuthenticationFailureHandler;
 import com.albamung.oauth.CustomOauth2SuccessHandler;
 import com.albamung.oauth.PrincipalOauth2UserService;
 import com.albamung.user.repository.UserRepository;
@@ -53,13 +54,13 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .oauth2Login().loginPage("https://www.albamung.tk/login").successHandler(customOauth2SuccessHandler).userInfoEndpoint().userService(principalOauth2UserService).and()
-                .and()
                 .authorizeRequests().requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers(SWAGGER_URL_ARRAY).permitAll()
-                .antMatchers("/user/signUp", "/user/login", "/user/refresh").permitAll()
+                .antMatchers("/user/signUp", "/user/login", "/user/refresh", "/error").permitAll()
                 .antMatchers(HttpMethod.GET, "/wanted").permitAll()
-                .anyRequest().hasAnyRole("USER", "ADMIN")
+                .anyRequest().authenticated()
+                .and()
+                .oauth2Login().loginPage("https://www.albamung.tk/login").failureHandler(new CustomAuthenticationFailureHandler()).successHandler(customOauth2SuccessHandler).userInfoEndpoint().userService(principalOauth2UserService).and()
                 .and()
                 .apply(new CustomDsl())
                 .and()
@@ -99,9 +100,11 @@ public class SecurityConfig {
         @Override
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenProvider, userRepository);
+            jwtAuthenticationFilter.setAuthenticationFailureHandler(new CustomAuthenticationFailureHandler());
             builder
 //                    .addFilterBefore(new JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
-                    .addFilterBefore(new JwtAuthenticationFilter(authenticationManager, jwtTokenProvider, userRepository), UsernamePasswordAuthenticationFilter.class)
+                    .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                     .addFilterBefore(new JwtAuthorizationFilter(authenticationManager, jwtTokenProvider), LogoutFilter.class);
         }
     }

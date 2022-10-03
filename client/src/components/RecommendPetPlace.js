@@ -8,6 +8,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { ThreeDots } from "react-loader-spinner";
+import { petPlaceImage } from "../constants/petPlaceImage";
 
 const RecommendPetPlace = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,8 @@ const RecommendPetPlace = () => {
     }
   }, [lat, lon]);
 
+  console.log(recommendData);
+
   return (
     <div>
       {locationLoading ? (
@@ -41,10 +44,13 @@ const RecommendPetPlace = () => {
             </small>
           </h3>
           <PlaceList>
-            {recommendData.documents?.map((item) => (
+            {recommendData.documents?.map((item, idx) => (
               <a href={item.place_url}>
                 <li>
                   <div>
+                    <span className="place-img">
+                      <img src={petPlaceImage[idx]} alt="" />
+                    </span>
                     <div className="place-info">
                       <p>{item?.place_name}</p>
                       <span>{item?.distance / 1000}km 이내</span>
@@ -91,6 +97,7 @@ const PlaceList = styled.ul`
 
   .place-img img {
     width: 100%;
+    height: 100px;
   }
 
   .place-info {

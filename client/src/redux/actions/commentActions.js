@@ -1,4 +1,4 @@
-import customAxios from "../axiosAPI";
+import { customAxios } from "../axiosAPI";
 import { toast } from "react-toast";
 
 export const COMMENT_SELECT_ERROR = "COMMENT_SELECT_ERROR";
@@ -55,10 +55,9 @@ export const delComment = (wantedId, commentId) => {
 export const selectComment = (wantedId, commentId, pick) => {
   return async (dispatch) => {
     try {
-      const selectCommentAPI = customAxios.put(
-        `/wanted/${wantedId}/comment/${commentId}/match`,
-        `${pick}`
-      ).then((res) => window.location.reload());
+      const selectCommentAPI = customAxios
+        .put(`/wanted/${wantedId}/comment/${commentId}/match`, `${pick}`)
+        .then((res) => window.location.reload());
       let select_comment = await selectCommentAPI;
     } catch (error) {
       if (error.response.status === 400 || error.response.status === 403) {

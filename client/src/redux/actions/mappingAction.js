@@ -1,4 +1,4 @@
-import customAxios from "../axiosAPI";
+import { customAxios } from "../axiosAPI";
 import axios from "axios";
 
 // 로그인이 성공했을 때 행동 (액션타입)
@@ -153,7 +153,6 @@ export const getWalkingPetPicture = (walkId) => {
 };
 
 export const deleteWalkingPetPicture = (walkId, picture) => {
-  console.log(picture);
   return async () => {
     try {
       return await customAxios.delete(`/walk/${walkId}/deletePicture`, {

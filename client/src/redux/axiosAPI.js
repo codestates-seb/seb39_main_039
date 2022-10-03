@@ -2,8 +2,9 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
+const RECOMMEND_API = process.env.REACT_APP_KAKAOLOCAL_API;
 
-const customAxios = axios.create({
+export const customAxios = axios.create({
   baseURL: BASE_URL
 });
 
@@ -23,7 +24,7 @@ customAxios.interceptors.request.use(function (config) {
 
 customAxios.interceptors.request.use(
   function (config) {
-    console.log("req start", config);
+    // console.log("req start", config);
     return config;
   },
   function (error) {
@@ -34,7 +35,7 @@ customAxios.interceptors.request.use(
 
 customAxios.interceptors.response.use(
   function (response) {
-    console.log("response", response);
+    // console.log("response", response);
     return response;
   },
   function (error) {
@@ -43,4 +44,60 @@ customAxios.interceptors.response.use(
   }
 );
 
-export default customAxios;
+export const weatherAxios = axios.create({
+  baseURL: "https://api.openweathermap.org/data/2.5",
+  headers: { "Content-type": "application/json" }
+});
+
+weatherAxios.interceptors.request.use(
+  function (config) {
+    // console.log("req start", config);
+    return config;
+  },
+  function (err) {
+    console.log("req error", err);
+    return Promise.reject(err);
+  }
+);
+
+weatherAxios.interceptors.response.use(
+  function (response) {
+    // console.log("response", response);
+    return response;
+  },
+  function (err) {
+    console.log("response err", err);
+    return Promise.reject(err);
+  }
+);
+
+export const recommendAxios = axios.create({
+  baseURL: "https://dapi.kakao.com"
+});
+
+recommendAxios.interceptors.request.use(function (config) {
+  config.headers["Authorization"] = `KakaoAK ${RECOMMEND_API}`;
+  return config;
+});
+
+recommendAxios.interceptors.request.use(
+  function (config) {
+    // console.log("req start", config);
+    return config;
+  },
+  function (err) {
+    console.log("req error", err);
+    return Promise.reject(err);
+  }
+);
+
+recommendAxios.interceptors.response.use(
+  function (response) {
+    // console.log("response", response);
+    return response;
+  },
+  function (err) {
+    console.log("response err", err);
+    return Promise.reject(err);
+  }
+);

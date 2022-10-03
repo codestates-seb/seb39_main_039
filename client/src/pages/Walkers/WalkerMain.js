@@ -11,9 +11,12 @@ import { getWalkerUser } from "../../redux/actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import { ThreeDots } from "react-loader-spinner";
 import WeatherContainer from "../../components/WeatherContainer";
+import RecommendPlace from "../../components/RecommendPlace";
 
 const WalkerMain = () => {
   const { walkerUserInfo, loading } = useSelector((state) => state.user);
+  const { weatherLoading } = useSelector((state) => state.weather);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -53,13 +56,7 @@ const WalkerMain = () => {
             </Weather>
           </Section>
           <InfoSection>
-            <h3>
-              주변 강아지 동반 카페{" "}
-              <small>
-                <FontAwesomeIcon icon={faLocationDot} /> 강남구
-              </small>
-            </h3>
-            <PlaceList />
+            <RecommendPlace />
           </InfoSection>
           <Nav />
         </>
@@ -93,8 +90,8 @@ const Section = styled.section`
   border-radius: 25px;
   margin-bottom: 10px;
 
-  &.v2{
-    padding:10px 0 10px 10px;
+  &.v2 {
+    padding: 10px 0 10px 10px;
   }
 `;
 

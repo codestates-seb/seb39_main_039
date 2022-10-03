@@ -1,4 +1,4 @@
-import customAxios from "../axiosAPI";
+import { customAxios } from "../axiosAPI";
 import axios from "axios";
 import { toast } from "react-toast";
 

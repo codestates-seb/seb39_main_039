@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import CoachMarks from "../../components/Layout/CoachMarks";
 import WeatherContainer from "../../components/WeatherContainer";
+import RecommendPlace from "../../components/RecommendPlace";
 
 const OwnerMain = () => {
   const dispatch = useDispatch();
@@ -41,12 +42,13 @@ const OwnerMain = () => {
     dispatch(getMyPetInfo());
   }, []);
 
-  
   return (
     <div className="container bg-gray">
       <Header>
         <LogoArea>
-          <Link to={'/'}><Logo /></Link>
+          <Link to={"/"}>
+            <Logo />
+          </Link>
         </LogoArea>
         <Alert>
           <FontAwesomeIcon icon={faBell} />
@@ -56,7 +58,7 @@ const OwnerMain = () => {
         <DogSlide>
           <Slider {...settings}>
             {myPetInfo?.map((el, idx) => (
-              <DogCard key={idx} props={el}/>
+              <DogCard key={idx} props={el} />
             ))}
 
             <AnonymousDogCard />
@@ -69,13 +71,7 @@ const OwnerMain = () => {
         </Weather>
       </Section>
       <InfoSection>
-        <h3>
-          주변 강아지 동반 카페{" "}
-          <small>
-            <FontAwesomeIcon icon={faLocationDot} /> 강남구
-          </small>
-        </h3>
-        <PlaceList />
+        <RecommendPlace />
       </InfoSection>
 
       <Nav />
@@ -109,8 +105,8 @@ const Section = styled.section`
   border-radius: 25px;
   margin-bottom: 10px;
 
-  &.v2{
-    padding:5px 0 5px 10px;
+  &.v2 {
+    padding: 5px 0 5px 10px;
   }
 `;
 

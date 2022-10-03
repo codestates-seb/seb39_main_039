@@ -1,40 +1,46 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
+import { ThreeDots } from "react-loader-spinner";
 
-const weather = ({ data, error, loading }) => {
-
+const weather = ({ currentWeather, loading }) => {
   return (
     <WeatherArea>
-      <ul>
-        <li className="weather-area">
-          <div>
-            <div className="icon">
-              {loading && '대기쓰'}
-              {error ? 'Q대기쓰' : <img src={`http://openweathermap.org/img/wn/${data?.icon}@2x.png`} alt="" />}
+      {loading ? (
+        <Loading>
+          <ThreeDots color="#3183f8" height={80} width={80} />
+        </Loading>
+      ) : (
+        <ul>
+          <li className="weather-area">
+            <div>
+              <div className="icon">
+                <img
+                  src={`http://openweathermap.org/img/wn/${currentWeather.weather[0]?.icon}@2x.png`}
+                  alt=""
+                />
+              </div>
             </div>
-          </div>
-          <div>
-            <div className="area">
-              {loading && '대기쓰'}
-              {error ? 'Q대기쓰' : data.area} 
+            <div>
+              <div className="area">{currentWeather?.name}</div>
+              <div className="temp">
+                <em>
+                  {currentWeather.main?.temp.toFixed(1)} <small>°C</small>
+                </em>
+              </div>
             </div>
-            <div className="temp">
-              {loading && '대기쓰'}
-              <em>{error ? 'Q대기쓰' : data.temp} <small>°C</small></em> 
+          </li>
+          <li className="dust-area">
+            <div>
+              <span>습도</span>
+              <p>{currentWeather.main?.humidity}%</p>
             </div>
-          </div>
-        </li>
-        <li className="dust-area">
-          <div>
-            <span>미세</span>
-            <p>보통</p>
-          </div>
-          <div>
-            <span>초미세</span>
-            <p>보통</p>
-          </div>
-        </li>
-      </ul>
+            <div>
+              <span>바람</span>
+              <p>{currentWeather.wind.speed}m/s</p>
+            </div>
+          </li>
+        </ul>
+      )}
     </WeatherArea>
   );
 };
@@ -42,59 +48,66 @@ const weather = ({ data, error, loading }) => {
 export default weather;
 
 const WeatherArea = styled.div`
-  width:100%;
+  width: 100%;
 
-  .weather-area{
+  .weather-area {
     display: flex;
     align-items: center;
-    flex:1;
+    flex: 1;
   }
 
-  .dust-area{
+  .dust-area {
     display: flex;
     justify-content: center;
     gap: 30px;
-    flex:1;
+    flex: 1;
 
-    >div{
+    > div {
       text-align: center;
-      font-size:12px;
+      font-size: 12px;
 
-      span{
+      span {
         color: var(--gray-500);
       }
-      p{
-        padding:4px 0 0;
-        font-size:14px;
+      p {
+        padding: 4px 0 0;
+        font-size: 14px;
       }
     }
   }
 
-  ul{
+  ul {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
 
-  .icon img{
-    width:70px;
+  .icon img {
+    width: 70px;
   }
 
-  .area{
+  .area {
     color: var(--gray-500);
-    font-size:14px;
+    font-size: 14px;
     font-weight: 600;
   }
 
   .temp {
-    margin-top:3px;
+    margin-top: 3px;
 
-    em{
-    font-size:20px;
-    font-weight: 800;
+    em {
+      font-size: 20px;
+      font-weight: 800;
     }
-    small{
+    small {
       font-size: 80%;
     }
   }
-`
+`;
+
+const Loading = styled.div`
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`;

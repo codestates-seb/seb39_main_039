@@ -11,6 +11,7 @@ import cityReducer from "./cityReducer";
 import commentReducer from "./commentReducer";
 import walkerReducers from "./walkerReducer";
 import weatherReducer from "./weatherReducer";
+import recommendReducer from "./recommendReducer";
 
 const rootReducer = combineReducers({
   login: loginReducers,
@@ -23,7 +24,8 @@ const rootReducer = combineReducers({
   city: cityReducer,
   comment: commentReducer,
   walker: walkerReducers,
-  weather: weatherReducer
+  weather: weatherReducer,
+  recommend: recommendReducer
 });
 
 export default rootReducer;

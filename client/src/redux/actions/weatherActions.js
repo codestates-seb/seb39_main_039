@@ -1,29 +1,27 @@
-import axios from "axios";
+import { weatherAxios } from "../axiosAPI";
 
 export const GET_WEATHER_PENDING = "GET_WEATHER_PENDING";
 export const GET_WEATHER_SUCCESS = "GET_WEATHER_SUCCESS";
 export const GET_WEATHER_FAILURE = "GET_WEATHER_FAILURE";
 
-function getAPI() {
-  return axios.get(
-    "http://api.openweathermap.org/data/2.5/weather?q=Seoul&units=metric&APPID=324513571d06ac1bf9fd9c40a825adac"
-  );
-}
+const WEATHER_API = process.env.REACT_APP_WEATHER_API;
 
-export const getWeather = () => async (dispatch) => {
-  dispatch({ type: GET_WEATHER_PENDING });
-
-  try {
-    const response = await getAPI();
-    dispatch({
-      type: GET_WEATHER_SUCCESS,
-      payload: response.data,
-    });
-  } catch (err) {
-    dispatch({
-      type: GET_WEATHER_FAILURE,
-      payload: err,
-    });
-    throw err;
-  }
+export const getCurrentCityWeather = (lat, lon) => {
+  return async (dispatch) => {
+    try {
+      // dispatch({ type: "GET_WEATHER_PENDING" });
+      const currentCityApi = weatherAxios.get(
+        `/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API}&units=metric&lang=kr`
+      );
+      let currentCity = await currentCityApi;
+      dispatch({
+        type: "GET_WEATHER_SUCCESS",
+        payload: {
+          currentWeather: currentCity.data
+        }
+      });
+    } catch (err) {
+      dispatch({ type: "GET_WEATHER_FAILURE" });
+    }
+  };
 };

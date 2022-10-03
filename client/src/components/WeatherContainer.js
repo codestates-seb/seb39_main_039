@@ -1,34 +1,28 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Weather from "./Weather";
-import { getWeather } from "../redux/actions/weatherActions";
+import { getCurrentCityWeather } from "../redux/actions/weatherActions";
 
 const WeatherContainer = () => {
   const dispatch = useDispatch();
 
-  const { data, loading, error } = useSelector(({ weather }) => ({
-    data: weather.data,
-    loading: weather.loading,
-    error: weather.error,
-  }));
+  const { weatherLoading, currentWeather } = useSelector(
+    (state) => state.weather
+  );
+
+  const getCurrentCity = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      let lat = position.coords.latitude;
+      let lon = position.coords.longitude;
+      return dispatch(getCurrentCityWeather(lat, lon));
+    });
+  };
 
   useEffect(() => {
-    getWeatherData();
-  }, [])
-  
+    getCurrentCity();
+  }, []);
 
-  const getWeatherData = () => {
-    dispatch(getWeather());
-  }
-
-  return (
-    <Weather
-      data={data}
-      error={error}
-      loading={loading}
-      getWeatherData={getWeatherData}
-    />
-  );
+  return <Weather loading={weatherLoading} currentWeather={currentWeather} />;
 };
 
 export default WeatherContainer;

@@ -26,8 +26,6 @@ const RecommendPetPlace = () => {
     }
   }, [lat, lon]);
 
-  console.log(recommendData);
-
   return (
     <div>
       {locationLoading ? (

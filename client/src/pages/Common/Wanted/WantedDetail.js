@@ -62,9 +62,6 @@ const WantedDetailPage = () => {
     dispatch(getMyPetInfo());
   }, []);
 
-  // if (!wantedDetail.walk) return <div></div>;
-
-
   return (
     <div className="container pa0 v2">
       <Section>
@@ -97,122 +94,128 @@ const WantedDetailPage = () => {
           </ConHeader>
         )}
       </Section>
-      {!wantedDetail.walk ? <></> : (
-      <>
-      <Section>
-        <div>
-          <SectLabel>
-            함께 산책할 강아지 <b>{wantedDetail.walk.petList?.length}마리</b>
-          </SectLabel>
-          {writeWantedUser && (
-            <OptionButton>
-              <i onClick={() => setIsOn(!isOn)}>
-                <FontAwesomeIcon icon={faEllipsisVertical} />
-              </i>
-              <ul ref={optionBody} className={isOn ? "active" : ""}>
-                <li onClick={myPetInfo.length === 0 ? error : onEditHandler}>
-                  수정
-                </li>
-                <li onClick={() => setIsOpen(true)}>삭제</li>
-              </ul>
-            </OptionButton>
-          )}
+      {!wantedDetail.walk ? (
+        <></>
+      ) : (
+        <>
+          <Section>
+            <div>
+              <SectLabel>
+                함께 산책할 강아지{" "}
+                <b>{wantedDetail.walk.petList?.length}마리</b>
+              </SectLabel>
+              {writeWantedUser && (
+                <OptionButton>
+                  <i onClick={() => setIsOn(!isOn)}>
+                    <FontAwesomeIcon icon={faEllipsisVertical} />
+                  </i>
+                  <ul ref={optionBody} className={isOn ? "active" : ""}>
+                    <li
+                      onClick={myPetInfo.length === 0 ? error : onEditHandler}
+                    >
+                      수정
+                    </li>
+                    <li onClick={() => setIsOpen(true)}>삭제</li>
+                  </ul>
+                </OptionButton>
+              )}
 
-          <DogsInfo>
-            {wantedDetail.walk.petList?.map((item) => (
-              <div>
-                <DogNameTag
-                  name={item.petName}
-                  key={item.petId}
-                  species={item.species}
-                  picture={item.petPicture}
-                  sex={item.sex}
-                />
-              </div>
-            ))}
-          </DogsInfo>
-        </div>
-        <ConInfo>
-          <dl>
-            <dt>
-              <SectLabel>지역</SectLabel>
-            </dt>
-            <dd>{wantedDetail.location}</dd>
-          </dl>
-          <dl>
-            <dt>
-              <SectLabel>산책 희망 시간</SectLabel>
-            </dt>
-            <dd>
-              <span>
-                <small>시작 시간</small>
-                {startTimeForm}
-              </span>
-              <span>
-                <small>종료 시간</small>
-                {endTimeForm}
-              </span>
-            </dd>
-          </dl>
-          <dl>
-            <dt>
-              <SectLabel>산책 보수</SectLabel>
-            </dt>
-            <dd>
-              {wantedDetail.pay
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-              원
-            </dd>
-          </dl>
-        </ConInfo>
-      </Section>
-      <Section>
-        <SectLabel>체크리스트</SectLabel>
-        <ConCheckList>
-          {wantedDetail.walk.checkList?.map((item, idx) => (
-            <li key={item.petId}>{item.content}</li>
-          ))}
-        </ConCheckList>
-      </Section>
-      <Section>
-        <SectLabel>기타 주의사항</SectLabel>
-        <p className="p-area">{wantedDetail.walk?.caution}</p>
-      </Section>
-      {/* 댓글 지원 */}
-      <CommentApply>
-        <SectLabel>지원하기</SectLabel>
-        <CommentEnter wantedId={wantedDetail.wantedId} />
-        <SectLabel>
-          산책 지원하기 {wantedDetail.commentList?.length}명
-        </SectLabel>
-        <div className="comment-list">
-          {wantedDetail.commentList?.length !== 0 ? (
-            <>
-              {wantedDetail.commentList?.reverse().map((data, key) => {
-                return (
-                  <ApplyComment
-                    data={data}
-                    wantedId={wantedDetail.wantedId}
-                    writerId={wantedDetail.walk?.owner.ownerId}
-                    key={key}
-                  />
-                );
-              })}
-            </>
-          ) : (
-            <>
-              <div className="no-apply">
-                <i></i>
-                아직 지원자가 없습니다.
-                <br />
-                댓글로 지원해 보세요!
-              </div>
-            </>
-          )}
-        </div>
-      </CommentApply>
-      </>)}
+              <DogsInfo>
+                {wantedDetail.walk.petList?.map((item) => (
+                  <div>
+                    <DogNameTag
+                      name={item.petName}
+                      key={item.petId}
+                      species={item.species}
+                      picture={item.petPicture}
+                      sex={item.sex}
+                    />
+                  </div>
+                ))}
+              </DogsInfo>
+            </div>
+            <ConInfo>
+              <dl>
+                <dt>
+                  <SectLabel>지역</SectLabel>
+                </dt>
+                <dd>{wantedDetail.location}</dd>
+              </dl>
+              <dl>
+                <dt>
+                  <SectLabel>산책 희망 시간</SectLabel>
+                </dt>
+                <dd>
+                  <span>
+                    <small>시작 시간</small>
+                    {startTimeForm}
+                  </span>
+                  <span>
+                    <small>종료 시간</small>
+                    {endTimeForm}
+                  </span>
+                </dd>
+              </dl>
+              <dl>
+                <dt>
+                  <SectLabel>산책 보수</SectLabel>
+                </dt>
+                <dd>
+                  {wantedDetail.pay
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  원
+                </dd>
+              </dl>
+            </ConInfo>
+          </Section>
+          <Section>
+            <SectLabel>체크리스트</SectLabel>
+            <ConCheckList>
+              {wantedDetail.walk.checkList?.map((item, idx) => (
+                <li key={item.petId}>{item.content}</li>
+              ))}
+            </ConCheckList>
+          </Section>
+          <Section>
+            <SectLabel>기타 주의사항</SectLabel>
+            <p className="p-area">{wantedDetail.walk?.caution}</p>
+          </Section>
+          {/* 댓글 지원 */}
+          <CommentApply>
+            <SectLabel>지원하기</SectLabel>
+            <CommentEnter wantedId={wantedDetail.wantedId} />
+            <SectLabel>
+              산책 지원하기 {wantedDetail.commentList?.length}명
+            </SectLabel>
+            <div className="comment-list">
+              {wantedDetail.commentList?.length !== 0 ? (
+                <>
+                  {wantedDetail.commentList?.reverse().map((data, key) => {
+                    return (
+                      <ApplyComment
+                        data={data}
+                        wantedId={wantedDetail.wantedId}
+                        writerId={wantedDetail.walk?.owner.ownerId}
+                        key={key}
+                      />
+                    );
+                  })}
+                </>
+              ) : (
+                <>
+                  <div className="no-apply">
+                    <i></i>
+                    아직 지원자가 없습니다.
+                    <br />
+                    댓글로 지원해 보세요!
+                  </div>
+                </>
+              )}
+            </div>
+          </CommentApply>
+        </>
+      )}
       <ToastContainer position="top-right" delay={3000} />
     </div>
   );
@@ -222,12 +225,12 @@ export default WantedDetailPage;
 
 const Section = styled.section`
   border-bottom: 9px solid var(--gray-100);
-  padding:20px 20px 40px;
+  padding: 20px 20px 40px;
   background: var(--white-000);
 
   &:first-child {
     padding-top: 0;
-    padding-bottom:20px;
+    padding-bottom: 20px;
   }
 
   .p-area {

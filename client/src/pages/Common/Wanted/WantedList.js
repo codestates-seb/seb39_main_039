@@ -96,9 +96,6 @@ const WantedList = () => {
     dispatch(getMyPetInfo());
   }, []);
 
-
-  console.log(scrollAllWantedList);
-
   return (
     <div className="container bg-gray v2">
       <Header pageTitle={"구인글 리스트"} />
@@ -134,13 +131,11 @@ const WantedList = () => {
 
       <WantedCardList>
         {scrollAllWantedList?.map((item, idx) => (
-            <WantedCard key={idx} item={item} />
+          <WantedCard key={idx} item={item} />
         ))}
 
         <span
-          onClick={() =>
-            myPetInfo.length === 0 ? setIsOpenModal(true) : ""
-          }
+          onClick={() => (myPetInfo.length === 0 ? setIsOpenModal(true) : "")}
         >
           <FloatingBtnAdd
             mid={myPetInfo.length === 0 ? "wantedList" : "wantedCreate"}
@@ -149,7 +144,7 @@ const WantedList = () => {
       </WantedCardList>
 
       <Scroll ref={ref}></Scroll>
-      <ModalLink isOpen={isOpenModal} setIsOpen={setIsOpenModal}/>
+      <ModalLink isOpen={isOpenModal} setIsOpen={setIsOpenModal} />
     </div>
   );
 };

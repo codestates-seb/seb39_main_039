@@ -40,6 +40,7 @@ const OwnerMain = () => {
 
   useEffect(() => {
     dispatch(getMyPetInfo());
+    if (window) window.scrollTo(0, 0);
   }, []);
 
   return (

@@ -11,7 +11,7 @@ import { getWalkerUser } from "../../redux/actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import { ThreeDots } from "react-loader-spinner";
 import WeatherContainer from "../../components/WeatherContainer";
-import RecommendPlace from "../../components/RecommendPlace";
+import RecommendPetPlace from "../../components/RecommendPetPlace";
 
 const WalkerMain = () => {
   const { walkerUserInfo, loading } = useSelector((state) => state.user);
@@ -56,7 +56,7 @@ const WalkerMain = () => {
             </Weather>
           </Section>
           <InfoSection>
-            <RecommendPlace />
+            <RecommendPetPlace />
           </InfoSection>
           <Nav />
         </>

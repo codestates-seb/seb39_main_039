@@ -9,21 +9,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { ThreeDots } from "react-loader-spinner";
 
-const RecommendPlace = () => {
+const RecommendPetPlace = () => {
   const dispatch = useDispatch();
   const { recommendData, location, locationLoading } = useSelector(
     (state) => state.recommend
   );
 
-  const localLat = localStorage.getItem("lat");
-  const localLon = localStorage.getItem("lon");
+  let lat = localStorage.getItem("lat");
+  let lon = localStorage.getItem("lon");
 
   useEffect(() => {
-    if (localLat && localLon) {
-      dispatch(getRecommendData(localLat, localLon));
-      dispatch(getLocation(localLat, localLon));
+    if (lat && lon) {
+      dispatch(getRecommendData(lat, lon));
+      dispatch(getLocation(lat, lon));
     }
-  }, [localLat, localLon]);
+  }, [lat, lon]);
 
   return (
     <div>
@@ -42,14 +42,16 @@ const RecommendPlace = () => {
           </h3>
           <PlaceList>
             {recommendData.documents?.map((item) => (
-              <li>
-                <div>
-                  <div className="place-info">
-                    <p>{item?.place_name}</p>
-                    <span>{item?.distance / 1000}km 이내</span>
+              <a href={item.place_url}>
+                <li>
+                  <div>
+                    <div className="place-info">
+                      <p>{item?.place_name}</p>
+                      <span>{item?.distance / 1000}km 이내</span>
+                    </div>
                   </div>
-                </div>
-              </li>
+                </li>
+              </a>
             ))}
           </PlaceList>
         </>
@@ -58,12 +60,21 @@ const RecommendPlace = () => {
   );
 };
 
+export default RecommendPetPlace;
+
 const PlaceList = styled.ul`
   gap: 15px;
   overflow: auto;
   white-space: nowrap;
   margin-top: 10px;
   margin-right: -20px;
+
+  a {
+    color: black;
+  }
+  a:visited {
+    color: black;
+  }
 
   li {
     display: inline-block;
@@ -102,5 +113,3 @@ const Loading = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-export default RecommendPlace;

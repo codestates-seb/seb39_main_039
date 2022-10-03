@@ -85,7 +85,7 @@ const PlaceList = styled.ul`
       background: var(--white-000);
     }
   }
-  li + li {
+  a + a {
     margin-left: 10px;
   }
 

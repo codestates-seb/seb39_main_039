@@ -84,7 +84,7 @@ const GlobalStyle = createGlobalStyle`
    // layout
    .container{
       max-width:100%;
-      min-height:100vh;
+      min-height:110vh;
       margin:0 auto;
       padding:0 20px;
       background:var(--white-000);

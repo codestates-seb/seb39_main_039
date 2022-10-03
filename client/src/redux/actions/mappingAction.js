@@ -153,7 +153,6 @@ export const getWalkingPetPicture = (walkId) => {
 };
 
 export const deleteWalkingPetPicture = (walkId, picture) => {
-  console.log(picture);
   return async () => {
     try {
       return await customAxios.delete(`/walk/${walkId}/deletePicture`, {

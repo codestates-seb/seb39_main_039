@@ -101,6 +101,7 @@ const StartWalking = () => {
     });
   }, []);
 
+  console.log(walkingPetPicture);
   return (
     <div className="container pa0 v2">
       <Section>
@@ -240,7 +241,7 @@ const StartWalking = () => {
               className="user-photo"
             />
             <img
-              src={imageUrl.length !== 0 ? imageUrl : uploadPhoto}
+              src={uploadPhoto}
               className="user-photo pre-load"
               onClick={forUpLoadPhoto}
             />

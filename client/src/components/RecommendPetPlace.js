@@ -43,7 +43,7 @@ const RecommendPetPlace = () => {
           </h3>
           <PlaceList>
             {recommendData.documents?.map((item, idx) => (
-              <a href={item.place_url}>
+              <a href={item.place_url} target="_blank">
                 <li>
                   <div>
                     <span className="place-img">

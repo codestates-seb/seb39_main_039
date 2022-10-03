@@ -21,7 +21,7 @@ export const ButtonPrimary = styled.button`
   }
 `;
 
-export const ButtonCancel= styled(ButtonPrimary)`
+export const ButtonCancel = styled(ButtonPrimary)`
   background-color: var(--gray-200);
   color: var(--gray-400);
 
@@ -61,3 +61,5 @@ export const ButtonPrimaryLine = styled(ButtonPrimary)`
     border-color: var(--primary-active);
   }
 `;
+
+// Buttons

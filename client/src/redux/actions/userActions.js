@@ -1,8 +1,7 @@
-import customAxios from "../axiosAPI";
+import { customAxios } from "../axiosAPI";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toast";
-import { tr } from "date-fns/locale";
 
 export const GET_USER_INFO_SUCCESS = "GET_USER_INFO_SUCCESS";
 export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
@@ -76,15 +75,14 @@ export const saveUserPicture = (picture) => {
 export const delUserPicture = () => {
   return async (dispatch) => {
     try {
-      return await customAxios.delete(`user/deleteProfileImage`)
-      .then(()=>{
+      return await customAxios.delete(`user/deleteProfileImage`).then(() => {
         dispatch({
           type: "USER_PICTURE_DELETE_SUCCESS",
           payload: {
             sign: true
           }
         });
-      })
+      });
     } catch (error) {
       console.log(error);
     }

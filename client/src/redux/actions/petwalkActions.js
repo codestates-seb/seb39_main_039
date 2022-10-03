@@ -1,4 +1,4 @@
-import customAxios from "../axiosAPI";
+import { customAxios } from "../axiosAPI";
 
 export const GET_PET_WALK_HISTORY_SUCCESS = "GET_PET_WALK_HISTORY_SUCCESS";
 export const GET_PET_WALK_PENDING_SUCCESS = "GET_PET_WALK_PENDING_SUCCESS";

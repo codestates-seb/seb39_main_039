@@ -1,4 +1,4 @@
-import customAxios from "../axiosAPI";
+import { customAxios } from "../axiosAPI";
 
 export const GET_CITY_INFO_SUCCESS = "GET_CITY_INFO_SUCCESS";
 

@@ -1,4 +1,4 @@
-import customAxios from "../axiosAPI";
+import { customAxios } from "../axiosAPI";
 import axios from "axios";
 
 // 로그인이 성공했을 때 행동 (액션타입)

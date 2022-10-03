@@ -16,6 +16,7 @@ import { getMyPetInfo } from "../../redux/actions/petActions";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import CoachMarks from "../../components/Layout/CoachMarks";
+import WeatherContainer from "../../components/WeatherContainer";
 
 const OwnerMain = () => {
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ const OwnerMain = () => {
   useEffect(() => {
     dispatch(getMyPetInfo());
   }, []);
+
   
   return (
     <div className="container bg-gray">
@@ -61,9 +63,9 @@ const OwnerMain = () => {
           </Slider>
         </DogSlide>
       </Section>
-      <Section>
+      <Section className="v2">
         <Weather>
-          <p>날씨API 대기쓰</p>
+          <WeatherContainer />
         </Weather>
       </Section>
       <InfoSection>
@@ -106,6 +108,10 @@ const Section = styled.section`
   padding: 20px 0;
   border-radius: 25px;
   margin-bottom: 10px;
+
+  &.v2{
+    padding:5px 0 5px 10px;
+  }
 `;
 
 const DogSlide = styled.div`
@@ -139,9 +145,6 @@ const DogSlide = styled.div`
 
 const Weather = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 60px;
 `;
 
 const InfoSection = styled.section`

@@ -13,7 +13,7 @@ const GlobalStyle = createGlobalStyle`
    ${reset}
    *{
       box-sizing: border-box;
-      font-family: -apple-system, Pretendard, 'Segoe UI', 'Roboto', 'Oxygen',
+      font-family: Pretendard, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
       sans-serif !important;
       -webkit-font-smoothing: antialiased;

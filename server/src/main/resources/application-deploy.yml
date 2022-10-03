@@ -1,0 +1,69 @@
+spring:
+  h2:
+    console:
+      enabled: false
+  config:
+    import: 'aws-parameterstore:'
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    database: mysql
+    database-platform: org.hibernate.spatial.dialect.mysql.MySQL56InnoDBSpatialDialect
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: { AWS RDS Endpoint }
+    username: { RDS Mysql Admin id }
+    password: { RDS Mysql Admin password }
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: { Google Client Id }
+            clientSecret: { Google Client Secret }
+            scope:
+              - email
+              - profile
+          kakao:
+            client-id: { Kakao Client Id }
+            client-secret: { Kakao Client Secret }
+            client-authentication-method: post
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+            scope:
+              - profile_nickname
+              - account_email
+              - profile_image
+            client-name: Kakao
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+aws:
+  paramstore:
+    enabled: true
+    prefix: /spring-boot-aws
+    profile-separator: _
+    name: albamung
+
+security:
+  jwt:
+    token:
+      secret-key: { jwt Secret Key }
+      expire-length: 300000
+
+clientUri: https://albamung.tk
+
+access:
+  key:
+    id: { S3 Access Id }
+    secret: { S3 Access Secret }
+s3:
+  region:
+    name: { S3 Region }
+  bucket:
+    name: { S3 Bucket Name }

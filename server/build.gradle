@@ -1,0 +1,60 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.3'
+    id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+    id 'java'
+}
+
+group = 'com.albamung'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('springCloudVersion', "2021.0.4")
+}
+
+dependencies {
+
+    implementation 'org.springframework.boot:spring-boot-devtools:2.7.3'
+    implementation 'org.springframework.boot:spring-boot-starter-security:2.7.3'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client:2.7.3'
+    implementation 'io.jsonwebtoken:jjwt-root:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
+    implementation 'io.awspring.cloud:spring-cloud-starter-aws-parameter-store-config'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.3'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.7.3'
+    implementation 'org.hibernate:hibernate-spatial:5.6.10.Final'
+
+    implementation platform('com.amazonaws:aws-java-sdk-bom:1.12.300')
+    implementation 'com.amazonaws:aws-java-sdk-s3'
+
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'com.h2database:h2'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.mapstruct:mapstruct:1.5.1.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.1.Final'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+
+    implementation 'com.google.code.gson:gson'
+    implementation 'mysql:mysql-connector-java'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "io.awspring.cloud:spring-cloud-aws-dependencies:2.3.3"
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

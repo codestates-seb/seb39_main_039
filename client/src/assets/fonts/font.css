@@ -1,0 +1,36 @@
+  @font-face {
+    font-family: "Pretendard";
+    font-display: fallback;
+    src: url("./Pretendard-Regular.ttf") format("truetype"), 
+         url("./Pretendard-Regular.woff") format("woff"),
+         url("./Pretendard-Regular.eot?iefix") format("embedded-opentype");
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "Pretendard";
+    font-display: fallback;
+    src: url("./Pretendard-Medium.ttf") format("truetype"), 
+         url("./Pretendard-Medium.woff") format("woff"),
+         url("./Pretendard-Medium.eot?iefix") format("embedded-opentype");
+    font-weight: 500;
+  }
+
+  @font-face {
+    font-family: "Pretendard";
+    font-display: fallback;
+    src: url("./Pretendard-SemiBold.ttf") format("truetype"), 
+         url("./Pretendard-SemiBold.woff") format("woff"),
+         url("./Pretendard-SemiBold.eot?iefix") format("embedded-opentype");
+    font-weight: 600;
+  }
+
+  @font-face {
+    font-family: "Pretendard";
+    font-display: fallback;
+    src: url("./Pretendard-Bold.ttf") format("truetype"), 
+         url("./Pretendard-Bold.woff") format("woff"),
+         url("./Pretendard-Bold.eot?iefix") format("embedded-opentype");
+    font-weight: 800;
+  }

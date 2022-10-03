@@ -1,0 +1,74 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.2.0",
+    "@fortawesome/free-brands-svg-icons": "^6.2.0",
+    "@fortawesome/free-regular-svg-icons": "^6.2.0",
+    "@fortawesome/free-solid-svg-icons": "^6.2.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@reduxjs/toolkit": "^1.8.5",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^0.27.2",
+    "date-fns": "^2.29.3",
+    "dotenv": "^16.0.2",
+    "intersection-observer": "^0.12.2",
+    "js-cookie": "^3.0.1",
+    "jwt-decode": "^3.1.2",
+    "lottie-react": "^2.3.1",
+    "nanoid": "^4.0.0",
+    "query-string": "^7.1.1",
+    "react": "^18.2.0",
+    "react-content-loader": "^6.2.0",
+    "react-countup": "^6.3.1",
+    "react-datepicker": "^4.8.0",
+    "react-dom": "^18.2.0",
+    "react-hook-geolocation": "^1.1.0",
+    "react-intersection-observer": "^9.4.0",
+    "react-loader-spinner": "^5.1.5",
+    "react-moment": "^1.1.2",
+    "react-redux": "^8.0.2",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "5.0.1",
+    "react-slick": "^0.29.0",
+    "react-timecode": "^1.2.0",
+    "react-timer-hook": "^3.0.5",
+    "react-timer-wrapper": "^0.4.1",
+    "react-toast": "^1.0.3",
+    "redux": "^4.2.0",
+    "redux-persist": "^6.0.0",
+    "redux-thunk": "^2.4.1",
+    "slick-carousel": "^1.8.1",
+    "styled-components": "^5.3.5",
+    "styled-reset": "^4.4.2",
+    "timer-node": "^5.0.6",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

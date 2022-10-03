@@ -1,0 +1,48 @@
+
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2
+      settings:
+        web-allow-others: true
+  main:
+    allow-circular-references: true
+  datasource:
+    url: jdbc:h2:mem:test
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 100
+  sql:
+    init:
+      data-locations: classpath*:db/h2/data.sql
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+logging:
+  level:
+    org:
+      springframework:
+        orm:
+          jpa: ERROR
+    web: DEBUG
+server:
+  error:
+    include-message: always
+  servlet:
+    encoding:
+      force-response: true
+
+clientUri: http://pre-project-client39.s3-website.ap-northeast-2.amazonaws.com/
+
+security:
+  jwt:
+    token:
+      secret-key: testsecurity
+      expire-length: 300000

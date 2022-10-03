@@ -19,8 +19,6 @@ const HistoryCard = ({ data }) => {
     return `D-${diffDay}`;
   }
 
-  console.log(data);
-
   return (
     <Card
       onClick={() => {

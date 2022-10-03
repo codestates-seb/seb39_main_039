@@ -17,7 +17,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import CoachMarks from "../../components/Layout/CoachMarks";
 import WeatherContainer from "../../components/WeatherContainer";
-import RecommendPlace from "../../components/RecommendPlace";
+import RecommendPetPlace from "../../components/RecommendPetPlace";
 
 const OwnerMain = () => {
   const dispatch = useDispatch();
@@ -71,7 +71,7 @@ const OwnerMain = () => {
         </Weather>
       </Section>
       <InfoSection>
-        <RecommendPlace />
+        <RecommendPetPlace />
       </InfoSection>
 
       <Nav />

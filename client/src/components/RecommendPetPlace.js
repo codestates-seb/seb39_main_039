@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getRecommendData,
-  getLocation
+  getLocation,
 } from "../redux/actions/recommendAction";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
@@ -29,9 +29,9 @@ const RecommendPetPlace = () => {
   return (
     <div>
       {locationLoading ? (
-        <Loading>
+        <PlaceList>
           <ThreeDots color="#3183f8" height={80} width={80} />
-        </Loading>
+        </PlaceList>
       ) : (
         <>
           <h3>

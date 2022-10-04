@@ -22,6 +22,7 @@ export const loginSuccess = (email, password) => {
           Cookies.set("refresh", response.headers.refresh, {
             expires: 7
           });
+          Cookies.set("coachCheck", 'false');
         })
         .then((response) => {
           dispatch({

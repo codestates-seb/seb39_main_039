@@ -51,7 +51,7 @@ const RecommendPetPlace = () => {
                     </span>
                     <div className="place-info">
                       <p>{item?.place_name}</p>
-                      <span>{item?.distance / 1000}km 이내</span>
+                      <span>{(item?.distance / 1000).toFixed(1)}km 거리</span>
                     </div>
                   </div>
                 </li>

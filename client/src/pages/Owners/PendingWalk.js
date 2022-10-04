@@ -31,7 +31,7 @@ const WalkerHistory = () => {
     setPage(page + 1);
     await fakeFetch();
     if (petWalkPendingInfo.length < totalPage_pending) {
-      if (petWalkPendingInfo.length >= 5)
+      if (petWalkPendingInfo.length >= 10)
         dispatch(getPetWalkPendingInfo(id, page));
     }
   };

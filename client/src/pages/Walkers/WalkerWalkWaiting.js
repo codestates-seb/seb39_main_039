@@ -31,7 +31,7 @@ const WalkerWalkWaiting = () => {
     setPage(page + 1);
     await fakeFetch();
     if (walkerWalkWaiting.length < totalPage_waiting) {
-      if (walkerWalkWaiting.length > 5) {
+      if (walkerWalkWaiting.length > 10) {
         dispatch(getWalkerWalkWaiting(page));
       }
     }

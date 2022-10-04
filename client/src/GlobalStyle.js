@@ -82,6 +82,12 @@ const GlobalStyle = createGlobalStyle`
       svg{color:var(--primary-active)}
    }
 
+   @media (max-width: 768px) {
+      .only-pc {
+         display: none !important;
+      }
+   } 
+
    // layout
    .container{
       max-width:100%;

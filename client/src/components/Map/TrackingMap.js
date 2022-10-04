@@ -109,6 +109,7 @@ const TrackingMap = () => {
     setDis(dist);
   }
 
+<<<<<<< HEAD
   useInterval(() => {
     setSpeedForHours(hours * 3600);
     if (minutes > 0) {
@@ -118,11 +119,30 @@ const TrackingMap = () => {
       setSpeed(
         (dis === 0 ? 1 : dis) /
           (speedForHours + speedForMinutes + speedForSeconds).toFixed(1)
+=======
+  // useEffect(() => {
+
+  // }, [dis]);
+
+  useInterval(() => {
+    setSpeedForHours(hours * 60);
+    if (minutes > 0) {
+      setSpeedForMinutes(minutes);
+    }
+    if (dis < 1000)
+      setSpeed(
+        (dis === 0
+          ? 1
+          : dis / 1000 / (speedForMinutes + speedForHours)
+        ).toFixed(1)
+>>>>>>> dev
       );
     if (dis < 1000) {
       setInfoDistance(infoDistance + dis);
     }
   }, 3000);
+
+  // console.log(speedForMinutes, speedForHours, infoDistance);
 
   useEffect(() => {
     setLineForDistance([...lineForDistance, [lat, lon]]);

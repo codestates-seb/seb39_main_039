@@ -4,6 +4,7 @@ import dogHead from '../../assets/img/dog-head.png';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaw } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 const CoachMarks = () => {
     const [isOn, setIsOn] = useState(true);
@@ -15,6 +16,7 @@ const CoachMarks = () => {
     const skipHandler = () => {
         setIsOn(false)
         document.body.style.overflow = "unset";
+        Cookies.set('coachCheck', 'true');
     }
         
     return(

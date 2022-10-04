@@ -16,11 +16,11 @@ const TimeCount = ({
   isPauseWalk,
   setHours,
   setMinutes,
-  setSeconds
+  setSeconds,
 }) => {
   const dispatch = useDispatch();
   const { seconds, minutes, hours, start, pause } = useStopwatch({
-    autoStart: false
+    autoStart: false,
   });
   const { isWalk } = useSelector((state) => state.mapping);
   const timer = useRef();
@@ -33,7 +33,7 @@ const TimeCount = ({
   useEffect(() => {
     setHours(hours);
     setMinutes(minutes);
-    // setSeconds(seconds);
+    setSeconds(seconds);
   }, [seconds]);
 
   return (

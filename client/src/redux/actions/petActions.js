@@ -11,22 +11,22 @@ export const getMyPetInfo = () => {
       dispatch({
         type: "PET_LOADING",
         payload: {
-          loading: true
-        }
+          loading: true,
+        },
       });
       const getMyPetInfoAPI = customAxios.get(`/pet/detailList`);
       let get_myPetInfo = await getMyPetInfoAPI;
       dispatch({
         type: "GET_PET_INFO_SUCCESS",
         payload: {
-          myPetInfo: get_myPetInfo.data
-        }
+          myPetInfo: get_myPetInfo.data,
+        },
       });
       dispatch({
         type: "PET_LOADING",
         payload: {
-          loading: false
-        }
+          loading: false,
+        },
       });
     } catch (error) {
       //에러 핸들링 하는 곳
@@ -46,7 +46,7 @@ export const addMyPet = (name, species, birth, sex, about, picture) => {
           picture:
             "https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F99D740415C432CC526",
           sex: `${sex}`,
-          species: `${species}`
+          species: `${species}`,
         })
         .then((res) => customAxios.get(`pet/${res.data}/savePicture`))
         .then((res) => axios.put(res.data, picture))
@@ -65,8 +65,8 @@ export const editMyPetInfo = (petId, name, species, birth, sex, about) => {
       dispatch({
         type: "PET_LOADING",
         payload: {
-          loading: true
-        }
+          loading: true,
+        },
       });
       return await customAxios
         .put(`/pet/${petId}/edit`, {
@@ -74,14 +74,14 @@ export const editMyPetInfo = (petId, name, species, birth, sex, about) => {
           birthday: birth,
           name: name,
           sex: sex,
-          species: species
+          species: species,
         })
         .then(() => {
           dispatch({
             type: "PET_LOADING",
             payload: {
-              loading: false
-            }
+              loading: false,
+            },
           });
           toast.success("수정이 완료 되었어요");
         });

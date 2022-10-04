@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import {
   DogNameLabelType2,
-  AnonymousLabelType2
+  AnonymousLabelType2,
 } from "../../../components/DogNameLabel";
 import DatePicker from "react-datepicker";
 import { DATE_FORMAT_CALENDAR } from "../../../assets/style/dateFormat";
@@ -16,12 +16,13 @@ import {
   getMyPetInfo,
   editMyPetInfo,
   deleteMyPetInfo,
-  savePetPicture
+  savePetPicture,
 } from "../../../redux/actions/petActions";
 import { petSpecList } from "../../../constants/petSpecies";
 import {
   ButtonPrimary,
-  ButtonCancel, ButtonPrimaryXS
+  ButtonCancel,
+  ButtonPrimaryXS,
 } from "../../../components/Button/Buttons";
 import { ToastContainer } from "react-toast";
 import { ThreeDots } from "react-loader-spinner";
@@ -99,6 +100,8 @@ const DogEdit = () => {
     dispatch(savePetPicture(myPetInfo[tab].petId, imgFile));
   };
 
+  console.log(imgFile);
+
   const deletePet = () => {
     dispatch(deleteMyPetInfo(myPetInfo[tab].petId));
   };
@@ -108,7 +111,7 @@ const DogEdit = () => {
   };
 
   useEffect(() => {
-    if(myPetInfo[tab] !=null) {
+    if (myPetInfo[tab] != null) {
       setMyPetSpecies(myPetInfo[tab]?.species);
       setMyPetName(myPetInfo[tab]?.petName);
       setMyPetAbout(myPetInfo[tab]?.aboutPet);
@@ -118,7 +121,7 @@ const DogEdit = () => {
     }
     setImageUrl(null);
     setImgFile(null);
-    if(imgRef.current) imgRef.current.value = null;
+    if (imgRef.current) imgRef.current.value = null;
   }, [tab]);
 
   useEffect(() => {
@@ -139,17 +142,17 @@ const DogEdit = () => {
   return (
     <div className="container v2">
       <Header pageTitle={"강아지 정보 수정"} link={"/setting"} />
-      { myPetInfo.length===0? (
-          <div className="pg-info">
+      {myPetInfo.length === 0 ? (
+        <div className="pg-info">
           <EmptyDataPage>
             <div className="icon-area">
               <i className="swing"></i>
             </div>
             <p>등록된 강아지가 없습니다.</p>
-            <ButtonPrimaryXS >강아지 추가하러 가기</ButtonPrimaryXS>
+            <ButtonPrimaryXS>강아지 추가하러 가기</ButtonPrimaryXS>
           </EmptyDataPage>
-          </div>
-          ) : (
+        </div>
+      ) : (
         <>
           <TabMenu>
             {menuArr.map((el, index) => {
@@ -175,129 +178,135 @@ const DogEdit = () => {
               </Link>
             </li>
           </TabMenu>
-            <>
-              <Desc>
-                <UserInfo>
-                  <div className="user-con">
-                    <UserPhoto>
-                      <img
-                        src={imageUrl ? imageUrl : myPetPicture||myPetInfo[tab].petPicture}
-                        className="user-photo"
-                        alt=""
-                      />
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={onChangeImage}
-                        ref={imgRef}
-                        style={{ display: "none" }}
-                      />
-                      <i
-                        className="user-edit"
-                        onClick={() => {
-                          onClickFileBtn();
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faCamera} />
-                      </i>
-                    </UserPhoto>
-                  </div>
-                </UserInfo>
-                <Form>
-                  <div className="ipt-group">
-                    <label htmlFor="name" className="ipt-label">
-                      강아지 이름
-                    </label>
+          <>
+            <Desc>
+              <UserInfo>
+                <div className="user-con">
+                  <UserPhoto>
+                    <img
+                      src={
+                        imageUrl
+                          ? imageUrl
+                          : myPetPicture || myPetInfo[tab].petPicture
+                      }
+                      className="user-photo"
+                      alt=""
+                    />
                     <input
-                      type="text"
-                      name="name"
-                      className="ipt-form"
-                      onChange={(e) => setMyPetName(e.target.value)}
-                      value={myPetName || myPetInfo[tab].petName}
+                      type="file"
+                      accept="image/*"
+                      onChange={onChangeImage}
+                      ref={imgRef}
+                      style={{ display: "none" }}
                     />
-                  </div>
-                  <div className="ipt-group">
-                    <label htmlFor="phone" className="ipt-label">
-                      강아지 종
-                    </label>
-                    <select
-                      ref={specRef}
-                      name={myPetInfo[tab]?.petId}
-                      className="ipt-form"
-                      value={myPetSpecies || myPetInfo[tab].species}
-                      onChange={(value) => setMyPetSpecies(value.target.value)}
-                    >
-                      {petSpecList.map((el, idx) => (
-                        <option value={el} key={idx}>
-                          {el}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="ipt-group">
-                    <label htmlFor="" className="ipt-label">
-                      강아지 생년월일
-                    </label>
-                    <DatePicker
-                      ref={birthRef}
-                      peekNextMonth
-                      showMonthDropdown
-                      showYearDropdown
-                      dropdownMode="select"
-                      locale={ko}
-                      dateFormat="yyyy년 MM월 dd일 생"
-                      setDate= "today"
-                      selected={myPetBirth || moment(myPetInfo[tab]?.birthday).toDate()}
-                      onChange={(date) => {
-                        setMyPetBirth(date);
-                        birthPick(date);
+                    <i
+                      className="user-edit"
+                      onClick={() => {
+                        onClickFileBtn();
                       }}
-                      maxDate={new Date()}
-                      dateFormatCalendar={DATE_FORMAT_CALENDAR}
-                    />
-                  </div>
-                  <div className="ipt-group">
-                    <label htmlFor="" className="ipt-label">
-                      강아지 성별
-                    </label>
-                    <select
-                      className="ipt-form"
-                      name={myPetInfo[tab]?.petId}
-                      ref={sexRef}
-                      value={myPetSex || myPetInfo[tab].sex}
-                      onChange={(value) => setMyPetSex(value.target.value)}
                     >
-                      {petSexList.map((el, idx) => (
-                        <option value={el} key={idx}>
-                          {el}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="ipt-group">
-                    <label htmlFor="about" className="ipt-label">
-                      소개글
-                    </label>
-                    <textarea
-                      name="about"
-                      type="text"
-                      className="ipt-form"
-                      onChange={(e) => {
-                        setMyPetAbout(e.target.value);
-                      }}
-                      value={myPetAbout || myPetInfo[tab].aboutPet}
-                    ></textarea>
-                  </div>
+                      <FontAwesomeIcon icon={faCamera} />
+                    </i>
+                  </UserPhoto>
+                </div>
+              </UserInfo>
+              <Form>
+                <div className="ipt-group">
+                  <label htmlFor="name" className="ipt-label">
+                    강아지 이름
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    className="ipt-form"
+                    onChange={(e) => setMyPetName(e.target.value)}
+                    value={myPetName || myPetInfo[tab].petName}
+                  />
+                </div>
+                <div className="ipt-group">
+                  <label htmlFor="phone" className="ipt-label">
+                    강아지 종
+                  </label>
+                  <select
+                    ref={specRef}
+                    name={myPetInfo[tab]?.petId}
+                    className="ipt-form"
+                    value={myPetSpecies || myPetInfo[tab].species}
+                    onChange={(value) => setMyPetSpecies(value.target.value)}
+                  >
+                    {petSpecList.map((el, idx) => (
+                      <option value={el} key={idx}>
+                        {el}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="ipt-group">
+                  <label htmlFor="" className="ipt-label">
+                    강아지 생년월일
+                  </label>
+                  <DatePicker
+                    ref={birthRef}
+                    peekNextMonth
+                    showMonthDropdown
+                    showYearDropdown
+                    dropdownMode="select"
+                    locale={ko}
+                    dateFormat="yyyy년 MM월 dd일 생"
+                    setDate="today"
+                    selected={
+                      myPetBirth || moment(myPetInfo[tab]?.birthday).toDate()
+                    }
+                    onChange={(date) => {
+                      setMyPetBirth(date);
+                      birthPick(date);
+                    }}
+                    maxDate={new Date()}
+                    dateFormatCalendar={DATE_FORMAT_CALENDAR}
+                  />
+                </div>
+                <div className="ipt-group">
+                  <label htmlFor="" className="ipt-label">
+                    강아지 성별
+                  </label>
+                  <select
+                    className="ipt-form"
+                    name={myPetInfo[tab]?.petId}
+                    ref={sexRef}
+                    value={myPetSex || myPetInfo[tab].sex}
+                    onChange={(value) => setMyPetSex(value.target.value)}
+                  >
+                    {petSexList.map((el, idx) => (
+                      <option value={el} key={idx}>
+                        {el}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="ipt-group">
+                  <label htmlFor="about" className="ipt-label">
+                    소개글
+                  </label>
+                  <textarea
+                    name="about"
+                    type="text"
+                    className="ipt-form"
+                    onChange={(e) => {
+                      setMyPetAbout(e.target.value);
+                    }}
+                    value={myPetAbout || myPetInfo[tab].aboutPet}
+                  ></textarea>
+                </div>
 
-                  <div className="btn-area">
-                    <ButtonPrimary onClick={ClickHandler}>
-                      {loading ? "..." : "수정 완료"}
-                    </ButtonPrimary>
-                    <ButtonCancel onClick={deletePet}>삭제</ButtonCancel>
-                  </div>
-                </Form>
-              </Desc>
-            </>
+                <div className="btn-area">
+                  <ButtonPrimary onClick={ClickHandler}>
+                    {loading ? "..." : "수정 완료"}
+                  </ButtonPrimary>
+                  <ButtonCancel onClick={deletePet}>삭제</ButtonCancel>
+                </div>
+              </Form>
+            </Desc>
+          </>
         </>
       )}
 
@@ -394,42 +403,46 @@ const Loading = styled.div`
 `;
 
 const EmptyDataPage = styled.div`
-    width:100%;
-    padding:0 40px;
+  width: 100%;
+  padding: 0 40px;
 
-    p{
-        padding:0 0 15px;
-        font-size:16px;
-        margin-top:0;
-    }
+  p {
+    padding: 0 0 15px;
+    font-size: 16px;
+    margin-top: 0;
+  }
 
-    .icon-area{
-        position: relative;
-        display:inline-block;
-        width:130px;
-        height:150px;
-        margin-top:-30px;
-        background-image: url('${dogIcon}');
-        background-size:100% auto;
+  .icon-area {
+    position: relative;
+    display: inline-block;
+    width: 130px;
+    height: 150px;
+    margin-top: -30px;
+    background-image: url("${dogIcon}");
+    background-size: 100% auto;
 
-        i{
-            position: absolute;
-            bottom:18px;
-            left:-10px;
-            display: inline-block;
-            width:40px;
-            height:68px;
-            background-image: url('${dogItemIcon}');
-            background-size:100% auto;
-            background-repeat: no-repeat;
-        }
+    i {
+      position: absolute;
+      bottom: 18px;
+      left: -10px;
+      display: inline-block;
+      width: 40px;
+      height: 68px;
+      background-image: url("${dogItemIcon}");
+      background-size: 100% auto;
+      background-repeat: no-repeat;
     }
-    .swing {
-        animation: swing ease-in-out 1s infinite alternate;
-        transform-origin: center -20px;
+  }
+  .swing {
+    animation: swing ease-in-out 1s infinite alternate;
+    transform-origin: center -20px;
+  }
+  @keyframes swing {
+    0% {
+      transform: rotate(3deg);
     }
-    @keyframes swing {
-        0% { transform: rotate(3deg); }
-        100% { transform: rotate(-3deg); }
+    100% {
+      transform: rotate(-3deg);
     }
-`
+  }
+`;

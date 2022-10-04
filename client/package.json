@@ -47,13 +47,15 @@
     "timer-node": "^5.0.6",
     "web-vitals": "^2.1.4"
   },
+  "homepage": "http://codestates-seb.github.io/seb39_main_039",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "postbuild": "cp build/index.html build/404.html"
   },
   "eslintConfig": {
     "extends": [

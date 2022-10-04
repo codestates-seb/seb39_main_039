@@ -136,16 +136,14 @@ const TrackingMap = () => {
     if (infoDis < 1000)
       setSpeed(
         // (dis === 0 ? 1 : dis) /
-        (infoDis / (speedForHours + speedForMinutes + speedForSeconds)).toFixed(
-          1
-        )
+        (infoDis / (speedForHours + speedForMinutes + seconds)).toFixed(1)
       );
     if (infoDis < 1000) {
       setInfoDistance(infoDistance + infoDis);
     }
   }, [infoDis]);
 
-  console.log(speedForMinutes, speedForHours, infoDistance, infoDis, dis);
+  // console.log(speedForMinutes, speedForHours, infoDistance, infoDis, dis);
 
   useEffect(() => {
     setLineForDistance([...lineForDistance, [lat, lon]]);
@@ -167,7 +165,17 @@ const TrackingMap = () => {
     drawMap();
   }, []);
 
-  // console.log(lat, lon, speed, dis, lineForDistance, hours, minutes, seconds);
+  console.log(
+    lat,
+    lon,
+    speed,
+    infoDis,
+    lineForDistance,
+    speedForHours,
+    speedForMinutes,
+    seconds
+  );
+
   return (
     <MapBox>
       <Map id="myMap" style={{ width: "100%", height: "300px" }}></Map>

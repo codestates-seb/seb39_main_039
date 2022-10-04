@@ -10,11 +10,13 @@ const CoachMarks = () => {
 
     useEffect(()=>{
         document.body.style.overflow = "hidden";
+        localStorage.setItem("coachCheck", false);
     },[])
 
     const skipHandler = () => {
         setIsOn(false)
         document.body.style.overflow = "unset";
+        localStorage.setItem("coachCheck", true);
     }
         
     return(

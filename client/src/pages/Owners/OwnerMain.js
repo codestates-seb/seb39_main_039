@@ -76,7 +76,7 @@ const OwnerMain = () => {
       </InfoSection>
 
       <Nav />
-      <CoachMarks />
+      {localStorage.getItem('coachCheck') && <CoachMarks />}
     </div>
   );
 };

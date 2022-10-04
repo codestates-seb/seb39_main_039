@@ -21,7 +21,7 @@ const TrackingMap = () => {
   const [infoDistance, setInfoDistance] = useState(0);
   const [speed, setSpeed] = useState(0);
   const [speedForHours, setSpeedForHours] = useState(0);
-  const [speedForMinutes, setSpeedForMinutes] = useState(1);
+  const [speedForMinutes, setSpeedForMinutes] = useState(0);
   const [speedForSeconds, setSpeedForSeconds] = useState(1);
   const dispatch = useDispatch();
   const { lat, lon, walkDetailInfo, isWalk } = useSelector(
@@ -109,7 +109,6 @@ const TrackingMap = () => {
     setDis(dist);
   }
 
-<<<<<<< HEAD
   useInterval(() => {
     setSpeedForHours(hours * 3600);
     if (minutes > 0) {
@@ -119,23 +118,6 @@ const TrackingMap = () => {
       setSpeed(
         (dis === 0 ? 1 : dis) /
           (speedForHours + speedForMinutes + speedForSeconds).toFixed(1)
-=======
-  // useEffect(() => {
-
-  // }, [dis]);
-
-  useInterval(() => {
-    setSpeedForHours(hours * 60);
-    if (minutes > 0) {
-      setSpeedForMinutes(minutes);
-    }
-    if (dis < 1000)
-      setSpeed(
-        (dis === 0
-          ? 1
-          : dis / 1000 / (speedForMinutes + speedForHours)
-        ).toFixed(1)
->>>>>>> dev
       );
     if (dis < 1000) {
       setInfoDistance(infoDistance + dis);

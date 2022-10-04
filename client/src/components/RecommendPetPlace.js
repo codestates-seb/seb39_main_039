@@ -43,7 +43,7 @@ const RecommendPetPlace = () => {
           </h3>
           <PlaceList>
             {recommendData.documents?.map((item, idx) => (
-              <a href={item.place_url}>
+              <a href={item.place_url} target="_blank">
                 <li>
                   <div>
                     <span className="place-img">
@@ -89,7 +89,7 @@ const PlaceList = styled.ul`
       background: var(--white-000);
     }
   }
-  li + li {
+  a + a {
     margin-left: 10px;
   }
 

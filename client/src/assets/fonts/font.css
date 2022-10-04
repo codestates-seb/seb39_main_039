@@ -1,4 +1,6 @@
-  @font-face {
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+/* 
+@font-face {
     font-family: "Pretendard";
     font-display: fallback;
     src: url("./Pretendard-Regular.ttf") format("truetype"), 
@@ -33,4 +35,4 @@
          url("./Pretendard-Bold.woff") format("woff"),
          url("./Pretendard-Bold.eot?iefix") format("embedded-opentype");
     font-weight: 800;
-  }
+  } */

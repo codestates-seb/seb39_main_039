@@ -9,12 +9,12 @@ const WalkResultInfo = ({
   setSpeedForHours,
   setSpeedForMinutes,
   setSpeedForSeconds,
-  distance
+  distance,
 }) => {
   return (
     <ResultInfo>
       <InfoPanel number={distance} string={"산책 거리"} />
-      <InfoPanel number={speed} string={"속도(분/km)"} />
+      <InfoPanel number={speed} string={"속도(초/m)"} />
     </ResultInfo>
   );
 };

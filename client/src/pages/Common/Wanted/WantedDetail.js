@@ -13,7 +13,7 @@ import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import godWait from "../../../assets/img/dog_wait.png";
 import {
   deleteWanted,
-  getWantedDetail
+  getWantedDetail,
 } from "../../../redux/actions/wantedActions";
 import { useEffect, useState, useRef } from "react";
 import { ToastContainer, toast } from "react-toast";
@@ -179,7 +179,7 @@ const WantedDetailPage = () => {
           </Section>
           <Section>
             <SectLabel>기타 주의사항</SectLabel>
-            <p className="p-area">{wantedDetail.walk?.caution}</p>
+            <pre className="p-area">{wantedDetail.walk?.caution}</pre>
           </Section>
           {/* 댓글 지원 */}
           <CommentApply>
@@ -191,7 +191,7 @@ const WantedDetailPage = () => {
             <div className="comment-list">
               {wantedDetail.commentList?.length !== 0 ? (
                 <>
-                  {wantedDetail.commentList?.reverse().map((data, key) => {
+                  {wantedDetail.commentList?.map((data, key) => {
                     return (
                       <ApplyComment
                         data={data}

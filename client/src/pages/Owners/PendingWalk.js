@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Loadinglottie } from "../..";
 import {
   getPetWalkPendingInfo,
-  resetPetWalk
+  resetPetWalk,
 } from "../../redux/actions/petwalkActions";
 import PendingCard from "../../components/PendingCard";
 import { useInView } from "react-intersection-observer";
@@ -21,7 +21,7 @@ const WalkerHistory = () => {
   );
 
   const { ref, inView } = useInView({
-    threshold: 0.7
+    threshold: 0.7,
   });
 
   const fakeFetch = (delay = 300) =>
@@ -31,7 +31,7 @@ const WalkerHistory = () => {
     setPage(page + 1);
     await fakeFetch();
     if (petWalkPendingInfo.length < totalPage_pending) {
-      if (petWalkPendingInfo.length >= 5)
+      if (petWalkPendingInfo.length >= 10)
         dispatch(getPetWalkPendingInfo(id, page));
     }
   };

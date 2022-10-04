@@ -13,19 +13,20 @@ export const loginSuccess = (email, password) => {
       const postUser = customAxios
         .post(`/user/login`, {
           email: email,
-          password: password
+          password: password,
         })
         .then((response) => {
           Cookies.set("access", response.headers.access, {
-            expires: 7
+            expires: 7,
           });
           Cookies.set("refresh", response.headers.refresh, {
-            expires: 7
+            expires: 7,
           });
+          Cookies.set("coachCheck", "false");
         })
         .then((response) => {
           dispatch({
-            type: "LOGIN_SUCCESS"
+            type: "LOGIN_SUCCESS",
           });
         })
         .then((res) => window.location.replace("/"));
@@ -34,7 +35,7 @@ export const loginSuccess = (email, password) => {
       if (error.response.status === 401) {
         dispatch({
           type: "LOGIN_ERROR",
-          payload: "이메일 혹은 패스워드가 틀립니다."
+          payload: "이메일 혹은 패스워드가 틀립니다.",
         });
       }
     }
@@ -48,7 +49,7 @@ export const logoutSuccess = () => {
       Cookies.remove("refresh");
       localStorage.removeItem("user");
       dispatch({
-        type: "LOGOUT_SUCCESS"
+        type: "LOGOUT_SUCCESS",
       });
       window.location.replace("/");
     } catch (error) {

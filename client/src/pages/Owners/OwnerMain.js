@@ -3,13 +3,11 @@ import Slider from "react-slick";
 import { ReactComponent as Logo } from "../../assets/img/logo.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import {
   NextArrow,
-  PrevArrow
+  PrevArrow,
 } from "../../components/Button/SliderArrowButton";
 import { DogCard, AnonymousDogCard } from "../../components/DogCard";
-import PlaceList from "../../components/PlaceList";
 import Nav from "../../components/Layout/Nav";
 import { useSelector, useDispatch } from "react-redux";
 import { getMyPetInfo } from "../../redux/actions/petActions";
@@ -18,6 +16,7 @@ import { Link } from "react-router-dom";
 import CoachMarks from "../../components/Layout/CoachMarks";
 import WeatherContainer from "../../components/WeatherContainer";
 import RecommendPetPlace from "../../components/RecommendPetPlace";
+import Cookies from "js-cookie";
 
 const OwnerMain = () => {
   const dispatch = useDispatch();
@@ -35,11 +34,12 @@ const OwnerMain = () => {
     dotsClass: "slick-dots",
     draggable: true,
     nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />
+    prevArrow: <PrevArrow />,
   };
 
   useEffect(() => {
     dispatch(getMyPetInfo());
+    if (window) window.scrollTo(0, 0);
   }, []);
 
   return (
@@ -75,7 +75,7 @@ const OwnerMain = () => {
       </InfoSection>
 
       <Nav />
-      <CoachMarks />
+      {Cookies.get("coachCheck") === "false" && <CoachMarks />}
     </div>
   );
 };

@@ -18,8 +18,12 @@ const WalkerCard = ({ data }) => {
   return (
     <div>
       <WalkerProfile>
-        <span className="photo-ring">
-          <img src={data?.profileImage} className={`img-circle`} alt="" />
+        <span className="photo-ring pic">
+          <img
+            style={{ backgroundImage: `url(${data?.profileImage})` }}
+            className={`img-circle`}
+            alt=""
+          />
         </span>
         <div className="dog-info">
           <div>
@@ -28,7 +32,7 @@ const WalkerCard = ({ data }) => {
           </div>
         </div>
       </WalkerProfile>
-     
+
       <WalkState>
         {data?.currentWalk === null ? (
           <NotWalk>
@@ -118,11 +122,20 @@ const WalkerProfile = styled.div`
       width: 142px;
       border: 7px solid var(--white-000);
       vertical-align: bottom;
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+      background-size: auto 142px;
     }
-
-  .user-grad{
-    text-align: center;
   }
+
+  .photo-ring.pic {
+    img {
+      height: 142px;
+    }
+  }
+
+  .user-grad {
+    text-align: center;
   }
 
   .dog-info {

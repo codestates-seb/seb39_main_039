@@ -9,12 +9,13 @@ import reset from "styled-reset";
 
 const GlobalStyle = createGlobalStyle`
    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
    ${reset}
    *{
       box-sizing: border-box;
-      font-family: -apple-system, Pretendard, 'Segoe UI', 'Roboto', 'Oxygen',
+      font-family: Pretendard, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
+      sans-serif !important;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
    }
@@ -84,7 +85,7 @@ const GlobalStyle = createGlobalStyle`
    // layout
    .container{
       max-width:100%;
-      min-height:100vh;
+      min-height:110vh;
       margin:0 auto;
       padding:0 20px;
       background:var(--white-000);

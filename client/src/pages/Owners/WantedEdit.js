@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { Header } from "../../components/Layout/Header";
 import {
   ButtonPrimary,
-  ButtonPrimaryXS
+  ButtonPrimaryXS,
 } from "../../components/Button/Buttons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
@@ -36,12 +36,14 @@ const WantedEdit = () => {
   const [regionName, setRegionName] = useState(""); // 지역 이름 담기
   const [regionNamePick, setRegionNamePick] = useState(wantedDetail.location); //지역이름 선택 하면! input값으로 넣기
   const [checklistData, setCheckListData] = useState([
-    ...wantedDetail.walk.checkList?.map((el) => el.content)
+    ...wantedDetail.walk.checkList?.map((el) => el.content),
   ]);
   const [startDate, setStartDate] = useState(
-    new Date(wantedDetail.walk.startTime)
+    new Date(wantedDetail.walk.startTime + "z")
   );
-  const [endDate, setEndDate] = useState(new Date(wantedDetail.walk.endTime));
+  const [endDate, setEndDate] = useState(
+    new Date(wantedDetail.walk.endTime + "z")
+  );
 
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -81,7 +83,7 @@ const WantedEdit = () => {
     checkItemContent,
     lineHeight,
     checkItemChangeHandler,
-    checkItemEnterHandler
+    checkItemEnterHandler,
   ] = useInputAutoHeight("");
 
   const putWanted = () => {

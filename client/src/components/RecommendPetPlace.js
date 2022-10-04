@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getRecommendData,
-  getLocation
+  getLocation,
 } from "../redux/actions/recommendAction";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
@@ -43,7 +43,7 @@ const RecommendPetPlace = () => {
           </h3>
           <PlaceList>
             {recommendData.documents?.map((item, idx) => (
-              <a href={item.place_url}>
+              <a href={item.place_url} target="_blank">
                 <li>
                   <div>
                     <span className="place-img">
@@ -51,7 +51,7 @@ const RecommendPetPlace = () => {
                     </span>
                     <div className="place-info">
                       <p>{item?.place_name}</p>
-                      <span>{item?.distance / 1000}km 이내</span>
+                      <span>{(item?.distance / 1000).toFixed(1)}km 거리</span>
                     </div>
                   </div>
                 </li>
@@ -89,7 +89,7 @@ const PlaceList = styled.ul`
       background: var(--white-000);
     }
   }
-  li + li {
+  a + a {
     margin-left: 10px;
   }
 

@@ -4,7 +4,7 @@ import { Header } from "../../components/Layout/Header";
 import HistoryCard from "../../components/HistoryCard";
 import {
   getPetWalkInfo,
-  resetPetWalk
+  resetPetWalk,
 } from "../../redux/actions/petwalkActions";
 import { getMyPetInfo } from "../../redux/actions/petActions";
 import { useParams } from "react-router-dom";
@@ -25,8 +25,7 @@ const WalkerHistory = () => {
   const petName = myPetInfo.filter((el) => el.petId === Number(id));
 
   const { ref, inView } = useInView({
-    threshold: 0,
-    triggerOnce: true
+    threshold: 0.7,
   });
 
   const fakeFetch = (delay = 300) =>
@@ -36,7 +35,7 @@ const WalkerHistory = () => {
     setPage(page + 1);
     await fakeFetch();
     if (petWalkInfo.length < totalPage_history) {
-      if (petWalkInfo.length >= 5) dispatch(getPetWalkInfo(id, page));
+      if (petWalkInfo.length >= 10) dispatch(getPetWalkInfo(id, page));
     }
   };
 
@@ -45,7 +44,6 @@ const WalkerHistory = () => {
       return;
     }
     fetchMoreData();
-    console.log("ㅎㅎㅎ");
   }, [inView]);
 
   useEffect(() => {

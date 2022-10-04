@@ -82,7 +82,7 @@ export const DogCard = (props) => {
         >
           <div>
             <p>지난 산책 내역</p>
-            <small>총 {props.props.walkDistance}km</small>
+            <small>총 {props.props.walkDistance}m</small>
           </div>
           <div>
             <b>{props.props.walkHistoryCount}</b>건

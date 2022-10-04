@@ -193,10 +193,6 @@ const Card = styled.div`
     span {
       margin-left: 3px;
       font-weight: 600;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      word-break: break-all;
     }
     > em {
       position: absolute;

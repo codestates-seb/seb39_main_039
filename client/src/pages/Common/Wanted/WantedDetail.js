@@ -13,7 +13,7 @@ import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import godWait from "../../../assets/img/dog_wait.png";
 import {
   deleteWanted,
-  getWantedDetail
+  getWantedDetail,
 } from "../../../redux/actions/wantedActions";
 import { useEffect, useState, useRef } from "react";
 import { ToastContainer, toast } from "react-toast";

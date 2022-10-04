@@ -4,7 +4,7 @@ import { Header } from "../../components/Layout/Header";
 import HistoryCard from "../../components/HistoryCard";
 import {
   getPetWalkInfo,
-  resetPetWalk
+  resetPetWalk,
 } from "../../redux/actions/petwalkActions";
 import { getMyPetInfo } from "../../redux/actions/petActions";
 import { useParams } from "react-router-dom";
@@ -25,7 +25,7 @@ const WalkerHistory = () => {
   const petName = myPetInfo.filter((el) => el.petId === Number(id));
 
   const { ref, inView } = useInView({
-    threshold: 0.7
+    threshold: 0.7,
   });
 
   const fakeFetch = (delay = 300) =>

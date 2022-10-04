@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import {
   NextArrow,
-  PrevArrow
+  PrevArrow,
 } from "../../components/Button/SliderArrowButton";
 import { DogCard, AnonymousDogCard } from "../../components/DogCard";
 import Nav from "../../components/Layout/Nav";
@@ -34,7 +34,7 @@ const OwnerMain = () => {
     dotsClass: "slick-dots",
     draggable: true,
     nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />
+    prevArrow: <PrevArrow />,
   };
 
   useEffect(() => {
@@ -75,7 +75,7 @@ const OwnerMain = () => {
       </InfoSection>
 
       <Nav />
-      {Cookies.get('coachCheck')==='false' && <CoachMarks /> }
+      {Cookies.get("coachCheck") === "false" && <CoachMarks />}
     </div>
   );
 };

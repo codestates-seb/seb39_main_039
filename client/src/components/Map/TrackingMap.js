@@ -47,7 +47,7 @@ const TrackingMap = () => {
       {
         enableHighAccuracy: true,
         timeout: Infinity,
-        maximumAge: 0,
+        maximumAge: 0
       }
     );
   }
@@ -58,7 +58,7 @@ const TrackingMap = () => {
     options = {
       center: new kakao.maps.LatLng(localLat, localLon), //지도의 중심좌표.
       level: 3, //지도의 레벨(확대, 축소 정도)
-      isPanto: true,
+      isPanto: true
     };
     container = document.getElementById("myMap");
     setMyMap(new kakao.maps.Map(container, options));
@@ -71,7 +71,7 @@ const TrackingMap = () => {
       strokeWeight: 10,
       strokeColor: "#3183f8",
       strokeOpacity: 1,
-      strokeStyle: "solid",
+      strokeStyle: "solid"
     });
     polyline.setMap(myMap);
   };

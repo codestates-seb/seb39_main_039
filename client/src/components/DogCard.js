@@ -116,9 +116,9 @@ export const AnonymousDogCard = () => {
           <p>산책중이 아니에요.</p>
         </NotWalk>
         <WalkBanner
-        onClick={() => {
-          window.location.replace(`/walkerHistory/0`);
-        }}
+          onClick={() => {
+            window.location.replace(`/walkerHistory/0`);
+          }}
         >
           <div>
             <p>지난 산책 내역</p>

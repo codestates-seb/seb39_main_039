@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Loadinglottie } from "../..";
 import {
   getWalkerWalkWaiting,
-  resetWalkerWalk
+  resetWalkerWalk,
 } from "../../redux/actions/walkerActions";
 import WalkerWalkListCard from "../../components/WalkerWalkListCard";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +21,7 @@ const WalkerWalkWaiting = () => {
   );
 
   const { ref, inView } = useInView({
-    threshold: 0.7
+    threshold: 0.7,
   });
 
   const fakeFetch = (delay = 300) =>

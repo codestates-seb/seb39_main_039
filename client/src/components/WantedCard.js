@@ -119,7 +119,10 @@ const Card = styled.div`
     margin: 3px 0;
   }
   .con-title {
+<<<<<<< HEAD
     min-width:44px;
+=======
+>>>>>>> main
     font-weight: 800;
     margin: 0 0 2px;
     white-space: nowrap;
@@ -191,10 +194,13 @@ const Card = styled.div`
     span {
       margin-left: 3px;
       font-weight: 600;
+<<<<<<< HEAD
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
       word-break: break-all;
+=======
+>>>>>>> main
     }
     > em {
       position: absolute;

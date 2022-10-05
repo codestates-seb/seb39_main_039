@@ -13,7 +13,6 @@ const TrackingMap = () => {
   const [myMap, setMyMap] = useState(null);
   const [line, setLine] = useState([]);
   const [isPauseWalk, setIsPauseWalk] = useState(false);
-  const [lineForDistance, setLineForDistance] = useState([]);
   const [dis, setDis] = useState(0);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(1);
@@ -23,6 +22,11 @@ const TrackingMap = () => {
   const [speedForHours, setSpeedForHours] = useState(0);
   const [speedForMinutes, setSpeedForMinutes] = useState(0);
   const [speedForSeconds, setSpeedForSeconds] = useState(1);
+  const [lastSentLocation, setLastSendedLocation] = useState({
+    lat: null,
+    lon: null,
+  });
+  const [lastLocation, setLastLocation] = useState({ lat: null, lon: null });
   const dispatch = useDispatch();
   const { lat, lon, walkDetailInfo, isWalk } = useSelector(
     (state) => state.mapping
@@ -82,11 +86,71 @@ const TrackingMap = () => {
     getGeolocation();
     if (localLat && localLon) {
       if (!isPauseWalk && isWalk) {
+        //새로 받아온 좌표로 그림 그리기
         setLine([...line, new kakao.maps.LatLng(lat, lon)]);
         drawLine();
+
+        //새로 받아온 좌표와 이전 좌표를 비교해서 거리와 속력 구하기
+        //이전 좌표가 없을때(막 시작했을 때)
+        if (lastLocation.lat === null) {
+          setLastLocation({
+            lat: lat,
+            lon: lon,
+          });
+        }
+        //이전 좌표가 있을때
+        else {
+          //이전 좌표와 현재 좌표의 거리를 구함
+          let distanceFromLastLocation = getDistance(
+            lastLocation.lat,
+            lastLocation.lon,
+            lat,
+            lon
+          );
+          //가끔 에러가 나는데 왜그러는지 모르겠어서 일단 거리가 너무 한번에 멀어지는 경우도 방지. 너무 가까우면 굳이 안하고
+          if (distanceFromLastLocation >= 1 && distanceFromLastLocation < 100) {
+            setInfoDistance(distanceFromLastLocation + infoDistance);
+            //속도는 이전 좌표와 현재 좌표의 거리를 2초로 나눈것(2초 인터벌이므로)
+            setSpeed(Math.round(distanceFromLastLocation / 2));
+          } else setSpeed(0);
+          //현재 좌표를 이전좌표로 넣어줌
+          setLastLocation({
+            lat: lat,
+            lon: lon,
+          });
+        }
+
+        //서버로 이전에 보낸 위치에서 10미터 이상일때 좌표 보내기.
+        if (lastSentLocation.lat === null && lat !== null && lon !== null) {
+          //제일 초기 위치 보내기. 초기 위치를 마지막 보낸 위치로 저장
+          dispatch(sendLocation(lat, lon, dis, id));
+          setLastSendedLocation({
+            lat: lat,
+            lon: lon,
+          });
+        }
+        //직전 서버로 보낸 위치와 현재 위치의 거리를 비교.
+        let distanceFromLastSentLocation = getDistance(
+          lastSentLocation.lat,
+          lastSentLocation.lon,
+          lat,
+          lon
+        );
+
+        //위의 distance가 10보다 크면 서버로 전송하고, 이전 보낸 좌표를 업데이트
+        if (
+          distanceFromLastSentLocation >= 10 &&
+          distanceFromLastSentLocation < 1000
+        ) {
+          dispatch(sendLocation(lat, lon, distanceFromLastSentLocation, id));
+          setLastSendedLocation({
+            lat: lat,
+            lon: lon,
+          });
+        }
       }
     }
-  }, 1000);
+  }, 2000);
 
   function getDistance(lat1, lon1, lat2, lon2) {
     if (lat1 === lat2 && lon1 === lon2) return 0;
@@ -103,10 +167,10 @@ const TrackingMap = () => {
     dist = Math.acos(dist);
     dist = (dist * 180) / Math.PI;
     dist = dist * 60 * 1.1515 * 1.609344 * 1000;
-    if (dist < 100) dist = Math.round(dist / 10) * 10;
+    if (dist < 100) dist = Math.round(dist);
     else dist = Math.round(dist / 100) * 100;
 
-    setDis(dist);
+    return dist;
   }
 
   useInterval(() => {
@@ -127,26 +191,9 @@ const TrackingMap = () => {
   // console.log(speedForMinutes, speedForHours, infoDistance);
 
   useEffect(() => {
-    setLineForDistance([...lineForDistance, [lat, lon]]);
-    if (lineForDistance.length > 1) {
-      setLineForDistance([lineForDistance[1], [lat, lon]]);
-      getDistance(
-        lineForDistance[0][0],
-        lineForDistance[0][1],
-        lineForDistance[1][0],
-        lineForDistance[1][1]
-      );
-    }
-    if (!isPauseWalk && isWalk && dis >= 10 && dis < 1000) {
-      dispatch(sendLocation(lat, lon, dis, id));
-    }
-  }, [lat, lon]);
-
-  useEffect(() => {
     drawMap();
   }, []);
 
-  // console.log(lat, lon, speed, dis, lineForDistance, hours, minutes, seconds);
   return (
     <MapBox>
       <Map id="myMap" style={{ width: "100%", height: "300px" }}></Map>

@@ -68,7 +68,9 @@ const WantedCard = ({ item }) => {
             <dt>
               <FontAwesomeIcon icon={faSackDollar} /> 보수
             </dt>
-            <dd>{item?.pay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</dd>
+            <dd>
+              {item?.pay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
+            </dd>
           </dl>
         </li>
         <li>
@@ -119,7 +121,7 @@ const Card = styled.div`
     margin: 3px 0;
   }
   .con-title {
-    min-width:44px;
+    min-width: 44px;
     font-weight: 800;
     margin: 0 0 2px;
     white-space: nowrap;
@@ -191,10 +193,6 @@ const Card = styled.div`
     span {
       margin-left: 3px;
       font-weight: 600;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      word-break: break-all;
     }
     > em {
       position: absolute;

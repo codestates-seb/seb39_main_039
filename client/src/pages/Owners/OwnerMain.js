@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import Slider from "react-slick";
-import { ReactComponent as Logo } from "../../assets/img/logo.svg";
+import logo from "../../assets/img/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import {
   NextArrow,
-  PrevArrow
+  PrevArrow,
 } from "../../components/Button/SliderArrowButton";
 import { DogCard, AnonymousDogCard } from "../../components/DogCard";
 import Nav from "../../components/Layout/Nav";
@@ -34,7 +34,7 @@ const OwnerMain = () => {
     dotsClass: "slick-dots",
     draggable: true,
     nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />
+    prevArrow: <PrevArrow />,
   };
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const OwnerMain = () => {
       <Header>
         <LogoArea>
           <Link to={"/"}>
-            <Logo />
+            <img src={logo} className="logo-bi" />
           </Link>
         </LogoArea>
         <Alert>
@@ -75,7 +75,7 @@ const OwnerMain = () => {
       </InfoSection>
 
       <Nav />
-      {Cookies.get('coachCheck')==='false' && <CoachMarks /> }
+      {Cookies.get("coachCheck") === "false" && <CoachMarks />}
     </div>
   );
 };
@@ -91,6 +91,13 @@ const Header = styled.div`
 const LogoArea = styled.div`
   svg {
     width: 55px;
+  }
+
+  .logo-bi {
+    position: absolute;
+    top: 10px;
+    left: 22px;
+    width: 80px;
   }
 `;
 

@@ -4,9 +4,9 @@ import CountUp from "react-countup";
 import { Link } from "react-router-dom";
 import {
   ButtonPrimary,
-  ButtonPrimaryLine
+  ButtonPrimaryLine,
 } from "../../../components/Button/Buttons";
-import { ReactComponent as Logo } from "../../../assets/img/logo-wh.svg";
+import logoWhite from "../../../assets/img/logo_wite.png";
 import { ReactComponent as VisualImg } from "../../../assets/img/visualImg.svg";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserInfo } from "../../../redux/actions/userActions";
@@ -30,9 +30,6 @@ const Main = () => {
     }
   }, []);
 
-
-
-
   return (
     <div className="container pa0">
       <MainIntro>
@@ -41,7 +38,7 @@ const Main = () => {
             알바멍은 모바일 해상도에 <br />최적화되어 있습니다.<br />
             PC에서는 브라우저 넓이를 조정하여<br />최적화 된 화면으로 이용하실 수 있습니다.
           </div> */}
-          <Logo className="logo-bi" />
+          <img src={logoWhite} className="logo-bi" />
           <h2>
             <b>믿을 수 있는</b>
             <br />
@@ -171,6 +168,7 @@ const MainIntro = styled.div`
     position: absolute;
     top: 30px;
     right: 40px;
+    width: 80px;
   }
   .visual-img {
     position: absolute;

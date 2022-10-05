@@ -18,7 +18,7 @@ import {
   countPoo,
   getWalkingPetPicture,
   addWalkingPetPicture,
-  deleteWalkingPetPicture
+  deleteWalkingPetPicture,
 } from "../../redux/actions/mappingAction";
 import { useParams } from "react-router-dom";
 
@@ -101,7 +101,6 @@ const StartWalking = () => {
     });
   }, []);
 
-  console.log(walkingPetPicture);
   return (
     <div className="container pa0 v2">
       <Section>

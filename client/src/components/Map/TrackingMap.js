@@ -173,6 +173,21 @@ const TrackingMap = () => {
     return dist;
   }
 
+  useInterval(() => {
+    setSpeedForHours(hours * 3600);
+    if (minutes > 0) {
+      setSpeedForMinutes(minutes * 60);
+    }
+    if (dis < 1000)
+      setSpeed(
+        (dis === 0 ? 1 : dis) /
+          (speedForHours + speedForMinutes + speedForSeconds).toFixed(1)
+      );
+    if (dis < 1000) {
+      setInfoDistance(infoDistance + dis);
+    }
+  }, 3000);
+
   // console.log(speedForMinutes, speedForHours, infoDistance);
 
   useEffect(() => {

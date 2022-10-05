@@ -82,8 +82,8 @@ export const ApplyComment = ({ data, wantedId, writerId }) => {
         <div className="user-info">
           <div className="user-photo">
             <img
-              src={data.walker?.walkerPicture}
               className="img-circle"
+              style={{ backgroundImage: `url(${data.walker?.walkerPicture})` }}
               alt=""
             />
             {data.matched ? (
@@ -248,7 +248,13 @@ const Card = styled.div`
       position: relative;
       img {
         width: 50px;
+        height:50px;
+        vertical-align: bottom;
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        background-size: auto 50px;
       }
+      
       i {
         position: absolute;
         display: flex;

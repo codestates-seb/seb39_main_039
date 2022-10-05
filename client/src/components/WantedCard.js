@@ -121,7 +121,7 @@ const Card = styled.div`
     margin: 3px 0;
   }
   .con-title {
-    min-width: 44px;
+    min-width: 51px;
     font-weight: 800;
     margin: 0 0 2px;
     white-space: nowrap;
@@ -193,6 +193,9 @@ const Card = styled.div`
     span {
       margin-left: 3px;
       font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     > em {
       position: absolute;

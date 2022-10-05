@@ -10,17 +10,12 @@ const WeatherContainer = () => {
     (state) => state.weather
   );
 
-  const getCurrentCity = () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      let lat = position.coords.latitude;
-      let lon = position.coords.longitude;
-      return dispatch(getCurrentCityWeather(lat, lon));
-    });
-  };
+  let lat = localStorage.getItem("lat");
+  let lon = localStorage.getItem("lon");
 
   useEffect(() => {
-    getCurrentCity();
-  }, []);
+    if (lat && lon) dispatch(getCurrentCityWeather(lat, lon));
+  }, [lat, lon]);
 
   return <Weather loading={weatherLoading} currentWeather={currentWeather} />;
 };

@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { HeaderClose } from "../../../components/Layout/Header";
-import { ReactComponent as Logo } from "../../../assets/img/logo.svg";
+import logo from "../../../assets/img/logo.png";
 import { ButtonPrimary } from "../../../components/Button/Buttons";
 import {
   SnsButtonGoogle,
-  SnsButtonKakao
+  SnsButtonKakao,
 } from "../../../components/Button/SnsButtons";
 import InputLabel from "../../../components/Inputs/InputLabel";
 import { useInput } from "../../../hooks/useInput";
@@ -19,7 +19,7 @@ const Login = () => {
 
   const [state, setState] = useInput({
     email: "",
-    password: ""
+    password: "",
   });
   const { email, password } = state;
   const [errMessage, setErrMessage] = useState();
@@ -30,8 +30,7 @@ const Login = () => {
     })();
     if (isValidInput) {
       dispatch(loginSuccess(email, password));
-      
-      
+
       if (err === null) {
         setErrMessage(null);
       } else {
@@ -58,7 +57,7 @@ const Login = () => {
       <LoginPanel>
         <VisualArea>
           <HeaderClose />
-          <Logo />
+          <img src={logo} className="logo-bi" />
         </VisualArea>
         <div>
           <FormArea>
@@ -111,7 +110,7 @@ export default Login;
 const LoginPanel = styled.div`
   display: flex;
   min-height: 100vh;
-  padding-top:30px;
+  padding-top: 30px;
   padding-bottom: 4vh;
   flex-direction: column;
   justify-content: space-between;
@@ -119,6 +118,13 @@ const LoginPanel = styled.div`
 
 const VisualArea = styled.div`
   text-align: center;
+
+  .logo-bi {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    width: 80px;
+  }
 `;
 
 const FormArea = styled.div`

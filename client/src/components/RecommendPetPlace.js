@@ -24,7 +24,7 @@ const RecommendPetPlace = () => {
       dispatch(getRecommendData(lat, lon));
       dispatch(getLocation(lat, lon));
     }
-  }, []);
+  }, [lat, lon]);
 
   return (
     <div>

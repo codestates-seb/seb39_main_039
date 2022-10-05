@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ReactComponent as Logo } from "../../assets/img/logo.svg";
+import logo from "../../assets/img/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Nav from "../../components/Layout/Nav";
 import { faBell, faLocationDot } from "@fortawesome/free-solid-svg-icons";
@@ -35,7 +35,7 @@ const WalkerMain = () => {
           <Header>
             <LogoArea>
               <Link to={"/"}>
-                <Logo />
+                <img src={logo} className="logo-bi" />
               </Link>
             </LogoArea>
             <Alert>
@@ -77,6 +77,13 @@ const Header = styled.div`
 const LogoArea = styled.div`
   svg {
     width: 55px;
+  }
+
+  .logo-bi {
+    position: absolute;
+    top: 10px;
+    left: 22px;
+    width: 80px;
   }
 `;
 

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Slider from "react-slick";
-import { ReactComponent as Logo } from "../../assets/img/logo.svg";
+import logo from "../../assets/img/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -47,7 +47,7 @@ const OwnerMain = () => {
       <Header>
         <LogoArea>
           <Link to={"/"}>
-            <Logo />
+            <img src={logo} className="logo-bi" />
           </Link>
         </LogoArea>
         <Alert>
@@ -91,6 +91,13 @@ const Header = styled.div`
 const LogoArea = styled.div`
   svg {
     width: 55px;
+  }
+
+  .logo-bi {
+    position: absolute;
+    top: 10px;
+    left: 22px;
+    width: 80px;
   }
 `;
 

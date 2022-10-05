@@ -24,14 +24,12 @@ const RecommendPetPlace = () => {
       dispatch(getRecommendData(lat, lon));
       dispatch(getLocation(lat, lon));
     }
-  }, [lat, lon]);
+  }, []);
 
   return (
     <div>
       {locationLoading ? (
-        <PlaceList>
-          <ThreeDots color="#3183f8" height={80} width={80} />
-        </PlaceList>
+        <></>
       ) : (
         <>
           <h3>

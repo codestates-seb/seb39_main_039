@@ -5,9 +5,11 @@ import { toast } from "react-toast";
 
 export const GET_USER_INFO_SUCCESS = "GET_USER_INFO_SUCCESS";
 export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
+export const PUT_USER_SUCCESS = "PUT_USER_SUCCESS";
 export const USER_LOADING = "USER_LOADING";
 export const GET_WALKER_USER_INFO = "GET_WALKER_USER_INFO";
 export const USER_PICTURE_DELETE_SUCCESS = "USER_PICTURE_DELETE_SUCCESS";
+export const PUT_USER_INFO_ERROR = "PUT_USER_INFO_ERROR"
 
 export const getUserInfo = () => {
   return async (dispatch) => {
@@ -50,11 +52,10 @@ export const editUserInfo = (fullName, phone, nickName) => {
             }
           });
           toast.success("수정이 완료 되었어요");
-        });
+        })
       // .then((res) => window.location.reload());
     } catch (error) {
-      //에러 핸들링 하는 곳
-      console.log(error);
+      toast.error("휴대폰 번호는 010으로 시작하는 11자리 숫자와 '-'로 구성되어야 합니다.");
     }
   };
 };
@@ -65,7 +66,7 @@ export const saveUserPicture = (picture) => {
       if (picture)
         return await customAxios
           .get(`user/saveProfileImage`)
-          .then((res) => axios.put(res.data, picture));
+          .then((res) => axios.put(res.data, picture))
     } catch (error) {
       console.log(error);
     }

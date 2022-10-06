@@ -53,25 +53,9 @@ export const editUserInfo = (fullName, phone, nickName) => {
           });
           toast.success("수정이 완료 되었어요");
         })
-        .then(() => {
-          dispatch({
-            type: "PUT_USER_SUCCESS",
-            payload: {
-              stateCode: 200
-            }
-          });
-          toast.success("수정이 완료 되었어요");
-        });
       // .then((res) => window.location.reload());
     } catch (error) {
-      dispatch({
-        type: "PUT_USER_INFO_ERROR",
-        payload: {
-          stateCode: error.response.data.status
-        }
-      });
-      //에러 핸들링 하는 곳
-      console.log(error);
+      toast.error("휴대폰 번호는 010으로 시작하는 11자리 숫자와 '-'로 구성되어야 합니다.");
     }
   };
 };
@@ -82,7 +66,7 @@ export const saveUserPicture = (picture) => {
       if (picture)
         return await customAxios
           .get(`user/saveProfileImage`)
-          .then((res) => axios.put(res.data, picture));
+          .then((res) => axios.put(res.data, picture))
     } catch (error) {
       console.log(error);
     }

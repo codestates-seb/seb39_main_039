@@ -13,7 +13,7 @@ const initialstate = {
   walkerUserInfo: [],
   loading: "",
   sign: '',
-  stateCode:'',
+  error:'',
 };
 
 const userReducer = (state = initialstate, action) => {
@@ -47,7 +47,7 @@ const userReducer = (state = initialstate, action) => {
     case PUT_USER_INFO_ERROR:
       return{
         ...state,
-        stateCode: payload
+        error: payload.error
       }
     default:
       return state;

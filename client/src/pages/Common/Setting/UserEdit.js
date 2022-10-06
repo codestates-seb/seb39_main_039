@@ -15,7 +15,7 @@ const UserEdit = () => {
   const dispatch = useDispatch();
   const imgRef = useRef();
 
-  const { userInfo, loading, stateCode } = useSelector((state) => state.user);
+  const { userInfo, loading } = useSelector((state) => state.user);
   const [fullName, setFullName] = useState(userInfo?.fullName);
   const [phone, setPhone] = useState(userInfo?.phone);
   const [nickName, setNickName] = useState(userInfo.nickName);
@@ -23,40 +23,28 @@ const UserEdit = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [imgFile, setImgFile] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [err, setErr] = useState();
+  const [err, setErr] = useState('');
 
 
-  // useEffect(() => {
-  //   if (phone.length === 11) {
-  //     setPhone({
-  //       phone: phone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'),
-  //     });
-  //   } else if (phone.length === 13) {
-  //     setPhone({
-  //       phone: phone
-  //       //하이픈이 입력되면 공백으로 변경되고 하이픈이 다시 생성됨
-  //         .replace(/-/g, '')
-  //         .replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'),
-  //     });
-  //   }
-  // }, [phone]);
-
-  useEffect(()=>{
-    if(stateCode.stateCode === 400){
-      setErr('이름과 휴대폰번호를 모두 입력해주세요.')
-    }else{
-      setErr();
-    }
-  },[stateCode])
+  const isValidInput = fullName?.length > 1 && phone?.length > 0;
+  const loginRequestHandler = () => {
+    !isValidInput
+      ? setErr("2자 이상의 이름과 휴대폰 번호(ex.010-000-000)를 모두 입력해주세요.")
+      : setErr();
+  };
 
   const openModalHandler = () => {
     setIsOpen(!isOpen);
   };
 
   const ClickHandler = () => {
-    dispatch(editUserInfo(fullName, phone, nickName));
+    (async () => {
+      await loginRequestHandler();
+    })();
+    if (isValidInput) {
+      dispatch(editUserInfo(fullName, phone, nickName));
+    }
     dispatch(saveUserPicture(imgFile));
-    setErr();
   };
 
   useEffect(() => {

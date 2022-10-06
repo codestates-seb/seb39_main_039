@@ -5,9 +5,11 @@ import { toast } from "react-toast";
 
 export const GET_USER_INFO_SUCCESS = "GET_USER_INFO_SUCCESS";
 export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
+export const PUT_USER_SUCCESS = "PUT_USER_SUCCESS";
 export const USER_LOADING = "USER_LOADING";
 export const GET_WALKER_USER_INFO = "GET_WALKER_USER_INFO";
 export const USER_PICTURE_DELETE_SUCCESS = "USER_PICTURE_DELETE_SUCCESS";
+export const PUT_USER_INFO_ERROR = "PUT_USER_INFO_ERROR"
 
 export const getUserInfo = () => {
   return async (dispatch) => {
@@ -50,9 +52,24 @@ export const editUserInfo = (fullName, phone, nickName) => {
             }
           });
           toast.success("수정이 완료 되었어요");
+        })
+        .then(() => {
+          dispatch({
+            type: "PUT_USER_SUCCESS",
+            payload: {
+              stateCode: 200
+            }
+          });
+          toast.success("수정이 완료 되었어요");
         });
       // .then((res) => window.location.reload());
     } catch (error) {
+      dispatch({
+        type: "PUT_USER_INFO_ERROR",
+        payload: {
+          stateCode: error.response.data.status
+        }
+      });
       //에러 핸들링 하는 곳
       console.log(error);
     }

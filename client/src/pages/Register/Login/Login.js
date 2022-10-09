@@ -121,9 +121,16 @@ const VisualArea = styled.div`
 
   .logo-bi {
     position: absolute;
+<<<<<<< HEAD
     top: 30px;
     left: 50%;
     width: 80px;
+=======
+    top: 50px;
+    left: 50%;
+    width: 120px;
+    transform: translate(-50%, 0);
+>>>>>>> dev
   }
 `;
 

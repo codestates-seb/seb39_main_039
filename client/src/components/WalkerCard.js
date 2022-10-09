@@ -137,7 +137,7 @@ const WalkerProfile = styled.div`
   .user-grad {
     text-align: center;
   }
-
+    
   .dog-info {
     display: flex;
     align-items: top;

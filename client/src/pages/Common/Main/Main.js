@@ -34,6 +34,10 @@ const Main = () => {
     <div className="container pa0">
       <MainIntro>
         <div>
+          {/* <div className="notice-box only-pc">
+            알바멍은 모바일 해상도에 <br />최적화되어 있습니다.<br />
+            PC에서는 브라우저 넓이를 조정하여<br />최적화 된 화면으로 이용하실 수 있습니다.
+          </div> */}
           <img src={logoWhite} className="logo-bi" />
           <h2>
             <b>믿을 수 있는</b>
@@ -141,6 +145,23 @@ const MainIntro = styled.div`
     width: 100%;
     text-align: left;
     padding: 0 40px;
+  }
+
+  .notice-box{
+    position: absolute;
+    top:40%;
+    left:50%;
+    display: inline-block;
+    transform:translate(-50%, -50%);
+    background:rgba(0,0,0, .5);
+    box-shadow: 10px 10px 10px 0 rgba(0,0,0, .1);
+    border-radius: 20px;
+    padding:50px;
+    text-align: center;
+    line-height: 1.5em;
+    font-weight: 300;
+    font-size: 18px;
+    color:#fff;
   }
 
   .logo-bi {

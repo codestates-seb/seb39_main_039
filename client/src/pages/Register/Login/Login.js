@@ -23,7 +23,7 @@ const Login = () => {
   });
   const { email, password } = state;
   const [errMessage, setErrMessage] = useState();
-  console.log("err", err);
+
   const postLogin = () => {
     (async () => {
       await loginRequestHandler();

@@ -24,7 +24,7 @@ import {
   WorkHistory,
   PendingWalk,
   WantedEdit,
-  WalkerWalkHistory
+  WalkerWalkHistory,
 } from "./pages";
 import WalkerWalkWaiting from "./pages/Walkers/WalkerWalkWaiting";
 import { getLocation } from "./redux/actions/mappingAction";
@@ -50,7 +50,7 @@ function App() {
       {
         enableHighAccuracy: true,
         timeout: Infinity,
-        maximumAge: 0
+        maximumAge: 0,
       }
     );
   };
@@ -67,7 +67,7 @@ function App() {
       document.getElementsByTagName("html")[0].classList.add("ui-dark");
     }
   }, []);
-  
+
   return (
     <>
       <Routes>

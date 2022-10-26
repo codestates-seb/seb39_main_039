@@ -105,16 +105,16 @@ const Setting = () => {
           <p>강아지 정보 수정</p>
           <div className="opt-info">{myPetInfo.length}마리</div>
         </li>
-        <li
+        {/* <li
           onClick={() => {
             navigate("/WalkerEdit");
           }}
         >
           <p>알바 정보 수정</p>
-        </li>
-        <li>
+        </li> */}
+        {/* <li>
           <p>내 체크리스트 템플릿</p>
-        </li>
+        </li> */}
         <li
           onClick={() => {
             navigate("/WantedList");

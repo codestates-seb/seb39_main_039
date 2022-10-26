@@ -117,6 +117,7 @@ public class WalkController {
 //    }
     @ApiOperation(value = "산책 동선 좌표값 불러오기", notes = "해당 산책 Id의 좌표배열만 반환하는 API입니다")
     @GetMapping("/{walkId}/coord")
+
     public ResponseEntity getCoord(@AuthenticationPrincipal @ApiIgnore User user,
                                    @PathVariable @Positive Long walkId) {
         Walk targetWalk = walkService.verifyWalk(walkId);
@@ -138,7 +139,7 @@ public class WalkController {
     public ResponseEntity putCoord(@AuthenticationPrincipal @ApiIgnore User walker,
                                    @PathVariable @Positive Long walkId,
                                    @RequestBody @Valid WalkDto.PutCoord request) throws ParseException {
-        walkService.putCoord(walkId, request.getCoord(), request.getDistance(), walker.getId());
+        walkService.putCoord(walkId, request, walker.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

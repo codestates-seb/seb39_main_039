@@ -16,20 +16,34 @@ const UserEdit = () => {
   const imgRef = useRef();
 
   const { userInfo, loading } = useSelector((state) => state.user);
-  const [fullName, setFullName] = useState(userInfo.fullName);
-  const [phone, setPhone] = useState(userInfo.phone);
+  const [fullName, setFullName] = useState(userInfo?.fullName);
+  const [phone, setPhone] = useState(userInfo?.phone);
   const [nickName, setNickName] = useState(userInfo.nickName);
   const [myPetPicture, setMyPetPicture] = useState(userInfo.profileImage);
   const [imageUrl, setImageUrl] = useState("");
   const [imgFile, setImgFile] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [err, setErr] = useState('');
+
+
+  const isValidInput = fullName?.length > 1 && phone?.length > 0;
+  const loginRequestHandler = () => {
+    !isValidInput
+      ? setErr("2자 이상의 이름과 휴대폰 번호(ex.010-000-000)를 모두 입력해주세요.")
+      : setErr();
+  };
 
   const openModalHandler = () => {
     setIsOpen(!isOpen);
   };
 
   const ClickHandler = () => {
-    dispatch(editUserInfo(fullName, phone, nickName));
+    (async () => {
+      await loginRequestHandler();
+    })();
+    if (isValidInput) {
+      dispatch(editUserInfo(fullName, phone, nickName));
+    }
     dispatch(saveUserPicture(imgFile));
   };
 
@@ -38,7 +52,7 @@ const UserEdit = () => {
     if (window) window.scrollTo(0, 0);
   }, [loading]);
 
-  console.log(userInfo);
+
   const onClickFileBtn = (e) => {
     setIsOpen(true);
   };
@@ -104,10 +118,11 @@ const UserEdit = () => {
             type="text"
             className="ipt-form"
             name="fullName"
-            value={fullName||userInfo.fullName}
+            value={fullName||''}
             onChange={(e) => setFullName(e.target.value)}
             placeholder="이름을 입력해주세요."
           />
+          <small className="err">{err}</small>
         </div>
         <div className="ipt-group">
           <label htmlFor="phone" className="ipt-label">
@@ -117,10 +132,11 @@ const UserEdit = () => {
             type="text"
             name="phone"
             className="ipt-form"
-            value={phone||userInfo.phone}
+            value={phone||''}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="연락처를 입력해주세요."
           />
+          <small className="err">{err}</small>
         </div>
         <div className="ipt-group">
           <label htmlFor="email" className="ipt-label">
@@ -130,7 +146,7 @@ const UserEdit = () => {
             type="email"
             name="email"
             className="ipt-form"
-            value={userInfo.email}
+            value={userInfo.email||''}
             disabled
           />
         </div>
@@ -142,7 +158,7 @@ const UserEdit = () => {
             type="text"
             name="nickName"
             className="ipt-form"
-            value={nickName||userInfo.nickName}
+            value={nickName||''}
             onChange={(e) => setNickName(e.target.value)}
             placeholder="닉네임을 입력해주세요."
           />
@@ -159,7 +175,14 @@ const UserEdit = () => {
 
 export default UserEdit;
 
-const Form = styled.div``;
+const Form = styled.div`
+  .err{
+    display: inline-block;
+    font-size:12px;
+    margin-top:4px;
+    color:var(--err-danger);
+  }
+`;
 
 const UserInfo = styled.section`
   text-align: center;

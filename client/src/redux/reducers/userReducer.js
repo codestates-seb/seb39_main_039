@@ -3,7 +3,8 @@ import {
   DELETE_USER_SUCCESS,
   USER_LOADING,
   GET_WALKER_USER_INFO,
-  USER_PICTURE_DELETE_SUCCESS
+  USER_PICTURE_DELETE_SUCCESS,
+  PUT_USER_INFO_ERROR
 } from "../actions/userActions";
 
 const initialstate = {
@@ -11,7 +12,8 @@ const initialstate = {
   userInfo: [],
   walkerUserInfo: [],
   loading: "",
-  sign: ''
+  sign: '',
+  error:'',
 };
 
 const userReducer = (state = initialstate, action) => {
@@ -42,6 +44,11 @@ const userReducer = (state = initialstate, action) => {
         ...state,
         sign: false
       };
+    case PUT_USER_INFO_ERROR:
+      return{
+        ...state,
+        error: payload.error
+      }
     default:
       return state;
   }

@@ -18,9 +18,9 @@ ext {
 
 dependencies {
 
-    implementation 'org.springframework.boot:spring-boot-devtools:2.7.3'
-    implementation 'org.springframework.boot:spring-boot-starter-security:2.7.3'
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client:2.7.3'
+    implementation 'org.springframework.boot:spring-boot-devtools:2.7.5'
+    implementation 'org.springframework.boot:spring-boot-starter-security:2.7.5'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client:2.7.5'
     implementation 'io.jsonwebtoken:jjwt-root:0.11.5'
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
@@ -28,13 +28,14 @@ dependencies {
 
     implementation 'io.awspring.cloud:spring-cloud-starter-aws-parameter-store-config'
 
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.3'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.5'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.7.3'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.7.5'
     implementation 'org.hibernate:hibernate-spatial:5.6.10.Final'
 
-    implementation platform('com.amazonaws:aws-java-sdk-bom:1.12.300')
+    implementation platform('com.amazonaws:aws-java-sdk-bom:1.12.322')
     implementation 'com.amazonaws:aws-java-sdk-s3'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'

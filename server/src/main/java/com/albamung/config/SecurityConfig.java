@@ -56,7 +56,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests().requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers(SWAGGER_URL_ARRAY).permitAll()
-                .antMatchers("/user/signUp", "/user/login", "/user/refresh", "/error").permitAll()
+                .antMatchers("/user/signUp", "/user/login", "/user/refresh", "/error", "/socket/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/wanted").permitAll()
                 .anyRequest().authenticated()
                 .and()

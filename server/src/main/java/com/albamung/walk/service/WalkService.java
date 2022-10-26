@@ -4,6 +4,7 @@ import com.albamung.exception.CustomException;
 import com.albamung.helper.fileUpload.S3fileService;
 import com.albamung.pet.entity.Pet;
 import com.albamung.pet.service.PetService;
+import com.albamung.walk.dto.WalkDto;
 import com.albamung.walk.entity.Coord;
 import com.albamung.walk.entity.Walk;
 import com.albamung.walk.entity.WalkCheck;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,16 +35,18 @@ public class WalkService {
     private final CoordRepository coordRepository;
     private final S3fileService s3fileService;
     private final WalkPictureRepository walkPictureRepository;
+    private final SimpMessageSendingOperations messagingTemplate;
 
     @Value("${clientUri}")
     private String clientUrl;
 
-    public WalkService(WalkRepository walkRepository, PetService petService, CoordRepository coordRepository, S3fileService s3fileService, WalkPictureRepository walkPictureRepository) {
+    public WalkService(WalkRepository walkRepository, PetService petService, CoordRepository coordRepository, S3fileService s3fileService, WalkPictureRepository walkPictureRepository, SimpMessageSendingOperations messagingTemplate) {
         this.walkRepository = walkRepository;
         this.petService = petService;
         this.coordRepository = coordRepository;
         this.s3fileService = s3fileService;
         this.walkPictureRepository = walkPictureRepository;
+        this.messagingTemplate = messagingTemplate;
         ;
     }
 
@@ -113,7 +117,9 @@ public class WalkService {
     /**
      * 산책의 동선 좌표 입력
      */
-    public void putCoord(Long walkId, String coord, int distance, Long loginId) throws ParseException {
+    public void putCoord(Long walkId, WalkDto.PutCoord request, Long loginId) throws ParseException {
+        int distance = request.getDistance();
+        String coord = request.getCoord();
         Walk targetWalk = verifyWalk(walkId);
         if (targetWalk.isEnded()) throw new CustomException("이미 종료된 산책입니다", HttpStatus.FORBIDDEN);
         verifyWalkWalker(targetWalk, loginId);
@@ -122,6 +128,7 @@ public class WalkService {
         String pointWKT = String.format("POINT(%s)", coord);
         Point point = (Point) new WKTReader().read(pointWKT);
         coordRepository.save(Coord.builder().point(point).walk(targetWalk).build());
+        messagingTemplate.convertAndSend(String.format("/queue/%s/coord", walkId), request);
 
 //        walkRepository.UpdateCoord(walkId, "," + coord);
     }
@@ -175,7 +182,7 @@ public class WalkService {
         walkPictureRepository.deleteByLink(link);
     }
 
-    public void deleteWalk(Long walkId, Long ownerId){
+    public void deleteWalk(Long walkId, Long ownerId) {
         Walk targetWalk = verifyWalk(walkId);
         verifyWalkOwner(targetWalk, ownerId);
 
@@ -201,8 +208,10 @@ public class WalkService {
 
     @Transactional(readOnly = true)
     public void verifyWalkOwner(Walk walk, Long ownerId) {
-        if(!walk.getOwner().getId().equals(ownerId)) throw new CustomException("견주만이 접근 가능 합니다.", HttpStatus.FORBIDDEN);
+        if (!walk.getOwner().getId().equals(ownerId))
+            throw new CustomException("견주만이 접근 가능 합니다.", HttpStatus.FORBIDDEN);
     }
+
     public void verifyWalkUser(Walk walk, Long userId) {
         if (walk.getOwner().getId().equals(userId)) return;
         if (walk.getWalker() != null && walk.getWalker().getId().equals(userId)) return;
@@ -228,6 +237,7 @@ public class WalkService {
         if (walkList == null) throw new CustomException("산책이 존재하지 않거나, 존재하지 않는 반려견 ID입니다", HttpStatus.NO_CONTENT);
         return walkList;
     }
+
     public Page<Walk> getWalkHistoryListByWalkerId(Long walkerId, int page, String when) {
 
         int size = 10;

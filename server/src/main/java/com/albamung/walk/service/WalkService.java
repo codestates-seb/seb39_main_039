@@ -128,7 +128,7 @@ public class WalkService {
         String pointWKT = String.format("POINT(%s)", coord);
         Point point = (Point) new WKTReader().read(pointWKT);
         coordRepository.save(Coord.builder().point(point).walk(targetWalk).build());
-        messagingTemplate.convertAndSend(String.format("/queue/%s/coord", walkId), request);
+        messagingTemplate.convertAndSend(String.format("/queue/%s/coord/", walkId), request);
 
 //        walkRepository.UpdateCoord(walkId, "," + coord);
     }

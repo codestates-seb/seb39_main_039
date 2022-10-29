@@ -110,7 +110,8 @@ export const deleteMyPetInfo = (petId) => {
     try {
       return await customAxios
         .delete(`/pet/${petId}/delete`)
-        .then((res) => window.location.reload());
+        .then((res) => window.location.reload())
+        .then(() => toast.success("삭제가 완료 되었어요"));
       // let delete_mypet = await deleteMyPetInfoAPI;
     } catch (error) {
       //에러 핸들링 하는 곳

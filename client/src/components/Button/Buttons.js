@@ -21,6 +21,27 @@ export const ButtonPrimary = styled.button`
   }
 `;
 
+export const ButtonPrimaryTest = styled.button`
+  width: 100%;
+  padding: 0.85em 0 0.75em;
+  background-color: var(--succes);
+  border: 2px solid transparent;
+  border-radius: 15px;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--white-000);
+  transition: all 0.7s;
+
+  &:hover {
+    background-color: var(--primary-active);
+  }
+
+  &.disabled {
+    background-color: var(--gray-200);
+    color: var(--gray-400);
+  }
+`;
+
 export const ButtonCancel = styled(ButtonPrimary)`
   background-color: var(--gray-200);
   color: var(--gray-400);

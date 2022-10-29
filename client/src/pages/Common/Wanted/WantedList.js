@@ -10,17 +10,18 @@ import DropDown from "../../../components/DropDown";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getScrollAllWantedList,
-  resetScrollAllWantedList
+  resetScrollAllWantedList,
 } from "../../../redux/actions/wantedActions";
 import { useInView } from "react-intersection-observer";
 import CitySelect from "../../../components/CitySelect";
 import { useNavigate } from "react-router-dom";
 import { getMyPetInfo } from "../../../redux/actions/petActions";
 import ModalLink from "../../../components/Modal/ModalLink";
+import { LineWave } from "react-loader-spinner";
 
 const WantedList = () => {
   const { myPetInfo } = useSelector((state) => state.pet);
-  const { scrollAllWantedList, totalPage } = useSelector(
+  const { scrollAllWantedList, totalPage, loading } = useSelector(
     (state) => state.wanted
   );
   const dispatch = useDispatch();
@@ -47,7 +48,7 @@ const WantedList = () => {
   };
 
   const { ref, inView } = useInView({
-    threshold: 0.7
+    threshold: 0.7,
   });
 
   let sortOption;
@@ -55,6 +56,8 @@ const WantedList = () => {
   const toggleHandler = () => {
     setIsOn(!isOn);
   };
+
+  console.log(loading);
 
   const sortData = [{ name: "최신순" }, { name: "보수순" }];
 
@@ -142,7 +145,24 @@ const WantedList = () => {
           />
         </span>
       </WantedCardList>
-
+      {loading ? (
+        <Loading>
+          <LineWave
+            height="100"
+            width="100"
+            color="#3083f7"
+            ariaLabel="line-wave"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+            firstLineColor=""
+            middleLineColor=""
+            lastLineColor=""
+          />
+        </Loading>
+      ) : (
+        <></>
+      )}
       <Scroll ref={ref}></Scroll>
       <ModalLink isOpen={isOpenModal} setIsOpen={setIsOpenModal} />
     </div>
@@ -210,4 +230,9 @@ const SwitchGroup = styled.div`
 
 const Scroll = styled.div`
   height: 200px;
+`;
+
+const Loading = styled.div`
+  display: flex;
+  justify-content: center;
 `;

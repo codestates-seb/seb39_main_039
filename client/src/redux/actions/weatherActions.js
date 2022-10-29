@@ -17,8 +17,8 @@ export const getCurrentCityWeather = (lat, lon) => {
       dispatch({
         type: "GET_WEATHER_SUCCESS",
         payload: {
-          currentWeather: currentCity.data
-        }
+          currentWeather: currentCity.data,
+        },
       });
     } catch (err) {
       dispatch({ type: "GET_WEATHER_FAILURE" });

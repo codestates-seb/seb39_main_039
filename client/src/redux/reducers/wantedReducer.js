@@ -3,7 +3,7 @@ import {
   GET_SCROLL_ALL_WANTED_LIST_SUCCESS,
   GET_WANTED_DETAIL_SUCCESS,
   WANTED_LOADING,
-  RESET_WANTED_LIST_SUCCESS
+  RESET_WANTED_LIST_SUCCESS,
 } from "../actions/wantedActions";
 
 const initialstate = {
@@ -12,7 +12,7 @@ const initialstate = {
   wantedDetail: [],
   scrollAllWantedList: [],
   totalPage: "",
-  loading: ""
+  loading: "",
 };
 
 const wantedReducer = (state = initialstate, action) => {
@@ -21,34 +21,34 @@ const wantedReducer = (state = initialstate, action) => {
     case WANTED_LOADING:
       return {
         ...state,
-        loading: payload.loading
+        loading: payload.loading,
       };
     case GET_ALL_WANTED_LIST_SUCCESS:
       return {
         ...state,
         allWantedList: payload.allWantedList,
         totalPage: payload.totalPage,
-        scrollOptionList: payload.allWantedList
+        scrollOptionList: payload.allWantedList,
       };
     case GET_SCROLL_ALL_WANTED_LIST_SUCCESS:
       return {
         ...state,
         scrollAllWantedList: [
           ...state.scrollAllWantedList,
-          ...payload.scrollAllWantedList
+          ...payload.scrollAllWantedList,
         ],
-        totalPage: payload.totalPage
+        totalPage: payload.totalPage,
       };
     case RESET_WANTED_LIST_SUCCESS:
       return {
         ...state,
-        scrollAllWantedList: []
+        scrollAllWantedList: [],
       };
 
     case GET_WANTED_DETAIL_SUCCESS:
       return {
         ...state,
-        wantedDetail: payload.wantedDetail
+        wantedDetail: payload.wantedDetail,
       };
     default:
       return state;

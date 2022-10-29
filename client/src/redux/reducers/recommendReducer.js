@@ -2,14 +2,15 @@ import {
   GET_RECOMMEND_REQUEST,
   GET_RECOMMEND_DATA,
   GET_LOCATION_DATA,
-  GET_LOCATION_REQUEST
+  GET_LOCATION_REQUEST,
+  GET_RECOMMEND_SUCCESS,
 } from "../actions/recommendAction";
 //초기값
 const initialstate = {
   recommendData: [],
   location: [],
   recommendLoading: true,
-  locationLoading: true
+  locationLoading: true,
 };
 
 const recommendReducer = (state = initialstate, action) => {
@@ -18,7 +19,12 @@ const recommendReducer = (state = initialstate, action) => {
     case GET_RECOMMEND_REQUEST:
       return {
         ...state,
-        recommendLoading: true
+        recommendLoading: true,
+      };
+    case GET_RECOMMEND_SUCCESS:
+      return {
+        ...state,
+        recommendLoading: false,
       };
     case GET_LOCATION_REQUEST:
       return { ...state, locationLoading: true };
@@ -26,13 +32,12 @@ const recommendReducer = (state = initialstate, action) => {
       return {
         ...state,
         recommendData: payload.recommendData,
-        recommendLoading: false
       };
     case GET_LOCATION_DATA:
       return {
         ...state,
         location: payload.location,
-        locationLoading: false
+        locationLoading: false,
       };
     default:
       return state;

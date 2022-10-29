@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import CountUp from "react-countup";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import {
   ButtonPrimary,
   ButtonPrimaryLine,
+  ButtonPrimaryTest,
 } from "../../../components/Button/Buttons";
 import logoWhite from "../../../assets/img/logo_wite.png";
 import { ReactComponent as VisualImg } from "../../../assets/img/visualImg.svg";
@@ -14,11 +15,13 @@ import btnIcon01 from "../../../assets/img/buttonIcon01.svg";
 import btnIcon02 from "../../../assets/img/buttonIcon02.svg";
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
+import { loginSuccess } from "../../../redux/actions/loginActions";
 
 const Main = () => {
   const isLogin = Cookies.get("access");
   const { userInfo } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getUserInfo());
@@ -74,6 +77,17 @@ const Main = () => {
               </LoginUser>
             )}
             <ButtonGroup>
+              <a>
+                <ButtonPrimaryTest
+                  className="icon-type"
+                  onClick={() => {
+                    localStorage.setItem("OwnerOrWalker", false);
+                    dispatch(loginSuccess("sohee@test.com", "QWE123!@#"));
+                  }}
+                >
+                  테스트 계정으로 로그인
+                </ButtonPrimaryTest>
+              </a>
               <Link to={isLogin ? "/OwnerMain" : "/login"}>
                 <ButtonPrimary
                   className="icon-type"
@@ -147,21 +161,21 @@ const MainIntro = styled.div`
     padding: 0 40px;
   }
 
-  .notice-box{
+  .notice-box {
     position: absolute;
-    top:40%;
-    left:50%;
+    top: 40%;
+    left: 50%;
     display: inline-block;
-    transform:translate(-50%, -50%);
-    background:rgba(0,0,0, .5);
-    box-shadow: 10px 10px 10px 0 rgba(0,0,0, .1);
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: 10px 10px 10px 0 rgba(0, 0, 0, 0.1);
     border-radius: 20px;
-    padding:50px;
+    padding: 50px;
     text-align: center;
     line-height: 1.5em;
     font-weight: 300;
     font-size: 18px;
-    color:#fff;
+    color: #fff;
   }
 
   .logo-bi {
@@ -268,4 +282,11 @@ const Copyright = styled.small`
   font-size: 10px;
   color: var(--gray-400);
   letter-spacing: 0;
+`;
+
+const span = styled.div`
+  background: yellow;
+  display: inline-block;
+  width: 100px;
+  height: 100px;
 `;

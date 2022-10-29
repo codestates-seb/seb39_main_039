@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Header } from "../../../components/Layout/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
@@ -25,7 +25,6 @@ import {
   ButtonPrimaryXS,
 } from "../../../components/Button/Buttons";
 import { ToastContainer } from "react-toast";
-import { ThreeDots } from "react-loader-spinner";
 import moment from "moment/moment";
 import dogIcon from "../../../assets/img/dog-detective.png";
 import dogItemIcon from "../../../assets/img/dog-detective-item.png";
@@ -36,7 +35,6 @@ const DogEdit = () => {
   const specRef = useRef();
   const birthRef = useRef();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { myPetInfo, loading } = useSelector((state) => state.pet);
   // 초기값 설정 및 달력에서 픽 하면 값 변경.. Wed Dec 09 2020 09:00:00 GMT+0900 (한국 표준시)
 
@@ -100,11 +98,10 @@ const DogEdit = () => {
     dispatch(savePetPicture(myPetInfo[tab].petId, imgFile));
   };
 
-  console.log(imgFile);
-
   const deletePet = () => {
     dispatch(deleteMyPetInfo(myPetInfo[tab].petId));
   };
+
 
   const onClickFileBtn = (e) => {
     imgRef.current.click();
@@ -127,16 +124,6 @@ const DogEdit = () => {
   useEffect(() => {
     dispatch(getMyPetInfo());
     if (window) window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
-    (() => {
-      window.addEventListener("beforeunload", preventClose);
-    })();
-
-    return () => {
-      window.removeEventListener("beforeunload", preventClose);
-    };
   }, []);
 
   return (

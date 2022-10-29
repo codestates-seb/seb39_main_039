@@ -12,9 +12,10 @@ import { petPlaceImage } from "../constants/petPlaceImage";
 
 const RecommendPetPlace = () => {
   const dispatch = useDispatch();
-  const { recommendData, location, locationLoading } = useSelector(
-    (state) => state.recommend
-  );
+  const { recommendData, location, locationLoading, recommendLoading } =
+    useSelector((state) => state.recommend);
+
+  console.log(locationLoading);
 
   let lat = localStorage.getItem("lat");
   let lon = localStorage.getItem("lon");
@@ -24,7 +25,7 @@ const RecommendPetPlace = () => {
       dispatch(getRecommendData(lat, lon));
       dispatch(getLocation(lat, lon));
     }
-  }, []);
+  }, [lat, lon]);
 
   return (
     <div>
@@ -87,6 +88,12 @@ const PlaceList = styled.ul`
       background: var(--white-000);
     }
   }
+
+  li:hover {
+    transition: 500ms;
+    transform: scale(1.03);
+  }
+
   a + a {
     margin-left: 10px;
   }

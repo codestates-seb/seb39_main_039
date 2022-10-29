@@ -14,7 +14,11 @@ import { petSpecList } from "../../../constants/petSpecies";
 import { savePetPicture } from "../../../redux/actions/petActions";
 
 const DogAdd = () => {
-  const [startDate, setStartDate] = useState(new Date());
+  const now = new Date();
+
+  const [startDate, setStartDate] = useState(
+    new Date(now.setDate(now.getDate() - 1))
+  );
   const [imageUrl, setImageUrl] = useState("");
   const [imgFile, setImgFile] = useState(null);
   const [myPetPicture, setMyPetPicture] = useState(anonymousDog);
@@ -51,7 +55,7 @@ const DogAdd = () => {
   };
 
   const onChangeImage = () => {
-    setImgFile(imgRef.current.files[0]); 
+    setImgFile(imgRef.current.files[0]);
     setImageUrl(URL.createObjectURL(imgRef.current.files[0]));
     window.URL.revokeObjectURL(imgRef.current.files[0]);
   };
@@ -62,11 +66,11 @@ const DogAdd = () => {
       <UserInfo>
         <div className="user-con">
           <UserPhoto>
-            <img 
+            <img
               src={imageUrl ? imageUrl : myPetPicture}
               className="user-photo"
               alt=""
-              />
+            />
             <input
               type="file"
               accept="image/*"
@@ -74,7 +78,7 @@ const DogAdd = () => {
               ref={imgRef}
               style={{ display: "none" }}
             />
-            <i 
+            <i
               className="user-edit"
               onClick={() => {
                 onClickFileBtn();
@@ -124,7 +128,7 @@ const DogAdd = () => {
             value={startDate}
             onChange={(date) => setStartDate(date)}
             dateFormatCalendar={DATE_FORMAT_CALENDAR}
-            maxDate={new Date()}
+            maxDate={new Date(now.setDate(now.getDate()))}
             setDate={birthOfPet}
           />
         </div>

@@ -5,7 +5,7 @@ const BASE_URL = process.env.REACT_APP_SERVER_URL;
 const RECOMMEND_API = process.env.REACT_APP_KAKAOLOCAL_API;
 
 export const customAxios = axios.create({
-  baseURL: BASE_URL
+  baseURL: BASE_URL,
 });
 
 customAxios.interceptors.request.use(function (config) {
@@ -28,7 +28,7 @@ customAxios.interceptors.request.use(
     return config;
   },
   function (error) {
-    console.log("req error", error);
+    // console.log("req error", error);
     return Promise.reject(error);
   }
 );
@@ -39,14 +39,14 @@ customAxios.interceptors.response.use(
     return response;
   },
   function (error) {
-    console.log("response error", error);
+    // console.log("response error", error);
     return Promise.reject(error);
   }
 );
 
 export const weatherAxios = axios.create({
   baseURL: "https://api.openweathermap.org/data/2.5",
-  headers: { "Content-type": "application/json" }
+  headers: { "Content-type": "application/json" },
 });
 
 weatherAxios.interceptors.request.use(
@@ -72,7 +72,7 @@ weatherAxios.interceptors.response.use(
 );
 
 export const recommendAxios = axios.create({
-  baseURL: "https://dapi.kakao.com"
+  baseURL: "https://dapi.kakao.com",
 });
 
 recommendAxios.interceptors.request.use(function (config) {

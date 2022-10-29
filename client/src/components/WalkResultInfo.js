@@ -14,7 +14,7 @@ const WalkResultInfo = ({
   return (
     <ResultInfo>
       <InfoPanel number={distance} string={"산책 거리"} />
-      <InfoPanel number={speed} string={"속도(m/초)"} />
+      <InfoPanel number={speed} string={"속도(m/s)"} />
     </ResultInfo>
   );
 };
